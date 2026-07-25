@@ -25,3 +25,65 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: code-ml-sys
+      description: 主要关注代码生成与机器学习系统，同时也涵盖数学优化、高维统计、以数据为中心的ML、强化学习、软件测试等方向
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: code generation
+          keyword_cn: 代码生成
+          query: deep learning for code generation using large language models
+        - keyword: machine learning systems
+          keyword_cn: 机器学习系统
+          query: distributed machine learning system design and optimization
+        - keyword: mathematical optimization
+          keyword_cn: 数学优化
+          query: convex and nonconvex optimization for machine learning
+        - keyword: data-centric machine learning
+          keyword_cn: 以数据为中心的机器学习
+          query: data quality and data augmentation for ml
+        - keyword: reinforcement learning
+          keyword_cn: 强化学习
+          query: deep reinforcement learning algorithms and applications
+        - keyword: software testing
+          keyword_cn: 软件测试
+          query: automated software testing and bug detection using ml
+      intent_queries:
+        - query: Recent advances in code generation using large language models
+          query_cn: 基于大型语言模型的代码生成最新进展
+          enabled: true
+          source: manual
+          note: ''
+        - query: Scalable machine learning system design and optimization
+          query_cn: 可扩展机器学习系统设计与优化
+          enabled: true
+          source: manual
+          note: ''
+        - query: Data centric approaches for improving model performance
+          query_cn: 以数据为中心的方法提升模型性能
+          enabled: true
+          source: manual
+          note: ''
+        - query: Reinforcement learning for automated software testing
+          query_cn: 强化学习在自动化软件测试中的应用
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-07-25T01:47:39.627Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
