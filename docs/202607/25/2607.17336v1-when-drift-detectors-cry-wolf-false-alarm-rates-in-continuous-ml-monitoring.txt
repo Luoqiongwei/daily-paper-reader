@@ -1,0 +1,172 @@
+Title: When Drift Detectors cry Wolf: False Alarm Rates in continuous ML Monitoring
+
+URL Source: https://arxiv.org/pdf/2607.17336v1
+
+Published Time: Tue, 21 Jul 2026 01:13:44 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# WHEN DRIFT DETECTORS CRY WOLF : F ALSE ALARM RATES IN 
+
+# CONTINUOUS ML M ONITORING 
+
+Raj Shekhar Singh 
+
+Indian Institute of Technology, Roorkee Roorkee, Uttarakhand, India 
+
+raj_ss@ece.iitr.ac.in 
+
+# ABSTRACT 
+
+Drift detection is a core component of production machine learning monitoring systems, where detectors are used to compare incoming data with a reference distribution and trigger alerts when changes occur. However, these detectors are often evaluated in research settings that emphasize detection accuracy under synthetic shifts, while overlooking false alarms under continuous monitoring. In production environments, models are monitored repeatedly over time and across many features, and even small false positive rates can accumulate into frequent alerts, leading to alarm fatigue. We empirically analyze false positive behavior across five commonly used drift detectors: PSI, KS, MMD, LSDD, and adversarial validation. Consistent with existing literature, PSI exhibits strong sensitivity to batch size, producing frequent false alarms at small sample sizes; however, we further observe that its behavior stabilizes and improves substantially once batch sizes exceed approximately 200 samples. In contrast, KS, MMD, and LSDD display persistent fluctuations across batch sizes, while remaining comparatively more reliable than PSI in low-data regimes. Applying a Bonferroni correction reduces false positive rates, but often at the cost of reduced true positive sensitivity, reinforcing the well-known stability–sensitivity trade-off in drift detection. This work provides a systematic comparison of false positive behavior across multiple drift detectors under continuous monitoring conditions. We identify trade-offs across detector families and provide practical guidelines for selecting and calibrating drift detectors in production ML systems. 
+
+Keywords Drift Detection · False Alarm Rates · Continuous Monitoring · Machine Learning · Production ML Systems 
+
+# 1 Introduction 
+
+Machine learning systems in production operate in environments that change over time. Shifts in user behavior, upstream pipelines, or data sources can alter the input distribution, leading to data drift and degraded model performance [ 1]. To address this, production systems deploy drift detectors [ 2 , 3 ] that compare incoming data with a reference distribution and trigger alerts when differences are detected. However, most detectors are evaluated in research settings [ 4] using synthetic shifts and single-shot tests, with emphasis on detection accuracy. In production, monitoring is continuous, models rely on many features, and alerts are generated repeatedly over time [ 5]. Under these conditions, even detectors with nominal false positive rates can produce frequent alerts, leading to alarm fatigue, where engineers begin to ignore or disable monitoring signals [ 6]. Despite its practical importance, this issue is rarely studied systematically. In this work, we aim to quantify how often drift detectors “cry wolf” under realistic continuous monitoring and understand the trade-offs between sensitivity and stability. We conduct controlled experiments across five widely used detectors—PSI, KS, MMD, LSDD, and adversarial validation—using the Adult Income dataset under both no-drift and gradual-drift scenarios [ 1, 4]. We simulate 30-day monitoring cycles across multiple batch sizes and drift magnitudes, and evaluate false alarm rates, true positive rates, and time to detection [ 7 , 3]. Our results confirm that PSI is highly sensitive to small batch sizes, producing frequent false alarms below approximately 200 samples [ 8, 9], while its false positive behavior stabilizes noticeably at larger batch sizes. In contrast, statistical detectors exhibit more consistent performance in low-data regimes but show moderate arXiv:2607.17336v1 [cs.LG] 19 Jul 2026 When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring and persistent false alarm fluctuations across batch sizes under standard thresholds [ 10 , 5]. We further observe that applying a Bonferroni correction substantially reduces false alarms, consistent with prior work, but often at the expense of detection sensitivity, highlighting a clear stability–sensitivity trade-off across methods [ 11 , 4]. These findings provide practical deployment guidelines and highlight configuration choices that materially affect monitoring reliability in production ML systems [6]. 
+
+# 2 Related Work 
+
+2.1 Drift Detection Methods 
+
+A wide range of drift detection methods have been proposed for monitoring distributional changes [ 1 , 3]. Classical statistical tests such as the Kolmogorov–Smirnov (KS) test [ 12 ] and Population Stability Index (PSI) [ 13 ] compare univariate feature distributions and are widely used in credit scoring and tabular ML pipelines [ 9 , 8]. Kernel-based methods extend this to multivariate settings by measuring distances in reproducing kernel Hilbert spaces, with Maximum Mean Discrepancy (MMD) [ 14 ] and Least-Squares Density Difference (LSDD) [ 15 ] as representative examples. Adversarial detectors [ 16 ], where a classifier distinguishes reference from current data, have also gained popularity in production systems [ 17 ]. These statistical, kernel, and adversarial families form the core toolkit for modern ML monitoring [4]. 
+
+2.2 Continuous Monitoring and Multiple Testing 
+
+Most drift detection research evaluates detectors on benchmark datasets or synthetic shifts, focusing on detection accuracy and time-to-detection at single change points [ 7, 5]. However, production monitoring involves continuous testing across many features and time windows [ 6]. Under such conditions, even detectors with nominal false positive rates can generate frequent alerts due to random variation—a problem that has received limited empirical attention in the drift detection literature [ 4 ]. The issue of repeated hypothesis testing is well studied in statistics under multiple testing frameworks [ 10 ]. Methods like Bonferroni correction adjust significance thresholds to control family-wise error rates, though at the cost of reduced statistical power [ 11 ]. While standard in genomics and A/B testing, such corrections are rarely incorporated into drift detection pipelines, where detectors typically use default thresholds designed for single-shot experiments rather than continuous monitoring [18]. 
+
+# 3 Experiments 
+
+3.1 Experimental Setup 
+
+We evaluate five drift detection methods on the Adult Income dataset [ 19 ], a standard tabular benchmark with mixed numerical and categorical features [ 20 ]. A continuous monitoring scenario spanning 30 days is constructed using a fixed reference dataset and daily batches representing production data [ 6 ]. In the no-drift setting, daily batches are sampled from the reference distribution. In the drift setting, controlled shifts are injected into a single feature to simulate gradual distributional changes [1]. 
+
+3.2 Detectors and Methods 
+
+Five detection methods spanning different methodological families are considered: Population Stability Index (PSI), a histogram-based univariate metric widely used in industry; Kolmogorov–Smirnov (KS) test, a classical non-parametric statistical test; two kernel-based multivariate detectors, Maximum Mean Discrepancy (MMD) and Least-Squares Density Difference (LSDD); and adversarial validation, where a classifier distinguishes reference from current data. Detector behavior is examined under two scenarios: (1) batch-size sweep from 50 to 500 samples (increments of 50), and (2) drift-span experiments with shift magnitudes of 5, 10, 15, and 20 years injected into the age feature. For statistical detectors, both standard and Bonferroni-corrected thresholds are evaluated to analyze multiple-testing correction effects. Each configuration is repeated across five random seeds. 
+
+3.3 Evaluation Metrics 
+
+Performance is evaluated using three operational metrics: (1) false positive days—the number of days (out of 30) with alarms in the no-drift scenario [ 21 ], (2) true positive rate (TPR) [ 22 ]—the fraction of drift-period days with correct detection, and (3) time to detection (TTD)—days between drift onset and first detection [ 7]. Results are reported as mean and standard deviation across seeds. 2When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring Table 1: Summary of detector behavior and practical implications under continuous monitoring. Interpretation is based on experiments as well as literature review. 
+
+Detector Key Observation Interpretation Practical Implication 
+
+PSI Extremely high false alarm rates at small batch sizes (≈30/30 days at batch 50– 100), sharp drop after ∼200 samples, near-zero thereafter Highly sensitive to sampling noise from small batches due to histogram-based formula-tion [23, 24] Suitable only when batch sizes exceed ∼200 samples; below this threshold it pro-duces near-constant alarms KS Consistently low false alarms and strong detection as drift magnitude increases (TPR up to 0.90) Favorable balance between stability and sensitivity under standard thresholds [25] Reliable default detector for tabular monitoring with small to moderate batch sizes LSDD Moderate false alarms and lower sensitivity than KS for small shifts More conservative than KS, trading sensitivity for stabil-ity under simple univariate drift [26] Suitable when fewer false alarms are preferred, at the cost of slower or weaker de-tection MMD Very low false alarms but near-zero detection rates un-der all tested drift scenarios Low sensitivity to injected univariate drift under default kernel settings [27, 28] Requires careful kernel se-lection; default settings may miss simple localized drift Adversarial False alarms decrease rapidly with batch size; detection only for larger shifts (TPR up to 0.46) Conservative: detects only strongly separable distribu-tion changes [29] Best when minimizing false alarms is critical, though sub-tle drift may go undetected Bonferroni correction Substantial reduction in false alarms (often to near-zero), accompanied by a drop in de-tection rates Stricter thresholds reduce Type I errors but lower sen-sitivity to small or gradual drift [30] Effective when operational stability is the priority; prac-titioners must accept reduced sensitivity Full experimental details are provided in Appendix A. 
+
+3.4 Results 
+
+Across all detectors, continuous monitoring reveals that false alarms are not a theoretical concern but a practical operational issue. In the no-drift setting, several detectors triggered alerts on multiple days despite the absence of any distributional change, confirming the presence of a “cry wolf” effect under realistic monitoring conditions. PSI exhibited the most pronounced batch-size dependence, with alarm rates approaching daily triggers when fewer than approximately 200 samples were available, followed by a sharp reduction and stabilization as batch sizes increased. By comparison, KS and LSDD behaved more robustly in low-data settings but continued to show non-trivial false alarm variability across the full range of batch sizes. Adversarial validation demonstrated comparatively stable behavior, though with limited responsiveness to smaller distributional shifts. The introduction of a Bonferroni correction consistently suppressed false alarms for statistical detectors, but this came with a reduction in sensitivity, emphasizing the inherent stability–sensitivity trade-off across detectors and configurations. More exploration on each detector is given in Table 1. Detailed quantitative results for all settings are provided in Appendix B. 3When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring 
+
+Figure 1: False alarm rates as a function of batch size. Panel A (left) — Industry-style detectors (PSI and adversarial validation). PSI exhibits extreme false alarm rates at small batch sizes, approaching alarms on nearly all 30 days below 200 samples, followed by a sharp stability transition. Panel B (right) — Statistical detectors (KS, MMD, LSDD) at 
+
+α = 0 .05 . These methods maintain relatively low false alarm rates across all batch sizes, indicating greater stability under continuous monitoring. 4When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring 
+
+Figure 2: Sensitivity–stability trade-off at batch size 200. Each detector is plotted by its false alarm rate (x-axis) against its true positive rate for a strong drift of 20 years (y-axis). Detectors in the upper-left quadrant (low false alarms, high TPR) are most desirable. KS achieves the best overall balance, while MMD shows near-zero sensitivity despite low false alarms. 
+
+Figure 3: Effect of Bonferroni correction on false alarms. Standard vs. Bonferroni-corrected false alarm counts (out of 30 days) for KS, MMD, and LSDD at batch size 200. The correction substantially reduces false alarms in all three detectors, but at the cost of reduced detection sensitivity (see Table 1). 
+
+# 4 Conclusion 
+
+This work examined the behavior of commonly used drift detectors under realistic continuous monitoring conditions. While such detectors are typically evaluated on benchmark shifts with an emphasis on detection accuracy, the experi-ments show that their behavior can differ substantially in production-like settings. Across five detectors and a range of batch sizes, several methods produced frequent alarms even in the absence of drift, revealing a practical “cry wolf” problem. In particular, PSI was highly sensitive to small batch sizes, producing near-constant alarms below roughly 200 samples. We also analyzed the trade-off between false alarms and detection sensitivity. Statistical detectors such as KS and LSDD achieved strong true positive rates but still generated non-trivial false alarm frequencies under standard thresholds. Applying a simple Bonferroni correction substantially reduced false positives, though at the cost of reduced sensitivity for some detectors, highlighting a clear sensitivity–stability trade-off across methods and configurations. Overall, these results suggest that drift detector behavior in continuous monitoring scenarios requires careful calibration, and that standard research settings may not fully reflect production realities. Future work can extend this analysis to additional datasets, more complex drift patterns, alternative detector configurations, and longer monitoring horizons to further validate the generality of these findings. 
+
+# References 
+
+[1] João Gama, Indr ˙e Žliobait ˙e, Albert Bifet, Mykola Pechenizkiy, and Abdelhamid Bouchachia. A survey on concept drift adaptation. ACM Computing Surveys , 2014. [2] Joaquin Quionero-Candela, Masashi Sugiyama, Anton Schwaighofer, and Neil Lawrence. Dataset shift in machine learning . MIT Press, 2009. [3] Jie Lu, Anjin Liu, Feng Dong, Feng Gu, João Gama, and Guangquan Zhang. Learning under concept drift: A review. IEEE Transactions on Knowledge and Data Engineering , 2018. [4] Stephan Rabanser, Stephan Günnemann, and Zachary Lipton. Failing loudly: An empirical study of methods for detecting dataset shift. NeurIPS , 2019. 5When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring [5] Jacob Montiel et al. Adaptive drift detection methods for data streams. Machine Learning , 2018. [6] D. Sculley et al. Hidden technical debt in machine learning systems. In NeurIPS , 2015. [7] Albert Bifet and Ricard Gavaldà. Machine learning for data streams . MIT Press, 2018. [8] Harpreet Sidhu. Population stability index: A practical guide. Towards Data Science , 2021. [9] Bart Baesens et al. Credit Risk Analytics . Oxford University Press, 2015. [10] Yoav Benjamini and Yosef Hochberg. Controlling the false discovery rate. Journal of the Royal Statistical Society ,1995. [11] Olive Jean Dunn. Multiple comparisons among means. Journal of the American Statistical Association , 1961. [12] A. N. Kolmogorov. On the empirical determination of a distribution law. Giornale dell’Istituto Italiano degli Attuari , 1933. [13] Edward M. Lewis. An Introduction to Credit Scoring . Athena Press, 1994. [14] A. Gretton, K. M. Borgwardt, M. J. Rasch, B. Schölkopf, and A. J. Smola. A kernel two-sample test. Journal of Machine Learning Research , 13:723–773, 2012. [15] Masashi Sugiyama et al. Density Ratio Estimation in Machine Learning . Cambridge University Press, 2012. [16] D. Lopez-Paz and M. Oquab. Revisiting classifier two-sample tests. arXiv preprint arXiv:1610.06545 , 2016. [17] Zachary Lipton et al. Detecting and correcting for label shift with black box predictors. In ICML , 2018. [18] Hadi Fanaee-T and João Gama. A survey on concept drift adaptation. ACM Computing Surveys , 2014. [19] Dheeru Dua and Casey Graff. Uci machine learning repository: Adult data set. https://archive.ics. uci.edu/ml/datasets/Adult , 2019. Accessed: 2026-02-11. [20] Ron Kohavi. Scaling up the accuracy of naive-bayes classifiers. KDD , 1996. [21] Michèle Basseville and Igor V. Nikiforov. Detection of abrupt changes: Theory and application. Prentice Hall ,1993. [22] João Gama, Pedro Medas, Gladys Castillo, and Pedro Rodrigues. Learning with drift detection. In Brazilian Symposium on Artificial Intelligence , pages 286–295, 2004. [23] Aria Khademi, Michael Hopka, and Devesh Upadhyay. Model monitoring and robustness of in-use machine learn-ing models: Quantifying data distribution shifts using population stability index. arXiv preprint arXiv:2302.00775 ,2023. [24] Bilal Yurdakul and Joshua Naranjo. Statistical properties of the population stability index. Journal of Risk Model Validation , 14(4):89–100, 2018. [25] Ozan K. Tonguz and Federico Taschin. Using kolmogorov-smirnov distance for measuring distribution shift in machine learning. arXiv preprint arXiv:2510.15996 , 2025. [26] Xia Bu et al. An incremental change detection test based on density difference estimation. Machine Learning (preprint) , 2017. [27] X. Zhou, L. Tian, C. Peng, and Y. Lei. Dual: Learning diverse kernels for aggregated two-sample and independence tests. arXiv preprint arXiv:2510.11140 , 2025. [28] Antonin Schrab et al. Mmd aggregated two-sample test. In Proceedings of the 2023 Conference on Learning Theory , 2023. [29] A. S. Palli, J. Jaafar, H. M. Gomes, M. A. Hashmani, and A. R. Gilal. An experimental analysis of drift detection methods on multi-class imbalanced data streams. Applied Sciences , 12(22):11688, 2022. [30] Anjin Liu, Jie Lu, Yiliao Song, Junyu Xuan, and Guangquan Zhang. Concept drift detection delay index. IEEE Transactions on Knowledge and Data Engineering , 35(5):4585–4597, 2022. 6When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring 
+
+# A Appendix A: Experimental Details 
+
+A.1 Dataset Preprocessing 
+
+Table 2: Dataset preprocessing summary. 
+
+Item Detail 
+
+Dataset Adult Income Source UCI Machine Learning Repository Missing values Removed Categorical enc. Label encoding Features used All except target Final size ∼30,000 samples Number of features 14 
+
+A.2 Monitoring Protocol 
+
+Table 3: Monitoring protocol summary. 
+
+Item Detail 
+
+Monitoring duration 30 days Daily execution freq. Once per day Reference dataset Fixed training distribution Daily batch sampling Random sampling from dataset 
+
+No-drift experiment: 
+
+• Daily batches drawn from reference distribution • Used for false positive evaluation 
+
+Drift-span experiment: 
+
+• Drift injected into the age feature • Drift begins after day 30; gradual drift over 10 days 
+
+A.3 Experimental Variables Batch size sweep — Batch sizes evaluated: 
+
+50 , 100 , 150 , 200 , 250 , 300 , 350 , 400 , 450 , 500 
+
+Drift span shifts — Injected shifts in age feature: 
+
+5, 10 , 15 , 20 years 
+
+Random seeds — All experiments repeated with seeds {0, 1, 2, 3, 4}. Results reported as mean ± standard deviation. 
+
+A.4 Detector Configurations PSI: 
+
+• Binning: 10 equal-frequency bins • Threshold: 0.2 (standard industry setting) 
+
+KS Test: 
+
+• Two-sample KS test; standard threshold α = 0 .05 
+
+7When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring • Bonferroni-corrected: α = 0 .05 / num_features ≈ 0.007 (14 features) 
+
+MMD: 
+
+• Gaussian kernel (default); reference subset: 2000 samples; permutations: 100 • Standard α = 0 .05 ; Bonferroni α ≈ 0.007 
+
+LSDD: 
+
+• Gaussian kernel (default); reference subset: 2000 samples; permutations: 100 • Standard α = 0 .05 ; Bonferroni α ≈ 0.007 
+
+Adversarial Detector: 
+
+• Model: logistic regression; train/test split: reference vs. current batch • Metric: ROC-AUC; alarm threshold: AUC ≥ 0.6
+
+A.5 Evaluation Metrics 
+
+Table 4: Evaluation metrics summary. 
+
+Metric Definition Notes 
+
+False positive days Days with alarm in no-drift setting Range: 0–30 True positive rate Fraction of drift-period days with alarm Drift window only Time to detection Days from drift start to first detection Mean ± std across seeds 
+
+A.6 Implementation Details 
+
+Table 5: Implementation details. 
+
+Item Detail 
+
+Language Python Libraries NumPy, Pandas, scikit-learn, alibi-detect, evidently Hardware CPU-based experiments RNG NumPy default RNG 
+
+# B Appendix B: Complete Experimental Tables 
+
+False Positives vs. Batch Size (No-Drift Scenario) 
+
+False positives = number of alarm days out of 30, reported as mean ± std across 5 seeds. Table 6: False positives vs. batch size (50–200). 
+
+Detector Variant 50 100 150 200 
+
+Adversarial Standard 3.00 ±2.61 1.00 ±0.63 0.60 ±0.80 0.40 ±0.49 KS Standard 0.40 ±0.49 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 KS Bonferroni 0.40 ±0.49 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 LSDD Standard 0.60 ±0.80 0.20 ±0.40 0.60 ±0.80 0.20 ±0.40 LSDD Bonferroni 0.60 ±0.80 0.20 ±0.40 0.60 ±0.80 0.20 ±0.40 MMD Standard 0.40 ±0.49 0.00 ±0.00 0.20 ±0.40 0.00 ±0.00 MMD Bonferroni 0.40 ±0.49 0.00 ±0.00 0.20 ±0.40 0.00 ±0.00 PSI Standard 30.00 ±0.00 29.00 ±0.89 12.20 ±1.33 1.60 ±1.02 8When Drift Detectors Cry Wolf: False Alarm Rates in Continuous ML Monitoring Table 7: False positives vs. batch size (250–500). 
+
+Detector Variant 250 300 350 400 450 500 
+
+Adversarial Standard 0.00 ±0.00 0.20 ±0.40 0.00 ±0.00 0.00 ±0.00 0.00 ±0.00 0.00 ±0.00 KS Standard 0.40 ±0.49 0.00 ±0.00 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 KS Bonferroni 0.40 ±0.49 0.00 ±0.00 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 0.20 ±0.40 LSDD Standard 0.00 ±0.00 0.20 ±0.40 0.40 ±0.80 0.40 ±0.80 0.40 ±0.49 0.40 ±0.80 LSDD Bonferroni 0.00 ±0.00 0.20 ±0.40 0.40 ±0.80 0.40 ±0.80 0.40 ±0.49 0.40 ±0.80 MMD Standard 0.20 ±0.40 0.40 ±0.49 0.00 ±0.00 0.40 ±0.80 0.00 ±0.00 0.20 ±0.40 MMD Bonferroni 0.20 ±0.40 0.40 ±0.49 0.00 ±0.00 0.40 ±0.80 0.00 ±0.00 0.20 ±0.40 PSI Standard 0.40 ±0.49 0.00 ±0.00 0.00 ±0.00 0.00 ±0.00 0.00 ±0.00 0.00 ±0.00 
+
+True Positive Performance vs. Drift Magnitude 
+
+Metrics reported as mean ± std across 5 seeds. Table 8: True positive performance vs. drift magnitude. 
+
+Detector Variant Shift TPR FP TTD (days) 
+
+Adversarial Standard 5 0.00 ±0.00 0.00 ±0.00 N/A Adversarial Standard 10 0.00 ±0.00 0.00 ±0.00 N/A Adversarial Standard 15 0.28 ±0.04 0.00 ±0.00 8.20 ±0.40 Adversarial Standard 20 0.46 ±0.05 0.00 ±0.00 6.40 ±0.49 KS Standard 5 0.30 ±0.00 0.20 ±0.40 7.40 ±1.20 KS Standard 10 0.68 ±0.04 0.20 ±0.40 4.20 ±0.40 KS Standard 15 0.86 ±0.05 0.20 ±0.40 2.20 ±0.40 KS Standard 20 0.90 ±0.06 0.20 ±0.40 2.00 ±0.63 LSDD Standard 5 0.08 ±0.07 0.40 ±0.49 7.00 ±0.00 LSDD Standard 10 0.48 ±0.07 0.40 ±0.49 5.80 ±1.17 LSDD Standard 15 0.64 ±0.08 0.40 ±0.49 4.40 ±0.80 LSDD Standard 20 0.74 ±0.05 0.20 ±0.40 3.60 ±0.49 MMD Standard 5 0.00 ±0.00 0.40 ±0.49 N/A MMD Standard 10 0.00 ±0.00 0.40 ±0.49 N/A MMD Standard 15 0.00 ±0.00 0.20 ±0.40 N/A MMD Standard 20 0.00 ±0.00 0.00 ±0.00 N/A PSI Standard 5 0.40 ±0.06 1.60 ±1.02 5.20 ±2.14 PSI Standard 10 0.66 ±0.05 1.60 ±1.02 3.60 ±0.80 PSI Standard 15 0.74 ±0.05 1.60 ±1.02 3.20 ±0.98 PSI Standard 20 0.84 ±0.05 1.60 ±1.02 2.60 ±0.49 9

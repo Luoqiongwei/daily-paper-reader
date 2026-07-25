@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-16 ~ 2026-07-25</span>
+      <span class="dpr-home-dashboard-kicker">2026-07-25</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 35 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 21 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>24</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>10</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-07-25 02:18:01 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-07-25 21:21:00 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>本期日报精读24篇、速读11篇，亮点聚焦对比策略优化与多语言代码生成。最值得关注2篇9.0高分：通过对比策略优化实现正确性感知优势塑形，以及面向多语言提示的代码质量基准研究。建议优先阅读这两篇精读论文，并关注速读中强化学习泛化界与大数据聚类的新思路。</p>
+<p>今日共收录21篇论文，精读10篇、速读11篇，重点聚焦代码生成与强化学习优化方法。最值得关注的是得分10.0的《Dependency-Guided Code Generation》和9.0的《Group Entropy-Controlled Policy Optimization》，前者提出结构矩阵分解与一致性引导精炼，后者引入群熵控制策略。建议普通读者速读《Certifiable Safe Model-Based RL》与《DataFlow-Harness》两篇，了解安全强化学习与可编辑数据管线的实用思路。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">24 篇</strong>
+    <strong class="dpr-home-dashboard-count">10 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Beyond Entropy: Correctness-Aware Advantage Shaping via Contrastive Policy Optimization">Beyond Entropy: Correctness-Aware Advantage Shaping via Contrastive Policy Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="Large Language Models for Code Generation from Multilingual Prompts: A Curated Benchmark and a Study on Code Quality">Large Language Models for Code Generation from Multilingual Prompts: A Curated Benchmark and a Study on Code Quality</span></li><li><span class="dpr-home-dashboard-paper-title" title="The Language of Security: How Prompt Syntax Shapes Secure Code Generation in Open LLMs">The Language of Security: How Prompt Syntax Shapes Secure Code Generation in Open LLMs</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement">Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement</span></li><li><span class="dpr-home-dashboard-paper-title" title="Group Entropy-Controlled Policy Optimization">Group Entropy-Controlled Policy Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="Enhancing Personalized Bladder Cancer Treatment Through Reinforcement Learning: A Recurrent Patient State Transition Decision Support Framework">Enhancing Personalized Bladder Cancer Treatment Through Reinforcement Learning: A Recurrent Patient State Transition Decision Support Framework</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>24</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>10</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -87,7 +87,7 @@
     <strong class="dpr-home-dashboard-count">11 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Non-vacuous Generalization Bounds for Reinforcement Learning with Verifiable Rewards">Non-vacuous Generalization Bounds for Reinforcement Learning with Verifiable Rewards</span></li><li><span class="dpr-home-dashboard-paper-title" title="Data-Native Global Optimization for Big Data K-means Clustering">Data-Native Global Optimization for Big Data K-means Clustering</span></li><li><span class="dpr-home-dashboard-paper-title" title="Knowledge-Centric Agents for Workflow Generation">Knowledge-Centric Agents for Workflow Generation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Certifiable Safe Model-Based Reinforcement Learning with Control-Affine Dynamics Approximation">Certifiable Safe Model-Based Reinforcement Learning with Control-Affine Dynamics Approximation</span></li><li><span class="dpr-home-dashboard-paper-title" title="DataFlow-Harness: A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines">DataFlow-Harness: A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines</span></li><li><span class="dpr-home-dashboard-paper-title" title="Learning from Synthetic Data without Model Collapse in Iterative Instruction Tuning">Learning from Synthetic Data without Model Collapse in Iterative Instruction Tuning</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>11</strong></span></div>
 </section>

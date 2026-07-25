@@ -1,0 +1,441 @@
+Title: Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement
+
+URL Source: https://arxiv.org/pdf/2607.16692v1
+
+Published Time: Tue, 21 Jul 2026 00:35:54 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+## Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement 
+
+Mingqiao Mo 1, Yangchen Zeng 2, Zikai Xiao 3, Xin Xiao 1, Wenhua Nie 4
+
+Zhaolu Kang 5, Guangyuan Dong 6, Kai Shu 7, Hao Zhang 1†, Xiaodong Fan 8†
+
+> 1
+
+University of the Chinese Academy of Sciences, 2ByteDance Inc., 3Zhejiang University 
+
+> 4
+
+National Taiwan University, 5Peking University, 6Alibaba Group 
+
+> 7
+
+Tsinghua University, 8Liaoning Technical University 
+
+Abstract 
+
+The increasing complexity of modern software systems has made automated code generation a fundamental task in software engineering. However, existing approaches often fail to ade-quately capture the intricate, multi-level depen-dencies among code entities, leading to gener-ated code that is logically incomplete or diffi-cult to integrate into real-world systems. To ad-dress this limitation, we propose a dependency-aware code generation framework that explic-itly models interactions among code entities through a graph-based representation. We de-compose dependencies into two complemen-tary components: a quantized matrix that cap-tures strong, explicit relations, and a sparse low-rank factorization that models weaker, im-plicit interactions. The decomposition is ef-ficiently learned via an alternating optimiza-tion procedure. During code generation, the learned dependency structure is incorporated as a constraint, ensuring both semantic coher-ence and structural consistency of the gener-ated code. Furthermore, we introduce a sparse triplet representation for strong dependencies, significantly improving storage efficiency and computational scalability. Extensive experi-ments demonstrate that our approach consis-tently produces code with superior semantic alignment and structural fidelity compared to existing methods. 
+
+1 Introduction 
+
+The rapid evolution of modern software systems has significantly increased the complexity and scale of codebases, making automated code gener-ation a fundamental problem in software engineer-ing (Le Goues et al., 2021; Weimer et al., 2009; Cadar and Sen, 2013; Chen et al., 2021). Recent advances in large-scale pretraining and the avail-ability of massive open-source repositories have 
+
+> †Corresponding authors.
+
+enabled models to automatically synthesize func-tions, modules, and even end-to-end programs with impressive fluency (Li et al., 2022; Chen et al., 2022; Svyatkovskiy et al., 2020). The broader impact of large language models (LLMs) extends well beyond code, spanning mathematical reason-ing (Mo et al., 2026b), intent understanding under ambiguity (He et al., 2025), multimodal reason-ing (Kang et al., 2026), and even security analy-sis (Wu et al., 2025), underscoring their versatility but also their susceptibility to subtle failures when structural constraints are not explicitly enforced. These developments hold the promise of reducing human effort, accelerating development cycles, and improving software maintainability (Motwani and Brun, 2023; Noller et al., 2022; Jiang et al., 2023; Dehaerne et al., 2022). Moreover, learning robust code representations under diverse execution envi-ronments, such as virtual-machine-protected code, has attracted growing attention (Mo et al., 2026a), highlighting the need for structural awareness in code modeling. Despite this progress, generating code that is not only syntactically correct but also structurally consistent and system-aware remains a major chal-lenge. In real-world settings, code does not exist in isolation: functions depend on other functions, classes interact through inheritance and composi-tion, and modules are tightly coupled through im-ports and shared interfaces. Existing generation approaches often fail to capture these interdepen-dencies, resulting in outputs that are locally plausi-ble but globally inconsistent, difficult to integrate, or prone to subtle bugs. Existing code generation methods can be broadly categorized into three groups. (1) Statistical and search-based methods explore the program space via mutation, templates, or heuristic search, pro-viding diversity but lacking mechanisms to enforce global structural coherence (Ren et al., 2022; Zheng et al., 2023). (2) Semantic and constraint-based 
+
+1arXiv:2607.16692v1 [cs.SE] 18 Jul 2026 approaches leverage type systems, symbolic exe-cution, or formal specifications to ensure correct-ness, but often struggle with scalability and incom-plete specifications in large systems (Weimer et al., 2009; Nguyen et al., 2013; Mechtaev et al., 2016). 
+
+(3) Deep learning and large language model (LLM) approaches learn rich syntactic and seman-tic patterns from data and achieve strong perfor-mance in code completion and synthesis tasks, yet they primarily rely on local context or corpus-level co-occurrence statistics, without explicitly mod-eling system-level dependencies (Jimenez et al., 2023; Pu et al., 2023). Meanwhile, adaptive prompt optimization (Zhang et al., 2026c) and probability-entropy calibration (Yu et al., 2026) have improved LLM alignment but still do not address the funda-mental gap in structural dependency reasoning. A key limitation shared by these paradigms is the lack of an explicit representation of multi-level dependency structures among code entities. In prac-tice, software systems exhibit both strong, discrete dependencies (e.g., function calls, inheritance hi-erarchies) and weaker, implicit relationships (e.g., indirect coupling, shared design patterns). Ignoring this distinction leads to generated code that may violate critical constraints or fail to align with the architectural structure of the codebase. To address this gap, we propose a dependency-aware code generation framework that explicitly models and enforces relationships among code en-tities. We represent a codebase as a graph, where nodes correspond to entities such as functions, classes, and files, and edges encode their interac-tions. Building on this representation, we intro-duce a hybrid decomposition of the dependency matrix into two complementary components: (i) a quantized matrix that captures strong, discrete, and interpretable dependencies, and (ii) a sparse low-rank factorization that models weak, implicit, and higher-order interactions. This formulation en-ables a principled separation between critical and non-critical dependencies, improving both inter-pretability and robustness. We develop an efficient alternating optimization algorithm to jointly learn these components, and further design a sparsity-aware storage scheme that scales to large codebases. Crucially, the learned dependency structure is integrated into the code generation process: candidate outputs are evalu-ated against both semantic similarity and structural consistency, and iteratively refined until they satisfy dependency constraints. This mechanism ensures that generated code aligns with the underlying ar-chitecture of the system, leading to improved us-ability and reduced integration errors. Figure 1 illustrates an overview of our method. Our main contributions are summarized as follows: • We propose a dependency-aware code gen-eration framework that models code entities and their interactions via a graph-based rep-resentation, and integrates dependency con-straints into the generation process through a consistency-driven refinement mechanism. • We introduce a hybrid dependency decompo-sition that combines a quantized matrix for strong, explicit dependencies with a sparse low-rank component for weak, implicit inter-actions, optimized via an efficient alternating scheme. • We design a sparse triplet representation for strong dependencies, enabling scalable stor-age and efficient computation for large-scale codebases. 
+
+2 Related Work 
+
+2.1 Pretrained Models and Structural Injection 
+
+Pretrained code language models and instruction-tuned systems have advanced code generation by producing syntactically valid and semantically meaningful programs. Recent work improves this via large-scale pretraining, instruction tuning, and structure-aware objectives. CodeT5+ (Wang et al., 2023) uses multiple pretraining objectives, while Magicoder (Wei et al., 2024) builds synthetic cod-ing instructions from open-source repositories to capture diverse programming patterns. Beyond scaling and data, methods inject program structure into learning. AST-T5 (Gong et al., 2024) incorpo-rates abstract syntax trees via structure-aware objec-tives, and IRCoder (Paul et al., 2024) uses compiler intermediate representations to improve multilin-gual generation and transfer. Parallel efforts in efficient fine-tuning, such as probability-entropy calibration (Yu et al., 2026), have reduced the cost of adapting large models to downstream code tasks. Token-level efficiency techniques such as adaptive visual token pruning (Zhang et al., 2025a) and prefill-decode pruning (Zhang et al., 2026a) fur-ther improve inference scalability. While these approaches strengthen code modeling, they mainly 2Stage 1: Graph Modeling 
+
+Codebase Graph G(V, E)
+
+Semantic Dependency Graph 
+
+Codebase Adjacency Matrix W
+
+> raw codebase → structural abstraction → matrix representation
+
+Stage 2: Decomposition & Optimization 
+
+Quantized 
+
+Dependency Matrix Q Low-Rank Residual 
+
+AB T
+
+Quantized 
+
+Dependency Matrix Q   
+
+> critical, sparse,
+> interpretable, strong dependencies
+> Alternating
+> Optimization
+> Alternating
+> Optimization
+> Qupdate (A,B) update
+
+Sparse Triplet Storage 
+
+(or sparse coordinate storage) 
+
+Low-frequency correlated 
+
+implicit, low-rank structure 
+
+Stage 3: Dependency-Aware Code Generation 
+
+A B
+
+AB T
+
+A
+
+B
+
+Requirement 
+
+r f gen 
+
+Channel 1 
+
+Semantic Embedding Channel 2 
+
+Structural/Dependency-
+
+Retrieval 
+
+> Vector Memory
+> Embedding Repository
+
+Top-k 
+
+Top-k 
+
+SV
+
+SQ
+
+Q
+
+Jaccard Consistency Check 
+
+Accept 
+
+Refine Prompt 
+
+& Regenerate 
+
+generate → verify semantically and structurally → accept or refine                                                 
+
+> 12
+> 12
+> 11
+> 1
+> 1
+> 1
+> nT
+> n
+> r
+> nr
+> nnnAB
+> nnn
+> raa
+> rbb
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> code_gencommand (
+> code = to_txt(
+> candidates()
+> ) return module code();
+> )
+> function() {
+> code = snippet_node();
+> return obj;
+> )
+> source code {
+> functions function() {
+> return fun();
+> }
+> classes cls {
+> return node(file());
+> }
+> module() {
+> return "module"; }
+> }
+> source code {
+> functions function() {
+> return fun();
+> }
+> classes cls {
+> return node(file());
+> }
+> module() {
+> return "module"; }
+> }
+> source code {
+> functions function() {
+> return fun();
+> }
+> classes cls {
+> return node(file());
+> }
+> module() {
+> return "module"; }
+> }
+> source code {
+> functions function() {
+> return fun();
+> }
+> classes cls {
+> return node(file());
+> }
+> module() {
+> return "module"; }
+> }
+> function() {
+> return function();
+> }
+> class cls {
+> return module();
+> }
+> section () {
+> return numconstant ();
+> }
+> function() {
+> return function();
+> }
+> class cls {
+> return module();
+> }
+> section () {
+> return numconstant ();
+> }
+> function() {
+> return function();
+> }
+> class cls {
+> return module();
+> }
+> section () {
+> return numconstant ();
+> }
+> function() {
+> return function();
+> }
+> class cls {
+> return module();
+> }
+> section () {
+> return numconstant ();
+> }
+> high
+> bix
+> bins
+> bin
+> 1
+> 0
+> 8
+> 6
+> 4
+> 2
+> 1
+> 0
+
+S S
+
+> ...
+> ...
+
+Figure 1: Overview of the proposed dependency-aware code generation framework. Left: We first construct a semantic dependency graph from the input codebase, where nodes represent code entities (e.g., functions, classes, files) and edges encode their interactions, which are further summarized as an adjacency matrix capturing inter-entity relationships. Middle: The dependency matrix is decomposed into two complementary components: a quantized matrix ( Q) that models strong, discrete dependencies, and a low-rank residual ( AB ⊤) that captures weak and implicit interactions. These components are jointly optimized via an alternating minimization procedure, with sparse triplet storage enabling scalability. Right: During generation, the learned dependency structure is integrated into a dual-channel process combining semantic retrieval and structural dependency matching. A consistency check (e.g., Jaccard similarity) enforces alignment between the two views, and the model iteratively refines the generated code until both semantic coherence and structural consistency are satisfied. 
+
+operate on functions or local fragments and do not explicitly model repository-scale dependencies or key cross-file interactions. 
+
+2.2 Repository-Level Code Generation 
+
+Repository-level code generation addresses multi-file software projects requiring reasoning over APIs, dependencies, and long-range cross-file con-text. Recent benchmarks emphasize this setting. RepoBench (Liu et al., 2024a) evaluates repository-level code completion via retrieval and end-to-end tasks, while SWE-bench (Jimenez et al., 2024) shows real-world issue resolution requires coor-dinated edits across multiple files. Prior work ex-plores retrieval, graph construction, and agentic tools. CoCoMIC (Ding et al., 2024) models in-file and cross-file context, DraCo (Cheng et al., 2024) builds dataflow-based context graphs for retrieval, and GraphCoder (Liu et al., 2024b) uses coarse-to-fine graph-based retrieval. CodeAgent (Zhang et al., 2024) integrates external tools for coding and testing, while RLCoder (Wang et al., 2025) opti-mizes retrieval and generation via reinforcement learning. Graph-structured representations have also proven effective in broader settings, including text-attributed graph learning (Zhang et al., 2025b, 2026b) and visual geo-localization with heteroge-neous graph networks (Zheng et al., 2025), demon-strating the general utility of graph-based modeling for capturing complex relational structures. Despite these advances, most methods rely on repository graphs as retrieval or prompt scaffolds. In contrast, our framework learns dependency representations and injects them into generation via a consistency-driven refinement mechanism, enabling more struc-tured repository-level generation. 
+
+3 Methodology 
+
+3.1 Overview 
+
+We propose a graph-based framework to explicitly model dependency structures among code entities, by decomposing the dependency matrix into two complementary components: a quantized matrix 
+
+Q, which captures strong and discrete structural dependencies, and a low-rank component AB ⊤,3which models weak, implicit, and higher-order in-teractions. Specifically, Q encodes stable program-level relations such as function calls, inheritance, and imports, which are sparse but highly reliable, while AB ⊤ captures distributed latent interactions induced by indirect dependencies, shared contexts, and semantic coupling between code entities. This decomposition is motivated by the observation that real-world codebases exhibit both dominant ex-plicit structure and diffuse latent interactions; mod-eling them jointly in a single representation often leads to either over-smoothing or loss of structural fidelity. By separating these two factors, our ap-proach provides a more balanced and interpretable representation of software structure. The model is learned via alternating optimization over Q, A, and 
+
+B, and is further supported by sparsity-aware stor-age for scalability, with the resulting dependency structure integrated into the generation process to enforce both semantic consistency and structural correctness. 
+
+3.2 Code Entity Dependency Modeling 
+
+We represent a codebase as a directed graph G =(V, E ), where nodes correspond to code entities such as functions, classes, or files, and edges rep-resent dependency relations such as function calls, inheritance, and module imports. The graph is en-coded as an adjacency matrix W ∈ Rn×n, where each entry Wij measures the interaction strength between entities i and j.In practice, W contains heterogeneous signals: some entries correspond to explicit program-level dependencies, while others reflect weak or noisy correlations induced by shared usage patterns or in-direct coupling. This mixture makes direct model-ing difficult, especially for downstream generation tasks that require both precision and generalization. To address this, we decompose W into two in-terpretable components: 
+
+W ≈ Q + AB ⊤. (1) Here, Q serves as a discrete structural backbone of the codebase, while AB ⊤ provides a continuous latent correction that captures residual dependen-cies not explained by explicit edges. We learn this decomposition by minimizing the following objective:             
+
+> min
+> Q,A,B ∥W−Q−AB ⊤∥2
+> F+λA∥A∥2
+> F+λB∥B∥2
+> F.(2)
+
+The regularization terms encourage stable low-rank factors and prevent overfitting to noisy depen-dencies. To make Q explicitly interpretable, we define a discrete codebook {q1, . . . , q N }, where each level represents a different strength of dependency. Each entry Qij is assigned via a one-hot variable Zkij 
+
+satisfying P 
+
+> k
+
+Zkij = 1 , leading to: 
+
+Qij =
+
+> N
+
+X
+
+> k=1
+
+qkZkij . (3) This quantization enforces that structural depen-dencies are not only sparse but also semantically categorized into discrete levels of importance, im-proving interpretability and robustness. 
+
+3.3 Dependency Matrix Estimation 
+
+We optimize the model using an alternating min-imization strategy that iteratively updates the quantized component Q and the low-rank factors 
+
+(A, B ). This separation allows each component to be optimized under a simplified subproblem. 
+
+Alternating updates. When A and B are fixed, we first compute the residual matrix: 
+
+RQ = W − AB ⊤. (4) This residual removes latent effects and isolates strong structural signals. We then update Q by projecting each entry of RQ onto the nearest level in the predefined codebook: 
+
+Q = P(RQ), (5) where P(·) denotes element-wise quantization. This step can be interpreted as a denoising opera-tion that extracts stable, high-confidence dependen-cies while suppressing weak fluctuations. When Q is fixed, we compute: 
+
+RAB = W − Q, (6) and learn a low-rank approximation: 
+
+min  
+
+> A,B
+
+∥RAB −AB ⊤∥2 
+
+> F
+
++λA∥A∥2 
+
+> F
+
++λB ∥B∥2 
+
+> F
+
+. (7) This step captures global interaction structure, including indirect dependencies (e.g., A influences C through B) and shared latent functionality across modules. Optionally, ℓ1 regularization can be ap-plied to encourage sparsity in A and B, further improving interpretability. 4Overall, this alternating scheme progressively separates discrete structural dependencies from continuous latent interactions, leading to a more stable and semantically meaningful representation. 
+
+3.4 Code Generation with Dependency Awareness 
+
+To incorporate dependency information into code generation, we maintain a vector-based repository where each code entity is embedded using a pre-trained encoder. Given a requirement r, the model generates a candidate code snippet ˆc, which is em-bedded as vˆc.We retrieve semantically similar entities using embedding similarity: 
+
+Sv = Top -k(cos( vˆc, v c)) . (8) This captures functionally or syntactically simi-lar code components. In parallel, we retrieve structurally related enti-ties using the learned dependency matrix: 
+
+SQ = Top -k(Qˆc, :). (9) This ensures that generated code respects the underlying program structure, such as required im-ports, dependencies, or inherited behaviors. To enforce consistency between semantic and structural views, we compute a Jaccard similarity: 
+
+J = |S v ∩ S Q||S v ∪ S Q| . (10) If J ≥ τ , the generated code is considered con-sistent and accepted. Otherwise, we refine gener-ation by augmenting the prompt with structurally relevant entities from SQ, explicitly steering the model toward dependency-consistent outputs. This process is repeated until convergence. 
+
+3.5 Sparse Storage of Strong Dependencies 
+
+Although Q captures all pairwise dependencies, most entries correspond to weak or negligible inter-actions. Storing all entries is therefore inefficient and unnecessary. To improve efficiency, we retain only significant entries: 
+
+T (Q) = {(i, j, Q ij ) | Qij ≥ qk}. (11) This reduces storage complexity from O(n2) to 
+
+O(|T (Q)|), where |T (Q)| ≪ n2 in real-world codebases. Importantly, this sparse representation preserves interpretability because each retained triplet cor-responds to a strong and meaningful dependency between two code entities. The resulting struc-ture can be efficiently implemented using CSR or CSC formats, enabling scalable computation while remaining compatible with downstream re-trieval and generation tasks. This design is in spirit similar to broader efficiency-driven approaches such as prototype-based incremental learning (Wu et al., 2026) and hierarchical multi-scale feature fusion (Cong et al., 2025), where reducing redun-dancy without losing critical structural information is a central goal. 
+
+4 Experiments 
+
+4.1 Experimental Setup 
+
+We evaluate our dependency-aware code genera-tion framework on three representative tasks that collectively assess structural correctness, semantic fidelity, and execution-level validity. These tasks cover a spectrum of code generation challenges, ranging from syntactic translation to semantic pro-gram synthesis. Following recent repository-level and structure-aware code generation studies (Wang et al., 2023; Liu et al., 2024b; Cheng et al., 2024), we emphasize evaluation settings that require mod-els to capture long-range interactions and preserve executable semantics rather than merely optimiz-ing token-level similarity. The importance of ro-bust evaluation is echoed across diverse machine learning domains, from medical image analysis (Qi et al., 2025b; Luo et al., 2025; Qi et al., 2025a) to computer vision (Wang et al., 2026; Zu et al., 2026; Jin et al., 2026), where benchmark design directly determines whether model improvements translate to practical utility. By including tasks that vary in complexity and ambiguity, we aim to comprehensively measure the model’s capability to understand, represent, and generate executable code that adheres to both local and global depen-dencies. Such evaluation ensures improvements extend beyond surface-level token matching and better reflect practical software engineering utility. 
+
+Code Translation. We adopt the Java →C# and C# →Java translation tasks from CodeXGLUE (Lu et al., 2021). Code translation requires models to preserve both syntactic validity and semantic equivalence across programming languages despite differences in type systems, APIs, and idiomatic usage. For instance, Java ArrayList operations 5Table 1: Comprehensive performance comparison on code translation tasks, including Java →C# and C# →Java, where we report BLEU, Exact Match (xMatch), and CodeBLEU to evaluate lexical, structural, and semantic correctness of generated code.                                                
+
+> Java →C# C# →Java Model BLEU xMatch CodeBLEU BLEU xMatch CodeBLEU Transformer 56.1 33.2 63.9 50.6 38.1 61.8 CodeBERT 80.3 59.4 85.3 72.6 59.1 80.2 GraphCodeBERT 81.0 60.0 86.1 73.2 60.2 81.0 PLBART 83.5 65.1 88.0 78.9 65.6 85.9 CodeT5 84.2 66.0 88.5 80.0 67.3 86.2
+> Ours 86.1 69.4 90.3 82.2 70.1 88.1
+
+must be correctly mapped to C# List operations while preserving execution behavior. The dataset contains 10K training samples, 500 validation sam-ples, and 1K test samples. Prior work has shown that even minor inconsistencies in variable usage, API calls, or control flow can lead to compilation or execution failures (Guo et al., 2021; Ahmad et al., 2021), highlighting the importance of model-ing inter-entity dependencies and structural consis-tency. 
+
+Text-to-Code Generation. We evaluate on the CONCODE dataset (Iyer et al., 2018), where mod-els generate Java methods from natural language de-scriptions. This task introduces substantial ambigu-ity, requiring the model to infer missing implemen-tation details while maintaining consistency among variables, method invocations, and control-flow structures. Recent pretrained code models such as CodeT5 (Wang et al., 2021) and CodeT5+ (Wang et al., 2023) demonstrate strong generation capabil-ity on this benchmark, making it a widely adopted testbed for evaluating semantic alignment between natural language intent and executable code gener-ation. 
+
+Program Synthesis. We use the APPS benchmark (Hendrycks et al., 2021) to evaluate execution-level correctness. APPS contains pro-gramming problems with hidden test cases, pre-venting direct overfitting and requiring models to generate functionally correct programs. The bench-mark spans introductory exercises, interview-style questions, and competition-level algorithmic chal-lenges, providing a realistic assessment of practical coding proficiency. Recent large code models and agentic coding systems frequently adopt APPS as a standard benchmark for evaluating executable pro-gram synthesis ability (Wang et al., 2023; Zhang et al., 2024). 
+
+Evaluation Metrics. For CodeXGLUE tasks, we report BLEU (Papineni et al., 2002), Exact Match (xMatch), and CodeBLEU (Ren et al., 2020). BLEU measures token-level overlap, xMatch eval-uates exact sequence replication, and CodeBLEU further incorporates syntax-aware and semantic-aware components to better assess structural cor-rectness. For APPS, we report Test Case Accuracy and Strict Accuracy following prior program syn-thesis evaluation protocols (Hendrycks et al., 2021). These metrics jointly provide a comprehensive as-sessment of lexical similarity, structural alignment, and execution correctness. 
+
+Baselines. We compare against Trans-former (Vaswani et al., 2017), CodeBERT (Feng et al., 2020), GraphCodeBERT (Guo et al., 2021), PLBART (Ahmad et al., 2021), and CodeT5 (Wang et al., 2021). These baselines represent widely adopted pretrained code generation architectures with varying levels of structural modeling ca-pability, including sequence-based pretraining, data-flow-aware representations, and encoder-decoder code generation objectives. However, none explicitly enforce global inter-entity depen-dency consistency during generation. Comparing against these methods enables quantifying the contribution of our dependency-aware refinement mechanism. 
+
+Implementation Details. All experiments are conducted on a single server equipped with an NVIDIA A800 80GB GPU. We adopt CodeT5 (Wang et al., 2021) as the backbone model, with the low-rank factor dimension set to the de-fault value k = 8 . For dependency quantization, we use N = 8 discrete dependency levels with values q1, . . . , q 8 = 1 , 2, 3, 4, 5, 6, 7, 8. The Jac-card consistency threshold for aligning semantic and structural dependencies is set to τ = 0 .8. Un-less otherwise specified, all hyperparameters are se-6lected using validation performance and kept fixed across tasks for fair comparison. 
+
+4.2 Main Results Code Translation. As shown in Table 1, our method consistently outperforms all considered baselines across both translation directions. Simi-lar trends have been observed in recent structure-aware code generation studies, where incorporating semantic relations and structural constraints sub-stantially improves functional correctness beyond sequence-level matching (Guo et al., 2021; Wang et al., 2021, 2023). Notably, the observed gains in Exact Match (xMatch) and CodeBLEU indicate that dependency-aware modeling leads to substan-tial improvements in both structural correctness and semantic fidelity, extending well beyond token-level overlap. Specifically, for the Java →C# task, we achieve an increase of +1.9 BLEU and +3.4 xMatch compared to CodeT5, demonstrating that our framework significantly improves exact trans-lation correctness. Furthermore, the improvements relative to GraphCodeBERT suggest that local data-flow modeling alone is insufficient for repository-scale or semantically complex code translation. In-stead, maintaining global inter-entity consistency is essential for capturing long-range structural and functional relations across programs. These re-sults demonstrate that explicitly modeling depen-dencies enables the generation of translations that are not only syntactically valid but also semanti-cally aligned with the original source code, leading to more reliable executable outputs.                   
+
+> Table 2: Evaluation results on the CONCODE text-to-code generation benchmark, where we report BLEU, Exact Match (xMatch), and CodeBLEU to measure the quality of generated Java methods from natural language descriptions.
+> Model BLEU xMatch CodeBLEU GPT-2 25.8 17.6 30.4 CodeGPT 29.4 18.7 33.2 PLBART 37.2 19.3 39.1 CodeT5 41.2 22.5 43.8
+> Ours 43.6 24.1 46.2
+
+Text-to-Code Generation. Table 2 shows that our framework achieves the best overall perfor-mance across all evaluated metrics. The improve-ment in CodeBLEU (+2.4 over CodeT5) indicates stronger structural alignment and more complete semantic realization, both of which are particu-larly important when natural language specifica-tions contain ambiguities, underspecified behaviors, or implicit implementation details (Iyer et al., 2018; Wang et al., 2021). Prior pretrained code models mainly optimize token prediction or local struc-tural representations (Feng et al., 2020; Wang et al., 2023), whereas our dependency-aware mechanism explicitly constrains consistency among variables, function calls, and control-flow structures during generation. As a result, the model produces code with fewer incomplete implementations, inconsis-tent entity usages, or logically conflicting opera-tions. The consistent improvements across BLEU, Exact Match, and CodeBLEU further suggest that dependency-aware refinement benefits both lexical accuracy and deeper semantic coherence. These findings demonstrate that explicitly enforcing de-pendency consistency can effectively guide genera-tion toward structurally reliable and semantically executable programs, improving the practical us-ability of generated code in real-world software engineering scenarios. Broader challenges in mul-timodal reasoning, including certifiable modality deletion (Fu et al., 2026) and multimodal scale recognition (Jin et al., 2026), further suggest that consistency-driven refinement principles may gen-eralize beyond code to other structured generation tasks.                          
+
+> Table 3: Results on the APPS program synthesis bench-mark, reporting both Test Case Accuracy and Strict Ac-curacy across different difficulty levels (Intro, Interview, Competition) to evaluate execution-level correctness.
+> Test Case Avg. Strict Acc. Model Intro Inter Comp Intro Inter Comp GPT-2 (0.1B) 5.9 7.2 4.6 1.1 0.4 0.0 CodeT5 (0.2B) 10.1 6.5 2.8 1.9 0.5 0.1
+> Ours 11.8 8.3 3.9 3.1 1.1 0.4
+
+Program Synthesis. Table 3 demonstrates that enforcing dependency consistency during genera-tion leads to measurable gains in both partial and full execution correctness. In particular, improve-ments in Strict Accuracy indicate that the gener-ated programs are not only partially correct but fully functional when executed against hidden test cases. This confirms that modeling inter-entity dependencies helps the model capture critical exe-cution logic and control-flow relationships, thereby reducing subtle errors that could cause runtime failures. The results underscore the practical ben-7(a) Dependency consistency. (b) Sensitivity to τ . (c) Error analysis.   
+
+> Figure 2: Comprehensive analysis of dependency-aware code generation, including dependency consistency across models, sensitivity analysis with respect to the Jaccard threshold τ, and error distribution in Java →C# translation outputs.
+
+efits of our approach: by incorporating structural constraints, the generated programs exhibit higher robustness and reliability, making the method suit-able for real-world program synthesis tasks where functional correctness is paramount. 
+
+4.3 Further Analysis Dependency Consistency. As shown in Fig-ure 2a, models with higher dependency consis-tency, measured by the Jaccard similarity between semantically and structurally related entities, tend to achieve higher execution accuracy. This obser-vation is consistent with prior findings that code evaluation should account for syntactic structure and semantic data-flow rather than relying solely on surface-level token overlap (Ren et al., 2020; Guo et al., 2021). The trend highlights the importance of maintaining coherent relationships among code entities, since programs with well-aligned depen-dencies are more likely to be syntactically valid and functionally correct. In particular, our approach consistently outperforms CodeT5 and GraphCode-BERT, suggesting that explicitly modeling and en-forcing global entity relationships can substantially improve program quality. By capturing both strong and weak dependencies across functions, classes, and files, our framework preserves critical interac-tions while still allowing flexibility for optional or less central connections. These results rein-force that dependency consistency is a key factor in reliable code generation, and that approaches neglecting cross-entity relationships may produce programs with structural or functional deficiencies. 
+
+Sensitivity Analysis. As shown in Figure 2b, our dependency-aware model maintains stable perfor-mance across a range of Jaccard threshold τ values. Lower thresholds, such as 0.3, correspond to more relaxed dependency enforcement, which may in-clude noisy or weakly relevant interactions and slightly reduce structural alignment. Conversely, excessively high thresholds, such as 0.9, impose overly strict constraints, which can over-constrain generation and limit the model’s ability to produce alternative but still valid implementations. In our experiments, performance peaks around τ = 0 .8,indicating an effective balance between preserving critical dependencies and retaining generative flexi-bility. These findings show that the proposed frame-work is robust to moderate threshold variations and does not require fine-grained task-specific tuning. Overall, the sensitivity analysis demonstrates that dependency-aware refinement can maintain high-quality code generation under different consistency constraints. 
+
+Error Analysis. As shown in Figure 2c, our dependency-aware approach consistently reduces common code generation errors compared to CodeT5. Specifically, the rates of undefined vari-ables, missing method calls, incorrect dependency ordering, and control-flow mistakes are substan-tially reduced. Since execution-based benchmarks such as APPS emphasize functional correctness through test cases rather than lexical similarity alone (Hendrycks et al., 2021), reducing these dependency-related errors is essential for improv-ing practical code reliability. These improvements indicate that explicitly capturing global entity rela-tionships helps the model maintain valid variable definitions, respect method invocation sequences, and preserve logical control flow. Overall, this analysis confirms that dependency-aware model-ing directly contributes to generating more reliable, semantically consistent, and functionally correct code, thereby reducing runtime failures and im-proving the practical utility of generated programs. 84.4 Ablation Study 
+
+Table 4: Ablation study on the Java →C# translation task, analyzing the contribution of each component in our dependency-aware framework to overall performance.             
+
+> Model Variant BLEU CodeBLEU xMatch w/o Strong (Q) 83.5 88.1 65.3 w/o Constraint 83.2 87.9 64.8
+> Full Model 86.1 90.3 69.4
+
+Table 4 shows that removing any individual com-ponent of our framework results in a noticeable decrease in overall performance, highlighting the contribution of each part to the final results. Among all components, dependency modeling proves to be the most critical, as it effectively captures the rela-tionships between code entities and directly guides the generation process toward coherent and exe-cutable code. This observation further underscores the importance of explicitly enforcing inter-entity dependencies during code generation to maintain both structural consistency and semantic correct-ness. Similarly, removing other key constraints, such as decoding restrictions, can produce outputs that are inconsistent, incomplete, or less reliable. These findings demonstrate that every component of our framework plays a complementary role, and the interplay between dependency modeling, con-straints, and generation mechanisms is essential for ensuring the overall reliability, correctness, and quality of the generated programs. 
+
+5 Conclusion 
+
+In this paper, we presented a dependency-aware code generation framework that models relation-ships among code entities. By representing code-bases as graphs and decomposing dependencies into a quantized matrix for strong interactions and a sparse low-rank component for weaker ones, our approach captures multi-level struc-tural relationships. We developed an efficient alternating optimization algorithm and incorpo-rated the learned structure into generation through consistency-driven refinement. This enables gen-erated code to better preserve semantic intent and structural constraints. The sparse triplet representa-tion further improves storage efficiency and scala-bility. Experiments show gains in semantic coher-ence, structural consistency, and practical usability. 
+
+Limitations 
+
+Our low-rank residual term improves robustness to incomplete or noisy dependency graphs by captur-ing implicit dependencies and higher-order correla-tions. However, static dependency extraction may still be insufficient in highly dynamic or context-sensitive settings. Incorporating runtime signals, version history, or online updates is therefore a promising direction for future work. Drawing in-spiration from adaptive techniques in related do-mains, such as human-machine co-adaptive intent understanding (He et al., 2025), future work could explore dynamic dependency graph updates that adapt to evolving codebases in real time. 
+
+References 
+
+Wasi Ahmad, Saikat Chakraborty, Baishakhi Ray, and Kai-Wei Chang. 2021. Unified pre-training for pro-gram understanding and generation. In Proceedings of the 2021 Conference of the North American Chap-ter of the Association for Computational Linguistics ,pages 2655–2668. Cristian Cadar and Koushik Sen. 2013. Symbolic exe-cution for software testing: three decades later. Com-munications of the ACM , 56(2):82–90. Bei Chen, Fengji Zhang, Anh Nguyen, Daoguang Zan, Zeqi Lin, Jian-Guang Lou, and Weizhu Chen. 2022. Codet: Code generation with generated tests. arXiv preprint arXiv:2207.10397 .Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Ka-plan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, and 1 others. 2021. Evaluating large language models trained on code. Preprint ,arXiv:2107.03374. Wei Cheng, Yuhan Wu, and Wei Hu. 2024. Dataflow-guided retrieval augmentation for repository-level code completion. In Proceedings of the 62nd Annual Meeting of the Association for Computational Lin-guistics (Volume 1: Long Papers) , pages 7957–7977, Bangkok, Thailand. Association for Computational Linguistics. Zhaoyang Cong, Ziyang Wang, Hao Zhang, Guowei Zheng, Keming Cao, Lina Zhao, Ruipeng Song, Jian-qing Li, and Chengyu Liu. 2025. Hierarchical multi-scale feature fusion network for multi-center major depressive disorder classification with t1-weighted mri. In Annual International Conference of the IEEE Engineering in Medicine and Biology Society. IEEE Engineering in Medicine and Biology Society. Annual International Conference , volume 2025, pages 1–4. Enrique Dehaerne, Bappaditya Dey, Sandip Halder, Ste-fan De Gendt, and Wannes Meert. 2022. Code gener-
+
+9ation using machine learning: A systematic review. 
+
+Ieee Access , 10:82434–82455. Yangruibo Ding, Zijian Wang, Wasi Ahmad, Murali Kr-ishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, and Bing Xiang. 2024. CoCoMIC: Code completion by jointly modeling in-file and cross-file context. In Proceedings of the 2024 Joint International Conference on Computational Linguis-tics, Language Resources and Evaluation , pages 3433–3445. Zhangyin Feng, Daya Guo, Duyu Tang, Nan Duan, Xiaocheng Feng, Ming Gong, Linjun Shou, Bing Qin, Ting Liu, Daxin Jiang, and Ming Zhou. 2020. Codebert: A pre-trained model for programming and natural languages. In Findings of the Association for Computational Linguistics: EMNLP 2020 , pages 1536–1547. Rong Fu, Ziming Wang, Chunlei Meng, Jiaxuan Lu, Jiekai Wu, Kangan Qian, Hao Zhang, and Simon Fong. 2026. Missing-by-design: Certifiable modality deletion for revocable multimodal sentiment analysis. 
+
+arXiv preprint arXiv:2602.16144 .Linyuan Gong, Mostafa Elhoushi, and Alvin Cheung. 2024. AST-T5: Structure-aware pretraining for code generation and understanding. In Proceedings of the 41st International Conference on Machine Learning ,volume 235 of Proceedings of Machine Learning Research , pages 15839–15853. PMLR. Daya Guo, Shuo Ren, Shuai Lu, Zhangyin Feng, Duyu Tang, Shujie Liu, Long Zhou, Nan Duan, Alexey Svy-atkovskiy, Shengyu Fu, and 1 others. 2021. Graph-codebert: Pre-training code representations with data flow. In International Conference on Learning Rep-resentations .Yangfan He, Jianhui Wang, Yijin Wang, Yan Zhong, Xinyuan Song, Junjiang Lin, Xinhang Yuan, Jingqun Tang, Yi Xin, Hao Zhang, and 1 others. 2025. En-hancing intent understanding for ambiguous prompt: A human-machine co-adaption strategy. arXiv preprint arXiv:2501.15167 .Dan Hendrycks, Steven Basart, Saurav Kadavath, Man-tas Mazeika, Akul Arora, Ethan Singh, and Jacob Steinhardt. 2021. Measuring coding challenge com-petence with apps. Advances in Neural Information Processing Systems , 34:21130–21145. Srinivasan Iyer, Ioannis Konstas, Alvin Cheung, and Luke Zettlemoyer. 2018. Mapping language to code in programmatic context. In Proceedings of the 2018 Conference on Empirical Methods in Natural Lan-guage Processing , pages 1643–1652. Nan Jiang, Kevin Liu, Thibaud Lutellier, and Lin Tan. 2023. Impact of code language models on automated program repair. In 2023 IEEE/ACM 45th Interna-tional Conference on Software Engineering (ICSE) ,pages 1430–1442. Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik Narasimhan. 2023. Swe-bench: Can language mod-els resolve real-world github issues? Preprint ,arXiv:2310.06770. Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik Narasimhan. 2024. SWE-bench: Can language mod-els resolve real-world github issues? In International Conference on Learning Representations .Jihang Jin, Ronghao Chen, Hao Zhang, Ziyan Liu, Hua-can Wang, Qi Ye, and Jingping Liu. 2026. Tiny scales, great challenges: The limits of multimodal llms in scale recognition. In Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 40619– 40632. Zhaolu Kang, Junhao Gong, Qingxi Chen, Hao Zhang, Jiaxin Liu, Rong Fu, Zhiyuan Feng, Yuan Wang, Simon Fong, and Kaiyue Zhou. 2026. Multimodal multi-agent empowered legal judgment prediction. 
+
+arXiv preprint arXiv:2601.12815 .Claire Le Goues, Michael Pradel, Abhik Roychoudhury, and Satish Chandra. 2021. Automatic program repair. 
+
+IEEE Software , 38(4):22–27. Yujia Li, David Choi, Junyoung Chung, Nate Kushman, Julian Schrittwieser, Rémi Leblond, Tom Eccles, James Keeling, Felix Gimeno, Agustin Dal Lago, and 1 others. 2022. Competition-level code generation with alphacode. Science , 378(6624):1092–1097. Tianyang Liu, Canwen Xu, and Julian J. McAuley. 2024a. Repobench: Benchmarking repository-level code auto-completion systems. In The Twelfth Inter-national Conference on Learning Representations .Wei Liu, Ailun Yu, Daoguang Zan, Bo Shen, Wei Zhang, Haiyan Zhao, Zhi Jin, and Qianxiang Wang. 2024b. Graphcoder: Enhancing repository-level code com-pletion via coarse-to-fine retrieval based on code con-text graph. In Proceedings of the 39th IEEE/ACM International Conference on Automated Software En-gineering , pages 570–581. ACM. Shuai Lu, Daya Guo, Shuo Ren, Junjie Huang, Alexey Svyatkovskiy, Ambrosio Blanco, Colin Clement, Dawn Drain, Daxin Jiang, Duyu Tang, and 1 others. 2021. Codexglue: A machine learning benchmark dataset for code understanding and generation. In 
+
+Thirty-fifth Conference on Neural Information Pro-cessing Systems Datasets and Benchmarks Track .Yang Luo, Shiru Wang, Jun Liu, Jiaxuan Xiao, Run-dong Xue, Zeyu Zhang, Hao Zhang, Yu Lu, Yang Zhao, and Yutong Xie. 2025. Pathohr: Breast cancer survival prediction on high-resolution pathological images. arXiv preprint arXiv:2503.17970 .Sergey Mechtaev, Jooyong Yi, and Abhik Roychoud-hury. 2016. Angelix: Scalable multiline program patch synthesis via symbolic analysis. In 2016 
+
+10 IEEE/ACM 38th International Conference on Soft-ware Engineering (ICSE) , pages 691–701. Mingqiao Mo, Yunlong Tan, Hao Zhang, Heng Zhang, and Yangfan He. 2026a. Shieldedcode: Learning robust representations for virtual machine protected code. arXiv preprint arXiv:2601.20679 .Mingqiao Mo, Hao Zhang, Yunlong Tan, Bo Huang, and Chengcheng Li. 2026b. Pathsymphony: Harmo-nizing symbolic planning and large language mod-els for curriculum-guided mathematical reasoning. 
+
+Knowledge-Based Systems , page 116598. Manish Motwani and Yuriy Brun. 2023. Better auto-matic program repair by using bug reports and tests together. Preprint , arXiv:2011.08340. Hoang Duong Thien Nguyen, Dawei Qi, Abhik Roy-choudhury, and Satish Chandra. 2013. Semfix: Pro-gram repair via semantic analysis. In 2013 35th International Conference on Software Engineering (ICSE) , pages 772–781. Yannic Noller, Ridwan Shariffdeen, Xiang Gao, and Ab-hik Roychoudhury. 2022. Trust enhancement issues in program repair. Preprint , arXiv:2108.13064. Kishore Papineni, Salim Roukos, Todd Ward, and Wei-Jing Zhu. 2002. Bleu: a method for automatic evalu-ation of machine translation. In Proceedings of the 40th Annual Meeting of the Association for Compu-tational Linguistics , pages 311–318. Indraneil Paul, Goran Glavaš, and Iryna Gurevych. 2024. IRCoder: Intermediate representations make lan-guage models robust multilingual code generators. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 15023–15041, Bangkok, Thai-land. Association for Computational Linguistics. Yingbo Pu, Kaiyuan Sun, Yang Liu, Yufei Wang, and Jie Zhang. 2023. Exploring large-scale pre-trained models in reasoning tasks: Methods and benchmarks. 
+
+arXiv preprint arXiv:2302.07469 .Xuyin Qi, C Zeyu Zhang, Huazhan Zheng, Mingxi Chen, Numan Kutaiba, Ruth Lim, Cherie Chiang, Zi En Tham, Xuan Ren, Wenxin Zhang, and 1 others. 2025a. Medconv: Convolutions beat transformers on long-tailed bone density prediction. In 2025 Interna-tional Joint Conference on Neural Networks (IJCNN) ,pages 1–8. IEEE. Xuyin Qi, Zeyu Zhang, Canxuan Gang, Hao Zhang, Lei Zhang, Zhiwei Zhang, and Yang Zhao. 2025b. Mediaug: Exploring visual augmentation in medi-cal imaging. In Annual Conference on Medical Im-age Understanding and Analysis , pages 218–232. Springer. Shuo Ren, Daya Guo, Shuai Lu, Long Zhou, Shujie Liu, Duyu Tang, Neel Sundaresan, Ming Zhou, and Ambrosio Blanco. 2020. Codebleu: a method for automatic evaluation of code synthesis. In arXiv preprint arXiv:2009.10297 .Zhiqiang Ren, Yihan Li, Jieming Wang, and Bing Xie. 2022. Automated program repair using pre-trained transformers with bug understanding. In Proceedings of the 36th IEEE/ACM International Conference on Automated Software Engineering (ASE) , pages 1204– 1215. Alexey Svyatkovskiy, Shao Kun Deng, Shengyu Fu, and Neel Sundaresan. 2020. Intellicode compose: Code generation using transformer. In Proceedings of the 28th ACM joint meeting on European software engineering conference and symposium on the foun-dations of software engineering , pages 1433–1443. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. In Advances in Neural Information Pro-cessing Systems , volume 30. Siheng Wang, Yanshu Li, Bohan Hu, Zhengdao Li, Haibo Zhan, Linshan Li, Weiming Liu, Ruizhi Qian, Guangxin Wu, Hao Zhang, and 1 others. 2026. Deco-detr: Decoupled cognition detr for efficient open-vocabulary object detection. arXiv preprint arXiv:2604.02753 .Yanlin Wang, Yanli Wang, Daya Guo, Jiachi Chen, Ruikai Zhang, Yuchi Ma, and Zibin Zheng. 2025. Rlcoder: Reinforcement learning for repository-level code completion. In Proceedings of the 47th IEEE/ACM International Conference on Software Engineering , pages 1140–1152. IEEE/ACM. Yue Wang, Hung Le, Akhilesh Deepak Gotmare, Nghi D. Q. Bui, Junnan Li, and Steven C. H. Hoi. 2023. CodeT5+: Open code large language models for code understanding and generation. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing , pages 1069–1088. Yue Wang, Weishi Wang, Shafiq Joty, and Steven C. H. Hoi. 2021. Codet5: Identifier-aware unified pre-trained encoder-decoder models for code understand-ing and generation. In Proceedings of the 2021 Con-ference on Empirical Methods in Natural Language Processing , pages 8696–8708. Yuxiang Wei, Zhe Wang, Jiawei Liu, Yifeng Ding, and Lingming Zhang. 2024. Magicoder: Empowering code generation with OSS-instruct. In Proceedings of the 41st International Conference on Machine Learn-ing , volume 235 of Proceedings of Machine Learning Research , pages 52632–52657. PMLR. Westley Weimer, ThanhVu Nguyen, Claire Le Goues, and Stephanie Forrest. 2009. Automatically finding patches using genetic programming. In 2009 IEEE 31st International Conference on Software Engineer-ing , pages 364–374. Jiekai Wu, Rong Fu, Chuangqi Li, Zijian Zhang, Guangxin Wu, Hao Zhang, Shiyin Lin, Jianyuan Ni, Yang Li, Dongxu Zhang, and 1 others. 2026. Protoflow: Mitigating forgetting in class-incremental remote sensing segmentation via low-curvature pro-totype flow. arXiv preprint arXiv:2604.03212 .
+
+11 Yu-Hang Wu, Yu-Jie Xiong, Hao Zhang, Jia-Chen Zhang, and Zheng Zhou. 2025. Sugar-coated poison: Benign generation unlocks llm jailbreaking. arXiv preprint arXiv:2504.05652 .Wenhao Yu, Shaohang Wei, Jiahong Liu, Yifan Li, Minda Hu, Aiwei Liu, Hao Zhang, and Irwin King. 2026. Probability-entropy calibration: An elastic indicator for adaptive fine-tuning. arXiv preprint arXiv:2602.01745 .Hao Zhang, Mengsi Lyu, Bo Huang, Yulong Ao, and Yonghua Lin. 2025a. Trimtokenator-lc: To-wards adaptive visual token pruning for large mul-timodal models with long contexts. arXiv preprint arXiv:2512.22748 .Hao Zhang, Lyu Mengsi, Zhuo Chen, Yulong Ao, and Yonghua Lin. 2026a. Pdtrim: Targeted pruning for prefill-decode disaggregation in inference. In Pro-ceedings of the 64th Annual Meeting of the Associa-tion for Computational Linguistics (Volume 1: Long Papers) , pages 39673–39690. Heng Zhang, Haochen You, Zijian Zhang, Lubin Gan, Hao Zhang, Wenjun Huang, and Jin Huang. 2026b. Mitigating generic token dominance in cross-domain foundation model for text-attributed graphs. In In-ternational Conference on Database Systems for Ad-vanced Applications , pages 251–265. Springer. Heng Zhang, Tianyi Zhang, Yuling Shi, Xiaodong Gu, Yaomin Shen, Zijian Zhang, Yilei Yuan, Hao Zhang, and Jin Huang. 2025b. Can representation gaps be the key to enhancing robustness in graph-text align-ment? arXiv preprint arXiv:2510.12087 .Kechi Zhang, Jia Li, Ge Li, Xianjie Shi, and Zhi Jin. 2024. Codeagent: Enhancing code generation with tool-integrated agent systems for real-world repo-level coding challenges. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics , pages 13643–13658. Shuyang Zhang, Zhixuan Liu, Zhichen Dong, Hao Zhang, Chaochao Lu, and Chao Yang. 2026c. Adap-tive prompt optimization for open-ended tasks: Un-certainty preference as a secondary signal. In Find-ings of the Association for Computational Linguistics: ACL 2026 , pages 33883–33891. Hao Zheng, Lei Li, and Mengjiao Wang. 2023. Evaluat-ing gpt-4 for text generation: Coherence, consistency, and practical applications. Proceedings of the 17th International Conference on Natural Language Gen-eration .Heng Zheng, Yuling Shi, Xiaodong Gu, Haochen You, Zijian Zhang, Lubin Gan, Hao Zhang, Wenjun Huang, and Jin Huang. 2025. Graphgeo: Multi-agent de-bate framework for visual geo-localization with het-erogeneous graph neural networks. arXiv preprint arXiv:2511.00908 .Lizheng Zu, Yaoqing Jin, Siyi Cao, Shiwei Suo, Haoxin Lyu, Song Fu, Hui Sun, and Hao Zhang. 2026. End-to-end story visualization framework with penalty-based evaluation using vision-language mod-els. In ICASSP 2026-2026 IEEE International Con-ference on Acoustics, Speech and Signal Processing (ICASSP) , pages 10492–10496. IEEE. 
+
+12

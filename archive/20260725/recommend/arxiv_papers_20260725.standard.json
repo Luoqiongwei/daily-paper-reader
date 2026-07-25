@@ -1,0 +1,816 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-25T21:07:19.806561+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 38,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 48,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16692v1",
+      "source": "arxiv",
+      "title": "Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement",
+      "abstract": "The increasing complexity of modern software systems has made automated code generation a fundamental task in software engineering. However, existing approaches often fail to adequately capture the intricate, multi-level dependencies among code entities, leading to generated code that is logically incomplete or difficult to integrate into real-world systems. To address this limitation, we propose a dependency-aware code generation framework that explicitly models interactions among code entities through a graph-based representation. We decompose dependencies into two complementary components: a quantized matrix that captures strong, explicit relations, and a sparse low-rank factorization that models weaker, implicit interactions. The decomposition is efficiently learned via an alternating optimization procedure. During code generation, the learned dependency structure is incorporated as a constraint, ensuring both semantic coherence and structural consistency of the generated code. Furthermore, we introduce a sparse triplet representation for strong dependencies, significantly improving storage efficiency and computational scalability. Extensive experiments demonstrate that our approach consistently produces code with superior semantic alignment and structural fidelity compared to existing methods.",
+      "authors": [
+        "Mingqiao Mo",
+        "Yangchen Zeng",
+        "Zikai Xiao",
+        "Xin Xiao",
+        "Wenhua Nie",
+        "Zhaolu Kang",
+        "Guangyuan Dong",
+        "Kai Shu",
+        "Hao Zhang",
+        "Xiaodong Fan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.CL"
+      ],
+      "published": "2026-07-18T08:01:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.16692v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Dependency-aware code generation with structured matrix decomposition",
+      "llm_evidence_cn": "依赖感知的代码生成，采用结构化矩阵分解",
+      "llm_evidence": "依赖感知的代码生成，采用结构化矩阵分解",
+      "canonical_evidence": "依赖感知的代码生成，采用结构化矩阵分解",
+      "llm_tldr_en": "Proposes a dependency-aware code generation framework that models code entity interactions via graph representation and decomposes dependencies into quantized and low-rank components.",
+      "llm_tldr_cn": "该论文针对现有代码生成方法未充分捕捉代码实体间多层次依赖导致生成代码逻辑不完整的问题，提出依赖引导的代码生成框架。通过图表示显式建模实体交互，并将依赖分解为量化矩阵（强显式关系）和稀疏低秩分解（弱隐式关系），配合一致性引导优化，生成更完整、易集成的代码。",
+      "llm_tldr": "该论文针对现有代码生成方法未充分捕捉代码实体间多层次依赖导致生成代码逻辑不完整的问题，提出依赖引导的代码生成框架。通过图表示显式建模实体交互，并将依赖分解为量化矩阵（强显式关系）和稀疏低秩分解（弱隐式关系），配合一致性引导优化，生成更完整、易集成的代码。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16850v1",
+      "source": "arxiv",
+      "title": "Group Entropy-Controlled Policy Optimization",
+      "abstract": "Entropy control has become an effective tool in reinforcement learning (RL) of large language models (LLMs), helping balance exploration-exploitation trade-off during alignment process. Such RL paradigm is often conducted on mixtures of heterogeneous tasks, which induce distinct entropy regimes under the same policy, making global or token-level entropy regulation insufficient to corresponding heterogeneous needs of exploration. This heterogeneity further makes GRPO-style normalized advantages induce an entropy-dependent bias, making advantage signals across prompt groups statistically non-comparable. To address this issue, we propose Group Entropy-Controlled Policy Optimization (GEPO), a lightweight extension to GRPO that uses group entropy, estimated from existing grouped samples to perform entropy-conditioned asymmetric advantage shaping. GEPO attenuates positive advantages in low-entropy groups to reduce over-exploitation, and negative advantages in high-entropy groups to preserve exploration, with adaptive thresholds derived from historical entropy statistics. Extensive experiments on two base models across thirteen benchmarks spanning mathematics, physics, science, code generation, and instruction following show that GEPO consistently outperforms GRPO and recent entropy-controlled methods, delivering balanced cross-task improvements while preserving task-specific exploration levels throughout training.",
+      "authors": [
+        "Guangran Cheng",
+        "Chengqi Lyu",
+        "Songyang Gao",
+        "Wenwei Zhang",
+        "Kai Chen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-18T15:13:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.16850v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "group entropy control for policy optimization in RL for LLMs",
+      "llm_evidence_cn": "组熵控制用于大语言模型强化学习策略优化",
+      "llm_evidence": "组熵控制用于大语言模型强化学习策略优化",
+      "canonical_evidence": "组熵控制用于大语言模型强化学习策略优化",
+      "llm_tldr_en": "GEPO extends GRPO with group entropy estimation to address heterogeneous exploration needs in RL for LLMs, improving stability and performance.",
+      "llm_tldr_cn": "GEPO通过估计组熵来扩展GRPO，解决了大规模语言模型强化学习中不同任务组探索需求异质性问题，消除优势信号中的熵依赖偏差，在多种对齐任务中取得更好性能。",
+      "llm_tldr": "GEPO通过估计组熵来扩展GRPO，解决了大规模语言模型强化学习中不同任务组探索需求异质性问题，消除优势信号中的熵依赖偏差，在多种对齐任务中取得更好性能。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16916v1",
+      "source": "arxiv",
+      "title": "Enhancing Personalized Bladder Cancer Treatment Through Reinforcement Learning: A Recurrent Patient State Transition Decision Support Framework",
+      "abstract": "Bladder cancer treatment requires personalized and adaptive decision-making, particularly for recurrent disease, where treatment effectiveness changes across successive clinical episodes. Conventional clinical decision support systems typically rely on static treatment guidelines or single-step predictive models, limiting their ability to capture disease progression over time. This paper presents a recurrent patient state-transition simulation framework for bladder cancer treatment planning that integrates predictive state-transition modeling with a Markov Decision Process (MDP) and a Deep Q-Network (DQN) reinforcement learning environment. The predictive module estimates changes in tumor characteristics following treatment, while the reinforcement learning agent sequentially optimizes treatment decisions by interacting with simulated patient trajectories. This framework enables dynamic, patient-specific treatment planning by continuously adapting recommendations to evolving clinical states. It also generates interpretable treatment trajectories and detailed simulation logs to improve transparency and support clinical decision-making. The proposed framework was evaluated against existing reinforcement learning-based treatment planning approaches. It achieved a cumulative reward of 63,918.87, an average training loss per episode of 0.0056, and a policy improvement score of 6.62%, demonstrating effective sequential learning and robust treatment optimization in a simulated recurrent treatment environment. These findings highlight the potential of recurrent patient state-transition simulation with reinforcement learning as a flexible decision-support framework for personalized bladder cancer treatment planning and AI-assisted precision oncology.",
+      "authors": [
+        "Divyansh Chawla",
+        "Anshu Garg",
+        "Isshaan Singh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-18T18:16:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.16916v1",
+      "tags": [
+        "keyword:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Deep reinforcement learning for personalized treatment planning with DQN",
+      "llm_evidence_cn": "深度Q网络用于个性化治疗规划",
+      "llm_evidence": "深度Q网络用于个性化治疗规划",
+      "canonical_evidence": "深度Q网络用于个性化治疗规划",
+      "llm_tldr_en": "Presents a recurrent patient state-transition framework integrating MDP and DQN for adaptive bladder cancer treatment planning, capturing disease progression over time.",
+      "llm_tldr_cn": "本文针对膀胱癌治疗中疾病进展的适应性决策问题，提出一个递归患者状态转移框架，整合马尔可夫决策过程与深度Q网络。该框架能捕捉治疗效果的动态变化，相比静态指南更优。",
+      "llm_tldr": "本文针对膀胱癌治疗中疾病进展的适应性决策问题，提出一个递归患者状态转移框架，整合马尔可夫决策过程与深度Q网络。该框架能捕捉治疗效果的动态变化，相比静态指南更优。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17175v1",
+      "source": "arxiv",
+      "title": "LMEdge: QoS-Aware LLM Inference Orchestration on Edge Clusters",
+      "abstract": "Large language model (LLM) services increasingly operate on edge infrastructure, enabling low-latency and privacy-preserving AI services. However, efficiently serving LLM requests across heterogeneous and resource-constrained edge devices require orchestration mechanisms that jointly determine model configuration (family, size, and quantization level) and execution placement while satisfying user- and system-level quality of service (QoS) requirements. This paper introduces LMEdge, a QoS-aware orchestration service that dynamically makes these decisions across heterogeneous edge devices. We formulate the problem as a binary integer linear programming (BILP) optimization that minimizes response time under accuracy, network, and resource constraints. To enable scalable online scheduling, we employ five lightweight machine learning (ML) models to predict query-specific latency, accuracy, resource usage, and response size for each model-size-quantization-device combination, and design a lightweight heuristic that approximates the BILP solution. We collect a comprehensive benchmarking dataset of over 59000 rows to train models and support reproducibility. Evaluation on a Kubernetes-based edge testbed with 57 instances and diverse query categories shows that LMEdge reduces latency, preserves accuracy, improves resource utilization, and increases serving ratio compared to two baselines.",
+      "authors": [
+        "Reza Farahani",
+        "Zoha Azimi",
+        "Mario Colosi",
+        "Schahram Dustdar"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-19T10:21:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.17175v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "QoS-aware LLM inference orchestration on edge clusters using BILP",
+      "llm_evidence_cn": "基于BILP的边集群LLM推理编排，考虑服务质量",
+      "llm_evidence": "基于BILP的边集群LLM推理编排，考虑服务质量",
+      "canonical_evidence": "基于BILP的边集群LLM推理编排，考虑服务质量",
+      "llm_tldr_en": "LMEdge uses binary integer linear programming to jointly optimize model configuration and placement for QoS-aware LLM inference on edge.",
+      "llm_tldr_cn": "本文提出LMEdge，一种服务质量感知的编排服务，用于异构和资源受限的边设备上高效服务LLM请求。它将问题建模为二进制整数线性规划（BILP），在准确率、网络和资源约束下最小化响应时间。实验表明LMEdge动态决策模型配置和执行位置，相比基线显著降低延迟，是分布式机器学习系统设计的优秀案例。",
+      "llm_tldr": "本文提出LMEdge，一种服务质量感知的编排服务，用于异构和资源受限的边设备上高效服务LLM请求。它将问题建模为二进制整数线性规划（BILP），在准确率、网络和资源约束下最小化响应时间。实验表明LMEdge动态决策模型配置和执行位置，相比基线显著降低延迟，是分布式机器学习系统设计的优秀案例。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17201v1",
+      "source": "arxiv",
+      "title": "Non-Asymptotic Best Policy Identification Guarantees in Online Reinforcement Learning",
+      "abstract": "In this work we study the Best Policy Identification (BPI) problem in online, tabular Reinforcement Learning. This is an active sequential hypothesis testing problem in which the learner's objective is to identify an optimal policy in a Markov Decision Process (MDP) with high confidence, while minimizing the expected sample complexity to do so. We consider an online setting with deterministic rewards, where the agent must strategically navigate through the MDP in order to effectively explore. Previous works in the literature have provided asymptotically optimal methods for BPI, such as the Navigate and Stop (NaS) algorithm and its variants, however existing analysis remains asymptotic. In this work, we fill that gap by providing the first non-asymptotic sample complexity guarantees for NaS, showing that its sample complexity depends not only on the characteristic time, but also on the connectivity of the underlying MDP, the curvature of the optimal characteristic time, and other instance-dependent quantities. We identify these additional attributes and make explicit their contributions to the overall sample complexity.",
+      "authors": [
+        "Joseph Lazzaro",
+        "Alessio Russo",
+        "Aldo Pacchiano"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-07-19T11:48:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.17201v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "non-asymptotic guarantees for best policy identification in online RL",
+      "llm_evidence_cn": "在线强化学习中最优策略识别的非渐近保证",
+      "llm_evidence": "在线强化学习中最优策略识别的非渐近保证",
+      "canonical_evidence": "在线强化学习中最优策略识别的非渐近保证",
+      "llm_tldr_en": "This paper provides the first non-asymptotic sample complexity bounds for best policy identification in online tabular RL with deterministic rewards.",
+      "llm_tldr_cn": "该论文为在线表格强化学习中的最优策略识别问题提供了首个非渐近样本复杂度界，填补了理论空白，算法在确定性奖励设定下达到高效探索。",
+      "llm_tldr": "该论文为在线表格强化学习中的最优策略识别问题提供了首个非渐近样本复杂度界，填补了理论空白，算法在确定性奖励设定下达到高效探索。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17205v1",
+      "source": "arxiv",
+      "title": "A Systematic Evaluation of Trajectory Data Curation for LoRA Fine-Tuning of Code Agents",
+      "abstract": "Supervised fine-tuning (SFT) of open-weight LLMs on expert agent trajectories has emerged as a prominent approach to building capable code agents without reliance on proprietary models. A central yet underexplored question is how trajectory quality and quantity jointly shape model performance. We present a systematic empirical study of trajectory data filtering for LoRA fine-tuning of Qwen2.5-Coder-7B-Instruct on the SWE-trajectory dataset (67,074 trajectories, of which 32,161 are resolved). We propose a two-axis quality scoring framework -- Efficiency and Style -- and evaluate it through 16 controlled experiments spanning strategy, scale, and ablation analyses. Since 7B-scale models attain near-zero SWE-bench resolve rates, we adopt cross-entropy (CE) loss on held-out trajectories as the primary metric, validated via first-action generation: CE loss and ROUGE-L are perfectly rank-correlated (Spearman $ρ$ = -1.00), with limited-sample evidence supporting but not conclusively establishing this proxy. Our results reveal a scale-dependent quality-quantity trade-off: at small scales, doubling the dataset (500 to 1,000) yields ~12.7% CE-loss reduction whereas the TopQ-Random gap stays <1% (Mann-Whitney p > 0.10); at 2,000 trajectories this same gap widens to 3.6% (p = 0.016). Ablation further identifies error-retry rate as the dominant sub-dimension, performing comparably to the full composite ($Δ$ < 0.2%). Together, these findings establish trajectory-level quality scoring as a viable but scale-sensitive lever for code-agent SFT and offer a proxy-validated evaluation protocol for the regime where end-to-end resolve rate is statistically infeasible.",
+      "authors": [
+        "Yunze Han"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-19T11:52:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.17205v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Systematic evaluation of trajectory data curation for LoRA fine-tuning of code agents",
+      "llm_evidence_cn": "代码智能体LoRA微调中轨迹数据策管的系统评估",
+      "llm_evidence": "代码智能体LoRA微调中轨迹数据策管的系统评估",
+      "canonical_evidence": "代码智能体LoRA微调中轨迹数据策管的系统评估",
+      "llm_tldr_en": "Empirically studies how trajectory quality and quantity affect LoRA fine-tuning of code agents on SWE-bench.",
+      "llm_tldr_cn": "该论文系统研究了轨迹数据策管对代码智能体LoRA微调的影响。基于Qwen2.5-Coder-7B-Instruct和SWE-trajectory数据集，提出了效率和风格两个维度的质量评分框架，并通过16个控制实验分析了策略、规模和消融效果。实验揭示了轨迹质量与数量对微调效果的复杂交互作用，为代码智能体训练提供了数据策管指导。",
+      "llm_tldr": "该论文系统研究了轨迹数据策管对代码智能体LoRA微调的影响。基于Qwen2.5-Coder-7B-Instruct和SWE-trajectory数据集，提出了效率和风格两个维度的质量评分框架，并通过16个控制实验分析了策略、规模和消融效果。实验揭示了轨迹质量与数量对微调效果的复杂交互作用，为代码智能体训练提供了数据策管指导。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18199v1",
+      "source": "arxiv",
+      "title": "PPL-Factory: Task-Aware and Budget-Aware Data Selection from Language Modeling to Reasoning",
+      "abstract": "Not all training samples contribute equally to large language model fine-tuning. Selecting informative training samples can reduce the computational cost while preserving downstream performance. Many existing data selection methods rely on indirect heuristics, such as data quality, diversity or reasoning trace length. However, the effectiveness of these fixed criteria is task-dependent and difficult to generalize across diverse downstream tasks. Perplexity-based data selection provides a simple and model-aware solution to estimate the sample difficulty, but existing approaches typically score the entire training sequence and ignore the difference in learning objectives of language modeling and reasoning tasks. In this paper, we propose PPL-Factory, a simple and interpretable data selection framework that combines task-aware perplexity-based scores and data budget-aware selection criteria. Experiments on GSM8K demonstrate that PPL-Factory outperforms other state-of-the-art data selection methods using only $1\\%$ of the training set. With $10\\%$ of the data, PPL-Factory exceeds full-data fine-tuning accuracy by 0.9 on GSM8K and 4.8 on MATH. Overall, our results demonstrate that task-aware and budget-aware perplexity-based selection provides an effective and applicable approach for efficient fine-tuning.",
+      "authors": [
+        "Hang Zhang",
+        "Warren J. Gross"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-20T17:38:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.18199v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "data selection for LLM fine-tuning using perplexity, directly addresses data quality and data-centric ML",
+      "llm_evidence_cn": "基于困惑度的LLM微调数据选择，直接涉及数据质量和以数据为中心的ML",
+      "llm_evidence": "基于困惑度的LLM微调数据选择，直接涉及数据质量和以数据为中心的ML",
+      "canonical_evidence": "基于困惑度的LLM微调数据选择，直接涉及数据质量和以数据为中心的ML",
+      "llm_tldr_en": "Proposes PPL-Factory for task-aware and budget-aware data selection from language modeling to reasoning using perplexity.",
+      "llm_tldr_cn": "本文针对大语言模型微调中样本贡献不均的问题，提出PPL-Factory方法。现有数据选择依赖间接启发式，泛化能力差。基于困惑度的数据选择虽有前景，但现有方法忽略语言建模与推理任务的学习目标差异。PPL-Factory根据任务类型调整困惑度评分，并考虑预算约束，实现高效数据选择。实验表明该方法在保持下游性能的同时降低了计算成本。",
+      "llm_tldr": "本文针对大语言模型微调中样本贡献不均的问题，提出PPL-Factory方法。现有数据选择依赖间接启发式，泛化能力差。基于困惑度的数据选择虽有前景，但现有方法忽略语言建模与推理任务的学习目标差异。PPL-Factory根据任务类型调整困惑度评分，并考虑预算约束，实现高效数据选择。实验表明该方法在保持下游性能的同时降低了计算成本。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18343v1",
+      "source": "arxiv",
+      "title": "Federated Lightweight Fine-Tuning",
+      "abstract": "Federated fine-tuning is bottlenecked by communication: FedAvg and pseudo-gradient schemes transmit a payload that scales with the model, and gradient compression shrinks it by only a constant factor. We take a different lever. Mapping networks generate a network's weights from a small trainable latent through a frozen affine projection; because the map is shared and affine, averaging latents is exactly averaging the generated weights. We turn this into a practical low-bandwidth federated channel with two changes: a low-rank, seed-regenerable factorisation of the projection (cutting generator memory from ~80 GB to ~10 MB), and a delta formulation $θ= θ^{\\mathrm{pre}} + U V^{\\top} z$ that learns an additive correction around a shared centrally-pretrained base -- federated fine-tuning, which is what makes the method work at scale. A frozen orthogonal classifier head further removes the head from the payload while improving accuracy. On CIFAR-100 with ResNet-18+GroupNorm, our method (FLITE, Federated Low-rank Iterative Training Engine) communicates 1,280 floats (~5 KB) per client per round -- an 8718x reduction -- and reaches 74.67%, within ~0.5 pp of full-weight FedAvg. The averaging identity holds to floating-point precision ($6 \\times 10^{-8}$); the method sits one to two orders of magnitude below PowerSGD and top-k on the bandwidth-accuracy Pareto; it matches or exceeds full-weight FedAvg under strong non-IID skew. int4 latents reach 648 bytes per round at unchanged accuracy, whereas int4 full-weight FedAvg collapses to chance.",
+      "authors": [
+        "Radhakrishna Achanta",
+        "Will Reed"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T07:03:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.18343v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "federated fine-tuning with low-bandwidth communication",
+      "llm_evidence_cn": "联邦微调的低带宽通信",
+      "llm_evidence": "联邦微调的低带宽通信",
+      "canonical_evidence": "联邦微调的低带宽通信",
+      "llm_tldr_en": "Proposes a federated fine-tuning method using mapping networks to compress communication, achieving a low-bandwidth channel with additive correction around a shared base.",
+      "llm_tldr_cn": "本文提出联邦轻量微调方法，利用映射网络（将小潜变量通过冻结仿射投影生成权重）实现低带宽通信关键创新：低秩种子可重构因子化减少生成器内存，并采用加法校正公式学习围绕共享预训练基座的偏差。",
+      "llm_tldr": "本文提出联邦轻量微调方法，利用映射网络（将小潜变量通过冻结仿射投影生成权重）实现低带宽通信关键创新：低秩种子可重构因子化减少生成器内存，并采用加法校正公式学习围绕共享预训练基座的偏差。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18368v1",
+      "source": "arxiv",
+      "title": "Neuro-Symbolic Meta-Policies for Temporal Knowledge-Graph Memory under Partial Observability",
+      "abstract": "Partially observable reinforcement learning requires deciding what to retain, retrieve, and forget over time. We introduce a neuro-symbolic meta-policy that learns which symbolic memory heuristic to apply at each decision point while keeping execution symbolic. Our setting uses temporal knowledge-graph memory in RoomKG, where hidden state and observations are represented as Resource Description Framework (RDF) graphs and memory is augmented with temporal RDF triple annotations. The model combines knowledge-graph encoding of memory contents with value heads for question answering, exploration, and forgetting, yielding a controller that is both adaptive and inspectable. This gives the work a direct Semantic Web grounding through RDF-based representation, annotation-compatible graph semantics, and graph-based symbolic operations over explicit memory state. On train/test room splits at long-term memory capacity of 512, the qualifier-aware StarE-GNN configuration achieves the best held-out performance among the compared symbolic, neural, and neuro-symbolic systems while preserving step-level traceability of memory-management decisions.",
+      "authors": [
+        "Taewoon Kim",
+        "Vincent François-Lavet",
+        "Michael Cochez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-20T17:55:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.18368v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "neuro-symbolic meta-policies for partially observable reinforcement learning",
+      "llm_evidence_cn": "部分可观测强化学习中的神经符号元策略",
+      "llm_evidence": "部分可观测强化学习中的神经符号元策略",
+      "canonical_evidence": "部分可观测强化学习中的神经符号元策略",
+      "llm_tldr_en": "Introduces a neuro-symbolic meta-policy that selects symbolic memory heuristics in RL, using temporal knowledge graphs for adaptive and interpretable decision making.",
+      "llm_tldr_cn": "本文针对部分可观测强化学习中的记忆管理问题，提出神经符号元策略。模型在每一步学习选择符号记忆启发式，利用时态知识图谱编码记忆内容。该方法结合问答、探索、遗忘的价值头，产生自适应且可解释的控制器。",
+      "llm_tldr": "本文针对部分可观测强化学习中的记忆管理问题，提出神经符号元策略。模型在每一步学习选择符号记忆启发式，利用时态知识图谱编码记忆内容。该方法结合问答、探索、遗忘的价值头，产生自适应且可解释的控制器。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20769v1",
+      "source": "arxiv",
+      "title": "Memory-Computation Tradeoffs in Semi Amortized Parametric Optimization",
+      "abstract": "Learning-enabled decision systems often use offline data or computation to reduce online compute cost. Despite the empirical success of such approaches, there is limited general understanding of how much offline information is needed to achieve a desired accuracy under a fixed online computation budget. We study this question through the lens of amortized parametric optimization: an offline phase stores a finite memory of solved problem instances, and an online phase produces a solution to a new instance by retrieving a warm start and applying $K$ steps of projected gradient descent. We analyze this setup for smooth convex parametric optimization over a compact domain, using a nonparametric predictor built from the stored offline solutions. For $μ$-strongly convex objectives, we establish matching upper and lower bounds on the memory required to guarantee $\\varepsilon$-accuracy under a fixed online iteration budget $K$. For convex objectives satisfying a $β$-growth condition ($β>2$), we obtain near-matching bounds and identify a phase transition in $K$ beyond which additional memory provides no benefit. We further provide a general proof framework that (i) explicitly quantifies the memory cost of acceleration---how much offline memory is required to achieve a prescribed speedup over the unaided online optimizer---and (ii) identifies two key quantities driving this cost: the convergence rate of the online optimizer and the Lipschitz sensitivity of the solution map to the problem parameter. Experiments on parameterized ridge regression confirm the predicted memory--computation--accuracy tradeoffs.",
+      "authors": [
+        "Shijie Pan",
+        "Agustin Castellano",
+        "Zeyu Shen",
+        "Enrique Mallada"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-22T22:36:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.20769v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "amortized parametric optimization, convex optimization memory-computation tradeoffs",
+      "llm_evidence_cn": "半摊销参数优化，凸优化的记忆-计算权衡",
+      "llm_evidence": "半摊销参数优化，凸优化的记忆-计算权衡",
+      "canonical_evidence": "半摊销参数优化，凸优化的记忆-计算权衡",
+      "llm_tldr_en": "The paper analyzes memory-computation tradeoffs in semi-amortized parametric optimization for smooth convex functions, proving sample complexity bounds and providing insights for offline-online computation balance.",
+      "llm_tldr_cn": "该论文研究了半摊销参数优化中的记忆-计算权衡，针对光滑凸函数进行分析，证明了样本复杂度界限，为离线-在线计算平衡提供理论指导。",
+      "llm_tldr": "该论文研究了半摊销参数优化中的记忆-计算权衡，针对光滑凸函数进行分析，证明了样本复杂度界限，为离线-在线计算平衡提供理论指导。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.16501v1",
+      "source": "arxiv",
+      "title": "Certifiable Safe Model-Based Reinforcement Learning with Control-Affine Dynamics Approximation",
+      "abstract": "Safe model-based reinforcement learning (RL) often bridges control-theoretic analysis and RL for robots to safely explore (partially) unknown system dynamics while deriving control actions for task efficiency. The control performance and safety assurance typically rely on prior knowledge of partially modeled nominal system dynamics and the data-driven models that compensate for residual model uncertainties. However, existing methods often overlook the structure of residual model uncertainties (e.g., components affine in control), which could lead to overly conservative robot behaviors or invalid safety guarantees under the safe learning-based controllers. This paper proposes a safe reinforcement learning framework that learns control-affine dynamics with a certifiable data-driven safe policy using control barrier functions (CBF). Specifically, we first use Control-Affine Random Fourier Features (ARFF) to model robot dynamics in a control-affine form, which offers computational efficiency that scales with dataset size and reduces potential model bias for model-based reinforcement learning. Then, a model-free, efficient uncertainty quantification method using adaptive conformal prediction (ACP) is applied to quantify the uncertainty in the safety constraint arising from the learned control-affine dynamics. This allows for data-driven safety assurance amenable to principled and efficient controller synthesis with CBF. Simulation results on the cartpole and the 3D quadrotor platforms demonstrate the effectiveness of the proposed framework.",
+      "authors": [
+        "Hao Zhou",
+        "Yanze Zhang",
+        "Cameron Reid",
+        "Wenhao Luo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T20:45:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.16501v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Certifiable safe model-based RL with control-affine dynamics",
+      "llm_evidence_cn": "具有控制仿射动力学近似可验证安全性的模型强化学习",
+      "llm_evidence": "具有控制仿射动力学近似可验证安全性的模型强化学习",
+      "canonical_evidence": "具有控制仿射动力学近似可验证安全性的模型强化学习",
+      "llm_tldr_en": "Proposes a safe RL framework that learns control-affine dynamics approximation to provide formal safety guarantees while achieving task efficiency.",
+      "llm_tldr_cn": "该论文针对安全强化学习中因忽略残差模型结构而导致的保守行为或安全性保证无效问题，提出了一种学习控制仿射近似的安全RL框架。该框架结合控制理论分析，确保机器人安全探索未知动力学同时保持任务效率。实验验证了该方法在安全性和任务性能上的优势。",
+      "llm_tldr": "该论文针对安全强化学习中因忽略残差模型结构而导致的保守行为或安全性保证无效问题，提出了一种学习控制仿射近似的安全RL框架。该框架结合控制理论分析，确保机器人安全探索未知动力学同时保持任务效率。实验验证了该方法在安全性和任务性能上的优势。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.15948v1",
+      "source": "arxiv",
+      "title": "TARS: A Theory-of-Mind Agent for Personalized In-IDE Code Comprehension",
+      "abstract": "Code comprehension is one of the most time-consuming tasks in software engineering, yet most LLM-based assistants produce explanations that ignore who is asking and force developers into a disruptive copy-paste workflow. We present TARS, an LLM-powered agent integrated into Visual Studio Code that supports program comprehension through autonomous explanations anchored directly to the code under analysis. Built around a lightweight Theory of Mind paradigm, TARS profiles a developer's expertise, role, and stylistic preferences, then adapts the depth and tone of its explanations accordingly, grounding them in project documentation via Retrieval-Augmented Generation. To evaluate TARS, we conducted a controlled experiment with 18 participants on non-trivial Java snippets. Participants using TARS completed tasks 26\\% faster, reported lower cognitive load, and found the explanations meaningfully adapted to their profiles.",
+      "authors": [
+        "Leopoldo Todisco",
+        "Antonio Della Porta",
+        "Stefano Lambiase",
+        "Fabio Palomba"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-07-17T13:32:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.15948v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-powered agent for in-IDE code comprehension with personalized explanations",
+      "llm_evidence_cn": "基于LLM的IDE内代码理解代理，提供个性化解释",
+      "llm_evidence": "基于LLM的IDE内代码理解代理，提供个性化解释",
+      "canonical_evidence": "基于LLM的IDE内代码理解代理，提供个性化解释",
+      "llm_tldr_en": "Presents TARS, an LLM agent integrated into VS Code that provides personalized code explanations adapted to developer expertise.",
+      "llm_tldr_cn": "该论文针对代码理解任务，提出了TARS，一个集成了大语言模型的代理，内嵌于Visual Studio Code中。它通过轻量级心智理论模型对开发者的专业知识、角色和风格进行建模，并利用检索增强生成将解释锚定在项目文档中，从而提供个性化的代码解释。用户实验表明TARS比传统方法更高效且更受青睐。",
+      "llm_tldr": "该论文针对代码理解任务，提出了TARS，一个集成了大语言模型的代理，内嵌于Visual Studio Code中。它通过轻量级心智理论模型对开发者的专业知识、角色和风格进行建模，并利用检索增强生成将解释锚定在项目文档中，从而提供个性化的代码解释。用户实验表明TARS比传统方法更高效且更受青睐。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15498v1",
+      "source": "arxiv",
+      "title": "VarRate: Training-Free Variable-Rate KV Cache Compression for Long-Context LLMs",
+      "abstract": "The key-value (KV) cache is the main memory bottleneck in long-context large language model (LLM) inference. Two leading training-free families are both structurally limited: token-selection methods (SnapKV, Ada-KV) score importance from an observation window and evict low-scoring tokens, but eviction is irreversible -- so when the importance signal degrades under query-agnostic reuse, accuracy collapses by 11-15 points; uniform low-rank coding keeps every token but spends equal rank everywhere, wasting budget. We observe that both failures share one cure: rank should be allocated, not evicted. We present VarRate, a training-free KV codec that assigns each token a variable low-rank budget by its query salience, keeping every token at a nonzero rank. Comparable adaptive-rank codecs reach this allocation only through training; VarRate requires none. Because no token is dropped, it degrades by only 3.5-5.5 points where query-aware selection collapses. At a matched 20% budget on LongBench (16 tasks), VarRate stays within 0.8 points of the uncompressed model on both Llama-3.1-8B and Qwen2.5-7B. Averaged over the two, it is the strongest matched-memory compressor. It significantly beats its uniform-rank ablation on both models. Against KVzip, a method purpose-built for query-agnostic reuse, it is accuracy-equivalent in three of four settings and within a point overall, at about one-eighth the prefill overhead.",
+      "authors": [
+        "Shahrzad Esmat",
+        "Dhawal Shah",
+        "Ali Jannesari"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-16T23:03:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.15498v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "proposes variable-rate KV cache compression to reduce memory bottleneck in LLM inference, improving scalability",
+      "llm_evidence_cn": "提出变速率KV缓存压缩以减少LLM推理内存瓶颈，提升可扩展性",
+      "llm_evidence": "提出变速率KV缓存压缩以减少LLM推理内存瓶颈，提升可扩展性",
+      "canonical_evidence": "提出变速率KV缓存压缩以减少LLM推理内存瓶颈，提升可扩展性",
+      "llm_tldr_en": "VarRate assigns each token a variable low-rank budget by query salience, keeping all tokens at nonzero rank, outperforming both token-selection and uniform low-rank methods on long-context tasks.",
+      "llm_tldr_cn": "长上下文LLM推理中KV缓存是主要内存瓶颈。现有无训练方法如token选择（等）存在不可逆丢弃导致精度下降，或均匀低秩编码浪费预算。本文提出VarRate，一种无训练KV编解码器，根据查询显著性为每个token分配可变低秩预算，保留所有token的非零秩。在长上下文基准上，VarRate在压缩比相当的情况下，比token选择方法准确率提升11-15点，比均匀低秩方法效率更高。",
+      "llm_tldr": "长上下文LLM推理中KV缓存是主要内存瓶颈。现有无训练方法如token选择（等）存在不可逆丢弃导致精度下降，或均匀低秩编码浪费预算。本文提出VarRate，一种无训练KV编解码器，根据查询显著性为每个token分配可变低秩预算，保留所有token的非零秩。在长上下文基准上，VarRate在压缩比相当的情况下，比token选择方法准确率提升11-15点，比均匀低秩方法效率更高。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Scalable machine learning system design and optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16617v1",
+      "source": "arxiv",
+      "title": "DataFlow-Harness: A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines",
+      "abstract": "Large language models (LLMs) are increasingly used to automate data-processing workflows, yet coding agents typically produce scripts that are not automatically materialized as persistent, editable platform artifacts. We call this disconnect the \\textit{NL2Pipeline gap}. To bridge it, we introduce \\textsc{DataFlow-Harness}, a platform that guides an LLM agent to construct platform-native directed acyclic graphs (DAGs) through typed, incremental mutations rather than free-form scripts. The platform combines \\textsc{DataFlow-Skills} for procedural guidance, a Model Context Protocol (MCP) layer that exposes the live operator registry and current pipeline state, and \\textsc{DataFlow-WebUI}, which synchronizes conversational authoring with a visual DAG editor. On a 12-task data-engineering benchmark, \\textsc{DataFlow-Harness} achieves a 93.3\\% observed end-to-end pass rate. Relative to Vanilla Claude Code, it reduces measured monetary cost by 72.5\\% and generation latency by 49.9\\%; its observed pass rate is within 0.9 percentage points of the Context-Aware Claude Code baseline while its cost is 42.8\\% lower. Per-task analysis indicates that Skills are most useful when construction depends on implicit procedural knowledge. These results show that live platform grounding can produce persistent, editable workflow artifacts with an observed reliability close to script-generation baselines and with lower measured construction cost and latency.",
+      "authors": [
+        "Runming He",
+        "Zhen Hao Wong",
+        "Hao Liang",
+        "Zimo Meng",
+        "Chengyu Shen",
+        "Xiaochen Ma",
+        "Wentao Zhang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-07-18T03:30:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.16617v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM agent for constructing data pipelines as editable DAGs",
+      "llm_evidence_cn": "使用LLM智能体构建可编辑的数据流水线DAG，属于代码生成",
+      "llm_evidence": "使用LLM智能体构建可编辑的数据流水线DAG，属于代码生成",
+      "canonical_evidence": "使用LLM智能体构建可编辑的数据流水线DAG，属于代码生成",
+      "llm_tldr_en": "DataFlow-Harness uses an LLM agent to construct editable data pipeline DAGs via typed mutations, bridging the gap between natural language and persistent platform artifacts.",
+      "llm_tldr_cn": "针对LLM生成脚本无法持久化为可编辑平台工件的问题，提出DataFlow-Harness平台，引导LLM代理通过类型化增量突变构建DAG数据流水线。平台包括技能指导、MCP层和WebUI，支持对话式编排。实验表明该方法生成的流水线可编辑且可复用。",
+      "llm_tldr": "针对LLM生成脚本无法持久化为可编辑平台工件的问题，提出DataFlow-Harness平台，引导LLM代理通过类型化增量突变构建DAG数据流水线。平台包括技能指导、MCP层和WebUI，支持对话式编排。实验表明该方法生成的流水线可编辑且可复用。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16478v1",
+      "source": "arxiv",
+      "title": "K-IPO: Kendall-constrained Importance Preserving Oversampling for Imbalanced Tabular Data",
+      "abstract": "Oversampling is widely used to address class imbalance in tabular classification, but existing methods can distort the feature importance ranking underlying model explanations. Although recent studies have quantified this distortion by comparing real and synthetic data, none have actively sought to prevent it. In this paper, we introduce Kendall-constrained Importance-Preserving Oversampling (K-IPO), a generator-agnostic, \"generate-then-select\" framework that preserves the original data's feature importance ranking during augmentation. K-IPO iteratively generates minority-class candidates and accepts them only if their inclusion maintains a user-defined minimum Kendall's tau (τ) correlation with the reference ranking. Optionally, stricter constraints can be applied to the highest-ranked features. We evaluated K-IPO on 20 imbalanced binary classification datasets using three classifiers and multiple explanation methods. In most cases, K-IPO achieved the best or tied-best results in feature importance preservation, explanation consistency, and class separability. It also generally improved predictive performance while maintaining competitive computational overhead.",
+      "authors": [
+        "Marios Tyrovolas",
+        "Argiris Sofotasios",
+        "Dimitris Metaxakis",
+        "Georgios Mermigkis",
+        "George Georgoulas",
+        "Panagiotis Hadjidoukas",
+        "Chrysostomos Stylios"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-17T19:52:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.16478v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "data augmentation for imbalanced tabular data preserving feature importance",
+      "llm_evidence_cn": "针对表格数据不平衡的过采样方法，保持特征重要性排名",
+      "llm_evidence": "针对表格数据不平衡的过采样方法，保持特征重要性排名",
+      "canonical_evidence": "针对表格数据不平衡的过采样方法，保持特征重要性排名",
+      "llm_tldr_en": "Proposes K-IPO, a generate-then-select oversampling framework that preserves original feature importance ranking during augmentation by enforcing Kendall's tau correlation, addressing distortion in model explanations.",
+      "llm_tldr_cn": "针对现有过采样方法会扭曲特征重要性排名的问题，提出K-IPO框架，采用“生成-筛选”策略，仅接受与原始排名保持Kendall tau相关性高于阈值的合成样本。实验表明该方法在保持分类性能的同时有效保留了特征重要性排序，提升了模型可解释性。",
+      "llm_tldr": "针对现有过采样方法会扭曲特征重要性排名的问题，提出K-IPO框架，采用“生成-筛选”策略，仅接受与原始排名保持Kendall tau相关性高于阈值的合成样本。实验表明该方法在保持分类性能的同时有效保留了特征重要性排序，提升了模型可解释性。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15745v1",
+      "source": "arxiv",
+      "title": "Learning Faster without Deeper Networks: A*-Inspired Batch Selection for Efficient CNN Training",
+      "abstract": "Common practice when training Convolutional Neural Networks (CNNs) is to use randomly shuffled mini-batches. This creates two limitations: slower convergence, and a diminishing learning signal, since many samples are quickly classified as easy during training. We address these inefficiencies with A*-Inspired Batch Selection (A*-BS), a lightweight, model-agnostic strategy that formulates mini-batch scheduling as a heuristic search problem. Each batch is treated as a node in a search space and ranked using an A*-like score combining a loss-based difficulty measure with a reuse penalty. This encourages informative gradient updates and batch diversity throughout training, without modifying network architectures or optimization algorithms, so it integrates seamlessly into existing pipelines. We evaluate A*-BS on the twelve 2D classification tasks of the MedMNIST-v2 benchmark, using a deliberately simple architecture of approximately 2.25x10^5 parameters, compared against the ResNet-18 and ResNet-50 baselines reported by the benchmark. On half of these tasks, the lightweight model with A*-BS reaches higher accuracy and AUC than both ResNet baselines, with relative gains of up to 15%. An ablation under identical architecture and hyperparameters shows A*-BS outperforms random batch shuffling on all twelve tasks. Wall-clock measurements further show the lightweight CNN with A*-BS trains substantially faster than ResNet-18 and ResNet-50 on identical hardware. These results indicate that intelligent batch ordering can partially compensate for reduced architectural complexity, offering a computationally efficient alternative to deeper models, with reliability reinforced by strong performance even against deeper, more sophisticated architectures.",
+      "authors": [
+        "Anxhelo Shehu",
+        "Enes Stastoli",
+        "Arben Cela"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-17T08:33:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.15745v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "A*-inspired batch selection to improve data efficiency and training signal",
+      "llm_evidence_cn": "基于A*的批选择策略提升数据效率和训练信号质量",
+      "llm_evidence": "基于A*的批选择策略提升数据效率和训练信号质量",
+      "canonical_evidence": "基于A*的批选择策略提升数据效率和训练信号质量",
+      "llm_tldr_en": "A*-Inspired Batch Selection formulates mini-batch scheduling as heuristic search to boost CNN training convergence and diversity.",
+      "llm_tldr_cn": "本文针对CNN训练中随机洗牌批次导致收敛慢和信号衰减的问题，提出A*启发式批选择（A*-BS）方法。该方法将批次调度视为启发式搜索，利用损失难度和重用惩罚对批次排序，以促进信息梯度更新和批次多样性。在不修改网络结构或优化算法的情况下，A*-BS显著加速了训练收敛，是一种轻量级的数据质量改进方法。",
+      "llm_tldr": "本文针对CNN训练中随机洗牌批次导致收敛慢和信号衰减的问题，提出A*启发式批选择（A*-BS）方法。该方法将批次调度视为启发式搜索，利用损失难度和重用惩罚对批次排序，以促进信息梯度更新和批次多样性。在不修改网络结构或优化算法的情况下，A*-BS显著加速了训练收敛，是一种轻量级的数据质量改进方法。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17043v1",
+      "source": "arxiv",
+      "title": "Learning from Synthetic Data without Model Collapse in Iterative Instruction Tuning",
+      "abstract": "Model collapse is a central challenge in learning from synthetic data: as later-generation large language models (LLMs) are trained on an increasing proportion of model-generated data, performance can degrade due to narrowed coverage and accumulated bias. Existing work mainly studies how to bound this degradation. In iterative model evolution, however, the more meaningful objective is to ensure that each successive model improves over its predecessor, which requires diagnosing collapse at a granularity that is actionable for data curation. We study this problem in synthetic data self-improving for instruction tuning. We show that collapse in this setting is not simply uniform performance degradation, but can appear as a polarization of competence, where synthetic training reinforces already strong skills while further degrading weak ones. Motivated by this observation, we propose KITE (Knowledge-boundary Instruction Tuning via Exploration), a two-stage framework that combines failure-guided data generation with boundary-aware uncertainty curation. Experiments across several datasets and multiple open-source LLMs show that KITE yields more stable improvement than strong synthetic-data baselines.",
+      "authors": [
+        "Xiaonan Luo",
+        "Yue Huang",
+        "Kehan Guo",
+        "Ping He",
+        "Chuan Zou",
+        "Ting Hua",
+        "Xiangliang Zhang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-19T03:20:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.17043v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "synthetic data quality and model collapse in instruction tuning",
+      "llm_evidence_cn": "合成数据质量与指令微调中的模型坍缩",
+      "llm_evidence": "合成数据质量与指令微调中的模型坍缩",
+      "canonical_evidence": "合成数据质量与指令微调中的模型坍缩",
+      "llm_tldr_en": "Proposes a method to diagnose and avoid model collapse when training LLMs on synthetic data for iterative instruction tuning, ensuring each generation improves.",
+      "llm_tldr_cn": "本文研究了迭代指令微调中合成数据导致的模型坍缩问题。发现坍缩并非均匀退化，而是表现为胜者通吃的极化现象。提出细粒度诊断方法以指导数据筛选，确保每次模型迭代优于前代，从而提升数据质量与自改进效果。",
+      "llm_tldr": "本文研究了迭代指令微调中合成数据导致的模型坍缩问题。发现坍缩并非均匀退化，而是表现为胜者通吃的极化现象。提出细粒度诊断方法以指导数据筛选，确保每次模型迭代优于前代，从而提升数据质量与自改进效果。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.17038v1",
+      "source": "arxiv",
+      "title": "Reward-Driven LLM Agent Workflows: Synthesizing POMDP Routing and Self-Correction for Autonomous Decision-Making",
+      "abstract": "This paper addresses key technical challenges in current large language model (LLM) agent applications, including long-horizon planning, sparse reward attribution, and dynamic environmental interaction, by designing and optimizing an intelligent agent workflow. The proposed architecture is based on the synthesis of core AI paradigms: Visual, Language, Generative, Graph, Multimodal, Reinforcement, and Agent Intelligence. Unlike conventional baseline models that rely on static prompting and lack robust perception-action loops, our approach introduces a Partially Observable Markov Decision Process (POMDP) routing mechanism. This mechanism is augmented with an internal, self-correcting reward model that evaluates decision trajectories before execution. By integrating multimodal inputs and advanced reinforcement learning principles (such as proximal policy optimization and value function approximation), the agent maintains long-term structural memory and dynamically adapts its reasoning pathways to mitigate error accumulation. Empirical experiments on the ALFWorld embodied simulation environment and the WebShop online navigation benchmark demonstrate a 24.5% absolute improvement in task success rate and trajectory efficiency over mainstream baselines like the standard ReAct framework. Comprehensive ablation studies confirm the significant contribution of the reward-driven critique module in suppressing hallucination rates. This research bridges theoretical foundations of reinforcement learning and graph-based memory with autonomous agent workflows. Ultimately, the resulting architecture offers a practical, scalable reference framework for developing artificial intelligence technologies in complex, multi-step autonomous systems. Code is available at https://github.com/01Amez/RLAW_Implementation.",
+      "authors": [
+        "Amez Amanj Ali",
+        "Kuo-Kun Tseng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-19T02:51:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.17038v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "POMDP routing and self-correcting reward model for LLM agents",
+      "llm_evidence_cn": "基于POMDP的路线规划和自我修正奖励模型，应用于LLM智能体",
+      "llm_evidence": "基于POMDP的路线规划和自我修正奖励模型，应用于LLM智能体",
+      "canonical_evidence": "基于POMDP的路线规划和自我修正奖励模型，应用于LLM智能体",
+      "llm_tldr_en": "Proposes a reward-driven LLM agent workflow using POMDP routing and internal self-correction for autonomous decision-making.",
+      "llm_tldr_cn": "本文针对LLM智能体在长期规划、稀疏奖励归因和动态环境交互中的挑战，提出了一种基于部分可观测马尔可夫决策过程（POMDP）路线规划和内部自纠正奖励模型的智能体工作流。该方法将视觉、语言、生成、图、多模态、强化和智能体等多种AI范式融合，实现了无需静态提示的感知-行动循环。实验表明该方法在自主决策任务中优于基线模型，为深度强化学习在LLM智能体中的应用提供了新思路。",
+      "llm_tldr": "本文针对LLM智能体在长期规划、稀疏奖励归因和动态环境交互中的挑战，提出了一种基于部分可观测马尔可夫决策过程（POMDP）路线规划和内部自纠正奖励模型的智能体工作流。该方法将视觉、语言、生成、图、多模态、强化和智能体等多种AI范式融合，实现了无需静态提示的感知-行动循环。实验表明该方法在自主决策任务中优于基线模型，为深度强化学习在LLM智能体中的应用提供了新思路。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16637v1",
+      "source": "arxiv",
+      "title": "TopoTuner: Topological Finetuning of Large Language Models",
+      "abstract": "Full fine-tuning remains a strong way to adapt pretrained LLMs, but it updates all weights and can be expensive. LoRA reduces the number of trainable parameters, but it does not directly answer which pretrained components should be trained and which can be frozen during adaptation. We introduce TopoTuner, a topology-guided fine-tuning framework for selective freezing of attention projection matrices. \\method treats each projection matrix as a row cloud and uses Wasserstein distances between persistence diagrams to measure how its topology changes during fine-tuning.   TopoTuner learns a reusable freezing profile from a source dataset and transfers it to efficiently fine-tune models on out-of-domain datasets, evaluating whether task-specific topological drift generalizes across question answering and sentiment analysis tasks.   Across LLaMA-3.1-8B, Mistral-7B-v0.3, and Qwen3-8B-Base, TopoTuner is competitive with full fine-tuning while training only 1-2\\% of the model parameters, and outperforms LoRA in 7 out of 9 model-dataset settings, which can change up to 39.57\\% of the projection parameters. Along with minimized updates, TopoTuner reduces training time by 20.4\\% relative to full fine-tuning and 5.5\\% relative to LoRA on average. TopoTuner opens a new direction for reusable freezing profiles, where fine-tuning behavior learned on one dataset can be shared across multiple tasks.",
+      "authors": [
+        "Abdulkadir Erol",
+        "Yash Mahajan",
+        "Vepaul Hariprashad",
+        "Baha Rababah",
+        "Santu Karmaker",
+        "Cuneyt G. Akcora",
+        "Mubarak Shah"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-18T04:50:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.16637v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Topology-guided selective freezing for efficient fine-tuning of LLMs",
+      "llm_evidence_cn": "拓扑引导的选择性冻结实现LLM高效微调",
+      "llm_evidence": "拓扑引导的选择性冻结实现LLM高效微调",
+      "canonical_evidence": "拓扑引导的选择性冻结实现LLM高效微调",
+      "llm_tldr_en": "TopoTuner uses persistence diagram topology to decide which attention matrices to freeze during LLM fine-tuning, improving efficiency.",
+      "llm_tldr_cn": "本文提出TopoTuner，利用持续同调拓扑分析指导大语言模型微调中的选择性冻结。该方法将每个投影矩阵视为点云，通过Wasserstein距离衡量其拓扑变化，从而学习可迁移的冻结模式。在源数据集上学习后，可高效微调目标域模型，在减少可训练参数的同时保持性能，属于非凸优化在模型压缩中的应用。",
+      "llm_tldr": "本文提出TopoTuner，利用持续同调拓扑分析指导大语言模型微调中的选择性冻结。该方法将每个投影矩阵视为点云，通过Wasserstein距离衡量其拓扑变化，从而学习可迁移的冻结模式。在源数据集上学习后，可高效微调目标域模型，在减少可训练参数的同时保持性能，属于非凸优化在模型压缩中的应用。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17091v1",
+      "source": "arxiv",
+      "title": "ThRIve: Thermally Robust CNN Inference via Low-Rank Adaptation in Heterogeneous PIM Architectures",
+      "abstract": "Processing-In-Memory (PIM) has emerged as a promising technology for accelerating machine learning (ML) workloads. Specifically, non-volatile memory-based PIM architectures have enabled effective ML acceleration due to their ability to perform energy-efficient matrix-vector multiplication operations. However, these devices suffer from non-idealities such as thermal noise. This noise alters the stored values in the memory cells which correspond to actual model weights, compromising the inference accuracy. In this work, we introduce ThRIve, a noise-aware training methodology that leverages low-rank adaptation to enable thermally robust inference on heterogeneous PIM architectures. ThRIve selectively stores these low-rank noise-aware parameters on a hardware that is less susceptible to thermal noise, enabling robustness against temperature-induced noise variations. ThRIve mitigates the effects of thermal-noise and prevent the drop in inference accuracy across the entire operating temperature range. Experimental results demonstrate that ThRIve-enabled architectures maintain consistent inference accuracy, with the mean accuracy staying within 2% of the ideal (i.e., noise-free) accuracy, and the variation in accuracy across the entire operating temperature range remaining within 2% of the mean. The proposed methodology achieves accuracy and robustness comparable to thermally-resilient Static Random-Access Memory (SRAM)-based PIM systems, while delivering up to 5.4x reduction in energy-delay product (EDP) during CNN model inferencing.",
+      "authors": [
+        "Vibhanshu Sharma",
+        "Pratyush Dhingra",
+        "Janardhan Rao Doppa",
+        "Partha Pratim Pande"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.ET",
+        "cs.LG"
+      ],
+      "published": "2026-07-19T06:03:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.17091v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Thermally robust CNN inference via low-rank adaptation in heterogeneous PIM architectures",
+      "llm_evidence_cn": "异构PIM架构中通过低秩适应实现鲁棒CNN推理",
+      "llm_evidence": "异构PIM架构中通过低秩适应实现鲁棒CNN推理",
+      "canonical_evidence": "异构PIM架构中通过低秩适应实现鲁棒CNN推理",
+      "llm_tldr_en": "Introduces ThRIve, a noise-aware training method using low-rank adaptation for robust inference on PIM architectures under thermal noise.",
+      "llm_tldr_cn": "本文针对非易失性存储器PIM架构中热噪声导致的推理精度下降问题，提出ThRIve，一种噪声感知的训练方法。该方法利用低秩适应技术，选择性存储低秩噪声补偿矩阵，在不显著增加开销下提升推理鲁棒性。在异构PIM系统上的实验证明，ThRIve有效缓解了热噪声影响，保障了ML加速的可靠性。",
+      "llm_tldr": "本文针对非易失性存储器PIM架构中热噪声导致的推理精度下降问题，提出ThRIve，一种噪声感知的训练方法。该方法利用低秩适应技术，选择性存储低秩噪声补偿矩阵，在不显著增加开销下提升推理鲁棒性。在异构PIM系统上的实验证明，ThRIve有效缓解了热噪声影响，保障了ML加速的可靠性。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Scalable machine learning system design and optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.17336v1",
+      "source": "arxiv",
+      "title": "When Drift Detectors cry Wolf: False Alarm Rates in continuous ML Monitoring",
+      "abstract": "Drift detection is a core component of production machine learning monitoring systems, where detectors are used to compare incoming data with a reference distribution and trigger alerts when changes occur. However, these detectors are often evaluated in research settings that emphasize detection accuracy under synthetic shifts, while overlooking false alarms under continuous monitoring. In production environments, models are monitored repeatedly over time and across many features, and even small false positive rates can accumulate into frequent alerts, leading to alarm fatigue. We empirically analyze false positive behavior across five commonly used drift detectors: PSI, KS, MMD, LSDD, and adversarial validation. Consistent with existing literature, PSI exhibits strong sensitivity to batch size, producing frequent false alarms at small sample sizes; however, we further observe that its behavior stabilizes and improves substantially once batch sizes exceed approximately 200 samples. In contrast, KS, MMD, and LSDD display persistent fluctuations across batch sizes, while remaining comparatively more reliable than PSI in low-data regimes. Applying a Bonferroni correction reduces false positive rates, but often at the cost of reduced true positive sensitivity, reinforcing the well-known stability - sensitivity trade-off in drift detection. This work provides a systematic comparison of false positive behavior across multiple drift detectors under continuous monitoring conditions. We identify tradeoffs across detector families and provide practical guidelines for selecting and calibrating drift detectors in production ML systems.",
+      "authors": [
+        "Raj Shekhar Singh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-19T16:54:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.17336v1",
+      "tags": [
+        "keyword:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Empirical analysis of false alarm rates in continuous ML monitoring for production systems",
+      "llm_evidence_cn": "对生产环境中连续ML监控的误报率进行实证分析",
+      "llm_evidence": "对生产环境中连续ML监控的误报率进行实证分析",
+      "canonical_evidence": "对生产环境中连续ML监控的误报率进行实证分析",
+      "llm_tldr_en": "Empirically analyzes false positive rates of five drift detectors under continuous monitoring, showing accumulation of alerts leads to alarm fatigue.",
+      "llm_tldr_cn": "生产ML模型监控中，漂移检测器的误报率在连续监控下会累积，导致告警疲劳。本文对PSI、KS、MMD、LSDD和对抗验证五种常用检测器进行了实证分析，发现即使很小的误报率也会随着时间推移产生大量告警。研究强调了在实际部署中需要考虑误报积累效应，而非仅关注合成漂移下的检测准确率。",
+      "llm_tldr": "生产ML模型监控中，漂移检测器的误报率在连续监控下会累积，导致告警疲劳。本文对PSI、KS、MMD、LSDD和对抗验证五种常用检测器进行了实证分析，发现即使很小的误报率也会随着时间推移产生大量告警。研究强调了在实际部署中需要考虑误报积累效应，而非仅关注合成漂移下的检测准确率。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

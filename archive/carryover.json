@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-25T01:54:47.739494+00:00",
-  "updated_date": "20260716-20260725",
+  "generated_at": "2026-07-25T21:07:19.808955+00:00",
+  "updated_date": "20260725",
   "carryover_days": 9,
   "tag_states": {
     "code-ml-sys": {
-      "updated_date": "20260716-20260725",
+      "updated_date": "20260725",
       "carryover_days": 9,
       "items": [
         {
@@ -28,13 +28,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "robust asynchronous Q-learning algorithm against adversarial corruption",
-          "llm_evidence_cn": "鲁棒异步Q学习算法抵御对抗性破坏",
-          "llm_evidence": "鲁棒异步Q学习算法抵御对抗性破坏",
-          "canonical_evidence": "鲁棒异步Q学习算法抵御对抗性破坏",
-          "llm_tldr_en": "Proposes BR-Async-Q, an epoch-based robust Q-learning algorithm that batches data and constructs robust Bellman operator estimates against reward and state corruption.",
-          "llm_tldr_cn": "本文研究在奖励和状态观测被对抗性破坏的恶劣环境下的强化学习问题，提出BR-Async-Q算法。该算法将在线数据流划分为批次以降低方差，并基于批次数据构造鲁棒的贝尔曼最优算子估计。理论分析证明了与标准Q-learning匹配的L无穷误差界。该方法为强化学习在安全关键应用中的部署提供了理论基础。",
-          "llm_tldr": "本文研究在奖励和状态观测被对抗性破坏的恶劣环境下的强化学习问题，提出BR-Async-Q算法。该算法将在线数据流划分为批次以降低方差，并基于批次数据构造鲁棒的贝尔曼最优算子估计。理论分析证明了与标准Q-learning匹配的L无穷误差界。该方法为强化学习在安全关键应用中的部署提供了理论基础。",
+          "llm_evidence_en": "Robust asynchronous Q-learning under adversarial corruption via batching",
+          "llm_evidence_cn": "通过批处理实现对抗性损坏下的鲁棒异步Q学习",
+          "llm_evidence": "通过批处理实现对抗性损坏下的鲁棒异步Q学习",
+          "canonical_evidence": "通过批处理实现对抗性损坏下的鲁棒异步Q学习",
+          "llm_tldr_en": "Proposes BR-Async-Q, a robust Q-learning algorithm that defends against adversarial reward and state corruption via batching.",
+          "llm_tldr_cn": "本文研究对抗性损坏下强化学习的鲁棒策略学习问题。提出BR-Async-Q算法，通过将在线数据流分区成批次以降低方差，并利用批次数据构建Bellman最优算子的鲁棒估计，从而抵御奖励和状态观察的Huber污染。理论证明了与标准Q学习相同量级的高概率误差界。",
+          "llm_tldr": "本文研究对抗性损坏下强化学习的鲁棒策略学习问题。提出BR-Async-Q算法，通过将在线数据流分区成批次以降低方差，并利用批次数据构建Bellman最优算子的鲁棒估计，从而抵御奖励和状态观察的Huber污染。理论证明了与标准Q学习相同量级的高概率误差界。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -43,46 +43,6 @@
           "matched_requirement_id": "req-5",
           "selection_source": "carryover_cache",
           "paper_id": "2607.20822v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.16850v1",
-          "source": "arxiv",
-          "title": "Group Entropy-Controlled Policy Optimization",
-          "abstract": "Entropy control has become an effective tool in reinforcement learning (RL) of large language models (LLMs), helping balance exploration-exploitation trade-off during alignment process. Such RL paradigm is often conducted on mixtures of heterogeneous tasks, which induce distinct entropy regimes under the same policy, making global or token-level entropy regulation insufficient to corresponding heterogeneous needs of exploration. This heterogeneity further makes GRPO-style normalized advantages induce an entropy-dependent bias, making advantage signals across prompt groups statistically non-comparable. To address this issue, we propose Group Entropy-Controlled Policy Optimization (GEPO), a lightweight extension to GRPO that uses group entropy, estimated from existing grouped samples to perform entropy-conditioned asymmetric advantage shaping. GEPO attenuates positive advantages in low-entropy groups to reduce over-exploitation, and negative advantages in high-entropy groups to preserve exploration, with adaptive thresholds derived from historical entropy statistics. Extensive experiments on two base models across thirteen benchmarks spanning mathematics, physics, science, code generation, and instruction following show that GEPO consistently outperforms GRPO and recent entropy-controlled methods, delivering balanced cross-task improvements while preserving task-specific exploration levels throughout training.",
-          "authors": [
-            "Guangran Cheng",
-            "Chengqi Lyu",
-            "Songyang Gao",
-            "Wenwei Zhang",
-            "Kai Chen"
-          ],
-          "primary_category": "cs.CL",
-          "categories": [
-            "cs.CL"
-          ],
-          "published": "2026-07-18T15:13:33+00:00",
-          "link": "https://arxiv.org/pdf/2607.16850v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "entropy-controlled policy optimization for RL with LLMs",
-          "llm_evidence_cn": "面向LLM强化学习的熵控策略优化",
-          "llm_evidence": "面向LLM强化学习的熵控策略优化",
-          "canonical_evidence": "面向LLM强化学习的熵控策略优化",
-          "llm_tldr_en": "Proposes Group Entropy-Controlled Policy Optimization (GEPO), extending GRPO with group entropy estimation to handle heterogeneous tasks in LLM alignment.",
-          "llm_tldr_cn": "针对LLM强化学习对齐中任务异构导致熵需求不同的问题，提出群体熵控策略优化（GEPO）。该方法利用分组采样估计群体熵，并动态调整策略的探索与利用权衡，从而解决GRPO风格优势函数因熵偏置导致跨组不可比的问题。实验表明GEPO在多任务对齐中优于现有方法，同时保持轻量级。该工作提升了RL在LLM训练中的稳定性和效果。",
-          "llm_tldr": "针对LLM强化学习对齐中任务异构导致熵需求不同的问题，提出群体熵控策略优化（GEPO）。该方法利用分组采样估计群体熵，并动态调整策略的探索与利用权衡，从而解决GRPO风格优势函数因熵偏置导致跨组不可比的问题。实验表明GEPO在多任务对齐中优于现有方法，同时保持轻量级。该工作提升了RL在LLM训练中的稳定性和效果。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "deep reinforcement learning algorithms and applications",
-          "matched_requirement_id": "req-5",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.16850v1",
           "carry_days": 1
         },
         {
@@ -110,13 +70,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "Cost-efficient token-level SLM-LLM collaborative inference system design",
-          "llm_evidence_cn": "代价高效的词级小-大语言模型协作推理系统设计",
-          "llm_evidence": "代价高效的词级小-大语言模型协作推理系统设计",
-          "canonical_evidence": "代价高效的词级小-大语言模型协作推理系统设计",
-          "llm_tldr_en": "PyroDash enables cost-efficient token-level collaboration between a small and a frozen large LM, with three-stage training.",
-          "llm_tldr_cn": "论文针对大模型推理成本高的问题，提出PyroDash框架，让小模型在生成时通过发射控制词决定是否请求大模型协助。采用三段式训练：控制词嵌入学习、卸载导向微调等，在保持性能的同时显著降低推理成本。",
-          "llm_tldr": "论文针对大模型推理成本高的问题，提出PyroDash框架，让小模型在生成时通过发射控制词决定是否请求大模型协助。采用三段式训练：控制词嵌入学习、卸载导向微调等，在保持性能的同时显著降低推理成本。",
+          "llm_evidence_en": "Token-level collaborative inference between small and large LLMs for cost efficiency",
+          "llm_evidence_cn": "小/大语言模型在token级的协作推理以提升成本效率",
+          "llm_evidence": "小/大语言模型在token级的协作推理以提升成本效率",
+          "canonical_evidence": "小/大语言模型在token级的协作推理以提升成本效率",
+          "llm_tldr_en": "PyroDash enables token-level SLM-LLM collaboration where SLM decides when to request LLM help, reducing inference cost.",
+          "llm_tldr_cn": "本文提出PyroDash框架，实现小语言模型（SLM）和大语言模型（LLM）在token级别的协作推理。SLM通过生成控制token决定何时请求LLM协助，无需额外路由器或LLM重新训练。通过三阶段训练（控制token嵌入学习、卸载导向的监督微调等），PyroDash在保持推理质量的同时大幅降低服务成本，适用于大规模LLM部署。",
+          "llm_tldr": "本文提出PyroDash框架，实现小语言模型（SLM）和大语言模型（LLM）在token级别的协作推理。SLM通过生成控制token决定何时请求LLM协助，无需额外路由器或LLM重新训练。通过三阶段训练（控制token嵌入学习、卸载导向的监督微调等），PyroDash在保持推理质量的同时大幅降低服务成本，适用于大规模LLM部署。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -125,51 +85,6 @@
           "matched_requirement_id": "req-8",
           "selection_source": "carryover_cache",
           "paper_id": "2607.20327v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.17715v1",
-          "source": "arxiv",
-          "title": "C$^2$KV: Compressed and Composable KV Cache Reuse for Efficient LLM Inference",
-          "abstract": "Long-context inference is central to modern large language model (LLM) applications such as retrieval-augmented generation and multi-document reasoning. To mitigate the growing inference cost, recent work has explored key-value (KV) cache reuse to reduce redundant prefill computation. However, existing reuse methods primarily focus on computation savings and overlook a critical bottleneck in long-context LLM serving: the cost of storing and accessing large KV caches. While KV compression appears to be a natural complement, naively combining compression with non-prefix KV reuse often leads to severe accuracy degradation. In this work, we propose C$^2$KV, a unified framework for non-prefix KV reuse that jointly optimizes KV extraction and inference-time concatenation. C$^2$KV learns a composable and compressed KV cache manifold that is explicitly designed to be position-agnostic. Our approach introduces a lightweight sidecar Extractor with learnable compression tokens and a structured attention flow, enabling modular KV representations that can be flexibly reused and concatenated without modifying the frozen base model. We further employ a compression-concatenation co-training strategy to align extraction-time representations with their downstream reuse behavior. Extensive experiments across multiple long-context benchmarks and model families demonstrate that C$^2$KV significantly reduces KV cache storage and transfer costs, achieving up to 17$\\times$ inference speedup under long contexts, while preserving generation quality.",
-          "authors": [
-            "Chuheng Du",
-            "Junyi Chen",
-            "Hanlin Tang",
-            "Kan Liu",
-            "Tao Lan",
-            "Lin Qu",
-            "Chaoyue Niu",
-            "Shengzhong Liu",
-            "Guihai Chen",
-            "Fan Wu"
-          ],
-          "primary_category": "cs.CL",
-          "categories": [
-            "cs.CL"
-          ],
-          "published": "2026-07-20T09:09:23+00:00",
-          "link": "https://arxiv.org/pdf/2607.17715v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Compressed and composable KV cache reuse for efficient LLM inference, optimizing ML system scalability",
-          "llm_evidence_cn": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
-          "llm_evidence": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
-          "canonical_evidence": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
-          "llm_tldr_en": "C2KV jointly optimizes KV extraction and inference for non-prefix reuse, reducing storage and latency while maintaining accuracy.",
-          "llm_tldr_cn": "论文针对长上下文LLM推理中KV缓存存储成本高的问题，提出C2KV统一框架。它联合优化KV提取和推理，实现非前缀KV复用，同时通过压缩减少缓存开销。实验表明该方法在保持准确率的同时显著降低了存储和延迟。",
-          "llm_tldr": "论文针对长上下文LLM推理中KV缓存存储成本高的问题，提出C2KV统一框架。它联合优化KV提取和推理，实现非前缀KV复用，同时通过压缩减少缓存开销。实验表明该方法在保持准确率的同时显著降低了存储和延迟。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "Scalable machine learning system design and optimization",
-          "matched_requirement_id": "req-8",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.17715v1",
           "carry_days": 1
         },
         {
@@ -233,13 +148,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "Offline RL with conservative query and adaptive regularization under uncertainty estimation",
-          "llm_evidence_cn": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
-          "llm_evidence": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
-          "canonical_evidence": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
-          "llm_tldr_en": "Proposes conservative query selection and adaptive regularization for offline RL to improve policy learning from limited data with expert feedback.",
-          "llm_tldr_cn": "离线强化学习受限于静态数据集覆盖，现有方法查询选择与反馈利用不佳。本文提出保守查询选择策略与自适应正则化方法，基于不确定性估计选择信息量大的偏好查询，并动态调整约束强度。在多个离线RL基准上取得更好性能。",
-          "llm_tldr": "离线强化学习受限于静态数据集覆盖，现有方法查询选择与反馈利用不佳。本文提出保守查询选择策略与自适应正则化方法，基于不确定性估计选择信息量大的偏好查询，并动态调整约束强度。在多个离线RL基准上取得更好性能。",
+          "llm_evidence_en": "Offline RL with preference queries and adaptive regularization",
+          "llm_evidence_cn": "离线强化学习结合偏好查询与自适应正则化",
+          "llm_evidence": "离线强化学习结合偏好查询与自适应正则化",
+          "canonical_evidence": "离线强化学习结合偏好查询与自适应正则化",
+          "llm_tldr_en": "Proposes Conservative Query and Adaptive Regularization for Offline RL to improve policy learning from static datasets using expert feedback.",
+          "llm_tldr_cn": "该论文针对离线强化学习中因数据集覆盖有限导致策略性能受限的问题，提出了一种结合保守查询与自适应正则化的方法。通过利用不确定性估计选择更具信息量的偏好查询，并动态调整正则化约束，避免了策略更新不稳定。在多个基准数据集上的实验表明，该方法显著优于现有离线RL算法，为利用专家反馈提升离线学习提供了一种稳健且有效的解决方案。",
+          "llm_tldr": "该论文针对离线强化学习中因数据集覆盖有限导致策略性能受限的问题，提出了一种结合保守查询与自适应正则化的方法。通过利用不确定性估计选择更具信息量的偏好查询，并动态调整正则化约束，避免了策略更新不稳定。在多个基准数据集上的实验表明，该方法显著优于现有离线RL算法，为利用专家反馈提升离线学习提供了一种稳健且有效的解决方案。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -248,81 +163,6 @@
           "matched_requirement_id": "req-5",
           "selection_source": "carryover_cache",
           "paper_id": "2607.19199v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.17175v1",
-          "source": "arxiv",
-          "title": "LMEdge: QoS-Aware LLM Inference Orchestration on Edge Clusters",
-          "abstract": "Large language model (LLM) services increasingly operate on edge infrastructure, enabling low-latency and privacy-preserving AI services. However, efficiently serving LLM requests across heterogeneous and resource-constrained edge devices require orchestration mechanisms that jointly determine model configuration (family, size, and quantization level) and execution placement while satisfying user- and system-level quality of service (QoS) requirements. This paper introduces LMEdge, a QoS-aware orchestration service that dynamically makes these decisions across heterogeneous edge devices. We formulate the problem as a binary integer linear programming (BILP) optimization that minimizes response time under accuracy, network, and resource constraints. To enable scalable online scheduling, we employ five lightweight machine learning (ML) models to predict query-specific latency, accuracy, resource usage, and response size for each model-size-quantization-device combination, and design a lightweight heuristic that approximates the BILP solution. We collect a comprehensive benchmarking dataset of over 59000 rows to train models and support reproducibility. Evaluation on a Kubernetes-based edge testbed with 57 instances and diverse query categories shows that LMEdge reduces latency, preserves accuracy, improves resource utilization, and increases serving ratio compared to two baselines.",
-          "authors": [
-            "Reza Farahani",
-            "Zoha Azimi",
-            "Mario Colosi",
-            "Schahram Dustdar"
-          ],
-          "primary_category": "cs.DC",
-          "categories": [
-            "cs.DC"
-          ],
-          "published": "2026-07-19T10:21:30+00:00",
-          "link": "https://arxiv.org/pdf/2607.17175v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "QoS-aware LLM inference orchestration across heterogeneous edge clusters, a distributed ML system optimization problem",
-          "llm_evidence_cn": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
-          "llm_evidence": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
-          "canonical_evidence": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
-          "llm_tldr_en": "LMEdge formulates LLM inference orchestration on edge as a BILP problem, jointly optimizing model configuration and placement under QoS constraints.",
-          "llm_tldr_cn": "在资源受限的异构边缘设备上高效部署LLM服务需要联合决定模型配置和执行位置。本文提出LMEdge，将问题建模为二元整数线性规划，最小化响应时间同时满足精度、网络和资源约束。采用贪心求解器实现实时决策，实验证明在满足QoS的前提下显著降低延迟。",
-          "llm_tldr": "在资源受限的异构边缘设备上高效部署LLM服务需要联合决定模型配置和执行位置。本文提出LMEdge，将问题建模为二元整数线性规划，最小化响应时间同时满足精度、网络和资源约束。采用贪心求解器实现实时决策，实验证明在满足QoS的前提下显著降低延迟。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "distributed machine learning system design and optimization",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.17175v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.17927v1",
-          "source": "arxiv",
-          "title": "(Over)Reliance on Test Agents in AI-Assisted Software Testing",
-          "abstract": "AI-based test agents promise to accelerate software testing by shortening feedback loops in continuous development and improving scalability and maintainability. To realize these benefits, engineers must still be able to assess if agent outputs are useful, valid, and reliable, rather than treating them as credible because they come from a capable system. This paper argues that overreliance on AI in testing is both an agency problem, in which engineers may cede cognitive control over test design decisions, and an assurance problem, in which testing artifacts may be accepted as evidence without sufficient scrutiny. We develop this argument through three theoretical lenses: software testing as cognitive problem-solving, test agents as adaptively autonomous entities, and test design argumentation as a means of making generated tests reviewable. We propose a framework for collecting data on overreliance in test agent workflows and identify specific modes of overdependence. The goal is to support accelerated testing without weakening judgment or the assurance value of testing evidence.",
-          "authors": [
-            "Eduard Paul Enoiu"
-          ],
-          "primary_category": "cs.SE",
-          "categories": [
-            "cs.SE"
-          ],
-          "published": "2026-07-20T13:23:49+00:00",
-          "link": "https://arxiv.org/pdf/2607.17927v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Analysis of overreliance on AI agents in software testing",
-          "llm_evidence_cn": "AI辅助软件测试中过度依赖问题的理论分析",
-          "llm_evidence": "AI辅助软件测试中过度依赖问题的理论分析",
-          "canonical_evidence": "AI辅助软件测试中过度依赖问题的理论分析",
-          "llm_tldr_en": "This paper argues that overreliance on AI test agents presents both agency and assurance problems, analyzed through cognitive, autonomy, and sociotechnical lenses, providing guidance for reliable testing.",
-          "llm_tldr_cn": "本文探讨AI测试代理的过度依赖问题，认为工程师可能将认知控制让渡给代理（代理问题），并且测试制品可能未经充分审查而被接受（保证问题）。通过三个理论视角：软件测试作为认知问题解决、测试代理作为自适应自主实体、以及社会技术系统，建立了分析框架。该研究对于设计可靠的AI辅助测试系统具有重要指导意义，但未提出具体方法。",
-          "llm_tldr": "本文探讨AI测试代理的过度依赖问题，认为工程师可能将认知控制让渡给代理（代理问题），并且测试制品可能未经充分审查而被接受（保证问题）。通过三个理论视角：软件测试作为认知问题解决、测试代理作为自适应自主实体、以及社会技术系统，建立了分析框架。该研究对于设计可靠的AI辅助测试系统具有重要指导意义，但未提出具体方法。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "automated software testing and bug detection using ml",
-          "matched_requirement_id": "req-6",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.17927v1",
           "carry_days": 1
         },
         {
@@ -365,45 +205,6 @@
           "carry_days": 1
         },
         {
-          "id": "2607.20769v1",
-          "source": "arxiv",
-          "title": "Memory-Computation Tradeoffs in Semi Amortized Parametric Optimization",
-          "abstract": "Learning-enabled decision systems often use offline data or computation to reduce online compute cost. Despite the empirical success of such approaches, there is limited general understanding of how much offline information is needed to achieve a desired accuracy under a fixed online computation budget. We study this question through the lens of amortized parametric optimization: an offline phase stores a finite memory of solved problem instances, and an online phase produces a solution to a new instance by retrieving a warm start and applying $K$ steps of projected gradient descent. We analyze this setup for smooth convex parametric optimization over a compact domain, using a nonparametric predictor built from the stored offline solutions. For $μ$-strongly convex objectives, we establish matching upper and lower bounds on the memory required to guarantee $\\varepsilon$-accuracy under a fixed online iteration budget $K$. For convex objectives satisfying a $β$-growth condition ($β>2$), we obtain near-matching bounds and identify a phase transition in $K$ beyond which additional memory provides no benefit. We further provide a general proof framework that (i) explicitly quantifies the memory cost of acceleration---how much offline memory is required to achieve a prescribed speedup over the unaided online optimizer---and (ii) identifies two key quantities driving this cost: the convergence rate of the online optimizer and the Lipschitz sensitivity of the solution map to the problem parameter. Experiments on parameterized ridge regression confirm the predicted memory--computation--accuracy tradeoffs.",
-          "authors": [
-            "Shijie Pan",
-            "Agustin Castellano",
-            "Zeyu Shen",
-            "Enrique Mallada"
-          ],
-          "primary_category": "cs.LG",
-          "categories": [
-            "cs.LG"
-          ],
-          "published": "2026-07-22T22:36:27+00:00",
-          "link": "https://arxiv.org/pdf/2607.20769v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Memory-computation tradeoffs in convex parametric optimization",
-          "llm_evidence_cn": "凸参数优化中的内存-计算权衡",
-          "llm_evidence": "凸参数优化中的内存-计算权衡",
-          "canonical_evidence": "凸参数优化中的内存-计算权衡",
-          "llm_tldr_en": "This paper analyzes memory-computation tradeoffs in semi-amortized convex parametric optimization, deriving sample complexity bounds for achieving target accuracy with projected gradient descent under fixed online budget.",
-          "llm_tldr_cn": "本文从理论角度分析了半摊销参数优化中的内存-计算权衡：离线存储有限数量的已解决问题实例作为记忆，在线时通过检索热启动并应用K步投影梯度下降求解新问题。针对光滑凸参数优化，推导了达到目标精度所需的最小离线样本数。该工作为数据驱动的决策系统提供了理论指导，直接对应凸优化在机器学习中的应用需求。",
-          "llm_tldr": "本文从理论角度分析了半摊销参数优化中的内存-计算权衡：离线存储有限数量的已解决问题实例作为记忆，在线时通过检索热启动并应用K步投影梯度下降求解新问题。针对光滑凸参数优化，推导了达到目标精度所需的最小离线样本数。该工作为数据驱动的决策系统提供了理论指导，直接对应凸优化在机器学习中的应用需求。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "convex and nonconvex optimization for machine learning",
-          "matched_requirement_id": "req-3",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.20769v1",
-          "carry_days": 1
-        },
-        {
           "id": "2607.19704v1",
           "source": "arxiv",
           "title": "Efficient Clustering with Provable Guardrails for LLM Inference at Scale",
@@ -428,13 +229,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "clustering-based method to scale LLM inference with quality guarantees",
-          "llm_evidence_cn": "基于聚类的LLM推理扩展方法，提供质量保证",
-          "llm_evidence": "基于聚类的LLM推理扩展方法，提供质量保证",
-          "canonical_evidence": "基于聚类的LLM推理扩展方法，提供质量保证",
-          "llm_tldr_en": "Efficient Clustering with Provable Guardrails enables scalable LLM inference by clustering inputs and only processing representatives, with guarantees on similarity and exact attribute matching.",
-          "llm_tldr_cn": "本文提出一种高效聚类算法，用于规模化部署LLM推理时降低延迟和成本。通过两阶段方法（Mini-batch K-Means初始聚类+贪心选择代表样本），保证每个样本与代表之间的最小相似度和分类属性精确匹配。在千万级样本上仍保持可扩展性，为LLM推理系统优化提供了实用的质量可控聚类方案。",
-          "llm_tldr": "本文提出一种高效聚类算法，用于规模化部署LLM推理时降低延迟和成本。通过两阶段方法（Mini-batch K-Means初始聚类+贪心选择代表样本），保证每个样本与代表之间的最小相似度和分类属性精确匹配。在千万级样本上仍保持可扩展性，为LLM推理系统优化提供了实用的质量可控聚类方案。",
+          "llm_evidence_en": "Clustering with provable guardrails for efficient LLM inference at scale",
+          "llm_evidence_cn": "带可证明护栏的聚类方法用于大规模LLM推理",
+          "llm_evidence": "带可证明护栏的聚类方法用于大规模LLM推理",
+          "canonical_evidence": "带可证明护栏的聚类方法用于大规模LLM推理",
+          "llm_tldr_en": "Two-stage clustering algorithm with provable quality guarantees to reduce LLM inference cost at scale.",
+          "llm_tldr_cn": "本文针对大规模LLM应用中的推理成本和延迟瓶颈，提出一种两阶段聚类算法。首先使用Mini-batch K-Means生成初始簇，然后通过贪心选择代表样本，并保证每个成员与代表之间的相似度阈值。该方法能扩展到数千万样本，同时提供每个样本的质量保证，有效降低了LLM推理开销。",
+          "llm_tldr": "本文针对大规模LLM应用中的推理成本和延迟瓶颈，提出一种两阶段聚类算法。首先使用Mini-batch K-Means生成初始簇，然后通过贪心选择代表样本，并保证每个成员与代表之间的相似度阈值。该方法能扩展到数千万样本，同时提供每个样本的质量保证，有效降低了LLM推理开销。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -545,13 +346,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "analyzes test coverage of agentic PRs from AI coding agents",
-          "llm_evidence_cn": "分析AI编程代理生成拉取请求的测试覆盖率",
-          "llm_evidence": "分析AI编程代理生成拉取请求的测试覆盖率",
-          "canonical_evidence": "分析AI编程代理生成拉取请求的测试覆盖率",
-          "llm_tldr_en": "Analyzes 4882 agent-generated PRs, finding only 49.6% include test changes and existing tests often provide limited coverage, highlighting gaps in autonomous testing.",
-          "llm_tldr_cn": "随着AI编程代理自主提交完整拉取请求，确保其代码经过充分测试至关重要。本文分析4882个代理生成的PR后发现，仅在49.6%的PR中代理包含了测试更改，且现有测试对代码变更的覆盖率有限。该研究揭示了自主化软件开发中测试环节的薄弱点，为改进代理测试行为提供了数据支撑。",
-          "llm_tldr": "随着AI编程代理自主提交完整拉取请求，确保其代码经过充分测试至关重要。本文分析4882个代理生成的PR后发现，仅在49.6%的PR中代理包含了测试更改，且现有测试对代码变更的覆盖率有限。该研究揭示了自主化软件开发中测试环节的薄弱点，为改进代理测试行为提供了数据支撑。",
+          "llm_evidence_en": "Test coverage analysis of AI agent-generated pull requests for automated testing",
+          "llm_evidence_cn": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
+          "llm_evidence": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
+          "canonical_evidence": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
+          "llm_tldr_en": "Analyzes 4882 agent-generated PRs and finds only 49.6% include test changes, with low coverage from existing and agent-written tests.",
+          "llm_tldr_cn": "AI编码智能体越来越多地自动生成拉取请求，但对其测试覆盖情况知之甚少。本文分析了AIDev数据集中4882个智能体生成的PR（Java和Python），发现仅有49.6%的PR包含测试修改，现有测试和智能体编写的测试对代码变更的覆盖不足。研究揭示了自主代码生成中测试缺失的风险。",
+          "llm_tldr": "AI编码智能体越来越多地自动生成拉取请求，但对其测试覆盖情况知之甚少。本文分析了AIDev数据集中4882个智能体生成的PR（Java和Python），发现仅有49.6%的PR包含测试修改，现有测试和智能体编写的测试对代码变更的覆盖不足。研究揭示了自主代码生成中测试缺失的风险。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -560,49 +361,6 @@
           "matched_requirement_id": "req-6",
           "selection_source": "carryover_cache",
           "paper_id": "2607.18057v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.16478v1",
-          "source": "arxiv",
-          "title": "K-IPO: Kendall-constrained Importance Preserving Oversampling for Imbalanced Tabular Data",
-          "abstract": "Oversampling is widely used to address class imbalance in tabular classification, but existing methods can distort the feature importance ranking underlying model explanations. Although recent studies have quantified this distortion by comparing real and synthetic data, none have actively sought to prevent it. In this paper, we introduce Kendall-constrained Importance-Preserving Oversampling (K-IPO), a generator-agnostic, \"generate-then-select\" framework that preserves the original data's feature importance ranking during augmentation. K-IPO iteratively generates minority-class candidates and accepts them only if their inclusion maintains a user-defined minimum Kendall's tau (τ) correlation with the reference ranking. Optionally, stricter constraints can be applied to the highest-ranked features. We evaluated K-IPO on 20 imbalanced binary classification datasets using three classifiers and multiple explanation methods. In most cases, K-IPO achieved the best or tied-best results in feature importance preservation, explanation consistency, and class separability. It also generally improved predictive performance while maintaining competitive computational overhead.",
-          "authors": [
-            "Marios Tyrovolas",
-            "Argiris Sofotasios",
-            "Dimitris Metaxakis",
-            "Georgios Mermigkis",
-            "George Georgoulas",
-            "Panagiotis Hadjidoukas",
-            "Chrysostomos Stylios"
-          ],
-          "primary_category": "cs.LG",
-          "categories": [
-            "cs.LG",
-            "cs.AI"
-          ],
-          "published": "2026-07-17T19:52:55+00:00",
-          "link": "https://arxiv.org/pdf/2607.16478v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "K-IPO oversampling method preserves feature importance ranking during data augmentation",
-          "llm_evidence_cn": "K-IPO过采样方法在数据增强中保持特征重要性排序",
-          "llm_evidence": "K-IPO过采样方法在数据增强中保持特征重要性排序",
-          "canonical_evidence": "K-IPO过采样方法在数据增强中保持特征重要性排序",
-          "llm_tldr_en": "Introduces K-IPO, a generate-then-select framework that preserves original feature importance ranking during oversampling, mitigating distortion from synthetic data.",
-          "llm_tldr_cn": "针对不平衡表格分类中过采样方法扭曲特征重要性排序的问题，本文提出K-IPO框架。该框架采用先生成再选择策略，通过Kendall相关系数约束确保合成样本不改变原始特征重要性排名。实验表明K-IPO在保持模型可解释性的同时有效缓解了类别不平衡，为数据增强质量保障提供了新思路。",
-          "llm_tldr": "针对不平衡表格分类中过采样方法扭曲特征重要性排序的问题，本文提出K-IPO框架。该框架采用先生成再选择策略，通过Kendall相关系数约束确保合成样本不改变原始特征重要性排名。实验表明K-IPO在保持模型可解释性的同时有效缓解了类别不平衡，为数据增强质量保障提供了新思路。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "data quality and data augmentation for ml",
-          "matched_requirement_id": "req-4",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.16478v1",
           "carry_days": 1
         },
         {
@@ -626,13 +384,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "Petri-net-guided LLM test generation for concurrent Rust APIs",
-          "llm_evidence_cn": "Petri网引导的大语言模型测试生成用于并发Rust API",
-          "llm_evidence": "Petri网引导的大语言模型测试生成用于并发Rust API",
-          "canonical_evidence": "Petri网引导的大语言模型测试生成用于并发Rust API",
-          "llm_tldr_en": "Combines Petri nets with LLMs to generate executable tests for concurrent stateful Rust APIs, bridging formal scenarios and low-cost test concretization.",
-          "llm_tldr_cn": "生成并发有状态Rust API的可执行测试面临挑战：LLM输出常违反前提条件且缺乏并发结构。本文提出Petri网引导的方法，将API资源生命周期建模为Petri网，再利用LLM将抽象场景实例化为可执行测试。该方法在保持形式化语义控制的同时降低了测试生成成本，有效提高了测试的并发覆盖率。",
-          "llm_tldr": "生成并发有状态Rust API的可执行测试面临挑战：LLM输出常违反前提条件且缺乏并发结构。本文提出Petri网引导的方法，将API资源生命周期建模为Petri网，再利用LLM将抽象场景实例化为可执行测试。该方法在保持形式化语义控制的同时降低了测试生成成本，有效提高了测试的并发覆盖率。",
+          "llm_evidence_en": "Petri-net-guided LLM test generation for concurrent stateful Rust APIs",
+          "llm_evidence_cn": "基于Petri网引导的LLM测试生成",
+          "llm_evidence": "基于Petri网引导的LLM测试生成",
+          "canonical_evidence": "基于Petri网引导的LLM测试生成",
+          "llm_tldr_en": "Addresses automated test generation for concurrent Rust APIs using LLMs guided by Petri nets to improve test correctness and depth.",
+          "llm_tldr_cn": "该论文针对并发有状态Rust API的测试生成问题，提出了一种Petri网引导的方法，利用大语言模型将抽象场景转化为可执行测试。通过Petri网表示API资源流，指导LLM生成符合预条件的测试，解决了现有方法输出浅层或违反预条件的问题。实验表明该方法能生成更正确和深入的并发测试。",
+          "llm_tldr": "该论文针对并发有状态Rust API的测试生成问题，提出了一种Petri网引导的方法，利用大语言模型将抽象场景转化为可执行测试。通过Petri网表示API资源流，指导LLM生成符合预条件的测试，解决了现有方法输出浅层或违反预条件的问题。实验表明该方法能生成更正确和深入的并发测试。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -681,6 +439,531 @@
           "matched_requirement_id": "req-10",
           "selection_source": "carryover_cache",
           "paper_id": "2607.20690v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.21291v1",
+          "source": "arxiv",
+          "title": "Adaptive Depth Sparse Framework: Similarity-Driven Resource Allocation for Pre-Trained LLMs",
+          "abstract": "Large language models (LLMs) achieve strong generation and reasoning performance, but the Transformer architecture incurs high inference cost. Existing acceleration methods often rely on task-specific fine-tuning or training from scratch, increasing adaptation cost and limiting cross-task usability. We present an Adaptive Depth Sparse Framework (AdaDSF) that converts off-the-shelf pre-trained LLMs into depth-sparse models without full retraining. Our key insight is that layers contribute unequally to representation transformation, characterized by the cosine similarity between layer input and output hidden states. Based on this, AdaDSF assigns layer-wise token retention ratios from similarity statistics, uses a lightweight router to select informative tokens at each layer, and introduces a feature-preserving alignment objective to match intermediate and final representations between sparse and dense models. On GPT-NeoX and Qwen2.5 over language modeling and commonsense reasoning, AdaDSF substantially reduces inference FLOPs while preserving performance close to dense counterparts. Under comparable sparsity, AdaDSF consistently yields smaller accuracy degradation than strong baselines including MoD, D-LLM, and DLO.",
+          "authors": [
+            "Yidu Wu",
+            "Xiang Wang",
+            "Kejie Zhao",
+            "Zhangchi Wang",
+            "Qinghai Guo",
+            "Xiaoying Tang"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL",
+            "cs.LG"
+          ],
+          "published": "2026-07-23T13:13:04+00:00",
+          "link": "https://arxiv.org/pdf/2607.21291v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "adaptive depth sparse framework for LLM inference acceleration",
+          "llm_evidence_cn": "自适应深度稀疏框架加速LLM推理",
+          "llm_evidence": "自适应深度稀疏框架加速LLM推理",
+          "canonical_evidence": "自适应深度稀疏框架加速LLM推理",
+          "llm_tldr_en": "Converts pre-trained LLMs into depth-sparse models via similarity-driven token retention, reducing inference cost without full retraining.",
+          "llm_tldr_cn": "本文提出AdaDSF框架，基于层输入输出隐藏态的余弦相似度统计，为每层分配不同的token保留比率，并通过轻量路由器实现动态跳过。无需全量重训练即可加速推理，降低适配成本。",
+          "llm_tldr": "本文提出AdaDSF框架，基于层输入输出隐藏态的余弦相似度统计，为每层分配不同的token保留比率，并通过轻量路由器实现动态跳过。无需全量重训练即可加速推理，降低适配成本。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Scalable machine learning system design and optimization",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21291v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17632v1",
+          "source": "arxiv",
+          "title": "TypiCore: A Hybrid Active Query Strategy for Class-Incremental Learning on Time Series",
+          "abstract": "Time series data play a pivotal role across numerous domains, including healthcare and manufacturing. In real-world environments, models must cope with distribution shifts over time, a challenge commonly addressed through Continual Learning (CL) techniques. However, existing CL methods face a critical limitation: real-world data streams are rarely fully labeled, making annotation cost a major practical constraint. This paper investigates Active Class-Incremental Learning (ACIL) for multivariate time series, where a model must sequentially learn new classes while selectively querying labels under a fixed annotation budget. We present a systematic evaluation of a wide range of query strategies combined with multiple rehearsal-based approaches, assessing their impact on plasticity, stability, and label efficiency across four benchmark datasets. Our analysis reveals the limitations of uncertainty-based and distribution-aware methods in achieving strong performance under constrained labeling budgets. To address these shortcomings, we propose TypiCore, a novel hybrid query strategy that alternates between typicality-based and diversity-based sample selection across active learning cycles, enabling the construction of memory buffers that are both representative and diverse. Evaluated on the TSCIL benchmark, TypiCore delivers statistically significant improvements over all baselines and matches or surpasses fully supervised continual learning performance on multiple datasets while requiring a fraction of the available labels.",
+          "authors": [
+            "Gabor Szucs",
+            "Samuel Jacsev",
+            "Marcell Nemeth",
+            "Davide Dalle Pezze",
+            "Gian Antonio Susto"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "published": "2026-07-20T07:39:17+00:00",
+          "link": "https://arxiv.org/pdf/2607.17632v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Active query strategy for class-incremental learning on time series with annotation budget",
+          "llm_evidence_cn": "用于时间序列类增量学习的主动查询策略",
+          "llm_evidence": "用于时间序列类增量学习的主动查询策略",
+          "canonical_evidence": "用于时间序列类增量学习的主动查询策略",
+          "llm_tldr_en": "Proposes a hybrid active query strategy for class-incremental learning on time series to efficiently use annotation budgets.",
+          "llm_tldr_cn": "该论文关注时间序列类增量学习中的数据标注成本问题，提出了一种混合主动查询策略TypiCore。在固定标注预算下，系统性地评估了多种查询策略与重放方法的组合，旨在选择最具信息量的样本进行标注。实验表明该方法在持续学习场景中能有效提升模型性能，以数据为中心的方式优化了标注效率。",
+          "llm_tldr": "该论文关注时间序列类增量学习中的数据标注成本问题，提出了一种混合主动查询策略TypiCore。在固定标注预算下，系统性地评估了多种查询策略与重放方法的组合，旨在选择最具信息量的样本进行标注。实验表明该方法在持续学习场景中能有效提升模型性能，以数据为中心的方式优化了标注效率。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17632v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.21453v1",
+          "source": "arxiv",
+          "title": "Test-Time Scaling via Error Localization",
+          "abstract": "Scaling inference-time computation has emerged as a reliable method to improve the performance of large language models on complex reasoning and programming tasks. However, standard approaches such as independent sampling and sequential multi-turn refinement operate without token-level credit assignment, resulting in computational inefficiency, since valid reasoning prefixes are frequently discarded. In this work, we introduce Test-Time Scaling via Error Localization (TTEL), an inference-time algorithm that utilizes fixed or environment feedback to perform token-level error localization. By comparing conditional probabilities under informed feedback against a null-context baseline, TTEL isolates the step at which an error occurred. The algorithm then truncates the trajectory and branches a new generation, maximally reusing the valid prefix. Extensive evaluations demonstrate that TTEL establishes strictly dominating Pareto frontiers across sequential reasoning domains, measured by pass-at-k vs. generated-token cost. With Qwen3-8B on LiveCodeBench, TTEL attains a pass@64 of 71.0% while generating approximately half as many tokens as independent sampling (360.4k vs. 735.0k). Generalizing to math benchmarks AIME-2025 and HMMT-2025, TTEL cleanly outperforms competing test-time baselines across both Qwen3-8B and Qwen3-4B-Thinking-2507.",
+          "authors": [
+            "Rajiv Shailesh Chitale",
+            "Rahul Madhavan",
+            "Taneesh Gupta",
+            "Deepanway Ghosal",
+            "Aravindan Raghuveer"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-23T15:55:29+00:00",
+          "link": "https://arxiv.org/pdf/2607.21453v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Test-time scaling via token-level error localization for LLMs on programming tasks",
+          "llm_evidence_cn": "通过令牌级错误定位实现LLM的测试时扩展，用于编程任务",
+          "llm_evidence": "通过令牌级错误定位实现LLM的测试时扩展，用于编程任务",
+          "canonical_evidence": "通过令牌级错误定位实现LLM的测试时扩展，用于编程任务",
+          "llm_tldr_en": "Introduces TTEL, an inference-time algorithm that locates token-level errors for efficient scaling of LLM reasoning in programming tasks.",
+          "llm_tldr_cn": "该论文针对LLM在复杂推理和编程任务中计算效率低的问题，提出了测试时扩展的TTEL算法。该算法利用固定或环境反馈进行令牌级错误定位，通过比较条件概率截断出错轨迹并重新生成，避免了无效推理前缀的浪费。在编程任务上，TTEL在保持性能的同时显著减少了生成开销。",
+          "llm_tldr": "该论文针对LLM在复杂推理和编程任务中计算效率低的问题，提出了测试时扩展的TTEL算法。该算法利用固定或环境反馈进行令牌级错误定位，通过比较条件概率截断出错轨迹并重新生成，避免了无效推理前缀的浪费。在编程任务上，TTEL在保持性能的同时显著减少了生成开销。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21453v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17981v1",
+          "source": "arxiv",
+          "title": "Information-Based Exploration via Random Features for Reinforcement Learning",
+          "abstract": "Representation learning has enabled classical exploration strategies to be extended to deep Reinforcement Learning (RL), but often makes algorithms more complex and theoretical guarantees harder to establish. We introduce Random Feature Information Gain (RFIG), grounded in Bayesian kernel methods theory, which uses random Fourier features to approximate information gain and compute exploration bonuses in non-countable spaces. We provide error bounds on information gain approximation and avoid the black-box aspects of neural network-based uncertainty estimation, for optimism-based exploration. We present practical details that make RFIG scalable to deep RL scenarios, enabling smooth integration into standard deep RL algorithms. Experimental evaluation across diverse control and navigation tasks demonstrates that RFIG achieves competitive performance with well-established deep exploration methods while offering superior theoretical interpretation.",
+          "authors": [
+            "Waris Radji",
+            "Odalric-Ambrym Maillard"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-20T14:15:03+00:00",
+          "link": "https://arxiv.org/pdf/2607.17981v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Information-based exploration via random Fourier features for deep reinforcement learning",
+          "llm_evidence_cn": "基于随机傅里叶特征的信息探索方法用于深度强化学习",
+          "llm_evidence": "基于随机傅里叶特征的信息探索方法用于深度强化学习",
+          "canonical_evidence": "基于随机傅里叶特征的信息探索方法用于深度强化学习",
+          "llm_tldr_en": "Introduces RFIG, which uses random Fourier features to approximate information gain for exploration in deep RL.",
+          "llm_tldr_cn": "该论文针对深度强化学习中的探索问题，提出RFIG算法，利用随机傅里叶特征近似信息增益来计算探索奖励，避免了黑盒神经网络的不确定性估计。方法在非可数状态空间下具有理论保证，并能轻松集成到标准深度RL算法中。实验表明RFIG在连续控制任务上优于现有探索策略。",
+          "llm_tldr": "该论文针对深度强化学习中的探索问题，提出RFIG算法，利用随机傅里叶特征近似信息增益来计算探索奖励，避免了黑盒神经网络的不确定性估计。方法在非可数状态空间下具有理论保证，并能轻松集成到标准深度RL算法中。实验表明RFIG在连续控制任务上优于现有探索策略。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17981v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17143v1",
+          "source": "arxiv",
+          "title": "EdgeCoInfer: Hierarchical Collaborative Inference for On-Device Multimodal Large Models",
+          "abstract": "Modern mobile applications predominantly execute concurrent Multimodal Large Language Models (MLLMs) to provide ubiquitous intelligence. However, satisfying this demand within edge environments faces significant challenges due to multi-task concurrency and strictly coupled hard constraints. To address these issues, we propose EdgeCoInfer, a framework enabling granularity-adaptive deployment by co-optimizing inter-model functional module sharing and \\textbf{intra-model fine-grained partitioning}. We solve the underlying Mixed-Integer Non-Linear Programming (MINLP) problem via a Hybrid Evolutionary Hierarchical Reinforcement Learning (HE-HRL) paradigm, which synchronizes a Genetic Algorithm (GA) for discrete model placement with a Soft Actor-Critic (SAC) agent for continuous resource allocation. To navigate the sparse feasible region, we introduce a feasibility-guided constructive execution mechanism, integrating a constructive cut-step decoder with pre-act pruning and a two-phase curriculum strategy for stable adaptation. Experimental results demonstrate that EdgeCoInfer ensures a 100\\% task completion rate in high-concurrency scenarios, achieving a 76\\% reduction in system cost and 71.88\\% memory savings compared to state-of-the-art baselines.",
+          "authors": [
+            "Lin Tan",
+            "David K. Y. Yau",
+            "Songtao Guo"
+          ],
+          "primary_category": "cs.DC",
+          "categories": [
+            "cs.DC"
+          ],
+          "published": "2026-07-19T08:57:47+00:00",
+          "link": "https://arxiv.org/pdf/2607.17143v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Hierarchical collaborative inference for on-device multimodal large models with MINLP optimization",
+          "llm_evidence_cn": "设备端多模态大模型的分层协同推理及MINLP优化",
+          "llm_evidence": "设备端多模态大模型的分层协同推理及MINLP优化",
+          "canonical_evidence": "设备端多模态大模型的分层协同推理及MINLP优化",
+          "llm_tldr_en": "Proposes EdgeCoInfer, a framework for granularity-adaptive deployment of MLLMs on edge via model sharing and partitioning.",
+          "llm_tldr_cn": "该论文针对边缘设备上并发执行多模态大模型的挑战，提出EdgeCoInfer框架。通过协同优化模型间功能模块共享和模型内细粒度划分，实现粒度自适应的部署。将底层优化建模为混合整数非线性规划，并采用混合进化分层强化学习求解。实验证明在资源受限边缘环境下显著提升多任务并发性能。",
+          "llm_tldr": "该论文针对边缘设备上并发执行多模态大模型的挑战，提出EdgeCoInfer框架。通过协同优化模型间功能模块共享和模型内细粒度划分，实现粒度自适应的部署。将底层优化建模为混合整数非线性规划，并采用混合进化分层强化学习求解。实验证明在资源受限边缘环境下显著提升多任务并发性能。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17143v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.18481v1",
+          "source": "arxiv",
+          "title": "Search-on-Graph-R1: Training Large Language Models to Search Knowledge Graphs with Reinforcement Learning",
+          "abstract": "Knowledge graph question answering (KGQA) requires navigating from topic entities to an answer several relations away. Recent methods prompt a frontier LLM to explore the graph through a retrieval tool, but their reliance on frontier-scale inference makes them costly to deploy. We present Search-on-Graph-R1 (\\sogrone{}), which internalizes this navigation into a compact 8B model through supervised fine-tuning (SFT) followed by reinforcement learning (RL). Our central idea is to scaffold a frontier teacher with each question's gold SPARQL query, so the teacher traverses a known answer-bearing path with a live \\texttt{Search} tool rather than having to discover the path itself. Since every call executes against a live Freebase server, the resulting trajectories are grounded in the knowledge graph by construction. On WebQSP, CWQ, and GrailQA, \\sogrone{} at 8B surpasses every frozen frontier-LLM system in our comparison and posts the strongest results on CWQ of any system we compare against. It does so using no auxiliary module at inference and no LLM judge during training. Isolating each training stage shows that SFT and RL contribute complementary gains, our approach transfers across model families, and RL learns to reach answers in fewer \\texttt{Search} calls than its SFT initialization.",
+          "authors": [
+            "Jia Ao Sun",
+            "Hao Yu",
+            "Fengran Mo",
+            "Zhan Su",
+            "Yuchen Hui",
+            "Bang Liu",
+            "Jian-Yun Nie"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL",
+            "cs.IR"
+          ],
+          "published": "2026-07-20T19:58:32+00:00",
+          "link": "https://arxiv.org/pdf/2607.18481v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "reinforcement learning to train LLMs for knowledge graph search",
+          "llm_evidence_cn": "使用强化学习训练大语言模型以搜索知识图谱",
+          "llm_evidence": "使用强化学习训练大语言模型以搜索知识图谱",
+          "canonical_evidence": "使用强化学习训练大语言模型以搜索知识图谱",
+          "llm_tldr_en": "Search-on-Graph-R1 uses SFT and RL to train a compact LLM to search knowledge graphs, achieving competitive results with frontier models at lower cost.",
+          "llm_tldr_cn": "Search-on-Graph-R1通过监督微调和强化学习将知识图谱搜索能力内化到紧凑的8B模型中，避免依赖高昂的前沿模型推理，在KGQA任务上达到接近前沿模型的性能。",
+          "llm_tldr": "Search-on-Graph-R1通过监督微调和强化学习将知识图谱搜索能力内化到紧凑的8B模型中，避免依赖高昂的前沿模型推理，在KGQA任务上达到接近前沿模型的性能。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.18481v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17913v1",
+          "source": "arxiv",
+          "title": "AutoEncoder-Compressed Parallel Split Learning for Pre-trained Model Fine-Tuning",
+          "abstract": "Distributed Fine-Tuning (DFT) of large-scale Foundation Models (FMs) on resource-constrained edge devices is limited by local compute constraints and communication overhead. Parallel Split Learning (PSL) reduces client-side computation by keeping few model layers on each client and offloading the remaining computation to the server; however, clients must exchange intermediate activations and gradients with the server at every training step. Existing SL communication-compression methods mainly rely on task-agnostic heuristics, such as sparsification and quantization. While learnable SL compressors can better adapt to intermediate representations, they require co-training with the target model. Therefore, directly inserting them into off-the-shelf FMs introduces feature-distribution misalignment and degrades DFT performance. To address this, we propose AE-PSL, a communication-efficient PSL framework that compresses intermediate activations and gradients using a lightweight AutoEncoder (AE) placed at the split layer. To ensure compatibility of AE compression with pre-trained FMs, AE-PSL introduces a novel two-stage alignment mechanism, which adapts the AE to the pre-trained model's feature manifold and client-specific feature distributions before DFT.",
+          "authors": [
+            "Bas Meuwissen",
+            "Vasileios Tsouvalas",
+            "Nirvana Meratnia"
+          ],
+          "primary_category": "cs.DC",
+          "categories": [
+            "cs.DC",
+            "cs.LG"
+          ],
+          "published": "2026-07-20T13:08:41+00:00",
+          "link": "https://arxiv.org/pdf/2607.17913v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "distributed fine-tuning of foundation models with communication compression",
+          "llm_evidence_cn": "分布式微调基础模型，通过自编码器压缩通信，属于分布式机器学习系统",
+          "llm_evidence": "分布式微调基础模型，通过自编码器压缩通信，属于分布式机器学习系统",
+          "canonical_evidence": "分布式微调基础模型，通过自编码器压缩通信，属于分布式机器学习系统",
+          "llm_tldr_en": "Proposes AutoEncoder-compressed Parallel Split Learning for distributed fine-tuning, using learned compressors to reduce communication overhead while maintaining model accuracy.",
+          "llm_tldr_cn": "针对分布式微调基础模型时通信开销大的问题，提出自编码器压缩的并行分割学习，可学习地压缩中间激活和梯度。实验表明该方法在保持模型性能的同时显著降低通信量，适用于资源受限的边缘设备。",
+          "llm_tldr": "针对分布式微调基础模型时通信开销大的问题，提出自编码器压缩的并行分割学习，可学习地压缩中间激活和梯度。实验表明该方法在保持模型性能的同时显著降低通信量，适用于资源受限的边缘设备。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17913v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.21417v1",
+          "source": "arxiv",
+          "title": "Towards Privacy-Preserving Federated Prompt Tuning under Data Heterogeneity: A Subspace-Decomposed Expert Approach",
+          "abstract": "Federated prompt tuning (FPT) enables collaborative adaptation of vision--language models (VLMs) using lightweight prompts. Existing methods often address heterogeneity and privacy through a split-prompt design under local differential privacy (DP), combining a shared prompt for global transfer with private prompts for local adaptation. However, a single shared prompt may over-smooth diverse transferable knowledge, weakening the balance between personalization and generalization. Multi-expert prompts (MEPs) can better capture this diversity, but enlarge the communicated space, increasing DP noise and communication cost while making robust expert composition more difficult. We propose FedSEPT, a privacy-preserving Fed}erated Subspace-decomposed Expert Prompt Tuning. Specifically, we employ Subspace-decomposed Expert Modeling (SEM) to parameterize multiple prompt experts with shared low-rank factors, a fixed public basis, and private residuals, thereby confining communication and DP perturbation to a compact factor space while enabling direct server aggregation in a common coordinate system. We further design Instance-aware Expert Fusion (IEF), which adaptively combines semantically complementary experts via on-device routing and performs efficient logit-level fusion using cached expert-specific text features. Extensive experiments on 11 heterogeneous benchmarks show that, under the same privacy constraints, FedSEPT achieves a better trade-off between local adaptation and global generalization than strong baselines.",
+          "authors": [
+            "Yuhua Wang",
+            "Xiaodong Li",
+            "Yihao Guo",
+            "Yuxiang Jia",
+            "Qinnan Zhang",
+            "Yifan Sun",
+            "Hainan Zhang",
+            "Yongxin Tong",
+            "Zhiming Zheng"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-23T15:22:48+00:00",
+          "link": "https://arxiv.org/pdf/2607.21417v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Federated learning system with prompt tuning and privacy-preserving optimization",
+          "llm_evidence_cn": "联邦提示微调系统的隐私保护与通信优化",
+          "llm_evidence": "联邦提示微调系统的隐私保护与通信优化",
+          "canonical_evidence": "联邦提示微调系统的隐私保护与通信优化",
+          "llm_tldr_en": "Proposes FedSEPT, a privacy-preserving federated prompt tuning framework with subspace-decomposed experts to handle data heterogeneity, balancing personalization and generalization while reducing communication cost and DP noise.",
+          "llm_tldr_cn": "本文针对联邦提示微调中的数据异质性与隐私问题，提出FedSEPT框架。通过子空间分解的多专家提示设计，捕获多样化迁移知识，同时减少通信开销和差分隐私噪声。在保持个性化与泛化平衡方面优于基线。",
+          "llm_tldr": "本文针对联邦提示微调中的数据异质性与隐私问题，提出FedSEPT框架。通过子空间分解的多专家提示设计，捕获多样化迁移知识，同时减少通信开销和差分隐私噪声。在保持个性化与泛化平衡方面优于基线。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21417v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19334v1",
+          "source": "arxiv",
+          "title": "Fundamental limits of distributed multiclass classification from simple binary decisions",
+          "abstract": "We consider the problem of constructing a $K$-class classifier from the combination of $O(\\log K)$ simple binary classifiers -- this is a natural paradigm to construct a sophisticated classifier in a distributed manner with each agent performing a relatively straightforward task. We study the fundamental performance limits of such a classifier when the corresponding binary classifiers are hyperplanes. For a stylized Gaussian setting where the $K$ class centers are independent Gaussian points in $\\mathbb R^d$ and the observations are corrupted by Gaussian noise, we derive explicit performance bounds across several decoding and dimensional regimes. Extensive simulation experiments provide strong empirical validation of the presented theoretical results.",
+          "authors": [
+            "Ioannis Papageorgiou",
+            "Srinivas Nomula",
+            "Ayalvadi Ganesh",
+            "Sidharth Jaggi",
+            "Parimal Parag"
+          ],
+          "primary_category": "stat.ML",
+          "categories": [
+            "stat.ML",
+            "cs.IT",
+            "cs.LG",
+            "math.ST"
+          ],
+          "published": "2026-07-21T17:53:44+00:00",
+          "link": "https://arxiv.org/pdf/2607.19334v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Theoretical analysis of distributed multiclass classification using binary classifiers",
+          "llm_evidence_cn": "分布式多类分类的理论性能分析",
+          "llm_evidence": "分布式多类分类的理论性能分析",
+          "canonical_evidence": "分布式多类分类的理论性能分析",
+          "llm_tldr_en": "Derives performance bounds for constructing K-class classifiers from O(log K) binary hyperplanes in a distributed Gaussian setting, validated with simulations.",
+          "llm_tldr_cn": "本文研究从简单二元超平面构建多类分类器的分布式范式，在高斯假设下推导了K类分类的性能界，覆盖多种解码与维度区域。仿真验证了理论结果的正确性，为分布式集成分类器设计提供指导。",
+          "llm_tldr": "本文研究从简单二元超平面构建多类分类器的分布式范式，在高斯假设下推导了K类分类的性能界，覆盖多种解码与维度区域。仿真验证了理论结果的正确性，为分布式集成分类器设计提供指导。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19334v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.18821v2",
+          "source": "arxiv",
+          "title": "VirtualSet: Typed Ontology Worlds as an LLM Generation Target for Grounded Queries and Guarded Decisions",
+          "abstract": "Large language models increasingly read and act on enterprise data, but SQL gives a late error signal: hallucinated fields or relations can execute and return plausible wrong answers, while incorrect writes cannot be safely assessed after execution. We present VirtualSet, a live, receiver-typed ontology-world interface and generation target for LLMs. Instead of SQL, the model emits set expressions over entity-edge worlds. Generic Constraint Projection (GCP) checks expressions before execution, while future this preserves concrete receiver types through collection chains, turning invalid fields, edges, receivers, and actions into token-anchored type errors. Type-clean reads use a SQL fast path or bounded stream interpretation, with a parity oracle checking both paths over the exercised operator space. The same substrate supports guarded decisions: actions run first in a simulated world, and world-change events require external approval before actualization. On BIRD, we lift relational schemas into typed worlds and compare VirtualSet with direct SQL while holding the model, evidence, values, zero-shot setting, timeout, glossary, repair/voting, and grader constant where possible. On a frozen 1,072-question split, VirtualSet achieves 67.5% accuracy versus 63.5% for glossary-matched direct SQL with repair and voting (+4.0 points; McNemar exact p = 0.00117) using deepseek-reasoner. Full-corpus analysis finds no engine mis-computation of a type-clean expression; remaining errors arise from model semantics or gold defects. In a 30-body guard corpus, the write chain intercepts 20/20 hallucinated action bodies with zero false positives. VirtualSet thus remains competitive on SQL's home benchmark while providing pre-execution semantics for guarded decisions.",
+          "authors": [
+            "Qunhui Zhang"
+          ],
+          "primary_category": "cs.PL",
+          "categories": [
+            "cs.PL"
+          ],
+          "published": "2026-07-21T07:57:17+00:00",
+          "link": "https://arxiv.org/pdf/2607.18821v2",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Typed ontology world as LLM generation target for grounded queries and guarded decisions",
+          "llm_evidence_cn": "将类型化本体世界作为LLM生成目标，用于接地查询和受保护的决策",
+          "llm_evidence": "将类型化本体世界作为LLM生成目标，用于接地查询和受保护的决策",
+          "canonical_evidence": "将类型化本体世界作为LLM生成目标，用于接地查询和受保护的决策",
+          "llm_tldr_en": "Proposes VirtualSet, an LLM generation target that emits typed set expressions over entity-edge worlds with type-checking before execution, preventing hallucinated fields like SQL.",
+          "llm_tldr_cn": "针对LLM在查询企业数据时容易产生幻觉的问题，提出VirtualSet作为新的生成目标。LLM输出的是类型化集合表达式而非SQL，通过通用约束投影在执行前进行类型检查，将无效字段、边等转化为类型错误。该方法能安全地处理读写操作，并提供快速的SQL路径或流式解释器。实验表明该方法能有效减少错误查询。",
+          "llm_tldr": "针对LLM在查询企业数据时容易产生幻觉的问题，提出VirtualSet作为新的生成目标。LLM输出的是类型化集合表达式而非SQL，通过通用约束投影在执行前进行类型检查，将无效字段、边等转化为类型错误。该方法能安全地处理读写操作，并提供快速的SQL路径或流式解释器。实验表明该方法能有效减少错误查询。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.18821v2",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.18774v1",
+          "source": "arxiv",
+          "title": "Formulation-Level Auto-Tuning for QUBO-Based Machine Learning: A Case Study Across Multiple Quantum-Inspired Annealers",
+          "abstract": "This paper presents an Optuna-based formulation-level auto-tuning framework for support vector machines (SVMs) implemented on multiple quantum-inspired annealers. In an annealing-based SVM, continuous dual variables are discretized and converted into a quadratic unconstrained binary optimization (QUBO) model. This transformation introduces three coupled classes of parameters: representation parameters-the encoding base B and bit depth K-which determine numerical range, resolution, and QUBO size; the RBF kernel parameter γ, which determines classifier geometry; and the equality-constraint penalty ξ, which controls feasibility and coefficient balance. We formulate their joint selection as a mixed discrete-continuous black-box optimization problem. The framework has two optimization levels: an inner annealer minimizes the generated QUBO, while an outer Optuna loop reconstructs the formulation in every trial and maximizes validation accuracy. The same solver-agnostic procedure is applied to Fixstars Amplify Annealing Engine, Toshiba SQBM+, and Fujitsu Digital Annealer using TPE and Gaussian-process samplers and is compared with conventional grid search. Experiments on linear and nonlinear classification tasks with 0-20% label noise show mean gains over grid search of approximately 0.8 and 2.1 percentage points, respectively. The results demonstrate that formulation quality and backend capability must be evaluated jointly and that task-level feedback can compensate for discretization, penalty imbalance, and backend-dependent approximate optimization.",
+          "authors": [
+            "Naoya Mizuki",
+            "Takahiro Katagiri",
+            "Daichi Mukunoki",
+            "Tetsuya Hoshino"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "cs.PF"
+          ],
+          "published": "2026-07-21T06:56:43+00:00",
+          "link": "https://arxiv.org/pdf/2607.18774v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Parameter auto-tuning for QUBO-based SVM on quantum-inspired annealers, nonconvex optimization",
+          "llm_evidence_cn": "量子启发退火机上基于QUBO的SVM参数自动调优，涉及非凸优化",
+          "llm_evidence": "量子启发退火机上基于QUBO的SVM参数自动调优，涉及非凸优化",
+          "canonical_evidence": "量子启发退火机上基于QUBO的SVM参数自动调优，涉及非凸优化",
+          "llm_tldr_en": "Presents Optuna-based auto-tuning framework for SVM on quantum-inspired annealers, optimizing discretization, kernel, and penalty parameters jointly.",
+          "llm_tldr_cn": "在量子启发退火机上实现SVM需要将连续变量离散化为QUBO模型，引入编码基、位深、RBF核参数和约束惩罚等多类参数。本文提出基于Optuna的公式级自动调优框架，将参数联合选择形式化为混合离散-连续优化问题。实验在多个退火器上验证了框架的有效性。",
+          "llm_tldr": "在量子启发退火机上实现SVM需要将连续变量离散化为QUBO模型，引入编码基、位深、RBF核参数和约束惩罚等多类参数。本文提出基于Optuna的公式级自动调优框架，将参数联合选择形式化为混合离散-连续优化问题。实验在多个退火器上验证了框架的有效性。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "convex and nonconvex optimization for machine learning",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.18774v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19653v1",
+          "source": "arxiv",
+          "title": "PerfAgent: Profiler-Guided Iterative Refinement for Repository-Level Code Optimization",
+          "abstract": "Large language model (LLM) agents now perform well on correctness-oriented repository-level tasks, including SWE-Bench issue resolution and feature implementation in real codebases. However, they still struggle with repository-level code optimization, which requires preserving behavior while improving runtime performance. Passing tests is not enough in this setting; a patch must preserve behavior, implement code optimization, and approach expert speedups. Current agents often miss bottlenecks hidden behind abstraction layers and native extensions, stop after shallow speedups, or insufficiently test the code patches that thus may silently break edge cases. We present PerfAgent, a profiler-guided, verifier-in-the-loop workflow that gives an off-the-shelf coding agent the feedback needed to find real hotspots, improve beyond the first passing patch, and use profiler evidence rather than timing alone to decide what to optimize next. On two challenging optimization benchmarks, GSO and SWE-fficiency-Lite, PerfAgent more than doubles the rate of expert-matching patches over OpenHands with GPT-5.1, improving from 19.6% to 39.2% on GSO and from 26% to 74% on SWE-fficiency-Lite. It also surpasses an oracle best-of-five baseline at substantially lower cost, showing that the gains come from better feedback rather than additional test-time sampling.",
+          "authors": [
+            "Ryan Deng",
+            "Yuanzhe Liu",
+            "Bastian Lipka",
+            "Yao Ma",
+            "Xuhao Chen",
+            "Tim Kaler",
+            "Jatin Ganhotra"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE",
+            "cs.AI"
+          ],
+          "published": "2026-07-22T01:19:42+00:00",
+          "link": "https://arxiv.org/pdf/2607.19653v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Profiler-guided LLM agent for repository-level code optimization",
+          "llm_evidence_cn": "基于性能分析器的LLM智能体用于仓库级代码优化",
+          "llm_evidence": "基于性能分析器的LLM智能体用于仓库级代码优化",
+          "canonical_evidence": "基于性能分析器的LLM智能体用于仓库级代码优化",
+          "llm_tldr_en": "PerfAgent uses profiling and verification to iteratively optimize repository-level code, preserving behavior while improving runtime performance.",
+          "llm_tldr_cn": "LLM智能体在正确性任务上表现出色，但在仓库级代码优化上仍困难重重，常忽略深层瓶颈或引入错误。本文提出PerfAgent，利用性能分析器指导智能体定位热点，结合验证器确保行为保持，迭代优化代码。实验表明PerfAgent能实现专家级的加速，且不破坏原有功能。",
+          "llm_tldr": "LLM智能体在正确性任务上表现出色，但在仓库级代码优化上仍困难重重，常忽略深层瓶颈或引入错误。本文提出PerfAgent，利用性能分析器指导智能体定位热点，结合验证器确保行为保持，迭代优化代码。实验表明PerfAgent能实现专家级的加速，且不破坏原有功能。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19653v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20140v1",
+          "source": "arxiv",
+          "title": "CURED: Creating, Understanding, and Repairing Errors Demonstrator",
+          "abstract": "Detecting and cleaning errors in tabular data is a prerequisite for data intense software applications. Recent research at the intersection of Machine Learning (ML) and Database Management Systems (DBMS) highlights the potential of statistical learning algorithms for error detection and cleaning. This paper combines our recent work on ML-based data cleaning and error models in a unified demonstrator. The web application allows users to upload tabular data, perturb the data with realistic data dependent errors and use modern ML methods to clean and understand error mechanisms in data. Our demonstrator helps to bridge the gap between theoretical advancements and intuitive practical insights in the context of error models and data cleaning algorithms for tabular data. The demonstrator is available at https://cured.demo.calgo-lab.de/",
+          "authors": [
+            "Nicholas Chandler",
+            "Sebastian Jäger",
+            "Philipp Jung",
+            "Felix Bießmann"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-22T13:41:17+00:00",
+          "link": "https://arxiv.org/pdf/2607.20140v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "uses ML for data error detection and cleaning, improving data quality for ML",
+          "llm_evidence_cn": "使用机器学习进行数据错误检测与清洗，提升数据质量",
+          "llm_evidence": "使用机器学习进行数据错误检测与清洗，提升数据质量",
+          "canonical_evidence": "使用机器学习进行数据错误检测与清洗，提升数据质量",
+          "llm_tldr_en": "CURED combines ML-based data cleaning methods into a web demonstrator for detecting and repairing errors in tabular data, bridging theory and practice.",
+          "llm_tldr_cn": "表格数据中的错误检测与清洗是数据密集型应用的前提。本文结合近年来基于机器学习的数据清洗与错误模型研究成果，构建了统一的在线演示工具CURED。用户可上传表格数据，注入现实错误，并应用多种ML方法进行错误检测与修复。该工具帮助研究人员直观理解错误机制和清洗算法的效果，缩小了理论进展与实践应用之间的差距。",
+          "llm_tldr": "表格数据中的错误检测与清洗是数据密集型应用的前提。本文结合近年来基于机器学习的数据清洗与错误模型研究成果，构建了统一的在线演示工具CURED。用户可上传表格数据，注入现实错误，并应用多种ML方法进行错误检测与修复。该工具帮助研究人员直观理解错误机制和清洗算法的效果，缩小了理论进展与实践应用之间的差距。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20140v1",
           "carry_days": 1
         }
       ]
