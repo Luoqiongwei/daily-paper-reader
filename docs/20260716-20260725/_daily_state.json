@@ -1,0 +1,569 @@
+{
+  "date": "20260716-20260725",
+  "date_label": "2026-07-16 ~ 2026-07-25",
+  "generated_at": "2026-07-25 02:18:01 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2607.14614v1",
+      "route": "20260716-20260725/2607.14614v1-beyond-entropy-correctness-aware-advantage-shaping-via-contrastive-policy-optimization",
+      "title": "Beyond Entropy: Correctness-Aware Advantage Shaping via Contrastive Policy Optimization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "提出对比策略优化，一种用于可验证奖励强化学习的新深度强化学习算法",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.14816v1",
+      "route": "20260716-20260725/2607.14816v1-large-language-models-for-code-generation-from-multilingual-prompts-a-curated-benchmark-and-a-study-on-code-quality",
+      "title": "Large Language Models for Code Generation from Multilingual Prompts: A Curated Benchmark and a Study on Code Quality",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多语言提示下LLM代码生成与代码质量研究",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.15937v1",
+      "route": "20260716-20260725/2607.15937v1-the-language-of-security-how-prompt-syntax-shapes-secure-code-generation-in-open-llms",
+      "title": "The Language of Security: How Prompt Syntax Shapes Secure Code Generation in Open LLMs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "研究提示句法对开源LLM生成代码安全性的影响",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16024v1",
+      "route": "20260716-20260725/2607.16024v1-difftestgen-change-directed-llm-based-testing-for-exposing-behavioral-differences",
+      "title": "DiffTestGen: Change-Directed LLM-Based Testing for Exposing Behavioral Differences",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于LLM的差分测试，暴露代码变更的行为差异",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16900v2",
+      "route": "20260716-20260725/2607.16900v2-environment-free-synthetic-data-generation-for-api-calling-agents",
+      "title": "Environment-free Synthetic Data Generation for API-Calling Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为API调用代理生成合成数据，属于数据增强技术",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.17286v1",
+      "route": "20260716-20260725/2607.17286v1-issueexec-a-test-driven-approach-for-localizing-software-engineering-issues",
+      "title": "IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "利用测试套件作为代理的测试驱动软件问题定位方法",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.17823v1",
+      "route": "20260716-20260725/2607.17823v1-theoretical-foundations-of-maxk-reinforcement-learning",
+      "title": "Theoretical Foundations of $\\max$@$k$ Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "强化学习在代码生成中的应用理论",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18072v1",
+      "route": "20260716-20260725/2607.18072v1-sgn-a-similarity-based-generative-network-for-data-generation-under-distribution-shift",
+      "title": "SGN: A Similarity-based Generative Network for Data Generation under Distribution Shift",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向分布偏移的数据增强生成网络",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18357v1",
+      "route": "20260716-20260725/2607.18357v1-decode-time-grammars-constrained-llm-generation-over-a-refinement-order-of-grammar-fragments",
+      "title": "Decode-Time Grammars: Constrained LLM Generation over a Refinement Order of Grammar Fragments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "使用语法片段约束LLM生成代码",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18649v1",
+      "route": "20260716-20260725/2607.18649v1-distributed-edge-learning-under-imperfect-data-sensing",
+      "title": "Distributed Edge Learning under Imperfect Data Sensing",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "不完美感知下的分布式边缘学习",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18711v1",
+      "route": "20260716-20260725/2607.18711v1-llm-based-invariant-testing-for-software-functional-bugs",
+      "title": "LLM-Based Invariant Testing for Software Functional Bugs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于LLM的不变式测试检测功能缺陷",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18859v1",
+      "route": "20260716-20260725/2607.18859v1-phoenixrepair-rethinking-repair-strategy-exploration-in-software-agents",
+      "title": "PhoenixRepair: Rethinking Repair Strategy Exploration in Software Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多智能体框架自动修复bug，探索多个编辑位置",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.18886v1",
+      "route": "20260716-20260725/2607.18886v1-tracedev-a-traceability-driven-multi-agent-framework-for-requirement-to-code-development",
+      "title": "TraceDev: A Traceability-Driven Multi-agent Framework for Requirement-to-Code Development",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于LLM的多智能体框架实现需求到代码生成",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19104v1",
+      "route": "20260716-20260725/2607.19104v1-scicodepile-a-128gb-corpus-and-executable-benchmark-for-challenging-scientific-code-generation",
+      "title": "SciCodePile: A 128GB Corpus and Executable Benchmark for Challenging Scientific Code Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "最大的科学代码语料库和代码生成基准",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19117v1",
+      "route": "20260716-20260725/2607.19117v1-comparative-study-of-multi-agent-actor-critic-algorithms-in-parameterized-action-reinforcement-learning",
+      "title": "Comparative Study of Multi-Agent Actor-Critic Algorithms in Parameterized Action Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "比较多智能体Actor-Critic算法在参数化动作强化学习中的表现",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19544v1",
+      "route": "20260716-20260725/2607.19544v1-relta-sgld-relative-growth-localized-taming-for-nonconvex-stochastic-gradient-langevin-learning",
+      "title": "RELTA-SGLD: Relative-Growth Localized Taming for Nonconvex Stochastic-Gradient Langevin Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "非凸随机梯度Langevin学习中的局部驯化技术以保持稳定性",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19682v1",
+      "route": "20260716-20260725/2607.19682v1-context-matters-improving-the-practical-reliability-of-llm-based-unit-test-generation",
+      "title": "Context Matters: Improving the Practical Reliability of LLM-Based Unit Test Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过上下文感知工作流提升基于LLM的单元测试生成可靠性",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19703v1",
+      "route": "20260716-20260725/2607.19703v1-bridging-behavior-and-implementation-automated-java-glue-code-generation-for-behavior-driven-development",
+      "title": "Bridging Behavior and Implementation: Automated Java Glue Code Generation for Behavior-Driven Development",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "使用大语言模型自动生成BDD的Java胶水代码",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.19843v1",
+      "route": "20260716-20260725/2607.19843v1-beyond-fail-to-pass-iterative-hardening-of-co-generated-bug-reproduction-tests-and-fixes",
+      "title": "Beyond Fail-to-Pass: Iterative Hardening of Co-Generated Bug Reproduction Tests and Fixes",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于LLM的缺陷复现测试生成与自动程序修复",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.20630v1",
+      "route": "20260716-20260725/2607.20630v1-demonstrating-gendb-instance-optimized-and-customized-query-processing-code-generation-via-llm-agents",
+      "title": "Demonstrating GenDB: Instance-Optimized and Customized Query Processing Code Generation via LLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "LLM智能体驱动的实例优化查询处理代码生成",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.20739v1",
+      "route": "20260716-20260725/2607.20739v1-pipelined-gradient-coding",
+      "title": "Pipelined Gradient Coding",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过流水线梯度编码缓解分布式训练中的掉队者问题",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.20852v1",
+      "route": "20260716-20260725/2607.20852v1-code-monitor-red-teaming-for-public-test-passing-code",
+      "title": "Code Monitor Red Teaming for Public-Test-Passing Code",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "LLM代码监控与缺陷检测",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.20908v1",
+      "route": "20260716-20260725/2607.20908v1-multi-turn-rl-with-structural-and-performance-aware-rewards-for-cuda-kernel-generation",
+      "title": "Multi-turn RL with Structural and Performance Aware Rewards for CUDA Kernel Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "使用大语言模型和强化学习进行CUDA核函数生成，并引入结构感知奖励",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.21302v1",
+      "route": "20260716-20260725/2607.21302v1-expert-behavior-prior-reinforcement-learning",
+      "title": "Expert Behavior Prior Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "带有专家行为先验的新型强化学习算法",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.14506v1",
+      "route": "20260716-20260725/2607.14506v1-non-vacuous-generalization-bounds-for-reinforcement-learning-with-verifiable-rewards",
+      "title": "Non-vacuous Generalization Bounds for Reinforcement Learning with Verifiable Rewards",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "带可验证奖励的强化学习的非空虚泛化界，应用于LLM微调",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.15835v1",
+      "route": "20260716-20260725/2607.15835v1-data-native-global-optimization-for-big-data-k-means-clustering",
+      "title": "Data-Native Global Optimization for Big Data K-means Clustering",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "大数据聚类的全局优化",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.15845v1",
+      "route": "20260716-20260725/2607.15845v1-knowledge-centric-agents-for-workflow-generation",
+      "title": "Knowledge-Centric Agents for Workflow Generation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "使用LLM生成可视化创作系统的工作流，与代码生成相关",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16184v1",
+      "route": "20260716-20260725/2607.16184v1-pagedweight-efficient-moe-llm-serving-with-dynamic-quality-aware-weight-quantization",
+      "title": "PagedWeight: Efficient MoE LLM Serving with Dynamic Quality-Aware Weight Quantization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "MoE LLM服务的动态量化，优化系统可扩展性和效率",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.14522v1",
+      "route": "20260716-20260725/2607.14522v1-a-continuous-time-reinforcement-learning-framework-for-fine-tuning-discrete-diffusion-models",
+      "title": "A Continuous-Time Reinforcement Learning Framework for Fine-Tuning Discrete Diffusion Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "连续时间强化学习框架用于微调离散扩散模型",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.14622v1",
+      "route": "20260716-20260725/2607.14622v1-exagemm-exploration-framework-for-cpu-driven-ml-inference-via-associative-in-register-computing-for-low-bit-gemm",
+      "title": "ExaGEMM: Exploration Framework for CPU-Driven ML Inference via Associative In-Register Computing for Low-Bit GEMM",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过低比特GEMM优化CPU驱动ML推理的探索框架",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16431v1",
+      "route": "20260716-20260725/2607.16431v1-rims-preference-optimization-via-smoothed-multi-pair-aggregation-for-small-scale-llm-retrieval-augmented-generation",
+      "title": "RIMS: Preference Optimization via Smoothed Multi-pair Aggregation for Small-Scale LLM Retrieval-Augmented Generation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "为RAG中的偏好优化生成合成思维链数据，实现数据增强",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16859v1",
+      "route": "20260716-20260725/2607.16859v1-dataset-distillation-by-influence-matching",
+      "title": "Dataset Distillation by Influence Matching",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过影响匹配进行数据集蒸馏，以数据为中心提升模型性能",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.14657v1",
+      "route": "20260716-20260725/2607.14657v1-rethinking-issue-resolution-for-aiml-systems",
+      "title": "Rethinking Issue Resolution for AI/ML Systems",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "研究AI/ML系统的问题解决，与自动化测试和错误检测相关",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16339v2",
+      "route": "20260716-20260725/2607.16339v2-lacache-exact-caching-and-precision-adaptive-inference-for-diffusion-large-language-models",
+      "title": "LaCache: Exact Caching and Precision-Adaptive Inference for Diffusion Large Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "LLM推理加速通过缓存和混合精度提升可扩展性",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    },
+    {
+      "paper_id": "2607.16708v1",
+      "route": "20260716-20260725/2607.16708v1-model-driven-discipline-for-multi-agent-llms-requirement-to-verification-generation-of-traceable-system-models",
+      "title": "Model-Driven Discipline for Multi-Agent LLMs: Requirement-to-Verification Generation of Traceable System Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "使用多智能体LLM从需求自动生成异构系统模型，类似于代码生成",
+      "first_seen_at": "2026-07-25 02:18:01 UTC",
+      "updated_at": "2026-07-25 02:18:01 UTC"
+    }
+  ]
+}

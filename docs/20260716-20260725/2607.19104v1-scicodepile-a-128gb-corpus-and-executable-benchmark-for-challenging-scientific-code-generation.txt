@@ -1,0 +1,1324 @@
+Title: SciCodePile: A 128GB Corpus and Executable Benchmark for Challenging Scientific Code Generation
+
+URL Source: https://arxiv.org/pdf/2607.19104v1
+
+Published Time: Wed, 22 Jul 2026 01:03:03 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# SCI CODE PILE : A 128GB Corpus and Executable Benchmark for Challenging Scientific Code Generation 
+
+Weifeng Sun 
+
+Singapore Management University 
+
+wfsun@smu.edu.sg 
+
+Ye Fan, Yuchen Chen 
+
+Nanjing University 
+
+Gou Tan 
+
+SUN YAT-SEN University 
+
+Jieke Shi ∗
+
+Singapore Management University 
+
+Yuan Yidi, Swee Liang Wong, Jonathan Pan 
+
+Home Team Science & Technology Agency 
+
+David Lo 
+
+Singapore Management University 
+
+Abstract 
+
+Large language models (LLMs) excel at general-purpose code generation, yet how well they handle scientific code remains an open question. Existing datasets and benchmarks are limited in scale, domain coverage, or executable verification, leaving the true gap between current LLMs and reliable scientific code generators inadequately assessed. To address these limitations, we present S CI CODE PILE , the largest scientific code corpus to date, constructed from 37,737 public repositories and collectively comprising 128GB of code that spans multiple computational science disciplines. From this corpus, we further curate an executable benchmark of 200 tasks, each equipped with a sandboxed execution environment and an automated test harness for functional verification. We evaluate 15 LLMs from both open-source and closed-source families on three tasks: prefix-to-suffix completion, fill-in-the-middle infilling, and executable code generation. Results show that scientific code generation remains highly challenging: The best CodeBLEU reaches only 38.13 and 38.37 on the two completion tasks, while the strongest model achieves just 12.30% Pass@1 on the executable benchmark, underscoring how far current models remain from reliable scientific code generation. To demonstrate the training utility of S CI CODE PILE , we further show that continued pretraining on our corpus improves CodeBLEU by ×2.84 on scientific code completion, and instruction tuning on our data improves Pass@1 by ×4.79 on the executable benchmark. All code and data are available at https://huggingface.co/ SciCodePile .
+
+1 Introduction 
+
+Large language models (LLMs), particularly code-specialized variants such as Qwen2.5-Coder [ 1]and DeepSeek-Coder [ 2], have substantially advanced automated programming support [ 3 ], enabling practical applications in code completion [ 4] and generation [ 5, 6]. However, applying these models to computational science workflows poses distinct challenges, as correctness in domains such as quantum chemistry [ 7] and molecular docking [ 8 , 9] requires not only syntactic validity but also 
+
+> ∗Corresponding author. 40th Conference on Neural Information Processing Systems (NeurIPS 2026). Position Paper Track. arXiv:2607.19104v1 [cs.SE] 21 Jul 2026
+
+adherence to domain-specific semantics, complex numerical logic, and project-level dependencies, which go beyond general programming competence. 
+
+Limitations of Existing Work. Advancing LLMs for scientific code generation requires both domain-representative corpora that provide training signals for model improvement and executable benchmarks that support reliable functional evaluation. However, existing efforts still fall short in two key respects, as summarized in Table 1. ❶ Limited scale or uneven domain coverage. Most existing benchmarks are designed primarily for evaluation and remain relatively small for large-scale training (e.g., SciCode contains only 80 main tasks). Although ChemPile [ 10 ] provides a large-scale dataset spanning diverse chemical content types, its code subset is chemistry-centric and collected through keyword-based filtering over public sources, which may introduce noise and limit coverage beyond chemistry. ❷ Limited cross-level alignment between project intent and code artifacts. Existing benchmarks rarely preserve explicit links between repository-level goals ( e.g., README descriptions), the functions that realize them, and the tasks derived from those functions. As a result, instruction datasets are often constructed from code content alone, overlooking project-level intent and contextual evidence, which makes it harder to obtain well-grounded and interpretable supervision. Together, these limitations restrict both the development and the reliable assessment of LLMs for scientific code generation. Table 1: Comparison against prior scientific code datasets. “Pre-train”: provides a corpus suitable for pretraining or continued pretraining; “Eval.”: includes an evaluation suite for scientific coding tasks; “Test”: offers executable verification. / / denote no/partial/-full support.                         
+
+> Dataset Scale Domain Pre-trainEval.Test
+> SciCode [11] 80 tasks Multiple Fields MatTools [12] 49 tasks Materials ScienceAgentBench [13] 102 tasks Scientific Discovery DiscoveryBench [14] 1,167 tasks Scientific Discovery MedicalCoder [15] 27,000+ tasks Medical Coding DSCodeBench [16] 1,000 tasks Data Science BioCoder [17] 2,522 tasks Bioinformatics HPC-Coder [18] 1.62GB HPC Parallel ChemPile [10] 15.6GB Chemistry
+> SCI CODE PILE (Ours) 128GB Multiple Fields
+
+Our Solution. To address this gap, we present S CI CODE PILE , the largest scien-tific code corpus to date, along with an executable benchmark for computational science code generation. Specifically, S CI -CODE PILE incorporates three key charac-teristics: ❶ Domain-focused repository cu-ration at scale. Rather than relying on keyword-based filtering alone, we design a retrieve-then-filter pipeline that combines LLM-assisted vocabulary expansion with conservative quality and relevance con-trols to obtain a high-precision pool of 37,737 repositories for dataset construction. 
+
+❷ Multi-granularity aligned data formats. 
+
+Unlike prior datasets that construct instruc-tions from code alone, S CI CODE PILE pro-vides four complementary formats, namely Code Files, README Summary, Function Instruction, and Problem–Solution Pairs, which explicitly connect repository-level intent, function-level evidence, and task-level formulations across different granularities. ❸ Executable benchmark with test-driven evaluation. 
+
+SCI CODE PILE includes a benchmark of 200 tasks, each equipped with a sandboxed execution en-vironment and an automated test harness. A model is considered successful only if its generated solution passes all tests, thereby evaluating whether the code is actually runnable and functionally correct rather than merely similar to a reference implementation. By combining large-scale corpus construction, multi-granularity format alignment, and executable verification, S CI CODE PILE provides both the training resources and evaluation infrastructure needed to systematically advance scientific code generation. This combination distinguishes our work from prior studies and offers both technical novelty and a unique perspective. 
+
+Evaluation. To assess the utility of the constructed corpus and benchmark, we conduct a compre-hensive empirical study using 15 open-source and closed-source LLMs. The evaluation covers three realistic code-generation tasks: (i) prefix-to-suffix code completion, (ii) fill-in-the-middle infilling, and (iii) instruction-following code generation on the executable benchmark. For the completion tasks, we report BLEU and CodeBLEU against the reference code, while the executable benchmark is evaluated using Pass@1 and Pass@5, since correctness is determined by test execution rather than textual similarity. The results show that repository-level scientific code completion remains challeng-ing for current models, with the best performance reaching 38.13 CodeBLEU in prefix completion and 38.37 CodeBLEU in fill-in-the-middle completion. On the executable benchmark, performance 2Crawl Relevant                               
+
+> Public Repositories
+> Seed Keywords
+> Expand Keywords
+> Query Public Code
+> Repositories
+> Low -Quality
+> Repo Filtering
+> Crawled Repos Crawl Code Files
+> Filter Scientific Code
+> Data Format 1
+> Raw Code Files
+> Data Format 2
+> GitHub Repos Raw README File Context LLM
+> README
+> Summary
+> Summary
+> Filter Criteria
+> Dataset Construction 12
+> Data Format 3
+> Raw Code Files Code Parser Context Function
+> Function
+> Description
+> Instruction
+> Data Format 4
+> Raw Code Files Code S nippets LLM Function
+> Generated
+> Problem
+> Instruction
+> Generated
+> Solution
+> Executable Evaluation 3
+> Function -
+> Grounded Task
+> Execution
+> Environment
+> Test Harness
+> Benchmark Instance Box
+> Pass/Fail Check
+> Success
+> (pass)
+> Failure
+> (Not pass)
+
+Figure 1: Overall workflow of dataset construction. is substantially lower: The best model, GPT-5.4-mini , achieves only 12.30% Pass@1 and 15.50% Pass@5, underscoring the substantial gap between syntactically plausible output and functionally correct scientific implementations. To further validate the training utility of S CI CODE PILE , we con-duct two lightweight training experiments using small models due to resource constraints. Continued pretraining of GPT-2 (124M) on our scientific code corpus improves CodeBLEU by ×2.84 on code completion tasks, while instruction tuning of Qwen2.5-Coder-0.5B on F3/F4 improves Pass@1 by 
+
+×4.79 on the executable benchmark (1.90% → 9.10%), confirming that S CI CODE PILE provides effective training signal for scientific code generation. 
+
+Contributions. In summary, our paper makes the following contributions: • We construct the largest scientific code corpus to date, consisting of 37,737 public repositories orga-nized into four complementary data formats that explicitly connect repository-level documentation with function-level evidence and task-level formulations. • We introduce an executable benchmark of 200 tasks for instruction-following scientific code generation, each equipped with a sandboxed execution environment and an automated test harness for functional verification. • We conduct a systematic empirical evaluation of 15 diverse LLMs on three realistic code-generation tasks, revealing that current models fall significantly short of reliable scientific code generation and providing actionable insights into their failure patterns. • We demonstrate the training utility of S CI CODE PILE through two experiments: continued pretrain-ing in F1 improves CodeBLEU by ×2.84 on scientific code completion, while instruction tuning in F3/F4 improves Pass@1 by ×4.79 on the executable benchmark (1.90% → 9.10%), confirming that S CI CODE PILE provides an effective training signal for scientific code generation. 
+
+2 Related Work 
+
+Recent work has explored datasets and benchmarks for scientific programming and AI-assisted research. SciCode [ 11 ] introduces a scientist-curated benchmark with 80 research coding problems across multiple domains, each accompanied by executable tests. MatTools [ 12 ], ScienceAgent-Bench [ 13 ], and DiscoveryBench [ 14 ] evaluate LLMs in scientific discovery workflows, including tool usage and research-oriented problem solving. Other benchmarks focus on specific domains, such as MedicalCoder [ 15 ] for medical coding, DSCodeBench [ 16 ] for data science programming, BioCoder [ 17 ] for bioinformatics code generation, and HPC-Coder [ 18 ] for high-performance com-puting. Another line of work provides large-scale scientific corpora for model pretraining. For example, ChemPile [ 10 ] collects a large-scale chemistry dataset spanning scientific text, molecular representations, and code artifacts. However, existing resources typically emphasize either evaluation benchmarks (e.g., SciCode, MatTools) or domain-specific pretraining corpora (e.g., ChemPile), but rarely provide both large-scale repository-grounded data and executable test-based evaluation. Our work addresses this gap by constructing a multi-format scientific code corpus together with an executable benchmark derived from real-world repositories. 33 SCI CODE PILE 
+
+This section presents the end-to-end framework used to construct S CI CODE PILE , a multi-format cor-pus and benchmark for computational science code generation. As shown in Figure 1, the framework is organized into three tightly-coupled components: (i) crawling relevant public repositories to build a broad candidate pool; (ii) deriving four aligned data formats from the curated repositories to support pretraining and instruction-oriented supervision at multiple granularities; and (iii) constructing an executable benchmark to evaluate whether generated code satisfies functional requirements by passing tests in sandboxed execution environments. We use a fixed set of models for different roles in the construction pipeline; the model selections and justifications are provided in Appendix A. 
+
+3.1 Component 1: Crawling Relevant Public Repositories 
+
+Component 1 aims to construct a broad yet domain-focused repository pool for computational science code, maximizing coverage while maintaining relevance. Given the noise and heterogeneity of public repositories, we formulate the process as retrieve-then-filter : we first retrieve candidate repositories using an expanded scientific vocabulary, then apply quality and relevance controls to obtain a clean input set for Component 2 .
+
+Seed keyword design. We initialize repository retrieval with 198 seed keywords curated by the authors based on established computational science taxonomies (the full list is provided in Ap-pendix D), spanning major science subfields and their associated tool ecosystems, including: (i) chemistry-focused topics ( e.g., quantum chemistry, molecular dynamics); (ii) life science and bioin-formatics workflows ( e.g., genomics, proteomics); (iii) pharmaceutics and biomedical modeling ( e.g., 
+
+pharmacokinetics); (iv) computational and numerical methods ( e.g., finite element method); and (v) AI/ML-driven scientific modeling ( e.g., generative models). This design balances precision and coverage for large-scale repository retrieval. 
+
+LLM-assisted vocabulary expansion. To improve coverage of scientific terminology, we use CHAT GPT-4o to expand the 198 seed keywords into a richer set of 213 queries by generating three types of variants: (i) synonyms and spelling alternatives; (ii) abbreviations and their full-form mappings; and (iii) closely related subtopics and domain-specific terms. The prompt used for keyword expansion is provided in Appendix K.1. 
+
+Repository retrieval and metadata. Using the expanded keyword set, we query GitHub 2 via its search APIs to retrieve candidate repositories. The crawl covers repositories available on GitHub as of December 2025 and yields 1,311,568 candidates. For each repository, we collect metadata for subsequent filtering and analysis, including the URL, description, topics (when available), primary languages, repository size, and star and fork counts. 
+
+Quality and relevance filtering. We apply conservative heuristics to remove repositories unlikely to contain substantive scientific implementations. Specifically, (i) we exclude repositories with fewer than 10 stars, following prior work [ 19 , 20 ], to filter low-quality projects; (ii) we remove documentation-only repositories dominated by non-source content; and (iii) to enforce scientific rele-vance beyond keyword matches, we prompt Qwen3-32B [ 21 ] to judge whether the README describes a repository that actually implements computational-science methods or workflows, rather than merely mentioning related keywords, and discard those predicted as non-relevant. The prompt used for this relevance check is provided in Appendix K.1. After filtering, we retain 37,737 repositories covering 178 scientific keywords for Component 2. 
+
+3.2 Component 2: Deriving Four Aligned Data Formats 
+
+Component 2 transforms the curated repositories from Component 1 into four aligned data formats that support (i) domain-adaptive pretraining, (ii) instruction-oriented supervision, and (iii) downstream benchmark construction. We first crawl and normalize source files to build a raw code corpus (F1), then derive three progressively more structured formats (F2–F4) that capture repository-level intent, function-level semantics, and snippet-level instruction–solution signals. 
+
+F1: Raw Code Files. Motivation. F1 provides a cleaned collection of scientific code files designed for continued pretraining and corpus analysis. Method. For each repository snapshot, we retain files using conservative heuristics: (i) a language whitelist covering major scientific programming languages ( e.g., Python, C/C++, Fortran, and Julia) as well as widely used scripting and configuration formats; and (ii) path-based exclusion rules to remove non-source or auxiliary content ( e.g., .git/ ,
+
+> 2https://docs.github.com/en/rest/search
+
+4build/ , dist/ , and third_party/ ). We further normalize whitespace, compute content hashes, and remove near-duplicate files using SimHash [ 22 ] to reduce redundancy introduced by forks, templates, and repeated headers. The resulting F1 corpus contains 125GB of code spanning approximately 3.26M files. 
+
+F2: README Summary. Motivation. F2 distills repository-level context, including project in-tent, dependencies, and I/O conventions, into structured representations that provide project-level grounding for downstream formats, particularly F3 function descriptions. Method. We extract each repository’s README file and truncate long documents to the first 8,000 tokens. We then prompt Qwen3-32B to produce a structured summary covering: (i) project goals and task category; (ii) key methods or algorithms; (iii) dependencies and major libraries; (iv) input/output artifacts; and (v) the expected runtime environment. The README -summary prompt is provided in Appendix K.2. 
+
+F3: Function Instruction. Motivation. F3 pairs real functions with evidence-constrained natural-language descriptions, supporting function retrieval, documentation generation, and instruction tuning under domain constraints. Method. We extract functions from F1 using tree-sitter [ 23 ] across multiple languages and retain traceability metadata, including the repository, file path, span, function name or qualified name, and raw code. To prioritize domain-relevant scientific implementations, we score each function using two embedding-based signals computed with Qwen3-embedding: md score ,the cosine similarity between the domain keyword set and the repository README ; and code score ,the similarity between the same keyword set and the function body. Candidates are ranked by 
+
+F inal score = md score × code score (1) For each selected function, we assemble lightweight context from the function code, extracted dependencies ( e.g., imports and salient API calls), and the corresponding README summary from F2. We then prompt C HAT GPT-5 to generate a docstring-style description grounded in this evidence. To improve precision, we use NatureLM [ 24 ], a scientific domain model, as an automatic verifier to assess whether the generated description is both (i) consistent with the provided context, and (ii) relevant to the target scientific domains. Generations that fail these checks are treated as low-confidence and filtered out. The function-instruction generation prompt is provided in Appendix K.3, and an example F3 instance is shown in Appendix H. 
+
+F4: Problem–Solution Pairs. Motivation. F4 constructs function-grounded problem–solution pairs using real code as anchors, leveraging open-source references to elicit diverse yet controllable instruction-style training signals. Method. Following the OSS-Instruct principle [ 25 ], we sample 20,000 domain-relevant functions from F3 and randomly extract code snippets within each function to cover diverse implementation regions. Given each snippet and its repository context (imports, dependencies, and README summary from F2), we prompt C HAT GPT-5 to infer a plausible task specification and generate the corresponding solution, explicitly disallowing dependencies absent from the provided context. To further increase diversity, we apply data augmentation strategies including instruction paraphrasing [ 26 ], alternative coding styles [ 27 ], and multi-sample decoding [ 28 ]. The prompt used for F4 construction is provided in Appendix K.4. 
+
+3.3 Executable Benchmark Construction Task Definition. We construct an executable benchmark for evaluating large language models on scientific code generation, specifically the task of translating natural-language scientific requirements into runnable code implementations under domain constraints. Each instance provides an automatic pass/fail signal in a sandboxed environment. 
+
+From Repository Functions to Candidate Tasks. We construct candidate tasks from F3, which provides function-level code–description alignments grounded in real-world repositories. To reduce environmental dependencies and ensure self-contained evaluation, we focus on Python functions and restrict candidates to pure functions that do not depend on implicit class context. Candidates are ranked by F inal score , and the top-ranked subset is converted into HumanEval-style [ 29 ] task prompts, each consisting of a function signature and its natural-language specification (as shown in Appendix K.5). 
+
+Automatic Test and Environment Synthesis. To make tasks executable, we automatically synthe-size a minimal execution setup and corresponding test harness for each candidate. Conditioned on the function specification and reference implementation, C HAT GPT-5.3-codex is prompted to generate test assertions over the target function. To ensure sandbox compatibility, external dependencies are replaced with lightweight stubs, and tests are confined to standard-library functionality. 5Human 
+
+> Potential
+> Folding
+> System biology
+> Activation
+> 3D
+> Networks
+> Single-cell
+> Protein
+> Imaging
+> Ligand
+> Generate
+> Gene editing
+> Bioinformatics
+> Biomedical
+> Score
+> Quantum mechanics
+> Sequencing
+> Cycle
+> Biologics 0
+> 50000
+> 100000
+> 150000
+> 200000
+> 250000
+> 300000
+> File Count
+> Language
+> Python
+> C
+> C++
+> R
+> MATLAB
+> Fortran
+> Julia
+> Java
+> Shell
+> Rust
+
+(a) File-level distribution across the top-20 scientific domains with programming-language composition. 20 15 10 5 0 5 10 15 
+
+> t-SNE Dimension 1
+> 10
+> 5
+> 0
+> 5
+> 10
+> t-SNE Dimension 2
+> Domain
+> Protein Design
+> Drug Discovery
+> RNA Design
+> Antibody Design
+> Synthetic Biology
+> Genomics / Sequencing
+> Quantum Computing
+> Other
+
+(b) t-SNE visualization of prompt embed-dings in the executable benchmark. 
+
+Figure 2: Overview of domain-language distribution and benchmark prompt embedding space. 
+
+Runnable Verification. All tasks are executed under strict isolation using a subprocess-based runner with timeout control. For each instance, we run the reference implementation, synthesized setup, and test suite end-to-end, retaining only those that complete successfully without runtime errors. After filtering, the benchmark comprises 200 fully executable instances. To further ensure quality, we manually review all retained instances to verify that the task description, setup, and tests are coherent and faithful to the underlying scientific code. An example instance is provided in Appendix I, and a manual audit of test case validity is reported in Appendix C. We acknowledge two design trade-offs in the current executable benchmark. First, restricting to pure Python functions with stub-based dependencies simplifies evaluation relative to real scientific workflows; however, this is a necessary condition for reliable automated evaluation at scale, consistent with HumanEval [ 29 ] and SciCode [ 11 ]. Second, the benchmark comprises 200 tasks due to resource constraints in human validation and sandbox construction; scaling remains an important direction for future work. 
+
+3.4 Dataset Summary 
+
+We release a multi-format scientific code resource comprising four complementary data formats. 
+
+F1 contains 125GB of deduplicated raw code collected from 37,737 domain-relevant repositories, providing a large-scale corpus for continued pretraining. To provide project-level context, we additionally construct 37,737 repository-level README summaries, i.e., F2 , using standardized fields ( e.g., project overview and main features) to support downstream analysis. F3 contains 500,000 function-level instances (2.84GB in total), derived via multi-language parsing and relevance assessment, enabling instruction-following at the function granularity. F4 further provides 20,000 instruction–solution pairs (496MB in total), designed to increase the diversity of training signals while remaining grounded in real repository code. Our executable benchmark contains 200 instances derived from real-world repositories, each equipped with an execution setup and test harness. On average, each test suite contains 7.3 assertions, ensuring that candidate implementations are evaluated beyond trivial cases. The model assignments for each pipeline stage and the corresponding stage-wise quality control mechanisms are detailed in Appendix A and Appendix B, respectively. 
+
+4 Dataset Statistics and Analysis 
+
+Domain and programming language distribution. Figure 2a summarizes the file-level distribution across the top-20 scientific domains along with their language composition. Python dominates nearly all domains, underscoring its central role in scientific computing workflows. C/C++ account for a larger share in domains that demand performance-critical numerical kernels ( e.g., Folding and 
+
+Activation ), while R and MATLAB are more prevalent in data-centric areas such as System Biology 
+
+and Bioinformatics . Overall, the corpus spans diverse scientific domains and programming paradigms, reflecting the realistic heterogeneity of open-source scientific software. 
+
+Semantic diversity of executable benchmark tasks. To examine the semantic coverage of the executable benchmark, we encode each task prompt using the all-mpnet-base-v2 embedding model 3
+
+and project the resulting embeddings into two dimensions via t-SNE [ 30 ]. As shown in Figure 2b, 
+
+> 3
+
+https://huggingface.co/sentence-transformers/all-mpnet-base-v2 
+
+6C Fortran Rust C++ Python Java R Julia MATLAB Shell 
+
+> 0
+> 500
+> 1000
+> 1500
+> 2000
+> 2500
+> Line Count
+
+(a) Line-count distribution of source files. p10 p25 p50 p75 p90 p95                                                    
+
+> Percentile
+> Python
+> C
+> C++
+> R
+> MATLAB
+> Fortran
+> Julia
+> Java
+> Shell
+> Rust
+> Language
+> 0.5 1.4 3.7 9.1 19.2 30.3
+> 0.4 2.5 5.7 15.7 38.0 67.8
+> 0.6 1.7 4.2 10.4 23.8 40.4
+> 0.5 1.3 3.2 7.7 16.9 27.4
+> 0.4 0.8 1.9 4.4 9.9 17.3
+> 1.1 2.6 6.0 12.8 28.8 48.2
+> 0.5 1.1 2.6 6.2 13.4 21.3
+> 0.8 1.6 3.3 7.3 15.4 24.2
+> 0.1 0.3 0.7 1.7 4.0 6.8
+> 0.4 1.3 4.2 11.3 25.2 40.4
+> 10
+> 20
+> 30
+> 40
+> 50
+> 60
+> File Size (KB)
+
+(b) File-size percentiles (KB) across languages. 
+
+Figure 3: Programming-language characteristics in the collected scientific code corpus: (a) distribu-tion of file line counts, and (b) percentile statistics of file sizes. the prompts spread broadly across the embedding space rather than collapsing into a single cluster. Notably, domains such as protein design, drug discovery, RNA design, and genomics occupy distinct regions, indicating substantial variation in both task semantics and requirements. This distribution confirms that our benchmark spans a diverse spectrum of real-world scientific programming scenarios. 
+
+File length and size characteristics. Figure 3 further analyzes file-level characteristics across programming languages. Figure 3a shows the distribution of source-code line counts. Languages such as C and Fortran exhibit higher median line counts (around 200 lines) and broader distributions. In contrast, scripting-oriented languages such as Shell and MATLAB tend to contain much shorter files, with most instances concentrated below 50 lines. Across all languages, the distributions display a clear long-tail pattern. Figure 3b reports file-size percentiles computed from the full 3.2M files. C
+
+reaches the largest upper range, with a file size of 67.8KB at the 95th percentile, followed by Fortran 
+
+at 48.2KB. In contrast, scripting languages remain significantly smaller, with Shell files reaching only 6.8KB at the 95th percentile. Overall, the median file size (i.e., the 50th percentile) of most languages falls between 2KB and 6KB, suggesting that typical scientific code files remain relatively compact despite the presence of large outliers. 
+
+Semantic distinction from general coding benchmarks. To characterize the scientific specificity of our benchmark, we compare its prompt characteristics against HumanEval [ 31 ]. The median prompt length in S CI CODE PILE is approximately 304 words, compared to 51 words in HumanEval. Applying a scientific terminology lexicon covering key terms in biology, chemistry, and molecular modeling, 197 out of 200 tasks (98.5%) in our benchmark contain at least one scientific term, compared to only 6 out of 164 tasks (3.7%) in HumanEval. The most frequent terms include protein 
+
+(103 occurrences) and pdb (65), while HumanEval contains virtually none. These results confirm that our benchmark captures domain-specific challenges that general coding benchmarks do not assess. 
+
+5 Experiments 
+
+5.1 Experimental Setup 
+
+We evaluate models on prefix-to-suffix ( PTS ) and fill-in-the-middle ( FIM ) code completion tasks derived from our scientific code corpus. We randomly sample 1,000 class-level code files from the collected corpus F1 to construct evaluation instances. For PTS , we use the first 1,024 tokens of each file as the input prefix and require the model to generate the subsequent 256 tokens as the target suffix. For FIM , we mask a 256-token middle span and provide the surrounding 512-token prefix and suffix as context, requiring the model to recover the missing segment. All models are evaluated in a zero-shot setting without task-specific fine-tuning. We further evaluate models on the executable benchmark constructed in Section 3.3. For each task, the model generates candidate solutions that are executed in a sandboxed environment alongside the corresponding setup code and test suite. 
+
+5.2 Evaluation Metrics PTS and FIM Settings. We report BLEU [ 32 ] and CodeBLEU [ 33 ]. BLEU measures the n-gram overlap between the generated code and the reference. CodeBLEU is a code-specific evaluation metric that extends BLEU by incorporating weighted n-gram match, abstract syntax tree (AST) match, and data-flow match, capturing both surface-level similarity and semantic properties of code. 7Table 2: PTS and FIM results on the scientific code corpus. 
+
+(a) PTS results.                            
+
+> LLM BLEU CodeBLEU
+> DeepSeek-R1-Distill-Qwen-1.5B 0.96 17.35 Qwen3-14B (Think) 14.84 28.06 GPT-4o 17.65 31.39 GPT-5 15.80 29.27 o3-mini 12.53 27.26 DeepSeek-Coder-1.3B 18.14 32.42 DeepSeek-Coder-6.7B 22.49 36.44 StarCoder2-3B 20.69 34.00 StarCoder2-7B 21.34 34.98 StarCoder2-15B 23.44 37.05 Qwen2.5-Coder-7B-Instruct 25.24 38.13 CodeLlama-7B 21.12 35.18 CodeLlama-13B 22.68 36.49
+
+(b) FIM results.                            
+
+> LLM BLEU CodeBLEU
+> DeepSeek-R1-Distill-Qwen-1.5B 1.06 16.47 Qwen3-14B (Think) 9.72 22.83 GPT-4o 14.68 27.31 GPT-5 17.05 30.93 o3-mini 9.80 23.80 DeepSeek-Coder-1.3B 3.41 15.89 DeepSeek-Coder-6.7B 3.24 15.35 StarCoder2-3B 20.36 34.04 StarCoder2-7B 21.40 35.02 StarCoder2-15B 23.56 37.05 Qwen2.5-Coder-7B-Instruct 26.39 38.37 CodeLlama-7B 3.60 15.60 CodeLlama-13B 3.91 15.65
+
+Executable Benchmark. We report Pass@1 and Pass@5 , following the HumanEval protocol [ 29 ]. Given n generated solutions and c correct solutions that pass the test cases, Pass@ k is estimated as 
+
+Pass@ k = 1 −
+
+ n−ck
+
+ nk
+
+ (2) 
+
+5.3 Target Models 
+
+We evaluate 15 models spanning six model families, including both general-purpose LLMs and code-specialized models. Our open-source baselines include DeepSeek-R1, DeepSeek-R1-Distill-Qwen-1.5B [ 34 ], Qwen3-14B-Think [ 21 ], DeepSeek-Coder-1.3B/6.7B [ 2], StarCoder2-3B/7B/15B [ 35 ], Qwen2.5-Coder-7B-Instruct [ 1], and CodeLlama-7B/13B [ 36 ]. We further include closed-source API models, including C HAT GPT-4o, o3-mini, C HAT GPT-5, and C HAT GPT-5.4-mini. 
+
+5.4 Experimental Results 
+
+❶ Prefix-to-Suffix Setting. Table 2a reports the prefix-to-suffix code completion results on the scientific code corpus using BLEU and CodeBLEU. Overall, the results show that scientific code completion from prefix-only context remains challenging, since models must continue repository-level logic from incomplete context and need to infer project conventions, external dependencies, and domain-specific computation patterns that are not fully exposed in the prefix. Among all models, Qwen2.5-Coder-7B-Instruct achieves the best overall performance, with the highest BLEU (25.24) and CodeBLEU (38.13). It is closely followed by StarCoder2-15B . This suggests that code-specialized models are generally better at modeling sequential code continuation in scientific repositories than general-purpose LLMs. A clear scaling trend can also be observed within several model families. For example, DeepSeek-Coder improves from 18.14/32.42 to 22.49/36.44 when scaling from 1.3B to 6.7B, and StarCoder2 
+
+improves steadily from 34.00 to 37.05 in CodeBLEU as model size increases from 3B to 15B. These trends indicate that larger code models are better able to capture the long-range regularities and structural patterns required for continuation-style scientific code generation. Although strong closed-source models such as GPT-4o and GPT-5 achieve competitive scores, they still lag behind the strongest code-specialized models. Table 3: Generation results on executable benchmark.                                 
+
+> LLM Pass@1 Pass@5
+> DeepSeek-R1-Distill-Qwen-1.5B 2.70% 7.00% Qwen3-14B (Think) 8.30% 10.50% DeepSeek-Coder-1.3B 2.80% 7.50% DeepSeek-Coder-6.7B 6.10% 10.00% StarCoder2-3B 0.50% 1.5% StarCoder2-7B 0.30% 1.00% StarCoder2-15B 0.30% 1.50% Qwen2.5-Coder-7B-Instruct 6.10% 8.50% CodeLlama-7B 7.20% 10.50% CodeLlama-13B 6.60% 11.00% GPT-4o 7.50% 10.00% GPT-5 5.70% 8.50% o3-mini 10.50% 12.00% DeepSeek-R1 8.50% 12.50% GPT-5.4-mini 12.30% 15.50%
+
+❷ Fill-in-the-Middle Setting. Table 2b reports the fill-in-the-middle (FIM) code completion re-sults. Overall, the task remains difficult, and the model ranking differs from that in prefix comple-tion: the availability of both left and right con-text substantially benefits some models, while oth-ers still struggle to reconstruct the missing span. 
+
+Qwen2.5-Coder-7B-Instruct again achieves the best overall performance, with the highest BLEU (26.39) and CodeBLEU (38.37). However, these gains are not uniform across model families. In particular, 
+
+DeepSeek-Coder-1.3B/6.7B and CodeLlama-7B/13B 
+
+obtain much lower BLEU and CodeBLEU scores in this setting, suggesting that reconstructing a middle span is more demanding than simply continuing code 8from the left context. FIM therefore requires not only local code fluency but also tighter consistency with both surrounding contexts. Another notable pattern is that CodeBLEU is consistently higher than BLEU across models. Because CodeBLEU additionally incorporates syntax-aware and data-flow matching, many generated solutions appear to recover part of the structural organization of the target code even when token-level overlap is limited. Overall, the FIM setting provides richer contextual information, but accurate reconstruction of scientific code remains difficult because the missing span encodes domain-specific logic, variable interactions, and project-specific conventions that must fit both surrounding contexts simultaneously. 
+
+Failure Patterns. To understand why instruction-tuned models achieve lower BLEU scores on completion tasks, we identify two dominant failure modes. First, instruction-tuned models tend to generate generic boilerplate rather than project-specific continuations, defaulting to statistically common patterns instead of inferring project-internal conventions. Second, they tend to stop early and miss file-level coherence constraints, completing only the immediate logical unit while omitting definitions that are already referenced in the prefix. Detailed examples are provided in Appendix E. 
+
+❸ Executable Benchmark. Table 3 reports the Pass@1 and Pass@5 results on our executable benchmark. Overall, the executable benchmark reveals that current models still struggle to generate functionally correct scientific code from natural-language instructions. Most models achieve only limited success. Among all evaluated models, C HAT GPT -5.4-mini performs best, reaching 12.30% Pass@1 and 15.50% Pass@5, followed by o3-mini . All StarCoder2 models obtain scores close to 0% on both metrics. We attribute this mainly to these base code completion models are not designed to follow natural-language task instructions directly. Notably, even DeepSeek-Coder-6.7B ,which achieves 16.30% on DSCodeBench, reaches only 6.10% Pass@1 on our benchmark. This gap indicates that our benchmark is substantially more challenging than prior data-science benchmarks. 
+
+Failure Patterns. Examining the failure patterns (detailed in Appendix F), we find notable differences across model families. StarCoder2 models fail predominantly due to syntax errors, suggesting that non-instruction-tuned code models struggle in our instruction-following setting. By contrast, other models fail more frequently due to execution errors, test failures, incomplete implementations, or missing fields. These indicate that scientific code generation demands syntactic correctness, structural completeness, and precise functional alignment, which no current model reliably achieves. Table 4: Left : Continued pretraining results on F1 evaluated on the PTS completion task. Right :Instruction tuning results on F3/F4 evaluated on the executable benchmark.                   
+
+> Metric Base 5-epoch Gain
+> BLEU-4 0.0228 0.1104 ×4.84 CodeBLEU 0.0867 0.2463 ×2.84 Exact Match 0.0010 0.0200 ×20.00
+> Model Pass@1 Pass@5
+> Qwen2.5-Coder-0.5B (base) 1.90% 5.00% Qwen2.5-Coder-0.5B (ours) 9.10% 13.00%
+
+❹ Corpus Utility Evaluation To demonstrate that S CI CODE PILE provides effective training signal beyond serving as an evaluation resource, we conduct two lightweight training experiments validating the utility of the pretraining corpus (F1) and the instruction-level data (F3/F4) respectively. 
+
+Pretraining Corpus Utility (F1). We perform 5-epoch continued pretraining of GPT-2 (124M) on F1, using a maximum sequence length of 1024 and adjusting the prefix-to-suffix evaluation to a 768-token prefix with a 256-token suffix. As shown in Table 4 (left), continued pretraining yields substantial improvements across all metrics, with CodeBLEU improving by ×2.84 and Exact Match by ×20, demonstrating that F1 provides effective training signal for scientific code completion. 
+
+Instruction Tuning Utility (F3/F4). We perform instruction tuning of Qwen2.5-Coder-0.5B on our scientific instruction data and evaluate on the executable benchmark. As shown in Table 4 (right), fine-tuning improves Pass@1 from 1.90% to 9.10% ( ×4.79) and Pass@5 from 5.00% to 13.00% (×2.60), confirming that F3/F4 provides effective training signal for scientific code generation. Both experiments use small models due to resource constraints; large-scale training experiments remain an important direction for future work. 
+
+6 Conclusion and Future Work 
+
+We present a scientific code corpus constructed from public repositories and organized into four complementary data formats, linking repository-level intent with instruction-level supervision. Based on this corpus, we evaluate a diverse set of LLMs on three realistic tasks: prefix-to-suffix completion, fill-in-the-middle infilling, and executable code generation. Our results reveal that scientific code 9generation remains a challenge for current models. Across tasks, even the strongest models achieve only limited CodeBLEU on completion and low Pass rates on executable generation. These findings suggest that future scientific code models must better leverage repository context and external dependencies to generate correct implementations. Our goal is to support research on reliable AI assistants for scientific software development. 
+
+Limitations. While S CI CODE PILE provides the largest scientific code corpus to date, the corpus may underrepresent certain scientific fields or specialized software ecosystems. Detailed discussion is provided in Appendix J. 
+
+References 
+
+[1] Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang, Dayiheng Liu, Lei Zhang, Tianyu Liu, Jia-jun Zhang, Bowen Yu, Keming Lu, et al. Qwen2. 5-coder technical report. arXiv preprint arXiv:2409.12186 , 2024. [2] Daya Guo, Qihao Zhu, Dejian Yang, Zhenda Xie, Kai Dong, Wentao Zhang, Guanting Chen, Xiao Bi, Yifan Wu, YK Li, et al. Deepseek-coder: when the large language model meets programming–the rise of code intelligence. arXiv preprint arXiv:2401.14196 , 2024. [3] Xinyi Hou, Yanjie Zhao, Yue Liu, Zhou Yang, Kailong Wang, Li Li, Xiapu Luo, David Lo, John Grundy, and Haoyu Wang. Large language models for software engineering: A systematic literature review. ACM Transactions on Software Engineering and Methodology , 33(8):1–79, 2024. [4] Yanlin Wang, Yanli Wang, Daya Guo, Jiachi Chen, Ruikai Zhang, Yuchi Ma, and Zibin Zheng. Rlcoder: Reinforcement learning for repository-level code completion. In 2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE) , pages 1140–1152. IEEE, 2025. [5] Juyong Jiang, Fan Wang, Jiasi Shen, Sungju Kim, and Sunghun Kim. A survey on large language models for code generation. ACM Transactions on Software Engineering and Methodology , 35 (2):1–72, 2026. [6] Claudio Spiess, David Gros, Kunal Suresh Pai, Michael Pradel, Md Rafiqul Islam Rabin, Amin Alipour, Susmit Jha, Prem Devanbu, and Toufique Ahmed. Calibration and correctness of language models for code. In 2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE) , pages 540–552. IEEE, 2025. [7] Sarfaraz K Niazi. Quantum mechanics in drug discovery: a comprehensive review of methods, applications, and future directions. International Journal of Molecular Sciences , 26(13):6325, 2025. [8] Shreya Satyanarayan Bhat, Vidya Niranjan, Spoorti Anil Bandikatte, Soumya Govindappa, and Adarsh Vishal. Structure-based drug discovery. Molecular Modeling and Docking Techniques for Drug Discovery and Design , pages 435–472, 2025. [9] Abubakar Sadiq Bello, Adamu Uzairu, Shallangwa G Aadmu, AA Razzak Mahmood, Muham-mad Tukur Ibrahim, et al. Molecular dynamics simulation, molecular docking, admet prediction, qsar modeling and density functional theory computation for the identification of possible hep-atitis c virus ns5b protease inhibitors through in silico study of fluorine-2, 7-diamine compounds. 
+
+In Silico Research in Biomedicine , page 100104, 2025. [10] Adrian Mirza, Nawaf Alampara, Martiño Ríos-García, Mohamed Abdelalim, Jack Butler, Bethany Connolly, Tunca Dogan, Marianna Nezhurina, Bünyamin ¸ Sen, Santosh Tirunagari, et al. Chempile: A 250gb diverse and curated dataset for chemical foundation models. arXiv preprint arXiv:2505.12534 , 2025. [11] Minyang Tian, Luyu Gao, Shizhuo D Zhang, Xinan Chen, Cunwei Fan, Xuefei Guo, Roland Haas, Pan Ji, Kittithat Krongchon, Yao Li, et al. Scicode: A research coding benchmark curated by scientists. Advances in Neural Information Processing Systems , 37:30624–30650, 2024. [12] Siyu Liu, Bo Hu, Beilin Ye, Jiamin Xu, David J Srolovitz, and Tongqi Wen. Mattools: Bench-marking large language models for materials science tools. arXiv preprint arXiv:2505.10852 ,2025. 10 [13] Ziru Chen, Shijie Chen, Yuting Ning, Qianheng Zhang, Boshi Wang, Botao Yu, Yifei Li, Zeyi Liao, Chen Wei, Zitong Lu, et al. Scienceagentbench: Toward rigorous assessment of language agents for data-driven scientific discovery. arXiv preprint arXiv:2410.05080 , 2024. [14] Bodhisattwa Prasad Majumder, Harshit Surana, Dhruv Agarwal, Bhavana Dalvi Mishra, Abhi-jeetsingh Meena, Aryan Prakhar, Tirth Vora, Tushar Khot, Ashish Sabharwal, and Peter Clark. Discoverybench: Towards data-driven discovery with large language models. arXiv preprint arXiv:2407.01725 , 2024. [15] Ali Soroush, Benjamin S Glicksberg, Eyal Zimlichman, Yiftach Barash, Robert Freeman, Alexander W Charney, Girish N Nadkarni, and Eyal Klang. Large language models are poor medical coders—benchmarking of medical code querying. Nejm Ai , 1(5):AIdbp2300040, 2024. [16] Shuyin Ouyang, Dong Huang, Jingwen Guo, Zeyu Sun, Qihao Zhu, and Jie M Zhang. Dscodebench: A realistic benchmark for data science code generation. arXiv preprint arXiv:2505.15621 , 2025. [17] Xiangru Tang, Bill Qian, Rick Gao, Jiakang Chen, Xinyun Chen, and Mark B Gerstein. Biocoder: a benchmark for bioinformatics code generation with large language models. Bioinformatics ,40(Supplement_1):i266–i276, 2024. [18] Daniel Nichols, Aniruddha Marathe, Harshitha Menon, Todd Gamblin, and Abhinav Bhatele. Hpc-coder: Modeling parallel programs using large language models. In ISC High Performance 2024 Research Paper Proceedings (39th International Conference) , pages 1–12. Prometeus GmbH, 2024. [19] Weifeng Sun, Meng Yan, Zhongxin Liu, Xin Xia, Yan Lei, and David Lo. Revisiting the identification of the co-evolution of production and test code. ACM Transactions on Software Engineering and Methodology , 32(6):1–37, 2023. [20] Fengcai Wen, Csaba Nagy, Gabriele Bavota, and Michele Lanza. A large-scale empirical study on code-comment inconsistencies. In 2019 IEEE/ACM 27th International Conference on Program Comprehension (ICPC) , pages 53–64. IEEE, 2019. [21] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chengen Huang, Chenxu Lv, et al. Qwen3 technical report. arXiv preprint arXiv:2505.09388 , 2025. [22] Moses S Charikar. Similarity estimation techniques from rounding algorithms. In Proceedings of the thiry-fourth annual ACM symposium on Theory of computing , pages 380–388, 2002. [23] Tree-sitter. Tree-sitter: An incremental parsing system for programming tools. https: //tree-sitter.github.io/ , 2024. Accessed: 2026-03-03. [24] Yingce Xia, Peiran Jin, Shufang Xie, Liang He, Chuan Cao, Renqian Luo, Guoqing Liu, Yue Wang, Zequn Liu, Yuan-Jyue Chen, et al. Nature language model: deciphering the language of nature for scientific discovery. arXiv preprint arXiv:2502.07527 , 2025. [25] Yuxiang Wei, Zhe Wang, Jiawei Liu, Yifeng Ding, and Lingming Zhang. Magicoder: Empow-ering code generation with oss-instruct. arXiv preprint arXiv:2312.02120 , 2023. [26] Amirhossein Abaskohi, Sascha Rothe, and Yadollah Yaghoobzadeh. LM-CPPF: Paraphrasing-guided data augmentation for contrastive prompt-based few-shot fine-tuning. In Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Pa-pers) , pages 670–681, Toronto, Canada, July 2023. Association for Computational Linguistics. [27] Karl Munson, Chih-Kai Ting, Serenity Wade, Anish Savla, Julian Dolby, Kiran Kate, and Kavitha Srinivas. Out of style: Misadventures with llms and code style transfer. CoRR ,abs/2406.10320, 2024. doi: 10.48550/ARXIV.2406.10320. URL https://doi.org/10. 48550/arXiv.2406.10320 .11 [28] Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc V. Le, Ed H. Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou. Self-consistency improves chain of thought reasoning in language models. In The Eleventh International Conference on Learning Representations, ICLR 2023, Kigali, Rwanda, May 1-5, 2023 . OpenReview.net, 2023. URL https://openreview. net/forum?id=1PL1NIMMrw .[29] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde De Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374 , 2021. [30] Laurens Van der Maaten and Geoffrey Hinton. Visualizing data using t-sne. Journal of machine learning research , 9(11), 2008. [31] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde De Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374 , 2021. [32] Kishore Papineni, Salim Roukos, Todd Ward, and Wei-Jing Zhu. Bleu: a method for automatic evaluation of machine translation. In Proceedings of the 40th annual meeting of the Association for Computational Linguistics , pages 311–318, 2002. [33] Shuo Ren, Daya Guo, Shuai Lu, Long Zhou, Shujie Liu, Duyu Tang, Neel Sundaresan, Ming Zhou, Ambrosio Blanco, and Shuai Ma. Codebleu: a method for automatic evaluation of code synthesis. arXiv preprint arXiv:2009.10297 , 2020. [34] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Peiyi Wang, Qihao Zhu, Runxin Xu, Ruoyu Zhang, Shirong Ma, Xiao Bi, et al. Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning. arXiv preprint arXiv:2501.12948 , 2025. [35] Anton Lozhkov, Raymond Li, Loubna Ben Allal, Federico Cassano, Joel Lamy-Poirier, Noua-mane Tazi, Ao Tang, Dmytro Pykhtar, Jiawei Liu, Yuxiang Wei, et al. Starcoder 2 and the stack v2: The next generation. arXiv preprint arXiv:2402.19173 , 2024. [36] Baptiste Roziere, Jonas Gehring, Fabian Gloeckle, Sten Sootla, Itai Gat, Xiaoqing Ellen Tan, Yossi Adi, Jingyu Liu, Romain Sauvestre, Tal Remez, et al. Code llama: Open foundation models for code. arXiv preprint arXiv:2308.12950 , 2023. [37] Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David Dohan, Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, et al. Program synthesis with large language models. arXiv preprint arXiv:2108.07732 , 2021. [38] Jacob Cohen. A coefficient of agreement for nominal scales. Educational and psychological measurement , 20(1):37–46, 1960. 12 A Models Used for Data Construction 
+
+We use a fixed, role-based assignment of models throughout the construction pipeline. The choice is task-driven: rather than switching models arbitrarily across stages, we assign one model family to each type of operation according to its functional requirements. Table 5 summarizes the assignment. Table 5: Role-based model assignment in the S CI CODE PILE construction pipeline.               
+
+> Pipeline Stage Model Primary Reason
+> Repository classification & README summarization (F2) Qwen3-32B Long-context, local deployment, cost-effective Embedding-based relevance scoring (F3 ranking) Qwen3-Embedding Unified representation space across stages Function description generation (F3) GPT-5 High-quality NL abstraction from code Problem-solution pair generation (F4) GPT-5 High-quality instruction generation Test harness synthesis (benchmark) GPT-5.3-Codex Code-specialized structured generation Scientific relevance verification (F3) NatureLM Domain-specialized scientific verification
+
+Repository-level classification and summarization. We use Qwen3-32B for repository-level relevance classification and README summarization. These stages operate over tens of thousands of repositories and require long-context understanding, stable structured outputs, and practical scalability. Importantly, this stage involves large-scale batch processing where API-based models would be prohibitively expensive; Qwen3-32B is deployed locally, significantly reducing computational cost. According to its technical report [ 21 ], Qwen3-32B matches or outperforms OpenAI o3-mini on general-purpose benchmarks, making it a strong and cost-effective choice. Using the same model for both filtering and summarization also reduces representational inconsistency between the two stages. 
+
+Embedding-based relevance scoring. We use Qwen3-Embedding for all similarity computations in the pipeline, including both repository-level and function-level relevance scoring. The key reason is consistency: using a single embedding model ensures that all similarity scores are computed in the same representation space and remain directly comparable across stages. 
+
+Instruction and code generation. For higher-precision generative stages, we use the GPT-5 family. GPT-5 is used for function-level description generation (F3) and problem-solution pair generation (F4), as these stages require high-quality natural language abstraction from code, dependencies, and repository context. For executable benchmark construction, we use GPT-5.3-Codex for test harness synthesis, since this stage directly requires structured Python code generation of setup code and test assertions. Using the same model family across generation stages improves consistency, while reserving the code-specialized variant for executable test construction. 
+
+Scientific relevance verification. We use NatureLM [ 24 ] as an automatic verifier for F3 function descriptions. NatureLM is a domain-specialized scientific language model, making it particularly well-suited for assessing whether generated descriptions are both consistent with the provided context and relevant to the target scientific domains — a judgment that benefits from domain-specific pretraining beyond general-purpose LLMs. 
+
+Instruction and code generation. For higher-precision generative stages, we use the GPT-5 family. GPT-5 is used for function-level and problem-level instruction generation because these stages require high-quality natural-language abstraction from code, dependencies, and repository context. For executable benchmark construction, we use GPT-5.3-Codex for test synthesis, since this stage directly requires structured code generation of Python setup code and test harnesses. Using the same model family across generation stages improves consistency, while reserving the code-specialized variant for executable test construction. Overall, this model assignment is based on the functional requirements of each stage: long-context repository processing, unified embedding-based scoring, and high-precision text/code generation. We do not claim that this configuration is uniquely optimal; rather, it provides a consistent and practical setup for constructing the corpus and benchmark at scale. 13 B Stage-wise Quality Control 
+
+To ensure the reliability and faithfulness of the constructed corpus and benchmark, we apply explicit quality control mechanisms at each generative stage of the pipeline. Table 6 provides an overview of the measures applied at each stage. Table 6: Stage-wise quality control mechanisms in the S CI CODE PILE construction pipeline.                        
+
+> Stage Model Quality Control Mechanism
+> Repository retrieval (F1) Qwen3-32B Binary relevance judgment with reasoning; repositories with <10 stars excluded README summarization (F2) Qwen3-32B Fixed JSON schema constrains output format Function selection (F3) Qwen3-Embedding Dual-level Finalscore filtering (mdscore ×codescore) Function description (F3) GPT-5 + NatureLM NatureLM verifies consistency and scientific relevance of generated descriptions Problem-solution pairs (F4) GPT-5 Real code snippets as anchors; solutions constrained to provided dependencies Test harness synthesis GPT-5.3-Codex End-to-end runnable verification under (benchmark) sandboxed isolation with timeout control Benchmark validation Human Manual review of 40 sampled tasks (20%); 85% full alignment, Cohen’s κ≈0.92
+
+Repository retrieval. Repository quality is enforced through two complementary filters. First, we exclude repositories with fewer than 10 stars, following prior work [ 19 , 20 ], to remove low-quality or inactive projects. Second, Qwen3-32B performs a binary relevance judgment (YES/NO) with explicit reasoning for each repository, assessing whether the README describes a project that actually implements computational science methods rather than merely mentioning related keywords. Together, these filters reduce the initial candidate pool of 1,311,568 repositories to 37,737 high-quality, domain-relevant projects. 
+
+README summarization. F2 summaries are generated under a fixed JSON schema specifying five structured fields: project overview, main features, dependencies, scientific computing characteristics, and typical input/output information. The schema constraint prevents free-form generation and ensures that all summaries are structured, comparable, and grounded in the original README content. 
+
+Function selection and relevance scoring. Functions in F3 are selected based on F inal score =
+
+md score × code score ), where md score measures the embedding similarity between the domain keyword set and the repository README , and code score measures the similarity between the same keyword set and the function body. This dual-level scoring ensures that selected functions are scientifically grounded at both the repository intent level and the implementation level, filtering out functions that are incidentally present in scientific repositories but do not themselves encode scientific logic. 
+
+Function description generation. Generated F3 descriptions are subject to automatic verification by NatureLM [ 24 ], a domain-specialized scientific language model. NatureLM assesses each gener-ated description along two dimensions: (1) consistency with the provided code and repository context, and (2) relevance to the target scientific domains. Descriptions that fail either check are treated as low-confidence and filtered out before entering the dataset. To directly quantify the noise level of the remaining descriptions, we conducted a human evaluation on a random sample of 50 F3 instances, assessed by two independent annotators: Table 7: Human evaluation results on 50 randomly sampled F3 function descriptions.      
+
+> Metric Result
+> Faithfulness rate 92% Hallucination rate 6% Inter-annotator agreement (Cohen’s κ)0.82
+
+14 The 92% faithfulness rate and low hallucination rate of 6% confirm that the NatureLM verification step effectively filters low-quality generations, and that the retained F3 descriptions reliably reflect the underlying code. 
+
+Problem-solution pair generation. F4 construction follows the OSS-Instruct principle [ 25 ], us-ing real code snippets extracted from F3 functions as anchors. Generated solutions are explicitly constrained to dependencies present in the provided repository context, reducing the risk of halluci-nated library usage. This grounding in real code ensures that F4 instances reflect genuine scientific computing patterns rather than synthetic constructs disconnected from real workflows. 
+
+Executable benchmark construction and validation. Test harnesses are synthesized by GPT-5.3-Codex and subsequently executed end-to-end under subprocess-based sandboxed isolation with timeout control. Only instances where the reference implementation passes all synthesized tests without runtime errors are retained, ensuring that every benchmark task provides a reliable and reproducible pass/fail signal. A detailed manual audit of the retained benchmark instances is reported in Appendix C. 
+
+C Verification of Executable Benchmark Test Cases 
+
+To ensure that the test harnesses in our executable benchmark faithfully verify functional correctness, we conduct a manual analysis of a subset of tasks. The aim is to assess whether the automatically generated test cases 1) accurately reflect the specification described in the prompt and the reference implementation and 2) can be executed in a sandboxed environment without dependency issues. Our manual analysis is inspired by best practices in prior work on code generation benchmarks, such as MBPP [37] and HumanEval [29]. 
+
+Sampling and Procedure. Out of the 200 benchmark tasks, we randomly select 40 tasks (20%) for manual review. This sampling ratio balances coverage with feasibility. Two independent reviewers with domain expertise in computational science and software engineering carry out the review. Each task is reviewed by both reviewers to measure agreement. For each selected task, the reviewers examine: 1) Prompt–test alignment : Whether the test suite covers all major functional requirements described in the natural-language prompt. 2) Reference compatibility : Whether the reference imple-mentation provided passes the test suite without modification. 3) Sandbox executability : Whether the test suite can run successfully in the provided environment, including proper setup of stubs or mocks. 4) Metrics recorded : We record the number of tasks where (i) tests fully align with the prompt, (ii) minor issues exist ( e.g., missing edge-case assertions), or (iii) significant problems are found ( e.g., 
+
+test errors or misinterpretations). 
+
+Results of the Manual Review. Among the 40 reviewed tasks, 34 (85%) had test suites that perfectly matched the prompt and accepted the reference implementation without issue. 6 tasks (15%) exhibited minor issues, such as missing corner-case checks or overly permissive assertions; these could be addressed by adding or tightening a few assertions. All 40 tasks could be executed end-to-end within the benchmark’s sandbox environment. A few required minor adjustments to stub functions (e.g., adding a missing import), which are subsequently incorporated into the benchmark. The two reviewers agreed on the classification of 38 out of 40 tasks (Cohen’s κ ≈ 0.92 ) [ 38 ], indicating a high level of consistency in the audit process. 
+
+D Keyword List for Repository Retrieval 
+
+Table 8 lists the 198 domain keywords used to retrieve scientific repositories from GitHub. 
+
+E Qualitative Examples of Completion Task Failures 
+
+We present two representative examples illustrating why instruction-tuned models achieve lower BLEU scores than code-specialized base models on completion tasks. 15 Table 8: Scientific domain keywords used for repository retrieval (198 terms). 
+
+Chemistry Biology Biochemistry Omics Medicine Pharmacology Toxicology Bioinformatics Bioengineering Biophysics Viral Microbial Protein Gene DNA RNA Vaccine Computational Biology Computational Biochemistry Computational Chemistry Computational Materials Quantum Chemistry Disease Biomedical Material Pharmacogenetics Pharmacogenomics Modeling Networks In Silico Pathology Physiology Genomics Proteomics Transcriptomics Metabolomics Glycomics Lipidomics Immunology Microbiology Molecular biology Pharmaceutics Network pharmacology Epigenetics Sequencing Multi-omics Biomarker System biology Synthetic biology Cell biology Cancer biology Ensemble Personalized Lipid Metabolic Genesis Ion Heterogeneity Generative Receptor Ligand Organoid Evolution Pathogens Homeostasis Allele Genotype Phenotype Antibody Antigen Nucleic acids Carbohydrate Substrate Inhibition Activation Allosteric Cofactor Coenzyme Enzyme Redox Hydrophilic Hydrophobic Codon Transcription Translation Pathway Cycle Signaling Dynamics Kinetics Docking Spectrometry Profiling Diagnostics CRISPR Pharmacokinetics Pharmacodynamics Absorption Mechanism of action Agonist Antagonist Bioavailability Half-life Reaction Drug Biologics Pharmacometrics Beta-blocker Regulatory networks Multi-scale modeling Single-cell Spatial biology Monte Carlo System immunology Metagenomics QSAR QAPR Chemical space AlphaFold Folding Digital twin Virtual human Gene editing Bio foundation model Biotechnology Assay Lead discovery High-throughput Screening Hit-to-lead Lead optimization De novo ADMET Translational medicine Drug repurpose Conjugate Agent-based model Compartmental model Reproduction number Nowcasting Phylodynamic model Physiologically based pharmacokinetics model PBPK model Organ-on-a-chip Anomaly detection Stochastic modeling Genomic surveillance Antimicrobial resistance modeling AMR Pandemic Digital PCR Next-generation sequencing Biosensors Imaging Sensors Quantum mechanics DFT Ab initio Hartree-Fock Coupled cluster Electronic structure Homo-Lumo Conformation Cheminformatics QM/MM First-principles based DFT Diffusion Finite element method Phase-field technique Potential Metamaterial 2D 3D Porous Crystal Rosettafold Gene regulatory networks Cell atlas Human atlas Spatial transcriptomics Pseudotime analysis Quantum biology Metabolic flux analysis Free energy perturbation Protein-protein Explainable AI Neurology Reinforcement learning Generative AI Flow matching Generative adversarial networks GAN Variational autoencoders VAE Autoregressive Transformer Recurrent neural networks RNN 
+
+Example 1: Fallback to Generic Boilerplate 
+
+This example is drawn from the chemprop chemistry project. The prefix ends with an incomplete 
+
+app.config.from_object call, requiring the model to infer the project-specific configuration module and subsequent initialization logic. Listing 1: Prefix 
+
+1 """Runs the web interface version of chemprop, allowing for 
+
+2 training and predicting in a web browser.""" 
+
+3 import os 
+
+4 from flask import Flask 
+
+56 app = Flask(__name__) 
+
+7 app.config.from_object 
+
+Listing 2: Ground Truth 
+
+1 (’chemprop.web.config’) 
+
+23 os.makedirs(app.config[’CHECKPOINT_FOLDER’], exist_ok=True) 
+
+4 os.makedirs(app.config[’DATA_FOLDER’], exist_ok=True) 
+
+56 from chemprop.web.app import views 
+
+Listing 3: Instruction-tuned Model Generation 
+
+1 (’config.DefaultConfig’) 
+
+23 if __name__ == ’__main__’: 
+
+4 app.run(host=’0.0.0.0’, port=5000) 
+
+16 The ground truth passes the project-specific module chemprop.web.config , creates project-internal directories, and imports project routes. The instruction-tuned model instead generates 
+
+config.DefaultConfig followed by a standard app.run(...) pattern common in Flask tutorials but entirely disconnected from the codebase. This illustrates that instruction-tuned models default to statistically common continuations rather than project-specific ones, as they lack access to the broader codebase context needed to infer internal module names and directory conventions. 
+
+Example 2: Early Stopping and Missing File-level Coherence 
+
+This example is drawn from a Django REST framework project. The prefix already references three custom exception classes ( InvalidFilters , InvalidData , BadRequest ) and truncates mid-function, requiring the model to complete the current branch and define the referenced classes. Listing 4: Prefix (truncated)  
+
+> 1
+
+from rest_framework.exceptions import APIException  
+
+> 2
+
+from rest_framework.views import exception_handler  
+
+> 34
+
+def custom_exception_handler(exc, context):  
+
+> 5
+
+response = exception_handler(exc, context)  
+
+> 6
+
+if response is not None:  
+
+> 7
+
+data = {"error_type": "", "message": "", "details": ""}  
+
+> 8
+
+if isinstance(exc, (InvalidFilters, InvalidData, BadRequest)):  
+
+> 9
+
+data["error_type"] = exc.default_code  
+
+> 10
+
+data["message"] = exc.detail  
+
+> 11
+
+data["details"] = exc.details  
+
+> 12
+
+if isinstance(exc, ValidationError):  
+
+> 13
+
+detail = exc.detail  
+
+> 14
+
+if isinstance(detail, dict):  
+
+> 15
+
+errors = []  
+
+> 16
+
+for key, value in detail.items():  
+
+> 17
+
+errors.append({...})  
+
+> 18
+
+if len(errors) > 1:  
+
+> 19
+
+... # truncated here 
+
+Listing 5: Ground Truth  
+
+> 1
+
+else:  
+
+> 2
+
+data = errors[0]  
+
+> 3
+
+response.data = data  
+
+> 4
+
+return response  
+
+> 56
+
+class InvalidFilters(APIException):  
+
+> 7
+
+status_code = 400  
+
+> 8
+
+default_code = "invalid_filters"  
+
+> 9
+
+def __init__(self, message=None, invalid_filters=None):  
+
+> 10
+
+super().__init__(detail=message)  
+
+> 11
+
+self.details = invalid_filters  
+
+> 12 13
+
+class InvalidData(APIException):  
+
+> 14
+
+status_code = 400  
+
+> 15
+
+default_code = "invalid_data"  
+
+> 16
+
+def __init__(self, message=None, details=None):  
+
+> 17
+
+super().__init__(detail=message)  
+
+> 18
+
+self.details = details  
+
+> 19 20
+
+class BadRequest(APIException):  
+
+> 21
+
+status_code = 400  
+
+> 22
+
+default_code = "bad_request"  
+
+> 23
+
+def __init__(self, message=None, error_type=None):  
+
+> 24
+
+super().__init__(detail=message) 
+
+Listing 6: Instruction-tuned Model Generation 17 1 else:                       
+
+> 2data.update(errors[0]) #semantic error: should be data =errors[0]
+> 3response.data =data
+> 4return response
+> 5#stops here --three exception classes never generated
+
+The model completes only the immediate else branch with a semantic error (data.update(errors[0]) instead of data = errors[0] ) and stops at return response , generating none of the three exception class definitions. Yet InvalidFilters ,
+
+InvalidData , and BadRequest are already referenced in the prefix, a strong signal that they must be defined in the same file. This reveals that instruction-tuned models treat completion as a local task and stop once the immediate logical unit is finished, missing the file-level coherence constraint that base code models handle more naturally through next-token prediction. 
+
+F Failure Analysis on the Executable Benchmark. 
+
+Figure 4 presents a breakdown of failure types on the executable benchmark. A clear pattern is that the dominant failure reason differs substantially across model families. For the StarCoder2 models, failures are overwhelmingly dominated by syntax errors , accounting for about 85%–87% of all cases, which is consistent with their lack of instruction tuning in this instruction-following setting. By contrast, many other open-source code models fail mainly due to solution execution errors or test runtime errors . For example, DeepSeek-Coder-1.3B , DeepSeek-Coder-6.7B , and Qwen2.5-Coder-7B 
+
+show large proportions of solution execution errors, while CodeLlama-7B , CodeLlama-13B , and 
+
+GPT-4o are dominated by test runtime errors, suggesting that these models more often generate syntactically valid code but still fail to satisfy task requirements during execution. Closed-source models also exhibit distinct failure modes. GPT-5 stands out for having a large proportion of missing fields errors, whereas o3-mini and Qwen3-14B mainly fail through runtime errors after successful generation. Overall, the results suggest that executable scientific code generation requires not only syntactic correctness, but also structurally complete implementations and precise functional alignment with the benchmark specification. 
+
+G Additional Information of the Code Corpus 
+
+G.1 Scientific Domain Coverage 
+
+To examine the topical diversity of the collected repositories, we analyze the distribution of domain-related keywords extracted from the dataset. Figure 5 visualizes these keywords using a word cloud, where the size of each term is proportional to its frequency in the corpus. Several major scientific themes can be observed. Keywords such as Human , Potential , Folding , Activation , and System biology 
+
+appear prominently, indicating that the collected repositories cover a wide range of computational tasks in life sciences and molecular modeling. At the same time, terms such as Protein , Sequencing ,
+
+Gene editing , and Bioinformatics highlight the strong presence of modern data-driven biological research. In addition to biology-related topics, the corpus also includes computational themes such as 3D , Networks , and Quantum mechanics , suggesting that the dataset spans multiple scientific disciplines and computational paradigms. Overall, the keyword distribution demonstrates that the collected corpus covers a broad spectrum of scientific research areas, providing a diverse foundation for constructing the executable benchmark. 
+
+G.2 Programming-Language Distribution 
+
+We analyze the programming-language composition of the collected scientific code corpus. Figure 6 presents both the percentage share and the absolute number of files for each language. Python dominates the dataset, accounting for the largest proportion of files by a substantial margin. This observation aligns with the widespread adoption of Python in modern scientific computing, particularly in data analysis, machine learning, and bioinformatics workflows. At the same time, several traditional scientific computing languages remain prominent. Languages such as C, C++, and 18 0% 20% 40% 60% 80% 100% 
+
+> Proportion (%)
+> o3-mini
+> Qwen3 14B
+> GPT-4o
+> CodeLlama 7B
+> CodeLlama 13B
+> Qwen2.5-Coder 7B
+> DeepSeek-Coder 6.7B
+> GPT-5
+> DeepSeek-Coder 1.3B
+> DeepSeek-R1 1.5B
+> StarCoder2 3B
+> StarCoder2 7B
+> StarCoder2 15B
+> 10%
+> 8%
+> 8%
+> 7%
+> 7%
+> 6%
+> 6%
+> 6%
+> 46%
+> 45%
+> 62%
+> 73%
+> 56%
+> 40%
+> 35%
+> 13%
+> 34%
+> 40%
+> 21%
+> 43%
+> 28%
+> 14%
+> 30%
+> 52%
+> 55%
+> 57%
+> 13%
+> 5%
+> 11%
+> 6%
+> 10%
+> 5%
+> 12%
+> 6%
+> 44%
+> 92%
+> 83%
+> 90%
+> 11%
+> 69%
+> Reason
+> Pass (ok)
+> Test Runtime Error
+> Solution Exec Error
+> Syntax Error
+> Missing Fields
+> Entry Point Not Found
+> Timeout
+
+Figure 4: Failure breakdown of different models on the executable benchmark. Each bar shows the proportion of outcomes categorized by failure reason, including syntax errors, runtime errors during test execution, missing fields in the generated implementation, incorrect entry points, setup execution errors, and timeouts. 
+
+Figure 5: Word cloud of scientific keywords extracted from the collected repositories. The size of each term reflects its frequency in the dataset, illustrating the diverse scientific domains represented in the corpus. Fortran contribute a significant number of files, reflecting their continued use in performance-critical numerical simulations and high-performance computing applications. MATLAB and R also appear frequently, which is consistent with their popularity in statistical modeling and scientific data analysis. Overall, the corpus exhibits a diverse programming-language composition that spans both modern scripting languages and traditional high-performance computing languages, providing a realistic environment for evaluating and training scientific large language models. 
+
+H F3: Function Instruction Example 
+
+Figure 7 shows a representative F3 (Function Instruction) instance. In F3, each sample pairs a real function with an evidence-constrained natural-language description, so that the resulting data can support function retrieval, and instruction tuning under domain constraints. Concretely, the example anchors on a Python function center_pos , and retains full traceability metadata 19 33.6%         
+
+> 8.1% 5.7%
+> 5.0%
+> 4.6%
+> 4.1%
+> 3.9%
+> 3.7%
+> 30.0%
+> Python
+> C++
+> Java
+> C
+> MATLAB
+> Fortran
+> R
+> Shell
+> Rust
+> Julia
+> Unknown/Other 0.0 0.2 0.4 0.6 0.8 1.0 1.2
+
+Number of Files 1e6 
+
+> Julia
+> Rust
+> Shell
+> R
+> Fortran
+> MATLAB
+> C
+> Java
+> C++
+> Python
+> 17,947
+> 23,505
+> 116,603
+> 124,615
+> 129,710
+> 147,037
+> 160,278
+> 180,771
+> 258,862
+> 1,071,495
+
+(a) The proportion of files by language. 33.6%           
+
+> 8.1% 5.7%
+> 5.0%
+> 4.6%
+> 4.1%
+> 3.9%
+> 3.7%
+> 30.0%
+> Python
+> C++
+> Java
+> C
+> MATLAB
+> Fortran
+> R
+> Shell
+> Rust
+> Julia
+> Unknown/Other 0.0 0.2 0.4 0.6 0.8 1.0 1.2
+> Number of Files 1e6
+> Julia
+> Rust
+> Shell
+> R
+> Fortran
+> MATLAB
+> C
+> Java
+> C++
+> Python
+> 17,947
+> 23,505
+> 116,603
+> 124,615
+> 129,710
+> 147,037
+> 160,278
+> 180,771
+> 258,862
+> 1,071,495
+
+(b) The absolute number of files. 
+
+Figure 6: Programming-language distribution in the collected scientific code corpus. (language, repository, file path, line span, and function name/qualified name), together with the raw function body extracted from F1 via tree-sitter parsing. The instance is selected through dual evidence: an md score measuring the embedding similarity between the domain keyword set and the repository README , and a code score measuring the similarity between the same keyword set and the function body (both computed using Qwen3-embedding). These signals are combined as F inal score = md score × code score , which is also displayed in the example for ranking and filtering. For the selected function, we additionally attach lightweight context, including extracted dependencies ( e.g., the salient call scatter_mean ) and the README summary from F2. Finally, we prompt C HAT GPT-5 to generate a docstring-style description that must stay within this evidence, and use NATURELM [ 24 ] to filter low-confidence generations. As illustrated, the resulting F3 record exposes not only the function and its description, but also the associated evidence, scores, and validation status, enabling transparent reuse in downstream tasks. 
+
+I Executable Benchmark Instance 
+
+Figure 8 illustrates a simplified example from our executable benchmark to demonstrate how each task instance is structured and evaluated. Each benchmark instance consists of three core components: a Prompt , a Reference Implementation ,and a Test Harness . The prompt provides a natural-language specification of the task together with the target function signature. In the example shown in Figure 8, the prompt describes a function 
+
+predict that estimates biophysical properties of a DNA sequence using pre-trained models and thermodynamic matrices. The description outlines the expected inputs (a DNA sequence and constraint parameters) and the required outputs, which include several predicted thermodynamic quantities such as dG_total , UP , and h35 .The reference implementation provides a correct solution that satisfies the prompt specification. In this example, the implementation first loads pre-trained parameters from external files, initializes encoding utilities, and constructs the necessary matrices used for prediction. The sequence is then processed through a scanning procedure that produces multiple thermodynamic metrics, which are finally returned as the output tuple. To enable automated and reproducible evaluation, each instance is accompanied by a test harness that verifies the functional behavior of generated solutions. The test harness executes the candidate implementation inside a sandboxed environment and replaces external dependencies with lightweight stubs. For example, the benchmark substitutes simplified implementations of modules such as numpy ,
+
+util , and helper functions like get_matrices and scan_arbitrary . These stubs provide deterministic outputs that allow the test harness to verify whether the candidate implementation correctly invokes the expected functions, loads the required model parameters, and returns outputs in the correct format. 20 Language 
+
+python 
+
+Repo 
+
+Bytedace__DecompOpt 
+
+File 
+
+bytedance___DecompO 
+
+pt/models/decompopt.py 
+
+Start Line  17 
+
+End Line  29 
+
+Name  Center_pos 
+
+MD Score  0.43 
+
+Code Score  0.33 
+
+Generation  Gpt -5
+
+Validation  passed 
+
+0.43 MD Score                 
+
+> def center_pos(protein_pos, ligand_pos, batch_protein, batch_ligand, mode= "protein" ):
+> if mode == "none" :
+> offset = 0.0
+> elif mode == "protein" :
+> offset = scatter_mean(protein_pos, batch_protein, dim= 0)
+> protein_pos = protein_pos -offset[batch_protein]
+> if ligand_pos is not None :
+> ligand_pos = ligand_pos -offset[batch_ligand]
+> # print("offset:", offset)
+> else :
+> raise NotImplementedError
+> return protein_pos, ligand_pos, offset
+
+Dependent Functions 
+
+Scatter_mean 
+
+Generated Description   
+
+> Centers protein and optionally ligand atomic positions relative to the protein's centroid.
+> This function adjusts the coordinates of protein atoms and, if provided, ligand atoms,
+> such that the mean position of the protein atoms becomes the origin (0, 0, 0). This is
+> useful for aligning molecules within a protein pocket for downstream processing.
+> Parameters:
+> -protein_pos (torch.Tensor): A tensor of shape (N_protein, 3) representing the 3D
+> atomic ……….
+
+0.33  0.14 Figure 7: An simplified example in Function Instruction dataset. After the environment is configured, the harness calls the candidate function with a test DNA sequence and a constraint object. Assertions are then applied to ensure that the returned tuple matches the expected prediction structure and that the required model files have been loaded. Through this executable evaluation mechanism, benchmark instances assess not only the syntactic validity of generated code but also its functional correctness under controlled execution. 
+
+J Limitations 
+
+Although S CI CODE PILE provides a large-scale corpus and executable benchmark for scientific code generation, several limitations remain. First, while our repository retrieval pipeline aims to cover a broad range of computational science domains, the collected corpus may still underrepresent certain scientific fields or specialized software ecosystems. Expanding domain coverage by incor-porating additional repositories is an important direction for future work. Second, a portion of the instruction-level data ( F4 ) is synthesized from real code using LLM-based generation. Although we apply validation and filtering procedures to ensure consistency with the repository implementations, automatically constructed instructions may still introduce noise or simplifications compared to tasks crafted by experts. Third, the executable benchmark currently contains a limited number of tasks due to the stringent requirements of runnable environments and test harness construction. Scaling executable evaluation while maintaining reliability remains a key challenge for future dataset and benchmark development. 21 Prompt  Reference Implementation 
+
+Test Harness 
+
+def predict(sequence, constraints): 
+
+""" 
+
+Predicts biophysical properties of a given DNA sequence 
+
+based on pre -trained models and provided constraints. 
+
+This function loads pre -trained model weights and 
+
+biophysical matrices, then scans an input DNA sequence 
+
+to predict thermodynamic and structural parameters. 
+
+Args: 
+
+sequence (str): Input DNA sequence. 
+
+constraints: Constraint object passed to the scanner. 
+
+Returns: 
+
+(dG_total, query, UP, h35, spacer, h10, disc, ITR) 
+
+""" 
+
+def predict(sequence, constraints): 
+
+# Initialize model and matrices 
+
+layer1 = np.load( 'free_energy_coeffs.npy ') 
+
+inters = np.load( 'model_intercept.npy ') 
+
+two_mer_encoder = util.kmer_encoders(k= 2)
+
+three_mer_encoder = util.kmer_encoders(k= 3) 
+
+spacer_encoder = util.length_encoders( 16 , 18 )
+
+dg10_0, dg10_3, dg35_0, dg35_3, dmers, x10mers, 
+
+spacers 
+
+=
+
+get_matrices( 
+
+two_mer_encoder=two_mer_encoder, 
+
+three_mer_encoder=three_mer_encoder, 
+
+spacer_encoder=spacer_encoder, 
+
+coeffs=layer1, 
+
+)
+
+# Scan DNA and return predictions 
+
+…….. 
+
+def check(candidate): 
+
+# Stubs for sandbox execution 
+
+class NP: 
+
+def __init__(self): 
+
+self.loaded = [] 
+
+def load(self, fname): 
+
+self.loaded.append(fname) 
+
+return f"array: {fname} "
+
+np = NP() 
+
+class Util: 
+
+def kmer_encoders(self, k): 
+
+return f"kmer {k} "
+
+def length_encoders(self, a, b): 
+
+return f"len {a} -{b} "
+
+util = Util() 
+
+def get_matrices(two_mer_encoder, three_mer_encoder, spacer_encoder, coeffs): 
+
+return ("dg10_0", "dg10_3", "dg35_0", "dg35_3", "dmers", "x10mers", "spacers") 
+
+def scan_arbitrary(**kwargs): 
+
+# Minimal deterministic return to validate unpacking logic 
+
+result = [[" dG_total "], [[" UP ", " h35 ", " spacer ", " h10 ", " disc ", " ITR "]]] 
+
+return (" od ", result), " query_obj "
+
+# Inject stubs into candidate globals 
+
+g = candidate.__globals__ 
+
+g[" np "] = np 
+
+g[" util "] = util 
+
+g[" get_matrices "] = get_matrices 
+
+g[" scan_arbitrary "] = scan_arbitrary 
+
+# Execute and validate outputs 
+
+out = candidate(" ACGT ", constraints=" c") 
+
+assert out == (" dG_total ", " query_obj ", " UP ", 
+
+"h35 ", " spacer ", " h10 ", " disc ", " ITR ") 
+
+assert np.loaded == [" free_energy_coeffs.npy ", 
+
+"model_intercept.npy "] 
+
+assert g[" np "].loaded[0].endswith(" .npy ") Figure 8: An simplified example in executable benchmark. 
+
+K Prompt Templates 
+
+K.1 Prompt Template for F1 
+
+To construct the F1 repository-level dataset, we design two lightweight prompts to assist the iden-tification of domain-relevant scientific repositories. Figure 9 shows the prompt template used for expanding scientific keywords. Given a set of initial discipline keywords, the prompt asks the model to generate a small set of closely related terms. These expanded keywords are then used to retrieve candidate repositories from GitHub, enabling broader coverage of domain-specific projects while avoiding overly generic terms. Figure 10 presents the prompt used for judging repository relevance. The model is instructed to analyze repository metadata, including the README content, description, and topics, and determine whether the repository contains code relevant to the target scientific disciplines. The output is a binary decision (“ YES ” or “ NO ”) together with a brief justification. These prompts help filter repositories and ensure that the collected projects are closely aligned with the intended scientific domains. 
+
+K.2 Prompt Template for F2 
+
+We design a prompt to generate structured summaries from repository README files. As shown in Figure 11, the prompt instructs the model to analyze the README /Markdown content and produce 22 You are an assistant that generates diverse and related keywords for scientific disciplines. 
+
+# System Instruction 
+
+## Prompt Template for Expanding Scientific Keywords 
+
+# User Query 
+
+Generate a list of exactly 5 diverse keywords related to these scientific fields: 
+
+{
+
+config['keywords’] 
+
+}. 
+
+Make sure that the generated keywords do not stray away from these scientific disciplines and do 
+
+not contain broad terms that will confuse the search (e.g. machine learning, algorithms, etc). 
+
+I would like to use these keywords to retrieve code repositories related to these specific scientific 
+
+disciplines from GitHub. Figure 9: Prompt Template for Expanding Scientific Keywords. You are an expert at reading GitHub README.md files thoroughly and determining whether the 
+
+repository hosts scientific code that is relevant to the scientific disciplines of 
+
+{
+
+keywords_str 
+
+}
+
+Your task is to decide if the repository's scientific code is related to these disciplines. 
+
+Only answer based on the information available in the README, repository description, and topics. 
+
+# System Instruction 
+
+## Prompt Template for Judging Repo . Relevance 
+
+# User Query 
+
+Think before you respond. Your answer should be based on your thorough understanding of the 
+
+content of the README.md file. 
+
+Does the README.md file indicate that the repository hosts code related to the scientific disciplines 
+
+of {keywords_str}? 
+
+- Repository: {repo['full_name’]} 
+
+- Description: {repo['description’]} 
+
+- Topics: {repo['topics’]} 
+
+- README: {readme} 
+
+Answer by ' YES ' or ' NO ' in the relevant field. And provide your reasoning in the reason field. 
+
+Figure 10: Prompt Template for Judging Repo. Relevance. a concise yet comprehensive project summary. The generated output follows a predefined JSON 
+
+schema, including fields such as project overview, main features, dependencies, scientific-computing characteristics, and typical input/output information. This structured summary serves as lightweight project context for downstream stages of the dataset construction pipeline. 23 Prompt Template for Generating README Summaries 
+
+You are a professional code repository documentation analyst. Please summarize the following 
+
+README/Markdown file content and generate a concise yet comprehensive project summary. 
+
+Requirements: 
+
+1. The summary should be suitable for use as "project context", with a length between 300 -800 
+
+words 
+
+2. Focus on the core features, dependencies, and usage methods of the project 
+
+3. If the project involves scientific computing, chemistry, biology, physics, or related fields, please 
+
+specifically note this 
+
+4. Extract key information: installation steps, runtime commands, input/output formats, etc. 
+
+5. Keep it objective and accurate, avoiding adding information not present in the original 
+
+documentation 
+
+Below is the README file content to be summarized: 
+
+---
+
+{readme_content} 
+
+---
+
+Please output a JSON -formatted summary following this structure (must use JSON, do not include 
+
+any other text): 
+
+{
+
+"project_overview": "One -sentence overview of the project", 
+
+"main_features": "Main features list (bullet points)", 
+
+"dependencies": "Dependencies and environment requirements", 
+
+"scientific_computing_related": "Scientific computing/chemistry related characteristics (if any, 
+
+otherwise null)", 
+
+"typical_input_output": "Typical input/output examples (if any, otherwise null)", 
+
+}
+
+Note: Output only the JSON object, do not include any prefix or suffix text. Figure 11: Prompt Template for Generating README Summaries. 
+
+K.3 Prompt Template for F3 
+
+To construct the F3 function-instruction dataset, we design a prompt to generate structured natural-language descriptions for individual functions. As illustrated in Figure 12, the prompt provides the extracted function code together with the corresponding project README , and instructs the model to produce a precise docstring-style description. The generated description summarizes the function’s purpose, input parameters, return values, and potential constraints or edge cases, while remaining grounded in the provided code and documentation. This process pairs real functions with evidence-constrained instructions, forming the core data used in the F3 dataset. 
+
+K.4 Prompt Template for F4 
+
+To construct the F4 problem–solution dataset, we design a prompt that generates scientific pro-gramming tasks inspired by real code snippets. As illustrated in Figure 13, the prompt provides a code fragment extracted from the repository and instructs the model to create a self-contained problem description together with a corresponding Python solution. The generated problems focus on scientific computing concepts such as numerical algorithms, data analysis, or computational modeling, while avoiding direct references to the original code. Therefore, each instance forms a 24 Prompt Template for Generating Function Description 
+
+You are an expert Python developer and technical writer. 
+
+You will be given: 
+
+1. A Python function or code snippet extracted from a larger project 
+
+2. The project's README file 
+
+Your task is to write a **precise and detailed function description**, suitable as a docstring or a 
+
+HumanEval -style task description for code generation. 
+
+Requirements: 
+
+- Clearly explain the function's purpose and what task it accomplishes 
+
+- List all input parameters with their names, types, and meaning 
+
+- Describe the return value, its type, and meaning 
+
+- Include any important side effects, exceptions, or special conditions 
+
+- Mention constraints, assumptions, or edge cases if applicable 
+
+- Use concise, clear, professional English 
+
+- Format like a Python docstring (triple quotes) or HumanEval description, but do not include actual 
+
+code 
+
+- Base the description on the code and README; do not invent functionality not present in the code 
+
+Output example: 
+
+""" 
+
+Function to compute the factorial of a non -negative integer n. 
+
+Parameters: 
+
+- n (int): A non -negative integer whose factorial is to be computed. 
+
+Returns: 
+
+- int: The factorial of the input integer n. 
+
+Raises: 
+
+- ValueError: If n is negative. 
+
+Notes: 
+
+- Uses iterative approach to compute factorial. 
+
+- Assumes input n is a non -negative integer. 
+
+""" 
+
+Code: 
+
+<<<CODE>>> 
+
+Project README: 
+
+<<<README>>> Figure 12: Prompt Template for Generating Function Description. complete problem–solution pair that reflects the underlying scientific computing ideas present in the source repository. 
+
+K.5 Prompt Design for Executable Benchmark Construction 
+
+To construct the executable benchmark, we design a prompt that generates runnable test artifacts for Python functions. As illustrated in Figure 14, the prompt instructs the model to produce a JSON 
+
+25 Prompt Template for Generating Problem Solution Pairs. 
+
+You are an expert in scientific computing and computational chemistry/biology/physics. Please 
+
+create a high -quality programming problem inspired by the following code snippet from a real 
+
+scientific computing project. 
+
+The problem should focus on scientific computing concepts such as: 
+
+- Numerical algorithms and simulations 
+
+- Data analysis and visualization 
+
+- Mathematical modeling 
+
+- Scientific data processing 
+
+- Computational methods in chemistry, biology, or physics 
+
+Code snippet for inspiration: 
+
+{code} 
+
+Present your output in two distinct sections: 
+
+[Problem Description] 
+
+Create a completely self -contained problem description that: 
+
+⚫ Does NOT directly reference the code snippet above 
+
+⚫ Provides all necessary context and background 
+
+⚫ Clearly states what needs to be implemented 
+
+⚫ Specifies input/output format and constraints 
+
+⚫ Is inspired by the scientific computing concepts in the code but creates a NEW, interesting 
+
+problem 
+
+⚫ Assumes common programming knowledge but explains any domain -specific concepts 
+
+[Solution] 
+
+⚫ Provide a comprehensive, correct Python solution that: 
+
+⚫ Accurately solves the problem described 
+
+⚫ Includes clear comments explaining the approach 
+
+⚫ Uses appropriate scientific computing libraries (numpy, scipy, etc.) when relevant 
+
+⚫ Is complete and runnable 
+
+⚫ Follows best practices for scientific computing 
+
+## Remember: The problem should be INSPIRED by the code, not a direct copy. Create something 
+
+educational and interesting for scientific computing practitioners. Figure 13: Prompt Template for Generating Problem Solution Pairs. object containing optional setup code and a test function that validates the candidate implementation. The generated test code must define a single check(candidate) function and include multiple assertions while relying only on the Python standard library. These constraints ensure that the resulting test cases are lightweight, executable, and suitable for automatic evaluation in downstream tasks. 26 Prompt  Template for Generating  Test  Cases .
+
+You are generating a runnable test artifact for a Python function. 
+
+Return ONLY valid JSON with exactly two string fields: 
+
+{
+
+"setup_code": "<optional Python setup code>", 
+
+"test_code": "<Python code that defines def check(candidate): ...>" 
+
+}
+
+Rules: 
+
+1. test_code must define exactly one function signature: def check(candidate): 
+
+2. test_code must contain at least 3 asserts. 
+
+3. Use only Python standard library. No network. No heavy external dependencies. 
+
+4. If the function depends on unavailable globals/modules, put lightweight stubs/mocks in 
+
+setup_code. 
+
+5. setup_code may be empty string when not needed. 
+
+6. In test_code, avoid importing non -standard modules. 
+
+7. Do NOT include markdown fences or explanations. Figure 14: Prompt Template for Generating Test Cases. 27

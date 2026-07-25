@@ -1,6 +1,689 @@
 {
-  "generated_at": "2026-03-06T19:11:18.471356+00:00",
-  "updated_date": "20260306",
+  "generated_at": "2026-07-25T01:54:47.739494+00:00",
+  "updated_date": "20260716-20260725",
   "carryover_days": 9,
-  "items": []
+  "tag_states": {
+    "code-ml-sys": {
+      "updated_date": "20260716-20260725",
+      "carryover_days": 9,
+      "items": [
+        {
+          "id": "2607.20822v1",
+          "source": "arxiv",
+          "title": "Robust Asynchronous Q-Learning under Reward and State Corruption via Batching",
+          "abstract": "Motivated by reinforcement learning in harsh environments, we consider the problem of learning an optimal policy subject to adversarially corrupted feedback. Specifically, at each time-step, an adversary can perturb both the reward and state observations of the learner following the Huber contamination model. To defend against such data corruption, we propose {\\texttt{BR-Async-Q}}: a novel, epoch-based, robust \\(Q\\)-learning algorithm built upon two key ideas: (i) partitioning the online data stream into batches to reduce variance, and (ii) constructing robust estimates of the Bellman optimality operator using such batched data. We prove a high-probability $\\ell_\\infty$ error bound for {\\texttt{BR-Async-Q}} that matches that for vanilla \\(Q\\)-learning, up to a small additive term that scales with the fraction of corrupted samples. To our knowledge, this provides the first robustness guarantee for asynchronous \\(Q\\)-learning subject to both reward and state corruption. Furthermore, when only rewards are corrupted, the dependence of our algorithm's bound on the corruption fraction is minimax optimal.",
+          "authors": [
+            "Sreejeet Maity",
+            "Aritra Mitra"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "eess.SY"
+          ],
+          "published": "2026-07-23T01:21:05+00:00",
+          "link": "https://arxiv.org/pdf/2607.20822v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "robust asynchronous Q-learning algorithm against adversarial corruption",
+          "llm_evidence_cn": "鲁棒异步Q学习算法抵御对抗性破坏",
+          "llm_evidence": "鲁棒异步Q学习算法抵御对抗性破坏",
+          "canonical_evidence": "鲁棒异步Q学习算法抵御对抗性破坏",
+          "llm_tldr_en": "Proposes BR-Async-Q, an epoch-based robust Q-learning algorithm that batches data and constructs robust Bellman operator estimates against reward and state corruption.",
+          "llm_tldr_cn": "本文研究在奖励和状态观测被对抗性破坏的恶劣环境下的强化学习问题，提出BR-Async-Q算法。该算法将在线数据流划分为批次以降低方差，并基于批次数据构造鲁棒的贝尔曼最优算子估计。理论分析证明了与标准Q-learning匹配的L无穷误差界。该方法为强化学习在安全关键应用中的部署提供了理论基础。",
+          "llm_tldr": "本文研究在奖励和状态观测被对抗性破坏的恶劣环境下的强化学习问题，提出BR-Async-Q算法。该算法将在线数据流划分为批次以降低方差，并基于批次数据构造鲁棒的贝尔曼最优算子估计。理论分析证明了与标准Q-learning匹配的L无穷误差界。该方法为强化学习在安全关键应用中的部署提供了理论基础。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20822v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.16850v1",
+          "source": "arxiv",
+          "title": "Group Entropy-Controlled Policy Optimization",
+          "abstract": "Entropy control has become an effective tool in reinforcement learning (RL) of large language models (LLMs), helping balance exploration-exploitation trade-off during alignment process. Such RL paradigm is often conducted on mixtures of heterogeneous tasks, which induce distinct entropy regimes under the same policy, making global or token-level entropy regulation insufficient to corresponding heterogeneous needs of exploration. This heterogeneity further makes GRPO-style normalized advantages induce an entropy-dependent bias, making advantage signals across prompt groups statistically non-comparable. To address this issue, we propose Group Entropy-Controlled Policy Optimization (GEPO), a lightweight extension to GRPO that uses group entropy, estimated from existing grouped samples to perform entropy-conditioned asymmetric advantage shaping. GEPO attenuates positive advantages in low-entropy groups to reduce over-exploitation, and negative advantages in high-entropy groups to preserve exploration, with adaptive thresholds derived from historical entropy statistics. Extensive experiments on two base models across thirteen benchmarks spanning mathematics, physics, science, code generation, and instruction following show that GEPO consistently outperforms GRPO and recent entropy-controlled methods, delivering balanced cross-task improvements while preserving task-specific exploration levels throughout training.",
+          "authors": [
+            "Guangran Cheng",
+            "Chengqi Lyu",
+            "Songyang Gao",
+            "Wenwei Zhang",
+            "Kai Chen"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL"
+          ],
+          "published": "2026-07-18T15:13:33+00:00",
+          "link": "https://arxiv.org/pdf/2607.16850v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "entropy-controlled policy optimization for RL with LLMs",
+          "llm_evidence_cn": "面向LLM强化学习的熵控策略优化",
+          "llm_evidence": "面向LLM强化学习的熵控策略优化",
+          "canonical_evidence": "面向LLM强化学习的熵控策略优化",
+          "llm_tldr_en": "Proposes Group Entropy-Controlled Policy Optimization (GEPO), extending GRPO with group entropy estimation to handle heterogeneous tasks in LLM alignment.",
+          "llm_tldr_cn": "针对LLM强化学习对齐中任务异构导致熵需求不同的问题，提出群体熵控策略优化（GEPO）。该方法利用分组采样估计群体熵，并动态调整策略的探索与利用权衡，从而解决GRPO风格优势函数因熵偏置导致跨组不可比的问题。实验表明GEPO在多任务对齐中优于现有方法，同时保持轻量级。该工作提升了RL在LLM训练中的稳定性和效果。",
+          "llm_tldr": "针对LLM强化学习对齐中任务异构导致熵需求不同的问题，提出群体熵控策略优化（GEPO）。该方法利用分组采样估计群体熵，并动态调整策略的探索与利用权衡，从而解决GRPO风格优势函数因熵偏置导致跨组不可比的问题。实验表明GEPO在多任务对齐中优于现有方法，同时保持轻量级。该工作提升了RL在LLM训练中的稳定性和效果。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.16850v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20327v1",
+          "source": "arxiv",
+          "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
+          "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
+          "authors": [
+            "Niqi Lyu",
+            "Pengtao Shi",
+            "Wei Qiu",
+            "Jianlin Zhong",
+            "Sicong Xia",
+            "Jianyao Ma",
+            "Yicheng Ding"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL"
+          ],
+          "published": "2026-07-22T16:14:26+00:00",
+          "link": "https://arxiv.org/pdf/2607.20327v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Cost-efficient token-level SLM-LLM collaborative inference system design",
+          "llm_evidence_cn": "代价高效的词级小-大语言模型协作推理系统设计",
+          "llm_evidence": "代价高效的词级小-大语言模型协作推理系统设计",
+          "canonical_evidence": "代价高效的词级小-大语言模型协作推理系统设计",
+          "llm_tldr_en": "PyroDash enables cost-efficient token-level collaboration between a small and a frozen large LM, with three-stage training.",
+          "llm_tldr_cn": "论文针对大模型推理成本高的问题，提出PyroDash框架，让小模型在生成时通过发射控制词决定是否请求大模型协助。采用三段式训练：控制词嵌入学习、卸载导向微调等，在保持性能的同时显著降低推理成本。",
+          "llm_tldr": "论文针对大模型推理成本高的问题，提出PyroDash框架，让小模型在生成时通过发射控制词决定是否请求大模型协助。采用三段式训练：控制词嵌入学习、卸载导向微调等，在保持性能的同时显著降低推理成本。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Scalable machine learning system design and optimization",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20327v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17715v1",
+          "source": "arxiv",
+          "title": "C$^2$KV: Compressed and Composable KV Cache Reuse for Efficient LLM Inference",
+          "abstract": "Long-context inference is central to modern large language model (LLM) applications such as retrieval-augmented generation and multi-document reasoning. To mitigate the growing inference cost, recent work has explored key-value (KV) cache reuse to reduce redundant prefill computation. However, existing reuse methods primarily focus on computation savings and overlook a critical bottleneck in long-context LLM serving: the cost of storing and accessing large KV caches. While KV compression appears to be a natural complement, naively combining compression with non-prefix KV reuse often leads to severe accuracy degradation. In this work, we propose C$^2$KV, a unified framework for non-prefix KV reuse that jointly optimizes KV extraction and inference-time concatenation. C$^2$KV learns a composable and compressed KV cache manifold that is explicitly designed to be position-agnostic. Our approach introduces a lightweight sidecar Extractor with learnable compression tokens and a structured attention flow, enabling modular KV representations that can be flexibly reused and concatenated without modifying the frozen base model. We further employ a compression-concatenation co-training strategy to align extraction-time representations with their downstream reuse behavior. Extensive experiments across multiple long-context benchmarks and model families demonstrate that C$^2$KV significantly reduces KV cache storage and transfer costs, achieving up to 17$\\times$ inference speedup under long contexts, while preserving generation quality.",
+          "authors": [
+            "Chuheng Du",
+            "Junyi Chen",
+            "Hanlin Tang",
+            "Kan Liu",
+            "Tao Lan",
+            "Lin Qu",
+            "Chaoyue Niu",
+            "Shengzhong Liu",
+            "Guihai Chen",
+            "Fan Wu"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL"
+          ],
+          "published": "2026-07-20T09:09:23+00:00",
+          "link": "https://arxiv.org/pdf/2607.17715v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Compressed and composable KV cache reuse for efficient LLM inference, optimizing ML system scalability",
+          "llm_evidence_cn": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
+          "llm_evidence": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
+          "canonical_evidence": "压缩和可组合的KV缓存复用，优化LLM推理效率，提升ML系统可扩展性",
+          "llm_tldr_en": "C2KV jointly optimizes KV extraction and inference for non-prefix reuse, reducing storage and latency while maintaining accuracy.",
+          "llm_tldr_cn": "论文针对长上下文LLM推理中KV缓存存储成本高的问题，提出C2KV统一框架。它联合优化KV提取和推理，实现非前缀KV复用，同时通过压缩减少缓存开销。实验表明该方法在保持准确率的同时显著降低了存储和延迟。",
+          "llm_tldr": "论文针对长上下文LLM推理中KV缓存存储成本高的问题，提出C2KV统一框架。它联合优化KV提取和推理，实现非前缀KV复用，同时通过压缩减少缓存开销。实验表明该方法在保持准确率的同时显著降低了存储和延迟。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Scalable machine learning system design and optimization",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17715v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19966v1",
+          "source": "arxiv",
+          "title": "Towards Reliable C-to-Rust Translation with Rule-Guided Reasoning and Reinforcement Learning",
+          "abstract": "The migration of legacy C programs to Rust has become an important direction for improving software memory safety while alleviating the high cost of manual rewriting. Leveraging large language models (LLMs) for automated C-to-Rust translation has emerged as a promising direction. However, existing LLM-based approaches remain limited. On the one hand, LLMs exhibit limited capability in identifying Rust-specific rules, and inadequate handling of Rust syntax often results in incorrect translations. On the other hand, existing LLMs often struggle to accurately capture the semantics of complex code, resulting in incorrect translations. To address these challenges, we propose a Translation fRAmework Via rule-guided reasoning and rEinforcement Learning, namely TRAVEL, consisting of two modules. The first module employs Monte Carlo Tree Search (MCTS)-based reasoning path construction guided by Rust-specific rules, steering the search toward translation steps that respect the syntactic rules that LLMs frequently violate. The second module introduces reinforcement learning that couples execution feedback with reasoning-quality signals, encouraging the model to construct reasoning paths that accurately capture program semantics, thereby ensuring that the generated Rust code preserves the intended behavior of the original C program. We evaluate TRAVEL on three datasets: xCodeEval (a public benchmark), OS-Bench (functions collected from the Linux kernel), and HW-Bench (an industrial dataset from Huawei). On xCodeEval, TRAVEL outperforms all baselines across three backbone LLMs. In particular, compared to the strongest prompting baseline IRENE, TRAVEL improves computational accuracy (CA) by 26.22% and compilation success rate (CSR) by 18.77%. On HW-Bench and OS-Bench, TRAVEL further improves CSR by 18.28% and 16.51%, respectively, while reducing unsafe rate (UR) by 13.06% and 13.08%, respectively.",
+          "authors": [
+            "Feng Luo",
+            "Jiachen Liu",
+            "Cuiyun Gao",
+            "Jia Feng",
+            "Kui Liu"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE"
+          ],
+          "published": "2026-07-22T09:50:01+00:00",
+          "link": "https://arxiv.org/pdf/2607.19966v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Automated C-to-Rust translation using LLMs with rule-guided reasoning and reinforcement learning",
+          "llm_evidence_cn": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
+          "llm_evidence": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
+          "canonical_evidence": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
+          "llm_tldr_en": "Proposes a framework for reliable C-to-Rust translation using LLMs with rule-guided reasoning and reinforcement learning to handle Rust-specific syntax and semantics.",
+          "llm_tldr_cn": "现有基于LLM的C到Rust翻译常因对Rust规则理解不足而产生错误翻译。本文提出一个结合规则引导推理与强化学习的框架，通过识别Rust特定规则并利用强化学习优化翻译策略，显著提升翻译正确性与语义保持。",
+          "llm_tldr": "现有基于LLM的C到Rust翻译常因对Rust规则理解不足而产生错误翻译。本文提出一个结合规则引导推理与强化学习的框架，通过识别Rust特定规则并利用强化学习优化翻译策略，显著提升翻译正确性与语义保持。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19966v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19199v1",
+          "source": "arxiv",
+          "title": "Conservative Query and Adaptive Regularization for Offline RL Under Uncertainty Estimation",
+          "abstract": "Offline reinforcement learning (RL) aims to learn an effective policy from a static dataset, but its performance is fundamentally limited by dataset coverage. Action preference queries leverage expert feedback without additional environment interaction, enabling policy improvement during offline training. However, existing methods still face two key challenges: selecting informative preference queries and effectively exploiting the collected feedback. Current approaches typically rely only on the distance between policy actions and dataset actions for query selection, while enforcing fixed constraints that keep the policy close to queried preferences. Such strategies often lead to unstable policy updates and integrate poorly with value regularization. To address these limitations, we propose Conservative Query and Adaptive Regularization under Uncertainty Estimation, a lightweight framework that jointly improves preference querying and preference exploitation. Specifically, we employ a Morse network to estimate the uncertainty of policy actions with respect to the offline dataset. Based on this uncertainty, we introduce a conservative query strategy that selectively queries actions near the dataset to preserve Bellman-update stability, together with an uncertainty-aware adaptive regularization scheme that dynamically adjusts data-level constraints during policy optimization. We integrate our framework with CQL and evaluate it extensively on the D4RL benchmark. Experimental results demonstrate superior or competitive performance across a wide range of tasks.",
+          "authors": [
+            "Li-Rong Zhou",
+            "Qin-Wen Luo",
+            "Sheng-Jun Huang"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-21T15:34:06+00:00",
+          "link": "https://arxiv.org/pdf/2607.19199v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Offline RL with conservative query and adaptive regularization under uncertainty estimation",
+          "llm_evidence_cn": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
+          "llm_evidence": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
+          "canonical_evidence": "离线强化学习中的保守查询与自适应正则化，结合不确定性估计",
+          "llm_tldr_en": "Proposes conservative query selection and adaptive regularization for offline RL to improve policy learning from limited data with expert feedback.",
+          "llm_tldr_cn": "离线强化学习受限于静态数据集覆盖，现有方法查询选择与反馈利用不佳。本文提出保守查询选择策略与自适应正则化方法，基于不确定性估计选择信息量大的偏好查询，并动态调整约束强度。在多个离线RL基准上取得更好性能。",
+          "llm_tldr": "离线强化学习受限于静态数据集覆盖，现有方法查询选择与反馈利用不佳。本文提出保守查询选择策略与自适应正则化方法，基于不确定性估计选择信息量大的偏好查询，并动态调整约束强度。在多个离线RL基准上取得更好性能。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19199v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17175v1",
+          "source": "arxiv",
+          "title": "LMEdge: QoS-Aware LLM Inference Orchestration on Edge Clusters",
+          "abstract": "Large language model (LLM) services increasingly operate on edge infrastructure, enabling low-latency and privacy-preserving AI services. However, efficiently serving LLM requests across heterogeneous and resource-constrained edge devices require orchestration mechanisms that jointly determine model configuration (family, size, and quantization level) and execution placement while satisfying user- and system-level quality of service (QoS) requirements. This paper introduces LMEdge, a QoS-aware orchestration service that dynamically makes these decisions across heterogeneous edge devices. We formulate the problem as a binary integer linear programming (BILP) optimization that minimizes response time under accuracy, network, and resource constraints. To enable scalable online scheduling, we employ five lightweight machine learning (ML) models to predict query-specific latency, accuracy, resource usage, and response size for each model-size-quantization-device combination, and design a lightweight heuristic that approximates the BILP solution. We collect a comprehensive benchmarking dataset of over 59000 rows to train models and support reproducibility. Evaluation on a Kubernetes-based edge testbed with 57 instances and diverse query categories shows that LMEdge reduces latency, preserves accuracy, improves resource utilization, and increases serving ratio compared to two baselines.",
+          "authors": [
+            "Reza Farahani",
+            "Zoha Azimi",
+            "Mario Colosi",
+            "Schahram Dustdar"
+          ],
+          "primary_category": "cs.DC",
+          "categories": [
+            "cs.DC"
+          ],
+          "published": "2026-07-19T10:21:30+00:00",
+          "link": "https://arxiv.org/pdf/2607.17175v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "QoS-aware LLM inference orchestration across heterogeneous edge clusters, a distributed ML system optimization problem",
+          "llm_evidence_cn": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
+          "llm_evidence": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
+          "canonical_evidence": "跨异构边缘集群的QoS感知LLM推理编排，属于分布式ML系统优化",
+          "llm_tldr_en": "LMEdge formulates LLM inference orchestration on edge as a BILP problem, jointly optimizing model configuration and placement under QoS constraints.",
+          "llm_tldr_cn": "在资源受限的异构边缘设备上高效部署LLM服务需要联合决定模型配置和执行位置。本文提出LMEdge，将问题建模为二元整数线性规划，最小化响应时间同时满足精度、网络和资源约束。采用贪心求解器实现实时决策，实验证明在满足QoS的前提下显著降低延迟。",
+          "llm_tldr": "在资源受限的异构边缘设备上高效部署LLM服务需要联合决定模型配置和执行位置。本文提出LMEdge，将问题建模为二元整数线性规划，最小化响应时间同时满足精度、网络和资源约束。采用贪心求解器实现实时决策，实验证明在满足QoS的前提下显著降低延迟。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17175v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17927v1",
+          "source": "arxiv",
+          "title": "(Over)Reliance on Test Agents in AI-Assisted Software Testing",
+          "abstract": "AI-based test agents promise to accelerate software testing by shortening feedback loops in continuous development and improving scalability and maintainability. To realize these benefits, engineers must still be able to assess if agent outputs are useful, valid, and reliable, rather than treating them as credible because they come from a capable system. This paper argues that overreliance on AI in testing is both an agency problem, in which engineers may cede cognitive control over test design decisions, and an assurance problem, in which testing artifacts may be accepted as evidence without sufficient scrutiny. We develop this argument through three theoretical lenses: software testing as cognitive problem-solving, test agents as adaptively autonomous entities, and test design argumentation as a means of making generated tests reviewable. We propose a framework for collecting data on overreliance in test agent workflows and identify specific modes of overdependence. The goal is to support accelerated testing without weakening judgment or the assurance value of testing evidence.",
+          "authors": [
+            "Eduard Paul Enoiu"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE"
+          ],
+          "published": "2026-07-20T13:23:49+00:00",
+          "link": "https://arxiv.org/pdf/2607.17927v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Analysis of overreliance on AI agents in software testing",
+          "llm_evidence_cn": "AI辅助软件测试中过度依赖问题的理论分析",
+          "llm_evidence": "AI辅助软件测试中过度依赖问题的理论分析",
+          "canonical_evidence": "AI辅助软件测试中过度依赖问题的理论分析",
+          "llm_tldr_en": "This paper argues that overreliance on AI test agents presents both agency and assurance problems, analyzed through cognitive, autonomy, and sociotechnical lenses, providing guidance for reliable testing.",
+          "llm_tldr_cn": "本文探讨AI测试代理的过度依赖问题，认为工程师可能将认知控制让渡给代理（代理问题），并且测试制品可能未经充分审查而被接受（保证问题）。通过三个理论视角：软件测试作为认知问题解决、测试代理作为自适应自主实体、以及社会技术系统，建立了分析框架。该研究对于设计可靠的AI辅助测试系统具有重要指导意义，但未提出具体方法。",
+          "llm_tldr": "本文探讨AI测试代理的过度依赖问题，认为工程师可能将认知控制让渡给代理（代理问题），并且测试制品可能未经充分审查而被接受（保证问题）。通过三个理论视角：软件测试作为认知问题解决、测试代理作为自适应自主实体、以及社会技术系统，建立了分析框架。该研究对于设计可靠的AI辅助测试系统具有重要指导意义，但未提出具体方法。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "automated software testing and bug detection using ml",
+          "matched_requirement_id": "req-6",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17927v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19450v1",
+          "source": "arxiv",
+          "title": "REGEN: Replay-recycling for Expert-to-Generalist distillation with Offline Reinforcement Learning",
+          "abstract": "Large-scale online reinforcement learning (RL) is the predominant means of eliciting advanced abilities including long-term reasoning and agentic tool use in large language models (LLMs). However, continuing to scale it across vast task domains of interest remains challenging in both computational infrastructure and cost, especially when considering RL as merely a one-off learning stage. Recently, a widely used technique for distilling knowledge across various domains and training stages, multi-teacher on-policy distillation (MOPD), helps to decouple the RL stage, saving costs, while maintaining generality across vast domains. Nonetheless, similar to online RL, MOPD requires coupled inference and backward passes, which continues to limit its scalability and computational efficiency. To address these challenges, we propose REGEN: Replay-recycling for Expert-to-Generalist Distillation with Offline RL. Instead of distilling from multiple teacher models, REGEN trains a generalist by simply recycling the replay memory -- the free by-product of the teachers' specialized RL training -- and employing offline RL algorithms. REGEN completely decouples the rollout sampling from the backward training process and thus greatly reduces the training cost. Across mathematical reasoning, code generation, and instruction following, REGEN matches the accuracy of MOPD at substantially lower cost. It potentially turns online RL into a data synthesis process instead of a one-off learning stage, and can potentially be extended to large-scale post-training without requiring heavy computational load.",
+          "authors": [
+            "Yunjie Chen",
+            "Xiaoxin Chen",
+            "Fang Wang"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "published": "2026-07-21T13:36:23+00:00",
+          "link": "https://arxiv.org/pdf/2607.19450v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Offline RL for distilling expert LLMs to generalists",
+          "llm_evidence_cn": "使用离线强化学习将专家LLM蒸馏为通才",
+          "llm_evidence": "使用离线强化学习将专家LLM蒸馏为通才",
+          "canonical_evidence": "使用离线强化学习将专家LLM蒸馏为通才",
+          "llm_tldr_en": "REGEN uses replay-recycling and offline RL to distill multiple expert LLMs into a generalist model, reducing the need for expensive online RL, achieving comparable performance at lower cost.",
+          "llm_tldr_cn": "大规模在线强化学习是提升LLM高级能力的主要手段，但计算成本高昂。REGEN提出回放回收技术，结合离线强化学习，从多个专家LLM的轨迹中蒸馏出通才模型，避免了耦合的前向和反向传播。实验表明，相比在线RL基线，REGEN在保持性能的同时显著降低了训练成本。该方法为将RL能力高效迁移到多任务通用模型提供了实用方案，直接契合深度强化学习在LLM中的应用。",
+          "llm_tldr": "大规模在线强化学习是提升LLM高级能力的主要手段，但计算成本高昂。REGEN提出回放回收技术，结合离线强化学习，从多个专家LLM的轨迹中蒸馏出通才模型，避免了耦合的前向和反向传播。实验表明，相比在线RL基线，REGEN在保持性能的同时显著降低了训练成本。该方法为将RL能力高效迁移到多任务通用模型提供了实用方案，直接契合深度强化学习在LLM中的应用。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep reinforcement learning algorithms and applications",
+          "matched_requirement_id": "req-5",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19450v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20769v1",
+          "source": "arxiv",
+          "title": "Memory-Computation Tradeoffs in Semi Amortized Parametric Optimization",
+          "abstract": "Learning-enabled decision systems often use offline data or computation to reduce online compute cost. Despite the empirical success of such approaches, there is limited general understanding of how much offline information is needed to achieve a desired accuracy under a fixed online computation budget. We study this question through the lens of amortized parametric optimization: an offline phase stores a finite memory of solved problem instances, and an online phase produces a solution to a new instance by retrieving a warm start and applying $K$ steps of projected gradient descent. We analyze this setup for smooth convex parametric optimization over a compact domain, using a nonparametric predictor built from the stored offline solutions. For $μ$-strongly convex objectives, we establish matching upper and lower bounds on the memory required to guarantee $\\varepsilon$-accuracy under a fixed online iteration budget $K$. For convex objectives satisfying a $β$-growth condition ($β>2$), we obtain near-matching bounds and identify a phase transition in $K$ beyond which additional memory provides no benefit. We further provide a general proof framework that (i) explicitly quantifies the memory cost of acceleration---how much offline memory is required to achieve a prescribed speedup over the unaided online optimizer---and (ii) identifies two key quantities driving this cost: the convergence rate of the online optimizer and the Lipschitz sensitivity of the solution map to the problem parameter. Experiments on parameterized ridge regression confirm the predicted memory--computation--accuracy tradeoffs.",
+          "authors": [
+            "Shijie Pan",
+            "Agustin Castellano",
+            "Zeyu Shen",
+            "Enrique Mallada"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-22T22:36:27+00:00",
+          "link": "https://arxiv.org/pdf/2607.20769v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Memory-computation tradeoffs in convex parametric optimization",
+          "llm_evidence_cn": "凸参数优化中的内存-计算权衡",
+          "llm_evidence": "凸参数优化中的内存-计算权衡",
+          "canonical_evidence": "凸参数优化中的内存-计算权衡",
+          "llm_tldr_en": "This paper analyzes memory-computation tradeoffs in semi-amortized convex parametric optimization, deriving sample complexity bounds for achieving target accuracy with projected gradient descent under fixed online budget.",
+          "llm_tldr_cn": "本文从理论角度分析了半摊销参数优化中的内存-计算权衡：离线存储有限数量的已解决问题实例作为记忆，在线时通过检索热启动并应用K步投影梯度下降求解新问题。针对光滑凸参数优化，推导了达到目标精度所需的最小离线样本数。该工作为数据驱动的决策系统提供了理论指导，直接对应凸优化在机器学习中的应用需求。",
+          "llm_tldr": "本文从理论角度分析了半摊销参数优化中的内存-计算权衡：离线存储有限数量的已解决问题实例作为记忆，在线时通过检索热启动并应用K步投影梯度下降求解新问题。针对光滑凸参数优化，推导了达到目标精度所需的最小离线样本数。该工作为数据驱动的决策系统提供了理论指导，直接对应凸优化在机器学习中的应用需求。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "convex and nonconvex optimization for machine learning",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20769v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.19704v1",
+          "source": "arxiv",
+          "title": "Efficient Clustering with Provable Guardrails for LLM Inference at Scale",
+          "abstract": "Scaling LLM-based applications to millions of users is bottlenecked by the inference cost and latency of modern foundation models. A natural fix is to cluster the inputs and call the LLM only on cluster representatives, letting other members inherit the output -- but this is only safe if each member is measurably close to its representative. Existing clustering methods do not offer such per-sample quality control at scale: none jointly guarantee a minimal within-cluster similarity, exact matching of categorical attributes, and scalability to tens of millions of samples. We propose a two-stage algorithm that generates initial clusters with Mini-batch K-Means, then greedily selects representatives within each initial cluster -- a step equivalent to the Johnson-Chvatal heuristic for Set Cover over alpha-balls in embedding space. The algorithm enforces the similarity and attribute guardrails exactly by construction, and runs in $O(nd + n^2 d/K)$ time and $O(nd + n^2/K^2)$ memory for $n$ samples, feature dimension $d$, and $K$ initial clusters -- linear in $n$ when $K$ grows proportionally with $n$. We provide benchmarks against common clustering methods on internal and public datasets: our method not only delivers per-sample guardrails but also runs 10-1000x faster and scales to data sizes where most standard methods become intractable. Deployed on 38 million customers for a persona-based recommender, the clustering method cut downstream cost and latency by 50-fold while preserving personalization and unblocked the production launch.",
+          "authors": [
+            "Longshaokan Wang",
+            "Wai Tsang Keung",
+            "Punit Ghodasara",
+            "Roman Wang",
+            "Ali Dashti",
+            "Francesc Moreno-Noguer"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "stat.ML"
+          ],
+          "published": "2026-07-22T03:06:57+00:00",
+          "link": "https://arxiv.org/pdf/2607.19704v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "clustering-based method to scale LLM inference with quality guarantees",
+          "llm_evidence_cn": "基于聚类的LLM推理扩展方法，提供质量保证",
+          "llm_evidence": "基于聚类的LLM推理扩展方法，提供质量保证",
+          "canonical_evidence": "基于聚类的LLM推理扩展方法，提供质量保证",
+          "llm_tldr_en": "Efficient Clustering with Provable Guardrails enables scalable LLM inference by clustering inputs and only processing representatives, with guarantees on similarity and exact attribute matching.",
+          "llm_tldr_cn": "本文提出一种高效聚类算法，用于规模化部署LLM推理时降低延迟和成本。通过两阶段方法（Mini-batch K-Means初始聚类+贪心选择代表样本），保证每个样本与代表之间的最小相似度和分类属性精确匹配。在千万级样本上仍保持可扩展性，为LLM推理系统优化提供了实用的质量可控聚类方案。",
+          "llm_tldr": "本文提出一种高效聚类算法，用于规模化部署LLM推理时降低延迟和成本。通过两阶段方法（Mini-batch K-Means初始聚类+贪心选择代表样本），保证每个样本与代表之间的最小相似度和分类属性精确匹配。在千万级样本上仍保持可扩展性，为LLM推理系统优化提供了实用的质量可控聚类方案。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Scalable machine learning system design and optimization",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.19704v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.18555v1",
+          "source": "arxiv",
+          "title": "LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software",
+          "abstract": "We present an exploratory study on using Large Language Models (LLMs) to generate Alloy formal specifications from both requirements documentation and production source code, and to derive executable test cases from those specifications. We evaluate on two real open-source Python libraries: Flipper, a feature flag management system, and Cerberus, a data validation library.   In both cases, the LLM produced workable Alloy specifications and executable tests without any manual correction. For Flipper, our pipeline uncovered a genuine bug that the existing test suite had missed: the library silently accepts duplicate flag names, directly contradicting its documented uniqueness requirement. A direct LLM baseline--generating tests from the same README but skipping the Alloy step--achieved 68% branch coverage yet failed to catch this bug across all three independent runs. This suggests that introducing a formal intermediate representation can surface constraint-level defects that coverage-oriented generation may miss.   For Cerberus, the code-derived specification captured an implicit abstraction over sized types that the documentation-derived spec omitted, producing two additional tests. Across both libraries, code-based specifications showed lower variance in test generation (mean SD = 2.15) than documentation-based ones (mean SD = 5.0), though whether this generalises remains an open question.   Index Terms--formal specifications, Alloy, large language models, automated testing, specification drift, software validation.",
+          "authors": [
+            "Tasmim Rashid",
+            "Muhammad Zubair Malik"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE"
+          ],
+          "published": "2026-07-20T22:41:55+00:00",
+          "link": "https://arxiv.org/pdf/2607.18555v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "LLM generates formal specs and test cases, detects real bug",
+          "llm_evidence_cn": "LLM生成形式规范并推导测试用例，发现真实bug",
+          "llm_evidence": "LLM生成形式规范并推导测试用例，发现真实bug",
+          "canonical_evidence": "LLM生成形式规范并推导测试用例，发现真实bug",
+          "llm_tldr_en": "LM2Alloy uses LLMs to generate Alloy specifications from code and docs, then derives executable tests; found a genuine bug in Flipper library.",
+          "llm_tldr_cn": "本文探索使用大语言模型从需求文档和生产代码生成Alloy形式规范，并从中派生可执行测试用例。在两个真实Python库（Flipper和Cerberus）上的实验表明，无需手动修正即可获得可工作的规范和测试。在Flipper中，该流程发现了一个现有测试套件遗漏的真实bug：库静默接受重复的标志名，与文档要求的唯一性矛盾。证明了LLM在自动化测试生成中的潜力。",
+          "llm_tldr": "本文探索使用大语言模型从需求文档和生产代码生成Alloy形式规范，并从中派生可执行测试用例。在两个真实Python库（Flipper和Cerberus）上的实验表明，无需手动修正即可获得可工作的规范和测试。在Flipper中，该流程发现了一个现有测试套件遗漏的真实bug：库静默接受重复的标志名，与文档要求的唯一性矛盾。证明了LLM在自动化测试生成中的潜力。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "automated software testing and bug detection using ml",
+          "matched_requirement_id": "req-6",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.18555v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17641v1",
+          "source": "arxiv",
+          "title": "Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents",
+          "abstract": "Verify-repair loops are a standard means for large language model (LLM) agents to correct faulty plans in code generation, mathematical reasoning, and tool use. When both the verifier and the repairer are noisy, repair can damage already-correct plans, and reported acceptance keeps rising while true validity falls, so existing methods lack a principled basis for deciding when repair should stop. We propose VRR-Stop, a robust stopping framework for noisy verify-repair-repeat (VRR) loops. A four-parameter noise model separates verifier false acceptance and false rejection from the repair and damage behavior of the repairer. Belief filtering turns repeated verification votes into an estimate of committed validity, and the loop commits or repairs according to the sign of the true marginal gain, which requires only sign identifiability rather than accurate recovery of all parameters. When verifier discrimination approaches zero, calibration itself fails and estimation error can flip the stopping sign, so we pair VRR-Stop with VRR-Guard, an estimation-free fallback that replaces the incumbent candidate only under a sufficient verification margin. On a GSM8K stress setting, VRR-Stop improves final true validity by 60.6 percentage points over fixed five-round repair at an average cost of 0.72 repair rounds. Across settings, stopping reliability is governed jointly by verifier discrimination and the decision margin rather than by the absolute size of estimation error.",
+          "authors": [
+            "Yitao Wu",
+            "Si Shen",
+            "Rui Yang",
+            "Hong Peng",
+            "Bin Hu"
+          ],
+          "primary_category": "cs.AI",
+          "categories": [
+            "cs.AI",
+            "cs.SE"
+          ],
+          "published": "2026-07-20T07:52:36+00:00",
+          "link": "https://arxiv.org/pdf/2607.17641v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "LLM agent code generation verify-repair loop stopping",
+          "llm_evidence_cn": "LLM agent代码生成中的验证-修复循环停止问题",
+          "llm_evidence": "LLM agent代码生成中的验证-修复循环停止问题",
+          "canonical_evidence": "LLM agent代码生成中的验证-修复循环停止问题",
+          "llm_tldr_en": "VRR-Stop provides a robust stopping framework for noisy verify-repair loops in LLM-based code generation agents.",
+          "llm_tldr_cn": "在LLM agent使用验证-修复循环纠正代码生成中的错误时，由于验证器和修复器都存在噪声，可能导致已正确的代码被破坏。本文提出VRR-Stop框架，通过四参数噪声模型分离验证器误接受/误拒绝与修复器修复/破坏行为，利用信念过滤估计有效正确性，并基于此决定何时停止循环。避免了无效修复，提升了最终代码正确率。",
+          "llm_tldr": "在LLM agent使用验证-修复循环纠正代码生成中的错误时，由于验证器和修复器都存在噪声，可能导致已正确的代码被破坏。本文提出VRR-Stop框架，通过四参数噪声模型分离验证器误接受/误拒绝与修复器修复/破坏行为，利用信念过滤估计有效正确性，并基于此决定何时停止循环。避免了无效修复，提升了最终代码正确率。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17641v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.18057v1",
+          "source": "arxiv",
+          "title": "Test Coverage Analysis of Agentic Pull Requests",
+          "abstract": "AI coding agents increasingly submit complete pull requests (PRs) with minimal human intervention, shifting software development from AI-assisted to autonomous workflows. As these agents become more prevalent, ensuring the code they generate is adequately tested, by existing tests or by tests the agents write, is critical to preventing regressions, yet little is known about testing in agentic PRs. To address this gap, we analyze 4882 agent-generated PRs from the AIDev dataset (532 Java and 4350 Python PRs) produced by five coding agents. We study (i) how often agents include test changes and (ii) how well covered are code changes by existing and agent-written tests. Agents include test changes in only 49.6% of PRs that change code under test files. Existing tests provide an incomplete safety net: they cover 61.5% of agents' changed executable lines in Java and only 27.0% in Python, where 64.8% of PRs have no changed line executed by any existing test. Agent-written tests improve coverage over existing tests, but only in a minority of PRs: 35.9% of Java and 22.5% of Python Code + Tests PRs show a coverage gain. Across both languages, error-handling constructs (e.g., try and catch blocks) are the most consistently under-tested, with miss rates reaching 86.0% in Java and 81.0% in Python. These findings motivate coverage-aware development practices, coverage feedback loops for coding agents, and evaluation benchmarks that measure test quality to better help agents reliably test their own code.",
+          "authors": [
+            "Atish Kumar Dipongkor",
+            "Talank Baral",
+            "Wing Lam",
+            "Kevin Moran"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE"
+          ],
+          "published": "2026-07-20T15:26:30+00:00",
+          "link": "https://arxiv.org/pdf/2607.18057v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "analyzes test coverage of agentic PRs from AI coding agents",
+          "llm_evidence_cn": "分析AI编程代理生成拉取请求的测试覆盖率",
+          "llm_evidence": "分析AI编程代理生成拉取请求的测试覆盖率",
+          "canonical_evidence": "分析AI编程代理生成拉取请求的测试覆盖率",
+          "llm_tldr_en": "Analyzes 4882 agent-generated PRs, finding only 49.6% include test changes and existing tests often provide limited coverage, highlighting gaps in autonomous testing.",
+          "llm_tldr_cn": "随着AI编程代理自主提交完整拉取请求，确保其代码经过充分测试至关重要。本文分析4882个代理生成的PR后发现，仅在49.6%的PR中代理包含了测试更改，且现有测试对代码变更的覆盖率有限。该研究揭示了自主化软件开发中测试环节的薄弱点，为改进代理测试行为提供了数据支撑。",
+          "llm_tldr": "随着AI编程代理自主提交完整拉取请求，确保其代码经过充分测试至关重要。本文分析4882个代理生成的PR后发现，仅在49.6%的PR中代理包含了测试更改，且现有测试对代码变更的覆盖率有限。该研究揭示了自主化软件开发中测试环节的薄弱点，为改进代理测试行为提供了数据支撑。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "automated software testing and bug detection using ml",
+          "matched_requirement_id": "req-6",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.18057v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.16478v1",
+          "source": "arxiv",
+          "title": "K-IPO: Kendall-constrained Importance Preserving Oversampling for Imbalanced Tabular Data",
+          "abstract": "Oversampling is widely used to address class imbalance in tabular classification, but existing methods can distort the feature importance ranking underlying model explanations. Although recent studies have quantified this distortion by comparing real and synthetic data, none have actively sought to prevent it. In this paper, we introduce Kendall-constrained Importance-Preserving Oversampling (K-IPO), a generator-agnostic, \"generate-then-select\" framework that preserves the original data's feature importance ranking during augmentation. K-IPO iteratively generates minority-class candidates and accepts them only if their inclusion maintains a user-defined minimum Kendall's tau (τ) correlation with the reference ranking. Optionally, stricter constraints can be applied to the highest-ranked features. We evaluated K-IPO on 20 imbalanced binary classification datasets using three classifiers and multiple explanation methods. In most cases, K-IPO achieved the best or tied-best results in feature importance preservation, explanation consistency, and class separability. It also generally improved predictive performance while maintaining competitive computational overhead.",
+          "authors": [
+            "Marios Tyrovolas",
+            "Argiris Sofotasios",
+            "Dimitris Metaxakis",
+            "Georgios Mermigkis",
+            "George Georgoulas",
+            "Panagiotis Hadjidoukas",
+            "Chrysostomos Stylios"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "published": "2026-07-17T19:52:55+00:00",
+          "link": "https://arxiv.org/pdf/2607.16478v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "K-IPO oversampling method preserves feature importance ranking during data augmentation",
+          "llm_evidence_cn": "K-IPO过采样方法在数据增强中保持特征重要性排序",
+          "llm_evidence": "K-IPO过采样方法在数据增强中保持特征重要性排序",
+          "canonical_evidence": "K-IPO过采样方法在数据增强中保持特征重要性排序",
+          "llm_tldr_en": "Introduces K-IPO, a generate-then-select framework that preserves original feature importance ranking during oversampling, mitigating distortion from synthetic data.",
+          "llm_tldr_cn": "针对不平衡表格分类中过采样方法扭曲特征重要性排序的问题，本文提出K-IPO框架。该框架采用先生成再选择策略，通过Kendall相关系数约束确保合成样本不改变原始特征重要性排名。实验表明K-IPO在保持模型可解释性的同时有效缓解了类别不平衡，为数据增强质量保障提供了新思路。",
+          "llm_tldr": "针对不平衡表格分类中过采样方法扭曲特征重要性排序的问题，本文提出K-IPO框架。该框架采用先生成再选择策略，通过Kendall相关系数约束确保合成样本不改变原始特征重要性排名。实验表明K-IPO在保持模型可解释性的同时有效缓解了类别不平衡，为数据增强质量保障提供了新思路。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.16478v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.21530v1",
+          "source": "arxiv",
+          "title": "From Resource Flow to Executable Tests: Petri-Net-Guided LLM Test Generation for Concurrent Stateful Rust APIs",
+          "abstract": "Concurrent stateful library APIs expose behavior through evolving resource ownership, lifecycle states, and competing interleavings. Large language models can synthesize executable Rust tests, but their outputs often violate API preconditions, remain shallow, or reduce concurrency to accidental sequential traces. Conversely, model-based and systematic testing techniques provide semantic control but commonly require substantial handwritten code to turn abstract scenarios into executable tests. This paper addresses the gap between formal scenario design and low-cost test concretization. We present a Petri-net-guided methodology for test generation over concurrent stateful Rust APIs. The method represents API resources, lifecycle conditions, and causal dependencies as colored tokens and transitions; derives legal deep-state, near-legal, and partial-order concurrent scenarios; and uses these scenarios as a constrained intermediate representation for LLM-based code synthesis. A local-faithfulness contract and structural repair loop preserve the modeled intent during concretization, while Petri-guided schedule shaping prioritizes high-conflict concurrency skeletons for systematic exploration. A layered semantic oracle then distinguishes synthesis failures from violations of the target API's expected behavior.",
+          "authors": [
+            "Kaiwen Zhang",
+            "Guanjun Liu"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE",
+            "cs.AI"
+          ],
+          "published": "2026-07-23T17:15:53+00:00",
+          "link": "https://arxiv.org/pdf/2607.21530v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Petri-net-guided LLM test generation for concurrent Rust APIs",
+          "llm_evidence_cn": "Petri网引导的大语言模型测试生成用于并发Rust API",
+          "llm_evidence": "Petri网引导的大语言模型测试生成用于并发Rust API",
+          "canonical_evidence": "Petri网引导的大语言模型测试生成用于并发Rust API",
+          "llm_tldr_en": "Combines Petri nets with LLMs to generate executable tests for concurrent stateful Rust APIs, bridging formal scenarios and low-cost test concretization.",
+          "llm_tldr_cn": "生成并发有状态Rust API的可执行测试面临挑战：LLM输出常违反前提条件且缺乏并发结构。本文提出Petri网引导的方法，将API资源生命周期建模为Petri网，再利用LLM将抽象场景实例化为可执行测试。该方法在保持形式化语义控制的同时降低了测试生成成本，有效提高了测试的并发覆盖率。",
+          "llm_tldr": "生成并发有状态Rust API的可执行测试面临挑战：LLM输出常违反前提条件且缺乏并发结构。本文提出Petri网引导的方法，将API资源生命周期建模为Petri网，再利用LLM将抽象场景实例化为可执行测试。该方法在保持形式化语义控制的同时降低了测试生成成本，有效提高了测试的并发覆盖率。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "automated software testing and bug detection using ml",
+          "matched_requirement_id": "req-6",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21530v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20690v1",
+          "source": "arxiv",
+          "title": "Learning to Detect UI Principle Violations via Reinforcement Learning",
+          "abstract": "Small language models and coding agents increasingly generate web front-end code, yet their outputs are typically evaluated primarily for functional correctness. A generated interface may compile, render, and pass unit tests while still violating established interface quality principles, including accessibility barriers, deceptive design patterns, poor visual hierarchy, and excessive decision complexity. Existing auditing approaches face a trade-off between cost, coverage, and scalability: expert human review provides rich judgment but is slow and expensive; frontier vision-language models offer broader reasoning capabilities but remain costly to deploy at scale; and rule-based tools such as axe-core and Lighthouse are inexpensive but primarily capture mechanically checkable accessibility issues.   We investigate whether a lightweight vision-language model can serve as an effective critic for generated interfaces. We unify 19 interface-quality principles from three complementary sources of HCI knowledge: WCAG 2.2 accessibility standards, deceptive design taxonomies, and established theories of perception, cognition, and interaction. To train this critic, we construct a verified dataset of approximately 10,000 generated web pages by synthetically injecting known violations into clean, LLM-generated Tailwind pages.   Continued reinforcement learning on a 4B vision-language model improves micro-F1 from 36\\% to 84\\%, with 13 of 19 principles exceeding 80\\% F1. The resulting critic can audit generated interfaces, filter low-quality interface training data, and provide a reward signal for design-aware code generation. We release our data-generation recipe and injection/verification prompts to support reproducible evaluation and future work on scalable interface-quality assessment.",
+          "authors": [
+            "Nishi Mehta",
+            "Swathi Alse",
+            "Himani Kumavat",
+            "Yue Yu",
+            "Pratik Jayarao"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL"
+          ],
+          "published": "2026-07-22T19:42:59+00:00",
+          "link": "https://arxiv.org/pdf/2607.20690v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "uses reinforcement learning to detect UI principle violations in generated front-end code",
+          "llm_evidence_cn": "使用强化学习检测生成的前端代码中的UI原则违规",
+          "llm_evidence": "使用强化学习检测生成的前端代码中的UI原则违规",
+          "canonical_evidence": "使用强化学习检测生成的前端代码中的UI原则违规",
+          "llm_tldr_en": "Proposes using reinforcement learning to automatically detect UI principle violations in small language model generated web front-end code.",
+          "llm_tldr_cn": "该论文提出利用强化学习自动检测由小语言模型生成的Web前端代码中的UI原则违规（如可访问性、欺骗性设计模式等）。现有审计方法在成本、覆盖率和可扩展性之间存在权衡。本文通过RL训练一个审计模型，能够在保持低成本的同时获得较高的检测覆盖率，弥补了规则工具和人工审查之间的空白。实验表明该方法在检测UI违规方面有效。",
+          "llm_tldr": "该论文提出利用强化学习自动检测由小语言模型生成的Web前端代码中的UI原则违规（如可访问性、欺骗性设计模式等）。现有审计方法在成本、覆盖率和可扩展性之间存在权衡。本文通过RL训练一个审计模型，能够在保持低成本的同时获得较高的检测覆盖率，弥补了规则工具和人工审查之间的空白。实验表明该方法在检测UI违规方面有效。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Reinforcement learning for automated software testing",
+          "matched_requirement_id": "req-10",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20690v1",
+          "carry_days": 1
+        }
+      ]
+    }
+  }
 }

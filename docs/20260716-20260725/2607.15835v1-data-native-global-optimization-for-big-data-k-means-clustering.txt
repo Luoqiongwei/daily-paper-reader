@@ -1,0 +1,503 @@
+Title: Data-Native Global Optimization for Big Data K-means Clustering
+
+URL Source: https://arxiv.org/pdf/2607.15835v1
+
+Published Time: Mon, 20 Jul 2026 00:47:52 GMT
+
+Number of Pages: 23
+
+Markdown Content:
+# Data-Native Global Optimization for Big Data K-means Clustering 
+
+Ravil Mussabayev a,1, ∗, Rustam Mussabayev a,b,2 , Zukhra Yerdaliyeva a, Kuldeyev Nursultan a
+
+> aAI Research Lab, Satbayev University, Almaty, 050000, Kazakhstan
+> bLaboratory for Analysis and Modeling of Information Processes, Institute of Information and Computational Technologies, Almaty, 050010, Kazakhstan
+
+Abstract 
+
+Big data clustering remains challenging: the Minimum Sum-of-Squares Clustering (MSSC) problem underlying K-means is NP-hard, and existing methods either reach poor local minima or require prohibitive metaheuristic hybrids. We target arbitrarily tall data: a fixed feature space may contain arbitrarily many, possibly infinitely many, obser-vations, while the algorithm accesses only finite random samples. We propose Big-means ++ , a simple algorithm achieving scalability and global-search quality by systematically curating inputs to MSSC optimization on big data. It orchestrates local K-means refinements into a data-native global search for big data clustering. Rather than optimizing the full-data MSSC objective, Big-means ++ traverses sample-induced surrogate landscapes. Each sample defines a cheap, distinct empirical MSSC approximation with a perturbed local-optimum structure, turning sample-to-sample variation into a global-search mechanism. Unlike vanilla Big-means, a flowing-incumbent strategy propagates cen-troid state across empirical landscapes through K-means refinements on fresh samples without rollback to a best-so-far solution. This increases mobility and favors stable, high-quality configurations across multiple approximations of the full-data structure. Moreover, a new shaking mechanism varies sample size in a geometric sequence, broadening the surrogate landscapes explored across multiple resolution scales, accounting for cluster imbalance, and improving solution quality. A competitive multi-agent system asynchronously explores independent sampled landscapes, trans-forming diverse stochastic trajectories into collective search intelligence. Automatic convergence detection stops each agent after attaining a high-quality solution but before further search risks degrading it, while providing a universal speed-quality control. Experiments on 22 datasets against 11 competing algorithms demonstrate the e ff ectiveness, effi ciency, and robustness of Big-means ++ .
+
+Keywords: Big Data Clustering, Minimum Sum-of-Squares, Global Optimization, K-means, Input-Curation Modality, Variable Landscape Search            
+
+> ∗Corresponding author
+> Email addresses: ravmus@gmail.com (Ravil Mussabayev), r.mussabayev@satbayev.university (Ravil Mussabayev),
+> ru.mussabayev@satbayev.university (Rustam Mussabayev), rustam@iict.kz (Rustam Mussabayev),
+> z.yerdaliyeva@satbayev.university (Zukhra Yerdaliyeva), n.kuldeyev@satbayev.university (Kuldeyev Nursultan)
+> 1ORCID: 0000-0003-1105-5990
+> 2ORCID: 0000-0001-7283-5144
+> Preprint submitted to Pattern Recognition July 20, 2026 arXiv:2607.15835v1 [cs.LG] 17 Jul 2026
+
+1. Introduction 
+
+Cluster analysis is a fundamental unsupervised learning tool used to discover structural patterns across diverse domains [1]. While broad surveys emphasize the role of clustering across modern machine-learning applications, a recent K-means-focused review shows that K-means variants remain central in large-scale and big-data clustering research [2]. At the heart of this field lies the Minimum Sum-of-Squares Clustering (MSSC) problem, commonly approached via the standard K-means algorithm [3]. While K-means is fast and widely adopted, MSSC is known to be non-convex [4] and NP-hard [5]. In the era of Big Data, where datasets routinely span millions of high-dimensional records, these challenges are severely amplified [6]. Consequently, standard iterative algorithms are highly susceptible to becoming trapped in suboptimal local minima [7]. Furthermore, the existing methods typically require full passes over the data, and even a handful of such iterations exhausts the available computational budget, while still failing to approach globally optimal solutions [8]. The traditional remedy for escaping local optima involves integrating K-means with complex global optimization metaheuristics—such as di ff erential evolution [9], genetic algorithms [10], or non-smooth optimization [11]. However, these hybrid approaches are notoriously di ffi cult to understand and imple-ment, discouraging broad adoption [12]; moreover, their excessive computational overhead renders them impractical for large-scale clustering. Paradoxically, these complex methods frequently fail to match the clustering accuracy of far simpler data-driven alternatives [6, 13]. Formally, given a dataset X = {x1, . . . , xm} ⊂ Rn of m points, MSSC [14] seeks k centroids C = (c1, . . . , ck) ∈ Rn×k
+
+that minimize the total intra-cluster variance: min  
+
+> C
+
+f (C, X) =
+
+> m
+
+X
+
+> i=1
+
+min  
+
+> j=1,..., k
+
+∥xi − c j∥2, (1) where ∥ · ∥ denotes the Euclidean norm. The centroids C uniquely induce a partition X = X1 ∪ · · · ∪ Xk, where cluster 
+
+X j contains all points for which c j is the nearest centroid; thus, minimizing (1) simultaneously maximizes intra-cluster cohesion and inter-cluster separation. MSSC always possesses finite global solutions and stable, predictable behavior under data perturbations [4], and global minimizers are known to yield the most faithful representations of the underlying cluster structure [10], yet the highly non-convex landscape makes them notoriously di ffi cult to attain. When the data stream is e ff ectively unbounded, i.e., m → ∞ , formulation (1) extends to the Minimum Sum-of-Squares Clustering of Infinitely Tall Data (MSSC-ITD) problem [15], which additionally requires algorithms capable of global search without ever materializing the full dataset in memory. Big-means [6] reframes large-scale clustering by replacing the classical “optimize on the full dataset” paradigm with a sequence of fast, full local K-means optimizations on randomly sampled subproblems. Rather than iterating over the entire dataset, it treats it as an infinite source of cheap data samples. At each iteration, a small random subset S of size s ≪ m is drawn without replacement, and K-means is run to convergence starting from the best centroid state attained so far (with K-means ++ used for initial seeding and dynamic repair of degenerate centers). 2This process repeats until a time or iteration budget is exhausted. Because a random sample S is a statistically representative snapshot of the full dataset, its objective landscape f (·, S ) provides a slightly perturbed distribution of the true local optima. Iteratively optimizing these subproblems drives the centers toward solutions that remain stable across many random views, while enabling the algorithm to bypass poor local minima—whether of the full-data objective or of individual samples. The resulting trajectory can be viewed as a descending walk through local optima of sample-induced MSSC landscapes, where landscape variability naturally prevents stagnation. The cost per iteration reduces from O(m · k · n · τ) (standard K-means’ complexity) to O(s · k · n · τ) (where τ is the number of K-means sweeps), decoupling computational complexity from m. This allows many more improvement attempts per unit time, dramatically enhancing the exploration-exploitation trade-o ff .The deepest idea in Big-means is that the sample performs two jobs simultaneously. First, it is a decomposition device that makes K-means cheap enough for big data. Second, it is a landscape-variation device : every new sample slightly shifts the distribution of local minima and how attractive they are. Here, sample-to-sample variability is not noise to be eliminated; it is the natural global search operator. Following a “less is more” philosophy [12], instead of adding a heavy global-search mechanism, the algorithm gains robust neighborhood variation almost for free. This di ff ers from restart-based improvements of K-means, where careful initialization and repeated runs can substantially improve solution quality [16] but do not change the underlying full-data local-search paradigm. Furthermore, unlike mini-batch methods [8] that make small stochastic updates, each move in Big-means ++ is strong : running a full, real local K-means procedure on each sample ensures every update is a substantial optimization step on the sample’s objective landscape rather than just a noisy incremental correction. Despite its promise, Big-means has two fundamental limitations. First, it requires manual per-dataset tuning of key parameters—most notably the sample size and the time or iteration budget—which severely hinders its adaptability and practical adoption [11]. Second, it employs an elitist acceptance rule: any sample-based refinement that fails to improve upon the best-so-far solution is discarded. As we demonstrate experimentally, this severely restricts the mobility of the incumbent centroids, squandering the directional signal embedded in non-improving—yet still data-informed—refinements. Several derivative methods have since been proposed within the Big-means framework [15, 17, 18], each improv-ing upon specific aspects but inheriting both limitations. Notably, results in [17] showed that varying the sample size during search improves solution quality and computational e ffi ciency even relative to repeated runs with manually optimized fixed sizes, while also reducing tuning e ff ort. This suggests that sample size is not merely a hyperparameter to be selected, but an additional degree of freedom for shaking sample-induced landscapes, motivating a principled redesign of the framework. Below, we summarize our main contributions—both broadly and with respect to our previous work: 1. Data-Native Optimization Concept: We demonstrate that the Variable Landscape Search (VLS) [19] and “less is more” [12] principles hold: restricting optimization to the input-curation modality alone, without any metaheuristic 3hybridization, su ffi ces to outperform significantly more complex competing methods for an NP-hard problem. 2. Flowing Incumbent for Deeper Exploration: We simplified the global search process by removing the greedy acceptance rule. Unconditional incumbent updates allow the algorithm to dynamically ride the shifting sample-induced landscapes, leading to significantly deeper exploration and lower final objective values. 3. Shaking via Sample Size Variation: We introduce a geometric sequence of sample sizes—a “ladder”—that navigates multiple resolution scales during the search, accounting for cluster imbalance and steering the balance between diversification and intensification. Essentially, this serves as a new form of shaking for MSSC global search, in which geometric variation of the sample size exposes the search to qualitatively di ff erent surrogate landscapes and ultimately yields better solutions. 4. Collective Multi-Agent Search : We organize the search as a competitive population of autonomous agents that independently traverse sampled landscapes and preserve complementary stochastic trajectories. A final common-landscape evaluation transforms this decentralized diversity into a collective decision, enabling broader global exploration than any single trajectory alone. 5. Plug-and-Play Adaptiveness: Adaptiveness is not merely a utility for external hyperparameter tuning, but an inte-gral optimization principle. Under the flowing-incumbent strategy, a data-adaptive per-agent convergence detector stops each trajectory when continued landscape perturbations cease to produce meaningful progress, limiting the risk that unnecessary search degrades an already strong solution. It thereby regulates useful search e ff ort, allo-cates computation according to trajectory di ffi culty, and eliminates dataset-specific budget tuning while retaining universal speed-quality controls. 6. Standardized Benchmarking Framework: We developed a reproducible benchmarking suite with rigorous sta-tistical analysis tools (available upon request). To ensure fair, low-level performance comparisons under identical yet highly varied conditions, we reimplemented 11 competing algorithms in C ++ —retaining Fortran only for non-smooth methods that rely on extensive native codebases—and evaluated Big-means ++ comprehensively across 22 real-world datasets spanning diverse scales. 
+
+2. Related Work 
+
+Research on big-data MSSC has followed three main directions. The first seeks scalability mainly through cheaper approximations of the classical K-means pipeline. This includes stochastic or online updates such as Mini-BatchKMeans [8], scalable seeding schemes such as K-means || [20], divide-and-merge K-means variants such as BDCSM [21], and data-reduction techniques based on weighted summaries or coresets [22, 23]. Capo et al. [24] specifically address tall data through a recursive parallel approximation to K-means, but the method remains pri-marily an acceleration strategy rather than a mechanism for traversing sample-induced objective landscapes. The scalable-seeding line has also been strengthened theoretically: Makarychev et al. [25] improve approximation guar-antees for both K-means ++ and its parallel variant. These methods reduce passes over the data, communication, 4memory footprint, or initialization cost, but they typically preserve the local-search character of K-means on a largely fixed objective landscape and therefore prioritize throughput over deeper global exploration. The second direction improves solution quality by adding explicit global-search machinery on top of K-means. Earlier Pattern Recognition work illustrates the breadth of K-means-centered quality improvements: J-means intro-duces local-search moves for improving MSSC solutions [26], whereas I-k-means-+ iteratively enhances the K-means procedure itself [27]. Representative examples of heavier global-search methods include population-based or memetic methods such as HG-means [10] and MDEClust [9], random-swap style search such as DRSMeans [28], and the non-smooth optimization line represented by LMBM-Clust [29], BigClust [11], and Clust-Splitter [30]. These methods can locate substantially deeper local minima, but they do so by introducing additional algorithmic ingredients—e.g., recombination, stochastic swaps, auxiliary formulations, or sequential bundle optimization—which usually increases implementation complexity and computational overhead. At the same time, Kalczynski et al. [31] show that rela-tively simple MSSC algorithms can remain competitive, reinforcing the motivation for designs that gain search power without excessive algorithmic machinery. A third direction, closer to our work, uses data decomposition itself as the main optimization mechanism. The original Big-means [6] showed that repeatedly solving K-means to convergence on fresh random samples can use sampling not only as a scalability device but also as a global-search operator: each sample induces a slightly di ff erent MSSC landscape, and moving across these landscapes helps escape poor local minima without heavy hybridization. Recent extensions enriched this family with competitive sample-size adaptation [17], competitive multi-agent search strategies for MSSC-ITD [15], and explicit bimodal hybridization with neighborhood search [18]. Viewed through the Variable Landscape Search perspective [19], these methods optimize by traversing a family of related sample-induced landscapes rather than by searching only one static full-data landscape. Big-means ++ is not merely another variant of this family; it reformulates sample-based MSSC search as a multi-resolution landscape-continuation process. Starting from the Big-means insight that random samples provide com-putationally cheap perturbations of the MSSC landscape [6], the proposed method introduces three methodological shifts. First, the incumbent becomes a mobile, ever-flowing state propagated through successive sample-induced land-scapes. Second, sample size is promoted from a fixed hyperparameter to an active search variable: geometric variation of its scale changes the resolution and local-optimum structure of the surrogate landscapes, broadening the landscape family traversed and regulating diversification versus intensification. Third, independent search trajectories are orga-nized as a competitive multi-agent population. By preventing premature consensus during exploration and comparing all final agent states on a common sampled landscape, Big-means ++ converts distributed search diversity into col-lective optimization intelligence. Convergence detection complements these mechanisms by adapting the duration of each trajectory, stopping it near the point where useful landscape-driven improvement gives way to unproductive movement. Besides protecting solution quality, this autonomously allocates search e ff ort and removes the need for instance-specific budget tuning. Thus, Big-means ++ operationalizes the Variable Landscape Search view for big-data MSSC: global exploration 5is achieved not by adding an external metaheuristic layer, but by organizing both the sequence and resolution of the data-induced landscapes through which K-means moves [19]. The method concentrates search power in native degrees of freedom of big data itself—the sampled observations, the sample scale, and the trajectory connecting successive sample-based optima. 
+
+3. The Big-means ++ Algorithm 
+
+3.1. Algorithm Overview 
+
+Figure 1 illustrates the overall structure of the proposed method, and Algorithm 1 gives its formal description.   
+
+> Figure 1. Schematic diagram of the Big-means ++ algorithm.
+
+6Algorithm 1: Big-means ++ 
+
+Input : Dataset X ⊂ Rn; number of clusters k; block size p; probe tolerance q; budgets Imax and Tmax ; local K-means parameters; sample-size ladder parameters s0 and L.
+
+Output : Centroids C⋆, objective value f ⋆, assignments a⋆, and selected sample size sopt . 
+
+> 1:
+
+Build a geometric sample-size ladder S = {s0, 2s0, 4s0, . . . }, capped by |X| ▷ multi-resolution landscape shaking  
+
+> 2:
+
+For each s ∈ S , set score( s) ← 0 
+
+> 3:
+
+Let W be the number of autonomous search agents ▷ implemented as parallel workers  
+
+> 4:
+
+for all agents w = 1, . . . , W in parallel do  
+
+> 5:
+
+Cw ← (∅1, . . . , ∅k) ▷ current flowing centroids  
+
+> 6:
+
+while time and iteration budgets are not exhausted do  
+
+> 7:
+
+Draw a sample size s uniformly from S 
+
+> 8:
+
+improved ← 0; probe ← ∅ 
+
+> 9:
+
+for r = 1, . . . , p do  
+
+> 10:
+
+Draw a fresh sample Y ⊂ X of size s 
+
+> 11:
+
+Initialize or repair missing centroids in Cw by K-means ++ on Y 
+
+> 12:
+
+Refine Cw by local K-means on Y ▷ centroids keep flowing  
+
+> 13:
+
+if this refinement improves the current block objective then  
+
+> 14:
+
+improved ← improved + 1 
+
+> 15:
+
+if probe = ∅ then store Y and its objective as the block probe  
+
+> 16:
+
+Increase score( s) by improved  
+
+> 17:
+
+if a block probe was stored then  
+
+> 18:
+
+Evaluate the final block centroids on the stored probe sample  
+
+> 19:
+
+if their relative improvement over the probe objective is at most q then  
+
+> 20:
+
+break ▷ stop before unproductive trajectory drift  
+
+> 21:
+
+sopt ← arg max s∈S score( s) ▷ most productive observed scale  
+
+> 22:
+
+Draw a common evaluation sample Yeval ⊂ X of size sopt  
+
+> 23:
+
+for w = 1, . . . , W do  
+
+> 24:
+
+Repair missing centroids in Cw on Yeval , if necessary  
+
+> 25:
+
+Evaluate Cw on Yeval  
+
+> 26:
+
+Select the agent w⋆ with the best objective on Yeval  
+
+> 27:
+
+C⋆ ← Cw⋆ 
+
+> 28:
+
+( f ⋆, a⋆) ← Assign (X, C⋆) ▷ single full-data pass  
+
+> 29:
+
+return (C⋆, f ⋆, a⋆, sopt )
+
+The C ++ source code of Big-means ++ is publicly available at https://github.com/rmusab/bigmeans-pp .The key operation of Big-means ++ is a block of local search refinements on sample-induced objective landscapes. Within a block, the centroids are flowing : after each sampled local K-means refinement, the resulting centroids are immediately used as the starting point for the next sample. The first improving sample in a block is stored as a convergence probe, providing a fixed reference against which subsequent movement is assessed. At the end of the block, the final centroids are evaluated on this probe. If their relative improvement is at most q, further landscape perturbations are deemed unlikely to yield su ffi cient benefit, and the agent stops before unnecessary continuation can erode the quality of its terminal state. In our implementation, the local K-means refinement is accelerated by Hamerly’s distance bounds [32]. Because empty clusters can materially a ff ect K-means behavior, degenerate-center repair has been studied as a methodological issue in its own right [33]; in Big-means ++ , missing centroids are repaired by K-means ++ initialization [34]. To navigate varied landscapes, Big-means ++ adopts a “flowing incumbent” mechanism: the centroid state is passed unconditionally from one random sample to the next, without rolling back to a previous best solution. This 7non-elitist strategy acts as a Markov chain through the solution space. Each iteration slightly perturbs the centers (because the sample is di ff erent), and that perturbed state is always carried forward. Even a momentarily worse state is still informed by the data and can nudge the centers into a region from which the next sample leads to a strict improvement. Over a fixed time budget this explores far more of the solution space and consistently reaches lower objectives than the standard “sticky” strategy (greedy hill-climbing anchored to a fixed point), which is employed by many other clustering algorithms. The sticky update policy tends to produce premature convergence: the search quickly finds a local basin of attraction and spends the remainder of the time budget in futile attempts to escape it, causing many rejected iterations. In contrast, the flowing update turns the same wall-clock budget into genuine explo-ration, gaining mobility across distinct basins of attraction and implicitly pushing the trajectory toward configurations that are simultaneously good across multiple perturbations. Varying sample identity at a fixed size perturbs the MSSC landscape within a single resolution, but confines the search to a comparatively narrow family of surrogate landscapes. Big-means ++ therefore introduces sample size as a second data-native shaking coordinate through a geometric ladder of sample sizes : {s0, 2s0, 4s0, . . . , 2L−1 s0}, capped at m. Changing the sample size alters the statistical resolution and local-optimum structure of the sampled objective: small samples produce stronger, cheaper perturbations that promote broad exploration, whereas large samples provide more stable descent signals and better coverage of small clusters. Traversing these scales broadens the family of landscapes explored, accounts for cluster imbalance, and regulates diversification versus intensification. For each block of p iterations, the algorithm uniformly selects one ladder level and records how often the sample objective improves. Big-means ++ organizes global exploration as a competitive multi-agent system. Each autonomous agent main-tains its own flowing centroid state and independently traverses a private sequence of sampled landscapes and resolu-tion scales. Because agents do not exchange incumbents during search, they avoid premature consensus and preserve complementary hypotheses about the cluster structure. Their benefit is therefore not limited to parallel speedup: the population collectively covers a broader range of stochastic search trajectories than any single agent can explore. After convergence, all agent states compete on a common sampled landscape, converting decentralized trajectory di-versity into a single collective decision. In our implementation, agents are realized as independent OpenMP workers, requiring no communication or synchronization during search. Under a flowing incumbent, additional search is not automatically beneficial: because every sampled refinement is accepted, an agent that has reached a strong state may subsequently drift to a weaker one. The probe-based con-vergence detector therefore acts as an optimization driver, not merely a computational shortcut. Each agent stores the first improving sample within a block and evaluates its final block centroids on that same probe. If their relative improvement does not exceed q (typically 0 .001), the trajectory stops near the transition from productive movement to diminishing or potentially harmful continuation. This mechanism gives di ffi cult trajectories more opportunity to improve, terminates exhausted trajectories early, and eliminates manual per-dataset budget tuning at the cost of only one assignment pass on a small sample. 8In Big-means ++ , each local K-means call uses Hamerly’s algorithm instead of Lloyd’s. By maintaining distance bounds, it heavily reduces distance evaluations without a ff ecting correctness. Finally, because agents explore di ff erent sample sequences and resolution scales, their terminal objectives are not directly comparable. Big-means ++ therefore completes the collective search with a common-landscape evaluation: all final agent states are assessed on the same fresh sample, providing a shared competitive arena from which the strongest collective candidate is selected. It identifies sopt , the sample scale associated with the most improvements during search, and uses a fresh common sample of this size for the comparison. This unbiased, apples-to-apples evaluation guarantees the best candidate is chosen based on a representative validation criterion. Crucially, the full dataset is accessed only once at the very end to evaluate and report the global quality of the winning solution. The optimization phase itself operates entirely free from full-dataset scans, cementing the method’s scalability. 
+
+3.2. Choice of Universal Parameters 
+
+Big-means ++ has four main universal parameters: the block size p, the convergence tolerance q, the initial sample size s0, and the ladder depth L. These parameters are not tuned delicately for each dataset; rather, they define a robust default search regime. In all experiments, we use p = 10. This value provides a good balance between allowing the incumbent solution to explore the current scale and checking convergence frequently enough. Its robustness is further examined in the sensitivity analysis reported in the experimental section. The convergence tolerance q is the primary universal control over how long an agent continues after useful move-ment begins to diminish. Smaller values demand stronger evidence of convergence, permitting deeper search but increasing the opportunity for further trajectory drift and computation; larger values stop more aggressively, pro-tecting strong intermediate states and reducing runtime. Thus, q provides a universal quality-time control without requiring a separately optimized budget for each dataset. It is typically chosen from the range [0 .001 , 0.1]. In our experiments, we set q ∈ { 0.001 , 0.05 } for the quality-oriented mode. For Big-means ++ Fast , the e ffi ciency-oriented variant, we adopt a more aggressive tolerance qfast ∈ { 0.05 , 0.1}. The resulting per-dataset selections are summarized in Table P1 and Tables S1–S22 of the Supplementary Material. By default, the ladder is initialized at s0 = min {m, 2048 }. For strongly imbalanced datasets, however, small initial samples may fail to capture rare clusters. In such cases, s0 should in principle be chosen to guarantee rare-cluster coverage: specifically, it must be large enough so that a random sample captures the smallest practically relevant cluster with high probability. In practice, however, it su ffi ces to set s0 ∈ npow 2
+
+ m
+
+> 4
+
+ , pow 2
+
+ m
+
+> 2
+
+o , where pow 2(·) denotes rounding to the nearest power of two. This yields a ladder whose lower bound supports rare-cluster coverage while preserving a su ffi ciently broad range of landscape resolutions for e ff ective shaking. For the quality-oriented variant of Big-means ++ , we fix the ladder depth at L = 9 across all datasets, as this value spans a su ffi ciently broad range of landscape resolutions while remaining computationally tractable for the full range of dataset scales considered. Big-means ++ Fast uses the same values of p and s0, but replaces q and L with qfast and 9Lfast ≤ L. In our experiments, we set Lfast = L = 9 on all datasets except the largest ones: Lfast = L = 5 for CORD-19 Embeddings, Lfast = 6 for HEPMASS, and Lfast = 3 for Gisette. Hence, Big-means ++ Fast combines a more aggressive convergence test with a shorter ladder, exploring the same lower sample scales while avoiding the most expensive upper levels. 
+
+3.3. Computational Complexity 
+
+The computational advantage of Big-means ++ is that its search phase is performed on samples rather than on the full dataset. If a local K-means refinement on a sample of size s requires τ iterations, its standard worst-case cost is O(τskn ). Hamerly’s acceleration reduces the practical number of distance computations, but does not change this worst-case order. Although the per-iteration cost is simple, Lloyd-style K-means can require exponentially many iterations in worst-case constructions even in two dimensions [35]. This further motivates the blockwise convergence detector used by Big-means ++ to regulate sampled local-search trajectories in practice. Let W be the number of autonomous agents, implemented as parallel workers, p the block size, B the average number of executed blocks per agent before convergence, and ¯ s the average sample size drawn from the sample-size ladder. Ignoring lower-order repair and bookkeeping costs, the sampled search phase requires 
+
+O(W Bp τ ¯s kn )total work. The final agent selection on the common validation sample of size sopt costs O(W s opt kn ), while the final assignment of all data points to the selected centroids requires one full-data pass, that is, O(mkn ). Thus, the overall work is 
+
+OW Bp τ ¯s kn + W s opt kn + mkn  .
+
+Since agents search independently, their computational realization is embarrassingly parallel. Hence, up to load imbalance and hardware overheads, the wall-clock cost is governed by one agent’s sampled trajectory plus the final validation and full-data assignment passes. For fixed universal parameters W, p, and L, the optimization phase is therefore decoupled from m; the only unavoidable linear dependence on the full dataset size is the final reporting pass. This property makes Big-means ++ particularly suitable for big-data MSSC and MSSC-ITD settings. The memory usage is O(mn + Wkn + smax n) when the dataset is stored in memory, or O(Wkn + smax n) apart from the external data source in streaming-style settings. 
+
+4. Experimental Methodology 
+
+This section describes the experimental protocol used to evaluate Big-means ++ . The empirical study is designed around the MSSC objective (1) itself: every method is asked to produce k centroids, the returned centroids are evalu-ated on the full dataset by one final assignment pass, and solution quality is measured by the resulting sum of squared 10 distances. The experimental outcomes are reported and discussed in Section 5. The Supplementary Material provides the full numerical companion to this protocol: Table P1 gives the parameter-selection policy for each benchmark algo-rithm, Tables S1–S22 report detailed per-dataset results, and Figures S1–S26 provide additional performance-profile, category, and variability analyses. 
+
+4.1. Benchmark Datasets 
+
+We use 22 publicly available real-world datasets that have also been used in recent large-scale MSSC studies [6, 11, 29, 30]. The collection deliberately spans diverse regimes: high-dimensional datasets with only thousands of points, low-dimensional datasets with hundreds of thousands or millions of points, and datasets that are large in both 
+
+m and n. All datasets contain numerical features and are used in their non-normalized form, matching the setting of the main rival studies whenever possible. The number of data points ranges from 15 ,112 to 10 ,500 ,000, and the number of features ranges from 2 to 5000. Table 1 summarizes the benchmark data. The rows are sorted by decreasing problem size m × n, where m denotes the number of data points and n denotes the number of features. This ordering is also used in Tables S1–S22 of the Supplementary Material, where each dataset is reported across all eight values of k together with per-k summary statistics over independent runs and the Big-means ++ parameter settings used for that dataset. 
+
+4.2. Compared Algorithms 
+
+The comparison contains 11 competitor algorithms and five Big-means ++ -family variants. The competitors are divided into three groups. The first group consists of classical or lightweight baselines: Forgy-initialized K-means [3], MiniBatchKMeans from the Scikit-learn library [8], and BDCSM (Big Data Clustering on a Single Machine), a parallel batch K-means method [21]. These methods represent simple full-data, mini-batch, and batch-merge strategies. The second group contains recent optimization-oriented MSSC algorithms: Clust-Splitter [30], Big-Clust [11], and LMBM-Clust [29], all based on nonsmooth optimization; MDEClust [9], a memetic di ff erential-evolution method; and DRS-means [28], a density-based random-swap method. These algorithms are included because they explicitly target high quality MSSC solutions rather than only fast approximate clustering. The third group contains direct predecessors from the Big-means line: Big-means-Inn, the original Big-means al-gorithm with inner parallelism from [6]; Big-means-Com, the competitive multi-agent variant from [15]; and BigOpti-maS3 [17], which augments competitive Big-means with stochastic sample-size optimization. This group is essential for isolating how much of the improvement comes from the new Big-means ++ design rather than from the broader Big-means decomposition principle alone. Also, there are the quality-oriented Big-means ++ algorithm, the faster Big-means ++ Fast variant, and three abla-tions: one that removes the probe-based convergence detector, one that removes the geometric sample-size ladder by fixing a single sample size, and one that removes the flowing-incumbent mechanism by accepting only improving candidate states. These ablated variants are used to evaluate the contribution of the main algorithmic components. 11 Table 1. Benchmark datasets, sorted by decreasing m × n.Dataset URL m n m × n
+
+CORD-19 Embeddings https://www.kaggle.com/datasets/allen-institute-for-ai/ CORD-19-research-challenge 
+
+1,056,660 768 811,514,880 HEPMASS https://archive.ics.uci.edu/dataset/347/hepmass 10,500,000 28 294,000,000 US Census Data 1990 https: //archive.ics.uci.edu/dataset/116/us+census+data+1990 
+
+2,458,285 68 167,163,380 Gisette https://archive.ics.uci.edu/dataset/170/gisette 13,500 5000 67,500,000 Music Analysis https://archive.ics.uci.edu/dataset/386/fma+a+dataset+ for+music+analysis 
+
+106,574 518 55,205,332 BitcoinHeist https://archive.ics.uci.edu/dataset/526/ bitcoinheistransomwareaddressdataset 
+
+2,916,697 8 23,333,576 Protein Homology https://www.kdd.org/kdd-cup/view/kdd-cup-2004/Data 145,751 74 10,785,574 MiniBooNE Particle Identification https://archive.ics.uci.edu/dataset/199/miniboone+ particle+identification 
+
+130,064 50 6,503,200 Covertype https://archive.ics.uci.edu/dataset/31/covertype 581,012 10 5,810,120 MFCCs for Speech Emotion Recognition 
+
+https://www.kaggle.com/datasets/cracc97/features 85,134 58 4,937,772 ISOLET https://archive.ics.uci.edu/dataset/54/isolet 7,797 617 4,810,749 Sensorless Drive Diagnosis https://archive.ics.uci.edu/dataset/325/dataset+for+ sensorless+drive+diagnosis 
+
+58,509 48 2,808,432 Online News Popularity https: //archive.ics.uci.edu/dataset/332/online+news+popularity 
+
+39,644 58 2,299,352 Gas Sensor Array Drift https://archive.ics.uci.edu/dataset/224/gas+sensor+ array+drift+dataset 
+
+13,910 128 1,780,480 Range Queries Aggregates https://archive.ics.uci.edu/dataset/493/query+analytics+ workloads+dataset 
+
+200,000 7 1,400,000 3D Road Network https://archive.ics.uci.edu/dataset/246/3d+road+network+ north+jutland+denmark 
+
+434,874 3 1,304,622 KEGG Metabolic Relation Network (Directed) 
+
+https://archive.ics.uci.edu/dataset/220/kegg+metabolic+ relation+network+directed 
+
+53,413 20 1,068,260 Skin Segmentation https: //archive.ics.uci.edu/dataset/229/skin+segmentation 
+
+245,057 3 735,171 Shuttle Control https://archive.ics.uci.edu/dataset/148/statlog+shuttle 58,000 9 522,000 EEG Eye State https://archive.ics.uci.edu/dataset/264/eeg+eye+state 14,980 14 209,720 Pla85900 https://softlib.rice.edu/pub/tsplib/tsp/pla859.tsp.gz 85,900 2 171,800 D15112 https://github.com/mastqe/tsplib/blob/master/d15112.tsp 15,112 2 30,224 
+
+4.3. Benchmark Protocol and Parameter Settings 
+
+Each dataset is clustered for k ∈ { 2, 3, 4, 5, 10 , 15 , 20 , 25 }, giving 22 × 8 = 176 benchmark instances in total. For stochastic algorithms, independent runs use the run index as the random seed, ensuring full reproducibility across all algorithms when the same seeds and number of agents /workers are used. Following the dataset configuration used by the testbed, the four largest or most expensive benchmark datasets in terms of computation policy—CORD-19 Embeddings, HEPMASS, US Census Data 1990, and Gisette—use five independent runs, while the remaining datasets use ten independent runs. Deterministic algorithms (LMBM-Clust) are executed once for each (dataset , k)pair. Across all 13 evaluated algorithms, this amounts to 19 ,376 total clustering executions. All algorithms run in their most performant form. The benchmarking and plotting scripts are written in Python. Big-means-family algorithms, BDCSM, MDEClust, and DRS-means are implemented in C ++ ; MiniBatchKMeans uses its Scikit-learn Python implementation; and LMBM-Clust, Big-Clust, and ClustSplitter run via their native For-tran libraries. The C ++ and Fortran codes communicate with the main Python script through dedicated runner exe-cutables using a binary-data and JSON-result protocol. 12 Experiments were run in Python 3.12 on a virtual machine with 24 CPU cores and 251 GiB RAM, hosted on an AMD EPYC 7663 server. All algorithms were executed in CPU-only mode. Runs that exceed the global one-hour wall-clock limit, crash, exhaust memory, or return non-finite objectives or centers are recorded as failures. If one run of a fixed (algorithm , dataset , k) triple exceeds the time limit, the remaining repeats of that same triple are skipped and counted as timeout failures, because runtimes are highly consistent for a fixed triple. Whenever possible, competitor parameters follow the corresponding papers or o ffi cial implementations. BDCSM uses the batch-size rule q = ⌈ν(α)k2/r2⌉ with ν(0 .05) = 1.27359 and r = 0.08, as recommended in [21]. MiniBatchK-Means uses K-means ++ initialization and a batch size of 512 times the number of available cores, as recommended by the o ffi cial Scikit-learn documentation to enable multi-core execution. The nonsmooth methods use their paper-default or implementation-derived settings. MDEClust uses a population of 150 candidate solutions and a time-budgeted im-plementation (600 seconds per run); DRS-means uses up to 10 ,000 swaps under the same time-budget policy. The 600-second budget was chosen as a generous practical horizon: it gives anytime metaheuristics enough time for meaningful search, while keeping the full benchmark campaign over 22 datasets, eight values of k, and repeated runs computationally feasible. Big-means-family algorithms use K-means ++ seeding or repair with three candidate trials, local K-means tolerance 10 −4, and at most 300 local iterations per sampled problem. The original Big-means vari-ants use the manually optimized dataset-specific sample sizes and time budgets from [6], with the time budget scaled linearly with k.For Big-means ++ , the block size is fixed at p = 10. The default quality-oriented variant uses the convergence tolerance q ∈ { 0.001 , 0.05 } and ladder depth L = 9 according to the dataset policy; Big-means ++ Fast uses the more aggressive tolerance qfast ∈ { 0.05 , 0.1} and, on the largest dataset, a shorter ladder Lfast = 5. For reproducibility, Table P1 of the Supplementary Material records the parameter choices and selection rules used for every benchmark algorithm, including paper-default competitor settings, implementation-derived settings, and the Big-means ++/ Big-means ++ Fast tolerance and ladder policies. 
+
+4.4. Evaluation Metrics and Aggregation 
+
+The primary quality metric is the MSSC objective value (1) computed on the full dataset using the final returned centroids. To make results comparable across datasets and values of k, we report relative error with respect to the best-known objective value f ⋆ for each (dataset , k) instance: 
+
+E = 100 · f (C, X) − f ⋆
+
+f ⋆ .
+
+The best-known values are taken from the benchmark registry, which combines values from previous MSSC studies and the best values observed in our study. Runtime is reported in seconds. For repeated stochastic runs, the main analysis uses the median relative error and 13 median runtime unless explicitly stated otherwise. The Supplementary Material expands these aggregate quantities: Tables S1–S22 list Emin , median E, Emax , EIQR , median runtime, fbest , and failure information where applicable for every dataset, k, and algorithm. Failed runs are excluded from error statistics because they do not produce valid centroids, but their recorded or capped runtime contributes to runtime summaries whenever timing information is available. Figures S1–S22 provide companion per-dataset plots of central relative error and runtime versus k.In addition to final relative-error and runtime tables, the analysis scripts produce time-to-target performance pro-files, relative-error attainment profiles, per-dataset companion plots, and representative run-variability figures. These artifacts are used in Section 5 to separate final solution quality, computational e ffi ciency, anytime behavior, robustness, and the e ff ect of multi-resolution sample-size shaking. The relative-error attainment profile is threshold-based. For each algorithm and benchmark instance, the final relative error is first aggregated across repeated runs by the median ˜ E. The profile then reports, for each threshold ε,the fraction of benchmark instances on which ˜ E ≤ ε. Thus, it can be read as a continuous family of Succ@ ε% values. For the time-to-target performance profile, an algorithm is credited on a benchmark instance only when it reaches the prescribed relative-error target ε. For each run, the time-to-target is the earliest wall-clock time at which the best-so-far relative error satisfies E ≤ ε; for methods without intermediate checkpoints, the final runtime is used if the final solution reaches the target, and the time is treated as infinite otherwise. Repeated runs are aggregated by the median time-to-target. Each algorithm’s median time is then divided by the best median time achieved by any algorithm on the same instance, yielding the performance ratio shown in the profile. Instances on which no algorithm reaches the target are excluded from that profile. 
+
+5. Results and Discussion 
+
+This section analyzes the empirical behavior of Big-means ++ from three complementary viewpoints: aggregate final solution quality and runtime, statistical significance over the full benchmark suite, and performance-profile be-havior across relative-error and time-to-target thresholds. The central question is whether the proposed data-native search mechanism can match or exceed the solution quality of much heavier global-optimization hybrids while retain-ing the scalability expected from a big-data clustering method. 
+
+5.1. Aggregate Performance 
+
+Table 2 shows that Big-means ++ gives the strongest overall final-quality profile. It attains the best average relative error ( ¯ E = −0.71%), the highest success rate at the strictest target Succ@0.1% (80 .1%), the highest Succ@1% (94 .9%), and reaches the 5% tolerance on every benchmark instance. The negative value of ¯E does not imply a negative objective gap; rather, it reflects that the benchmark registry of best-known values was improved on enough instances by the present experiments that the aggregate error, computed relative to the registry values available before aggregation, becomes slightly negative. In practical terms, this is evidence that Big-means ++ not only approaches the previous best-known MSSC values, but also updates them on part of the suite. 14 Table 2. Global performance summary across all benchmark instances (dataset × k pairs). ¯E (%): average relative error, computed as the mean over datasets of the mean over k values of the per-( D, k) median-aggregated relative error E; Succ@ x%: percentage of benchmark instances on which the algorithm’s median-aggregated final relative error satisfies E ≤ x%, shown for x ∈ { 0.1, 1, 5}; Fail%: average per-instance run failure rate, i.e. the mean across benchmark instances of the per-instance fraction of runs classified as failures (crash, OOM, timeout > 3600 s, or non-finite objective); ¯ t (s): average execution time, aggregated identically to ¯ E; ¯ rE , ¯ rt: mean rank by error and by time across all benchmark instances (rank 1  
+
+> =best; lower is better). Bold marks the best value in each column.
+
+Algorithm ¯E (%) Succ@0.1% Succ@1% Succ@5% Fail% ¯t (s) ¯rE ¯rt
+
+BDCSM 46804.74 5.1 17.0 38.6 0.0 8.87 11.46 1.68 
+
+Mini Batch -KM 235269.99 5.7 21.6 54.5 0.0 1.26 11.39 2.20 Forgy -KM 19601.37 29.5 46.6 63.1 1.0 24.31 9.00 3.35 Clust -S plitter 57242.31 43.2 59.7 73.9 3.4 230.43 5.74 8.48 Big -C lust 129526.46 13.1 39.8 67.0 0.0 85.59 9.97 4.76 LMBM-C lust 1.33 52.8 68.8 86.4 6.2 244.09 5.28 9.33 MDEC lust 14.73 70.5 79.0 83.5 0.0 437.51 3.27 12.08 DRS-means 598.99 64.8 68.8 76.1 0.0 455.70 5.50 12.18 Big -means -I nn 0.84 38.6 72.2 92.0 0.3 30.07 7.63 6.14 Big -means -C om 0.32 48.3 81.8 96.0 0.1 33.75 6.73 7.17 Big Optima S3 132931.98 47.2 71.0 80.1 0.1 42.85 6.61 8.42 Big -means++ -0.71 80.1 94.9 100.0 0.0 49.31 3.34 8.11 Big -means++ Fast -0.63 66.5 93.8 100.0 0.0 33.08 4.38 6.74 The comparison also separates raw speed from useful speed. MiniBatch-KM and BDCSM are the fastest methods in absolute wall-clock time, but their mean quality ranks are near the bottom and their strict-target success rates are very low. Conversely, the strongest optimization-oriented competitors—MDEClust, DRS-means, LMBM-Clust, and Clust-Splitter—produce much better solutions but require substantially more time. Big-means ++ occupies the most favorable region of this trade-o ff : its average runtime of 49 .31 seconds is on the same order as the fastest scalable baselines and far below the heavy optimization hybrids, while its solution quality is better than the state of the art in the aggregate. The e ffi ciency-oriented Big-means ++ Fast variant further illustrates the tunability of the method: by using more aggressive universal settings for the probe tolerance q and, on the largest dataset, a shorter sample-size ladder, it reduces the average runtime to 33 .08 seconds while preserving Succ@5% = 100 .0% and nearly the same average error. Thus, the universal parameters of Big-means ++ do not merely remove dataset-specific tuning; they provide a simple and interpretable quality–time control for practitioners. Figures S24 and S25 in the Supplementary Material summarize error and CPU-time categories separately for small-k and large-k regimes, complementing Table 2 with a count-based view of how often each algorithm falls into practically meaningful performance bands. 
+
+5.2. Statistical Comparison 
+
+Table 2 aggregates all algorithms, whereas the statistical comparison in Table 3 asks a stricter paired question: on the same (dataset , k) instances, does Big-means ++ systematically improve on each competitor? The Friedman omnibus test rejects equality of ranks across the 13 algorithms ( χ2 
+
+> F
+
+= 1075 .76, p < 0.001), confirming that the observed performance di ff erences are not random rank fluctuations. Big-means ++ has an average Friedman rank of 15 Table 3. Statistical comparison of B ig -means++ versus baseline algorithms over 176 benchmark instances (dataset, k pairs). Per-instance errors are median-aggregated across runs ( ˜ EA,i). Rank : average rank in the Friedman omnibus test (rank 1 = lowest error; computed on complete-case instances where all algorithms have results). N: instances where both the target and the competitor have finite aggregated errors. W/T/L:wins / ties / losses for the target (win if ˜ Etarget < ˜Ecomp − δ, with δ = 10 −2 percentage points of relative error; loss if reversed; otherwise tie).                       
+
+> W: Wilcoxon signed-rank test statistic min( W+,W−) (two-sided; Ncommon instances). pHolm : Holm–Bonferroni corrected p-value ( ∗p<0.05,
+> ∗∗ p<0.01, ∗∗∗ p<0.001). Med ∆: median of ˜Ecomp ,i−˜Etarget ,iover Ncommon instances (positive =target is better, in %). 95% CI : bootstrap percentile interval for Med ∆(10 000 resamples).
+
+Friedman test (165 complete-case instances, 13 algorithms): χ2 
+
+> F
+
+= 1075 .76, p < 0.001. 
+
+Target algorithm: Big -means++ , avg. rank = 3.38. Competitor Rank N W / T / L W pHolm med ∆ (95% CI) BDCSM 11.58 176 173 / 3 / 0 2.0 < 0.001 ∗∗∗ +12.45 ([ +6.57, +22.42]) Mini Batch -KM 11.52 176 170 / 6 / 0 5.0 < 0.001 ∗∗∗ +3.85 ([ +2.90, +5.82]) Forgy -KM 9.13 176 145 / 30 / 1 165.0 < 0.001 ∗∗∗ +1.32 ([ +0.66, +2.64]) Clust -S plitter 5.74 170 95 / 63 / 12 2561.0 < 0.001 ∗∗∗ +0.28 ([ +0.00, +0.59]) Big -C lust 10.01 176 176 / 0 / 0 0.0 < 0.001 ∗∗∗ +1.88 ([ +1.29, +2.74]) LMBM-C lust 5.28 165 78 / 73 / 14 3391.0 < 0.001 ∗∗∗ +0.00 ([ +0.00, +0.22]) MDEC lust 3.09 176 51 / 93 / 32 7590.0 0.973 -0.00 ([-0.00, -0.00]) DRS-means 5.10 176 58 / 83 / 35 6217.0 0.054 -0.00 ([-0.00, +0.00]) Big -means -I nn 7.80 176 153 / 23 / 0 25.0 < 0.001 ∗∗∗ +0.25 ([ +0.12, +0.55]) Big -means -C om 7.02 176 136 / 23 / 17 1304.0 < 0.001 ∗∗∗ +0.10 ([ +0.05, +0.14]) Big Optima S3 6.91 176 144 / 20 / 12 977.0 < 0.001 ∗∗∗ +0.09 ([ +0.05, +0.13]) 3.38, placing it among the leading methods while also being much faster than the other high-quality competitors. The pairwise results show clear and statistically significant advantages over the classical scalable baselines, the nonsmooth methods Clust-Splitter, Big-Clust, and LMBM-Clust, and all previous Big-means-family methods. The largest margins occur against methods whose speed comes at the expense of solution quality: for example, Big-means ++ wins on 173 of 176 common instances against BDCSM and on 170 against MiniBatch-KM. More impor-tantly for the algorithmic contribution, Big-means ++ also improves strongly over its direct predecessors: 153 /23 /0against Big-means-Inn, 136 /23 /17 against Big-means-Com, and 144 /20 /12 against BigOptimaS3. These gains support the combined e ff ect of the flowing incumbent, multi-resolution sample-size shaking, and the automatic probe-based convergence mechanism. The probe-based detector is important because it regulates each flowing trajectory au-tonomously: di ffi cult trajectories continue while meaningful landscape-driven movement remains, whereas exhausted trajectories stop before additional perturbations consume resources or degrade their terminal states. For MDEClust and DRS-means the interpretation is more nuanced. Both are strong global-search competitors, and many paired di ff erences fall within the practical-tie band. The tie threshold is set to 0 .01 percentage points of relative error, which is safely above floating-point accumulation noise after normalization but still far below a di ff erence that would be actionable in practice. Under this rule, Big-means ++ records 51 wins, 93 ties, and 32 losses against MDEClust, and 58 wins, 83 ties, and 35 losses against DRS-means. Thus, Big-means ++ is best described as practically competitive with these strongest hybrid or swap-based rivals, while still winning slightly more often than it loses. The Wilcoxon statistic W = min( W+, W−) should be read together with the corrected p-value: it measures the smaller of the positive and negative signed-rank sums after pairing instances, so very small values indicate that 16 almost all nonzero signed ranks favor the same method. For N = 176, the total rank mass is 1 + 2 + · · · + 176 = 15576; under the null hypothesis of no systematic di ff erence, one would expect roughly half of this mass on each side, i.e., 
+
+W+ ≈ W− ≈ 7788. This is why W = 0 for Big-Clust and W = 25 for Big-means-Inn correspond to highly significant advantages. In contrast, the much larger W values for MDEClust and DRS-means, together with Holm-corrected 
+
+p-values of 0 .973 and 0 .054, indicate that their paired signed-rank evidence is not su ffi cient to claim a statistically significant median di ff erence after correction, despite the favorable win /loss counts for Big-means ++ .
+
+5.3. Performance Profiles and Anytime Behavior 0.01 0.10 0.50 1.00 5.00 20.00       
+
+> Relative error threshold (%)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Fraction of benchmark instances
+> N = 176 instances
+> Relative-error performance profile
+> BDCSM
+> MiniBatch-KM
+> Forgy-KM
+> Clust-Splitter
+> Big-Clust
+> LMBM-Clust
+> MDEClust
+> DRS-means
+> Big-means-Inn
+> Big-means-Com
+> BigOptimaS3
+> Big-means++
+> Big-means++Fast 12510 20
+> Performance ratio
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Fraction of benchmark instances
+> N = 173 instances included
+> (3 excluded: target unreached by all algorithms)
+> Time-to-target performance profile ( = 1%)
+> BDCSM
+> MiniBatch-KM
+> Forgy-KM
+> Clust-Splitter
+> Big-Clust
+> LMBM-Clust
+> MDEClust
+> DRS-means
+> Big-means-Inn
+> Big-means-Com
+> BigOptimaS3
+> Big-means++
+> Big-means++Fast
+
+Figure 2. Performance profiles across all 176 benchmark instances (dataset × k pairs). (a) Left: Relative-error attainment profile — the x-axis is the relative-error threshold ε, and each curve gives the fraction of instances on which the algorithm’s median final relative error ˜ E over repeated runs satisfies ˜ E ≤ ε. (b) Right: Time-to-target profile at ε = 1% — the x-axis is the performance ratio τ, i.e. the algorithm’s median time-to-target divided by the best median time-to-target on the same instance; each curve gives the fraction of instances reached within that ratio. Higher and further-left curves indicate better performance. 
+
+Figure 2 provides a threshold-wise view of the same phenomenon. In the relative-error attainment profile, Big-means ++ is the dominant curve over the most important low-error region. At the strict 0 .1% threshold it solves roughly four fifths of the benchmark instances, whereas even the strongest alternatives remain visibly below it. The Big-means ++ Fast curve follows closely, confirming that a moderate relaxation of the universal quality-time parame-ters preserves most of the benefit of the full algorithm. The gap is especially pronounced against classical scalable methods: their curves rise only at much looser error thresholds, showing that their speed is obtained by accepting substantially shallower local minima. The time-to-target profile at ε = 1% reinforces the same conclusion from a computational perspective. Big-means ++ reaches the strict target on the largest final fraction of included instances, while Big-means ++ Fast reaches a large subset earlier. Methods such as MDEClust and DRS-means can be very accurate on some instances, but their curves remain low in this profile because they need much more time to reach the same strict target. In contrast, the fastest baselines appear early but plateau at low fractions, reflecting limited attainable quality. This combination is the main practical advantage of Big-means ++ for big-data MSSC: it behaves like a scalable sampling-based method in runtime, but like a high-quality global optimization method in final objective value. Figure S23 in the Supplementary Material gives companion time-to-target profiles for stricter 0 .1% and looser 5% thresholds, showing how this speed-quality trade-o ff changes across accuracy levels. 17 To complement the aggregate profiles, Figure 3 reports representative anytime trajectories on four benchmark in-stances with k = 25. The instances were chosen to cover distinct empirical regimes: Skin Segmentation represents low-dimensional clustering with many points; ISOLET represents high-dimensional clustering; EEG Eye State rep-resents a smaller and cluster-imbalanced case; and US Census Data 1990 represents the very large-scale setting with moderate dimensionality. 10 2 10 1 10 0 10 1 10 2 10 3               
+
+> Wall-clock time (s)
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> 30
+> Best-so-far relative error (%)
+> 1.0%
+> 0.1%
+> Skin Segmentation, k=25
+> 10 010 110 2
+> Wall-clock time (s)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> Best-so-far relative error (%)
+> 1.0%
+> 0.1%
+> ISOLET, k=25
+> 10 110 010 110 2
+> Wall-clock time (s)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Best-so-far relative error (%)
+> 1e6
+> 1.0% 0.1%
+> EEG Eye State, k=25
+> 10 110 010 110 210 3
+> Wall-clock time (s)
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> 30
+> 35
+> 40
+> Best-so-far relative error (%)
+> 1.0%
+> 0.1%
+> US Census Data 1990, k=25
+> Representative anytime behavior on four benchmark instances
+> Big-means++ MDEClust DRS-means Big-means-Com MiniBatch-KM
+
+Figure 3. Representative anytime behavior on four benchmark instances with k = 25. Each curve reports the median best-so-far relative error across five executions of the corresponding algorithm. The shaded band around the B ig -means++ curve shows its interquartile range across the same five executions. 
+
+The anytime curves show that Big-means ++ improves rapidly across all four representative regimes and continues to push the best-so-far error toward the strict target levels as time increases. The shaded interquartile band indicates that this behavior is not driven by a single lucky run, but is stable across independent executions. This is especially important for big-data clustering, where an algorithm must not only reach strong final objectives, but also make reliable progress under finite wall-clock budgets. Additional run-to-run variability evidence is given in Figure S26 of the Supplementary Material, which uses violin /box plots for representative datasets at k = 5 and k = 25 and annotates failed-run counts where they occur. 
+
+5.4. Sensitivity Analysis 
+
+The sensitivity analysis reveals a clear trade-o ff between solution quality and execution time as p increases. Table 4 shows that the smallest setting, p = 1, is fast but substantially degrades robustness and solution quality, producing a 18 Table 4. Sensitivity of B ig -means++ to the parameter p on the four datasets used in the anytime analysis. Results cover all 32 benchmark instances (four datasets × eight values of k). For US Census Data 1990, each instance was repeated five times; all other instances were repeated ten times. The reported quantities are aggregated as in Table 2. The setting p = 10 is the default used in the main experiments. Bold marks the best value in each column among the tested settings. 
+
+p ¯E (%) Succ@0.1% Succ@1% Succ@5% Fail% ¯t (s) ¯rE ¯rt
+
+1 114039.66 21.9 40.6 68.8 0.0 5.25 8.03 5.28 
+
+5 0.46 50.0 84.4 100.0 0.0 13.77 4.22 6.84 10 (default) 0.40 59.4 81.2 100.0 0.0 20.89 3.81 7.72 50 0.34 62.5 84.4 100.0 0.0 79.54 3.47 9.38 200 0.31 62.5 84.4 100.0 0.0 301.21 3.72 11.00    
+
+> Table 5. Ablation summary for the main Big-means ++ ingredients across all 176 benchmark instances. Each ablated variant disables one struc-tural component while keeping the remaining protocol unchanged. For B ig -means++ -L adder and B ig -means++ -C onv , the fixed sample size and maximum runtime, respectively, are manually optimized per dataset and coincide with the optimal values used in [6]. Metrics are aggregated as in Table 2. Bold marks the best value in each column.
+
+Variant Ablated component ¯E (%) Succ@0.1% Succ@1% Succ@5% Fail% ¯t (s) Big -means++ none -0.71 80.1 94.9 100.0 0.0 49.31 Big -means++ -I nc Flow flowing incumbent 1568.98 74.4 93.8 99.4 0.0 70.77 Big -means++ -L adder sample-size ladder -0.59 68.2 90.9 97.2 4.8 137.49 Big -means++ -C onv convergence detector 1977.55 73.3 89.2 96.0 0.0 40.33 
+
+very large average relative error and succeeding within 5% on only 68 .8% of the instances. Increasing p from 5 to 50 progressively improves the average error and error rank, although at a corresponding runtime cost. The largest setting, 
+
+p = 200, achieves the lowest average error (0 .31%), but requires 301 .21 seconds on average—more than fourteen times the runtime of the default setting, p = 10—while providing only modest improvements in the success rates. Overall, p = 10 o ff ers a favorable balance between accuracy and computational cost. This supports its use as the default setting in the main experiments. 
+
+5.5. Ablation Study 
+
+Table 5 isolates the contribution of the three main Big-means ++ ingredients. The full algorithm is best on every quality metric: lowest average error, highest strict-target success, highest 1% and 5% attainment, and zero failures. Removing the flowing-incumbent mechanism is the least damaging ablation by success rate, but it still reduces strict-target attainment and increases runtime, indicating that unconditional centroid movement improves both search mobil-ity and e ffi ciency. Removing the sample-size ladder causes the clearest scalability and reliability loss, even though the resulting fixed sample size is manually optimized for each dataset using values from [6]: the variant becomes much slower, introduces failures, and loses substantial strict-target success. Because the ablation already uses optimized fixed sizes, these losses cannot be attributed merely to the absence of automatic hyperparameter selection. Instead, they support the algorithmic role of dynamic sample-size variation: traversing multiple resolution scales broadens the family of surrogate landscapes explored and improves the resulting search trajectories. Removing the convergence 19 detector gives the fastest ablation, but at a clear quality cost, despite using the manually optimized per-dataset max-imum runtimes from the same study. Thus, its benefit cannot be explained merely by automatic budget selection or computational savings. The detector is an optimization driver: it regulates where each flowing trajectory terminates, preserving strong terminal states before unnecessary continuation can turn useful mobility into harmful drift. At the same time, it allocates computation adaptively and removes manual per-dataset budget tuning. Thus, the advantage of Big-means ++ is structural rather than accidental: its performance comes from the interaction of flowing search, multi-resolution landscape shaking, and convergence regulation. Taken together, the tables and profiles support the data-native optimization claim of the paper. Big-means ++ does not rely on recombination, random swaps, bundle-method machinery, or repeated full-data passes during search. In-stead, it obtains global-search behavior by organizing the input-curation modality: the flowing incumbent transfers information between sample-induced landscapes, the geometric ladder shakes the search across multiple resolutions and broadens the family of landscapes traversed, autonomous agents preserve complementary trajectories, common-landscape competition transforms their diversity into a collective decision, and the probe-based convergence detector terminates each agent near the end of its productive search phase, protecting terminal quality while adapting compu-tational e ff ort to trajectory di ffi culty. The empirical result is a method that is robust, parameter-light, and especially suitable for clustering large datasets where both full-data global search and low-quality fast approximations are un-satisfactory. 
+
+6. Conclusion, Limitations and Future Work 
+
+Big-means ++ shows that high-quality global search for big-data MSSC does not require a heavy metaheuristic layer or repeated full-data optimization. The key idea is to turn data sampling itself into the search mechanism: flowing centroids move through sample-induced landscapes, the sample-size ladder shakes this trajectory across multiple resolutions and broadens the landscape family explored, a competitive population of autonomous agents supplies collective trajectory diversity, and the convergence detector stops each agent before productive movement gives way to unnecessary or potentially harmful continuation, while simultaneously providing adaptive resource allocation and universal speed-quality control. Across 176 benchmark instances, this simple data-native design achieves state-of-the-art final quality with practical runtimes, zero failures, strong anytime behavior, and ablation evidence showing that its advantage comes from the interaction of its main components rather than from a single isolated trick. The main limitation is that Big-means ++ remains a heuristic: it does not provide a certificate of global optimality, and the best-known objective values used for evaluation are not necessarily true optima. The study is also restricted to Euclidean MSSC with prescribed values of k and numerical datasets. Future work will extend this data-native approach beyond the input-curation optimization modality alone. In particular, we plan to combine adaptive data sampling with systematic changes in the objective formulation and more explicit landscape-exploration mechanisms through hybridization with metaheuristics. Such multimodal designs may 20 further improve global optimization capability and robustness while preserving the scalability and simplicity that make Big-means ++ eff ective for big-data clustering. 
+
+Supplementary Material 
+
+Supplementary material associated with this article will be available online at the Pattern Recognition article page. It contains detailed benchmark parameter policies, complete per-dataset numerical tables, companion per-dataset figures, additional time-to-target profiles, small-k and large-k category summaries, and run-to-run variability analyses. 
+
+CRediT authorship contribution statement Ravil Mussabayev: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Re-sources, Data curation, Writing – original draft, Writing – review & editing, Visualization, Supervision, Project ad-ministration, Funding acquisition. Rustam Mussabayev: Conceptualization, Validation, Resources, Writing – review & editing. Zukhra Yerdaliyeva: Software, Validation, Visualization. Kuldeyev Nursultan: Software, Validation, Visualization. 
+
+Acknowledgements 
+
+This research was funded by the Science Committee of the Ministry of Science and Higher Education of the Republic of Kazakhstan (grant no. AP26197157). 
+
+Declaration of Interests 
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper. 
+
+Declaration of generative AI and AI-assisted technologies in the manuscript preparation process 
+
+During the preparation of this work, the authors used ChatGPT for language editing. The authors reviewed and edited the output as needed and take full responsibility for the content of the published article. 
+
+References   
+
+> [1] A. E. Ezugwu, A. M. Ikotun, O. O. Oyelade, L. Abualigah, J. O. Agushaka, C. I. Eke, A. A. Akinyelu, A comprehensive survey of clustering algorithms: State-of-the-art machine learning applications, taxonomy, challenges, and future research prospects, Engineering Applications of Artificial Intelligence 110 (2022) 104743. doi:https: // doi.org /10.1016 /j.engappai.2022.104743. URL https://www.sciencedirect.com/science/article/pii/S095219762200046X
+
+21 [2] A. M. Ikotun, A. E. Ezugwu, L. Abualigah, B. Abuhaija, H. Jia, K-means clustering algorithms: A comprehensive review, variants analysis, and advances in the era of big data, Information Sciences 622 (2023) 178–210. doi:10.1016 /j.ins.2022.11.139. [3] E. W. Forgy, Cluster analysis of multivariate data: e ffi ciency versus interpretability of classifications, Biometrics 21 (3) (1965) 768–780. [4] T. H. Cuong, J. Yao, N. D. Yen, Qualitative properties of the minimum sum-of-squares clustering problem, A Journal of Mathematical Programming and Operations Research (2020). doi:10.1080 /02331934.2020.1778685. [5] D. Aloise, A. Deshpande, P. Hansen, P. Popat, NP-hardness of Euclidean sum-of-squares clustering, Machine Learning 75 (2) (2009) 245– 248. doi:10.1007 /s10994-009-5103-0. [6] R. Mussabayev, N. Mladenovic, B. Jarboui, R. Mussabayev, How to use k-means for big data clustering?, Pattern Recognition 137 (2023) 109269. doi:10.1016 /j.patcog.2022.109269. [7] A. K. Jain, Data clustering: 50 years beyond k-means, Pattern Recognition Letters 31 (8) (2010) 651–666. doi:10.1016 /j.patrec.2009.09.011. [8] D. Sculley, Web-scale k-means clustering, in: Proceedings of the 19th International Conference on World Wide Web (WWW), 2010, pp. 1177–1178. doi:10.1145 /1772690.1772862. [9] P. Mansueto, F. Schoen, Memetic di ff erential evolution methods for clustering problems, Pattern Recognition 114 (2021) 107849. doi:https: // doi.org /10.1016 /j.patcog.2021.107849. URL https://www.sciencedirect.com/science/article/pii/S0031320321000364 
+
+[10] D. Gribel, T. Vidal, HG-means: A scalable hybrid genetic algorithm for minimum sum-of-squares clustering, Pattern Recognition 88 (2019) 569–583. doi:10.1016 /j.patcog.2018.12.022. [11] N. Karmitsa, V.-P. Eronen, M. M. Mäkelä, T. Pahikkala, A. Airola, Stochastic limited memory bundle algorithm for clustering in big data, Pattern Recognition 165 (2025) 111654. doi:https: // doi.org /10.1016 /j.patcog.2025.111654. URL https://www.sciencedirect.com/science/article/pii/S0031320325003140 
+
+[12] N. Mladenovic, J. Pei, P. Pardalos, Less is more approach in optimization: a road to artificial intelligence, Optimization Letters (2022). doi:10.1007 /s11590-021-01818-w. [13] R. Mussabayev, R. Mussabayev, Comparative analysis of optimization strategies for k-means clustering in big data contexts: A review (2024). arXiv:2310.09819. URL https://arxiv.org/abs/2310.09819 
+
+[14] S. Lloyd, Least squares quantization in pcm, IEEE Transactions on Information Theory 28 (2) (1982) 129–137. doi:10.1109 /TIT.1982.1056489. [15] R. Mussabayev, R. Mussabayev, High-performance hybrid algorithm for minimum sum-of-squares clustering of infinitely tall data, Mathe-matics 12 (13) (2024). doi:10.3390 /math12131930. URL https://www.mdpi.com/2227-7390/12/13/1930 
+
+[16] P. Franti, S. Sieranoja, How much can k-means be improved by using better initialization and repeats?, Pattern Recognition 93 (2019) 95–112. doi:10.1016 /j.patcog.2019.04.014. [17] R. Mussabayev, R. Mussabayev, Superior parallel big data clustering through competitive stochastic sample size optimization in big-means, in: N. T. Nguyen, R. Chbeir, Y. Manolopoulos, H. Fujita, T.-P. Hong, L. M. Nguyen, K. Wojtkiewicz (Eds.), Intelligent Information and Database Systems, Springer Nature Singapore, Singapore, 2024, pp. 224–236. [18] R. Mussabayev, R. Mussabayev, Bimodalclust: Fused data and neighborhood variation for advanced k-means big data clustering, Applied Sciences 15 (3) (2025). doi:10.3390 /app15031032. URL https://www.mdpi.com/2076-3417/15/3/1032 
+
+[19] R. Mussabayev, R. Mussabayev, Variable landscape search: A novel metaheuristic paradigm for unlocking hidden dimensions in global optimization, Mathematics 13 (22) (2025) 3667. doi:10.3390 /math13223667. URL https://doi.org/10.3390/math13223667 
+
+[20] B. Bahmani, B. Moseley, A. Vattani, R. Kumar, S. Vassilvitskii, Scalable k-means ++ , Proceedings of the VLDB Endowment 5 (7) (2012) 622–633. 
+
+22 URL https://vldb.org 
+
+[21] R. M. Alguliyev, R. M. Aliguliyev, L. V. Sukhostat, E ffi cient algorithm for big data clustering on single machine, CAAI Trans-actions on Intelligence Technology 5 (1) (2020) 9–14. arXiv:https: // ietresearch.onlinelibrary.wiley.com /doi /pdf /10.1049 /trit.2019.0048, doi:https: // doi.org /10.1049 /trit.2019.0048. URL https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/trit.2019.0048 
+
+[22] O. Bachem, M. Lucic, A. Krause, Scalable k-Means clustering via lightweight coresets, in: Proceedings of the 24th ACM SIGKDD Interna-tional Conference on Knowledge Discovery and Data Mining (KDD), Association for Computing Machinery (ACM), 2018, pp. 1119–1128. doi:10.1145 /3219819.3219973. URL https://acm.org 
+
+[23] O. Bachem, M. Lucic, S. Lattanzi, One-shot coresets: The case of k-Clustering, in: Proceedings of the 21st International Conference on Artificial Intelligence and Statistics (AISTATS), Vol. 84 of Proceedings of Machine Learning Research, PMLR, 2018, pp. 784–792. URL https://mlr.press 
+
+[24] M. Capo, A. Perez, J. A. Lozano, An e ffi cient K-means clustering algorithm for tall data, Data Mining and Knowledge Discovery 34 (2020) 776–811. doi:10.1007 /s10618-020-00678-9. [25] K. Makarychev, A. Reddy, L. Shan, Improved guarantees for k-means ++ and k-means ++ parallel, in: Advances in Neural Information Processing Systems, Vol. 33, 2020, pp. 16142–16152. [26] P. Hansen, N. Mladenovic, J-means: A new local search heuristic for minimum sum of squares clustering, Pattern Recognition 34 (2) (2001) 405–413. doi:10.1016 /S0031-3203(99)00216-2. [27] H. Ismkhan, I-k-means-+: An iterative clustering algorithm based on an enhanced version of the k-means, Pattern Recognition 79 (2018) 402–413. doi:10.1016 /j.patcog.2018.02.015. [28] O. Kozbagarov, R. Mussabayev, Distributed random swap: An e ffi cient algorithm for minimum sum-of-squares clustering, Information Sciences 681 (2024) 121204. doi:10.1016 /j.ins.2024.121204. [29] N. Karmitsa, A. M. Bagirov, S. Taheri, Clustering in large data sets with the limited memory bundle method, Pattern Recognition 83 (2018) 245–259. doi:https: // doi.org /10.1016 /j.patcog.2018.05.028. URL https://www.sciencedirect.com/science/article/pii/S0031320318302085 
+
+[30] J. Lampainen, K. Joki, N. Karmitsa, M. M. Mäkelä, An e ffi cient incremental algorithm for clustering large datasets, Advances in Data Analysis and Classification (Mar. 2026). doi:10.1007 /s11634-025-00661-6. URL http://dx.doi.org/10.1007/s11634-025-00661-6 
+
+[31] P. Kalczynski, J. Brimberg, Z. Drezner, Less is more: Simple algorithms for the minimum sum of squares clustering problem, IMA Journal of Management Mathematics 33 (4) (2022) 563–583. doi:10.1093 /imaman /dpab033. [32] G. Hamerly, Making k-means even faster, in: Proceedings of the 2010 SIAM International Conference on Data Mining (SDM), SIAM, 2010, pp. 130–140. doi:10.1137 /1.9781611972801.12. [33] D. Aloise, N. C. Damasceno, N. Mladenovic, D. N. Pinheiro, On strategies to fix degenerate k-means solutions, Journal of Classification 34 (2017) 344–372. doi:10.1007 /s00357-017-9238-7. [34] D. Arthur, S. Vassilvitskii, k-means ++ : the advantages of careful seeding, in: Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms (SODA), 2007, pp. 1027–1035. [35] A. Vattani, k-means requires exponentially many iterations even in the plane, Discrete & Computational Geometry 45 (4) (2011) 596–616. doi:10.1007 /s00454-011-9340-1. 
+
+23
