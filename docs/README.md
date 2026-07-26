@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-25</span>
+      <span class="dpr-home-dashboard-kicker">2026-07-26</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 21 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 18 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>10</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>7</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-07-25 21:21:00 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-07-26 21:01:52 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日共收录21篇论文，精读10篇、速读11篇，重点聚焦代码生成与强化学习优化方法。最值得关注的是得分10.0的《Dependency-Guided Code Generation》和9.0的《Group Entropy-Controlled Policy Optimization》，前者提出结构矩阵分解与一致性引导精炼，后者引入群熵控制策略。建议普通读者速读《Certifiable Safe Model-Based RL》与《DataFlow-Harness》两篇，了解安全强化学习与可编辑数据管线的实用思路。</p>
+<p>今天共处理18篇论文，7篇精读中知识图谱搜索强化学习与离线RL正则化两项获9.0高分最值得关注。推荐优先阅读《Search-on-Graph-R1》与《Conservative Query and Adaptive Regularization》，把握强化学习在图搜索和不确定性估计中的最新突破。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">10 篇</strong>
+    <strong class="dpr-home-dashboard-count">7 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement">Dependency-Guided Code Generation: Structured Matrix Decomposition and Consistency-Guided Refinement</span></li><li><span class="dpr-home-dashboard-paper-title" title="Group Entropy-Controlled Policy Optimization">Group Entropy-Controlled Policy Optimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="Enhancing Personalized Bladder Cancer Treatment Through Reinforcement Learning: A Recurrent Patient State Transition Decision Support Framework">Enhancing Personalized Bladder Cancer Treatment Through Reinforcement Learning: A Recurrent Patient State Transition Decision Support Framework</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Search-on-Graph-R1: Training Large Language Models to Search Knowledge Graphs with Reinforcement Learning">Search-on-Graph-R1: Training Large Language Models to Search Knowledge Graphs with Reinforcement Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Conservative Query and Adaptive Regularization for Offline RL Under Uncertainty Estimation">Conservative Query and Adaptive Regularization for Offline RL Under Uncertainty Estimation</span></li><li><span class="dpr-home-dashboard-paper-title" title="PerfAgent: Profiler-Guided Iterative Refinement for Repository-Level Code Optimization">PerfAgent: Profiler-Guided Iterative Refinement for Repository-Level Code Optimization</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>10</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>7</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -87,7 +87,7 @@
     <strong class="dpr-home-dashboard-count">11 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Certifiable Safe Model-Based Reinforcement Learning with Control-Affine Dynamics Approximation">Certifiable Safe Model-Based Reinforcement Learning with Control-Affine Dynamics Approximation</span></li><li><span class="dpr-home-dashboard-paper-title" title="DataFlow-Harness: A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines">DataFlow-Harness: A Grounded Code-Agent Platform for Constructing Editable LLM Data Pipelines</span></li><li><span class="dpr-home-dashboard-paper-title" title="Learning from Synthetic Data without Model Collapse in Iterative Instruction Tuning">Learning from Synthetic Data without Model Collapse in Iterative Instruction Tuning</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EdgeCoInfer: Hierarchical Collaborative Inference for On-Device Multimodal Large Models">EdgeCoInfer: Hierarchical Collaborative Inference for On-Device Multimodal Large Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents">Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="AutoEncoder-Compressed Parallel Split Learning for Pre-trained Model Fine-Tuning">AutoEncoder-Compressed Parallel Split Learning for Pre-trained Model Fine-Tuning</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>11</strong></span></div>
 </section>
