@@ -70,7 +70,7 @@ jobs:
       - name: Random delay to spread scheduled runs
         if: github.event_name == 'schedule'
         run: |
-          DELAY=$(shuf -i 0-3599 -n 1)
+          DELAY=$(shuf -i 0-99 -n 1)
           echo "Sleeping ${DELAY}s (≈$((DELAY/60))min) to stagger fork runs over 1 hour …"
           sleep $DELAY
 
