@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-26T20:53:36.279012+00:00",
-  "updated_date": "20260726",
+  "generated_at": "2026-07-28T20:10:50.463999+00:00",
+  "updated_date": "20260728",
   "carryover_days": 9,
   "tag_states": {
     "code-ml-sys": {
-      "updated_date": "20260726",
+      "updated_date": "20260728",
       "carryover_days": 9,
       "items": [
         {
@@ -30,13 +30,13 @@
             "query:code-ml-sys"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "Automated C-to-Rust translation using LLMs with rule-guided reasoning and reinforcement learning",
-          "llm_evidence_cn": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
-          "llm_evidence": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
-          "canonical_evidence": "利用LLM进行C到Rust的自动翻译，结合规则引导推理与强化学习",
-          "llm_tldr_en": "Proposes a framework for reliable C-to-Rust translation using LLMs with rule-guided reasoning and reinforcement learning to handle Rust-specific syntax and semantics.",
-          "llm_tldr_cn": "现有基于LLM的C到Rust翻译常因对Rust规则理解不足而产生错误翻译。本文提出一个结合规则引导推理与强化学习的框架，通过识别Rust特定规则并利用强化学习优化翻译策略，显著提升翻译正确性与语义保持。",
-          "llm_tldr": "现有基于LLM的C到Rust翻译常因对Rust规则理解不足而产生错误翻译。本文提出一个结合规则引导推理与强化学习的框架，通过识别Rust特定规则并利用强化学习优化翻译策略，显著提升翻译正确性与语义保持。",
+          "llm_evidence_en": "Uses LLMs for automated C-to-Rust translation, a form of code generation, enhanced with rule-guided reasoning and reinforcement learning",
+          "llm_evidence_cn": "使用LLM进行C到Rust自动翻译，属于代码生成，结合规则引导推理和强化学习增强",
+          "llm_evidence": "使用LLM进行C到Rust自动翻译，属于代码生成，结合规则引导推理和强化学习增强",
+          "canonical_evidence": "使用LLM进行C到Rust自动翻译，属于代码生成，结合规则引导推理和强化学习增强",
+          "llm_tldr_en": "Proposes a framework using LLMs with rule-guided reasoning and reinforcement learning for reliable C-to-Rust code translation, improving memory safety.",
+          "llm_tldr_cn": "该论文针对C代码向Rust迁移的需求，提出了一种结合规则引导推理和强化学习的LLM翻译框架。通过识别Rust特有规则和语义，提升翻译的准确性和安全性。实验表明，该方法在多个基准上优于现有LLM翻译方法，减少了错误翻译。",
+          "llm_tldr": "该论文针对C代码向Rust迁移的需求，提出了一种结合规则引导推理和强化学习的LLM翻译框架。通过识别Rust特有规则和语义，提升翻译的准确性和安全性。实验表明，该方法在多个基准上优于现有LLM翻译方法，减少了错误翻译。",
           "llm_tags": [
             "query:code-ml-sys"
           ],
@@ -45,201 +45,6 @@
           "matched_requirement_id": "req-1",
           "selection_source": "carryover_cache",
           "paper_id": "2607.19966v1",
-          "carry_days": 2
-        },
-        {
-          "id": "2607.19450v1",
-          "source": "arxiv",
-          "title": "REGEN: Replay-recycling for Expert-to-Generalist distillation with Offline Reinforcement Learning",
-          "abstract": "Large-scale online reinforcement learning (RL) is the predominant means of eliciting advanced abilities including long-term reasoning and agentic tool use in large language models (LLMs). However, continuing to scale it across vast task domains of interest remains challenging in both computational infrastructure and cost, especially when considering RL as merely a one-off learning stage. Recently, a widely used technique for distilling knowledge across various domains and training stages, multi-teacher on-policy distillation (MOPD), helps to decouple the RL stage, saving costs, while maintaining generality across vast domains. Nonetheless, similar to online RL, MOPD requires coupled inference and backward passes, which continues to limit its scalability and computational efficiency. To address these challenges, we propose REGEN: Replay-recycling for Expert-to-Generalist Distillation with Offline RL. Instead of distilling from multiple teacher models, REGEN trains a generalist by simply recycling the replay memory -- the free by-product of the teachers' specialized RL training -- and employing offline RL algorithms. REGEN completely decouples the rollout sampling from the backward training process and thus greatly reduces the training cost. Across mathematical reasoning, code generation, and instruction following, REGEN matches the accuracy of MOPD at substantially lower cost. It potentially turns online RL into a data synthesis process instead of a one-off learning stage, and can potentially be extended to large-scale post-training without requiring heavy computational load.",
-          "authors": [
-            "Yunjie Chen",
-            "Xiaoxin Chen",
-            "Fang Wang"
-          ],
-          "primary_category": "cs.LG",
-          "categories": [
-            "cs.LG",
-            "cs.AI"
-          ],
-          "published": "2026-07-21T13:36:23+00:00",
-          "link": "https://arxiv.org/pdf/2607.19450v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Offline RL for distilling expert LLMs to generalists",
-          "llm_evidence_cn": "使用离线强化学习将专家LLM蒸馏为通才",
-          "llm_evidence": "使用离线强化学习将专家LLM蒸馏为通才",
-          "canonical_evidence": "使用离线强化学习将专家LLM蒸馏为通才",
-          "llm_tldr_en": "REGEN uses replay-recycling and offline RL to distill multiple expert LLMs into a generalist model, reducing the need for expensive online RL, achieving comparable performance at lower cost.",
-          "llm_tldr_cn": "大规模在线强化学习是提升LLM高级能力的主要手段，但计算成本高昂。REGEN提出回放回收技术，结合离线强化学习，从多个专家LLM的轨迹中蒸馏出通才模型，避免了耦合的前向和反向传播。实验表明，相比在线RL基线，REGEN在保持性能的同时显著降低了训练成本。该方法为将RL能力高效迁移到多任务通用模型提供了实用方案，直接契合深度强化学习在LLM中的应用。",
-          "llm_tldr": "大规模在线强化学习是提升LLM高级能力的主要手段，但计算成本高昂。REGEN提出回放回收技术，结合离线强化学习，从多个专家LLM的轨迹中蒸馏出通才模型，避免了耦合的前向和反向传播。实验表明，相比在线RL基线，REGEN在保持性能的同时显著降低了训练成本。该方法为将RL能力高效迁移到多任务通用模型提供了实用方案，直接契合深度强化学习在LLM中的应用。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "deep reinforcement learning algorithms and applications",
-          "matched_requirement_id": "req-5",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.19450v1",
-          "carry_days": 2
-        },
-        {
-          "id": "2607.18555v1",
-          "source": "arxiv",
-          "title": "LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software",
-          "abstract": "We present an exploratory study on using Large Language Models (LLMs) to generate Alloy formal specifications from both requirements documentation and production source code, and to derive executable test cases from those specifications. We evaluate on two real open-source Python libraries: Flipper, a feature flag management system, and Cerberus, a data validation library.   In both cases, the LLM produced workable Alloy specifications and executable tests without any manual correction. For Flipper, our pipeline uncovered a genuine bug that the existing test suite had missed: the library silently accepts duplicate flag names, directly contradicting its documented uniqueness requirement. A direct LLM baseline--generating tests from the same README but skipping the Alloy step--achieved 68% branch coverage yet failed to catch this bug across all three independent runs. This suggests that introducing a formal intermediate representation can surface constraint-level defects that coverage-oriented generation may miss.   For Cerberus, the code-derived specification captured an implicit abstraction over sized types that the documentation-derived spec omitted, producing two additional tests. Across both libraries, code-based specifications showed lower variance in test generation (mean SD = 2.15) than documentation-based ones (mean SD = 5.0), though whether this generalises remains an open question.   Index Terms--formal specifications, Alloy, large language models, automated testing, specification drift, software validation.",
-          "authors": [
-            "Tasmim Rashid",
-            "Muhammad Zubair Malik"
-          ],
-          "primary_category": "cs.SE",
-          "categories": [
-            "cs.SE"
-          ],
-          "published": "2026-07-20T22:41:55+00:00",
-          "link": "https://arxiv.org/pdf/2607.18555v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "LLM generates formal specs and test cases, detects real bug",
-          "llm_evidence_cn": "LLM生成形式规范并推导测试用例，发现真实bug",
-          "llm_evidence": "LLM生成形式规范并推导测试用例，发现真实bug",
-          "canonical_evidence": "LLM生成形式规范并推导测试用例，发现真实bug",
-          "llm_tldr_en": "LM2Alloy uses LLMs to generate Alloy specifications from code and docs, then derives executable tests; found a genuine bug in Flipper library.",
-          "llm_tldr_cn": "本文探索使用大语言模型从需求文档和生产代码生成Alloy形式规范，并从中派生可执行测试用例。在两个真实Python库（Flipper和Cerberus）上的实验表明，无需手动修正即可获得可工作的规范和测试。在Flipper中，该流程发现了一个现有测试套件遗漏的真实bug：库静默接受重复的标志名，与文档要求的唯一性矛盾。证明了LLM在自动化测试生成中的潜力。",
-          "llm_tldr": "本文探索使用大语言模型从需求文档和生产代码生成Alloy形式规范，并从中派生可执行测试用例。在两个真实Python库（Flipper和Cerberus）上的实验表明，无需手动修正即可获得可工作的规范和测试。在Flipper中，该流程发现了一个现有测试套件遗漏的真实bug：库静默接受重复的标志名，与文档要求的唯一性矛盾。证明了LLM在自动化测试生成中的潜力。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "automated software testing and bug detection using ml",
-          "matched_requirement_id": "req-6",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.18555v1",
-          "carry_days": 2
-        },
-        {
-          "id": "2607.18057v1",
-          "source": "arxiv",
-          "title": "Test Coverage Analysis of Agentic Pull Requests",
-          "abstract": "AI coding agents increasingly submit complete pull requests (PRs) with minimal human intervention, shifting software development from AI-assisted to autonomous workflows. As these agents become more prevalent, ensuring the code they generate is adequately tested, by existing tests or by tests the agents write, is critical to preventing regressions, yet little is known about testing in agentic PRs. To address this gap, we analyze 4882 agent-generated PRs from the AIDev dataset (532 Java and 4350 Python PRs) produced by five coding agents. We study (i) how often agents include test changes and (ii) how well covered are code changes by existing and agent-written tests. Agents include test changes in only 49.6% of PRs that change code under test files. Existing tests provide an incomplete safety net: they cover 61.5% of agents' changed executable lines in Java and only 27.0% in Python, where 64.8% of PRs have no changed line executed by any existing test. Agent-written tests improve coverage over existing tests, but only in a minority of PRs: 35.9% of Java and 22.5% of Python Code + Tests PRs show a coverage gain. Across both languages, error-handling constructs (e.g., try and catch blocks) are the most consistently under-tested, with miss rates reaching 86.0% in Java and 81.0% in Python. These findings motivate coverage-aware development practices, coverage feedback loops for coding agents, and evaluation benchmarks that measure test quality to better help agents reliably test their own code.",
-          "authors": [
-            "Atish Kumar Dipongkor",
-            "Talank Baral",
-            "Wing Lam",
-            "Kevin Moran"
-          ],
-          "primary_category": "cs.SE",
-          "categories": [
-            "cs.SE"
-          ],
-          "published": "2026-07-20T15:26:30+00:00",
-          "link": "https://arxiv.org/pdf/2607.18057v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Test coverage analysis of AI agent-generated pull requests for automated testing",
-          "llm_evidence_cn": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
-          "llm_evidence": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
-          "canonical_evidence": "AI智能体生成的拉取请求的测试覆盖分析，用于自动测试",
-          "llm_tldr_en": "Analyzes 4882 agent-generated PRs and finds only 49.6% include test changes, with low coverage from existing and agent-written tests.",
-          "llm_tldr_cn": "AI编码智能体越来越多地自动生成拉取请求，但对其测试覆盖情况知之甚少。本文分析了AIDev数据集中4882个智能体生成的PR（Java和Python），发现仅有49.6%的PR包含测试修改，现有测试和智能体编写的测试对代码变更的覆盖不足。研究揭示了自主代码生成中测试缺失的风险。",
-          "llm_tldr": "AI编码智能体越来越多地自动生成拉取请求，但对其测试覆盖情况知之甚少。本文分析了AIDev数据集中4882个智能体生成的PR（Java和Python），发现仅有49.6%的PR包含测试修改，现有测试和智能体编写的测试对代码变更的覆盖不足。研究揭示了自主代码生成中测试缺失的风险。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "automated software testing and bug detection using ml",
-          "matched_requirement_id": "req-6",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.18057v1",
-          "carry_days": 2
-        },
-        {
-          "id": "2607.20690v1",
-          "source": "arxiv",
-          "title": "Learning to Detect UI Principle Violations via Reinforcement Learning",
-          "abstract": "Small language models and coding agents increasingly generate web front-end code, yet their outputs are typically evaluated primarily for functional correctness. A generated interface may compile, render, and pass unit tests while still violating established interface quality principles, including accessibility barriers, deceptive design patterns, poor visual hierarchy, and excessive decision complexity. Existing auditing approaches face a trade-off between cost, coverage, and scalability: expert human review provides rich judgment but is slow and expensive; frontier vision-language models offer broader reasoning capabilities but remain costly to deploy at scale; and rule-based tools such as axe-core and Lighthouse are inexpensive but primarily capture mechanically checkable accessibility issues.   We investigate whether a lightweight vision-language model can serve as an effective critic for generated interfaces. We unify 19 interface-quality principles from three complementary sources of HCI knowledge: WCAG 2.2 accessibility standards, deceptive design taxonomies, and established theories of perception, cognition, and interaction. To train this critic, we construct a verified dataset of approximately 10,000 generated web pages by synthetically injecting known violations into clean, LLM-generated Tailwind pages.   Continued reinforcement learning on a 4B vision-language model improves micro-F1 from 36\\% to 84\\%, with 13 of 19 principles exceeding 80\\% F1. The resulting critic can audit generated interfaces, filter low-quality interface training data, and provide a reward signal for design-aware code generation. We release our data-generation recipe and injection/verification prompts to support reproducible evaluation and future work on scalable interface-quality assessment.",
-          "authors": [
-            "Nishi Mehta",
-            "Swathi Alse",
-            "Himani Kumavat",
-            "Yue Yu",
-            "Pratik Jayarao"
-          ],
-          "primary_category": "cs.CL",
-          "categories": [
-            "cs.CL"
-          ],
-          "published": "2026-07-22T19:42:59+00:00",
-          "link": "https://arxiv.org/pdf/2607.20690v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "reinforcement learning to detect UI violations in generated code",
-          "llm_evidence_cn": "使用强化学习检测生成代码的UI违规",
-          "llm_evidence": "使用强化学习检测生成代码的UI违规",
-          "canonical_evidence": "使用强化学习检测生成代码的UI违规",
-          "llm_tldr_en": "Proposes RL method to detect UI principle violations in code generated by LLMs, addressing quality issues beyond functional correctness.",
-          "llm_tldr_cn": "当前代码生成注重功能正确而忽视界面质量，本文提出使用强化学习检测UI原则违规，包括可访问性和欺骗性设计，在成本与覆盖率间取得平衡，实验证明该方法有效。",
-          "llm_tldr": "当前代码生成注重功能正确而忽视界面质量，本文提出使用强化学习检测UI原则违规，包括可访问性和欺骗性设计，在成本与覆盖率间取得平衡，实验证明该方法有效。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "Reinforcement learning for automated software testing",
-          "matched_requirement_id": "req-10",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.20690v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.21453v1",
-          "source": "arxiv",
-          "title": "Test-Time Scaling via Error Localization",
-          "abstract": "Scaling inference-time computation has emerged as a reliable method to improve the performance of large language models on complex reasoning and programming tasks. However, standard approaches such as independent sampling and sequential multi-turn refinement operate without token-level credit assignment, resulting in computational inefficiency, since valid reasoning prefixes are frequently discarded. In this work, we introduce Test-Time Scaling via Error Localization (TTEL), an inference-time algorithm that utilizes fixed or environment feedback to perform token-level error localization. By comparing conditional probabilities under informed feedback against a null-context baseline, TTEL isolates the step at which an error occurred. The algorithm then truncates the trajectory and branches a new generation, maximally reusing the valid prefix. Extensive evaluations demonstrate that TTEL establishes strictly dominating Pareto frontiers across sequential reasoning domains, measured by pass-at-k vs. generated-token cost. With Qwen3-8B on LiveCodeBench, TTEL attains a pass@64 of 71.0% while generating approximately half as many tokens as independent sampling (360.4k vs. 735.0k). Generalizing to math benchmarks AIME-2025 and HMMT-2025, TTEL cleanly outperforms competing test-time baselines across both Qwen3-8B and Qwen3-4B-Thinking-2507.",
-          "authors": [
-            "Rajiv Shailesh Chitale",
-            "Rahul Madhavan",
-            "Taneesh Gupta",
-            "Deepanway Ghosal",
-            "Aravindan Raghuveer"
-          ],
-          "primary_category": "cs.LG",
-          "categories": [
-            "cs.LG"
-          ],
-          "published": "2026-07-23T15:55:29+00:00",
-          "link": "https://arxiv.org/pdf/2607.21453v1",
-          "tags": [
-            "keyword:code-ml-sys",
-            "query:code-ml-sys"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "error localization for programming tasks",
-          "llm_evidence_cn": "对编程任务进行错误定位",
-          "llm_evidence": "对编程任务进行错误定位",
-          "canonical_evidence": "对编程任务进行错误定位",
-          "llm_tldr_en": "Proposes TTEL, a test-time scaling algorithm that uses token-level error localization to improve LLM performance on reasoning and programming tasks by truncating trajectories at error steps.",
-          "llm_tldr_cn": "针对大规模语言模型在推理和编程任务中测试时计算效率低的问题，本文提出TTEL算法，利用环境反馈进行token级错误定位，通过比较条件概率隔离错误步骤并截断轨迹，从而提升计算效率。实验表明该方法在复杂任务上显著优于标准采样方法，为推理时扩展提供了新思路。",
-          "llm_tldr": "针对大规模语言模型在推理和编程任务中测试时计算效率低的问题，本文提出TTEL算法，利用环境反馈进行token级错误定位，通过比较条件概率隔离错误步骤并截断轨迹，从而提升计算效率。实验表明该方法在复杂任务上显著优于标准采样方法，为推理时扩展提供了新思路。",
-          "llm_tags": [
-            "query:code-ml-sys"
-          ],
-          "matched_query_tag": "query:code-ml-sys",
-          "matched_query_text": "deep learning for code generation using large language models",
-          "matched_requirement_id": "req-1",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.21453v1",
           "carry_days": 1
         },
         {
@@ -277,6 +82,385 @@
           "matched_requirement_id": "req-3",
           "selection_source": "carryover_cache",
           "paper_id": "2607.19761v1",
+          "carry_days": 3
+        },
+        {
+          "id": "2607.21832v1",
+          "source": "arxiv",
+          "title": "How Do AI Coding Agents Contribute to Software Development? an Empirical Study of Agentic Pull Requests",
+          "abstract": "Recent advances in large language models and their rapid adoption across software engineering tasks have made Artificial Intelligence (AI) coding agents an integral component of modern software development workflows. While developers increasingly benefit from these coding agents, their impact on software quality remains insufficiently understood. In particular, how agentic contributions evolve across the software development lifecycle has not been thoroughly investigated. This study aims to characterize agentic pull requests (PR) in comparison to human generated PRs and to examine how their properties change across different stages of the development lifecycle. Using the AIDev dataset, we first analyze how differences in merge rates between agentic and human generated PRs vary over time. We then identify the types of development tasks where AI coding agents are predominantly applied and investigate how these task distributions evolve across development quarters. Finally, we compare a set of key characteristics of agentic and human generated PRs, focusing on their implications for software quality and their temporal dynamics. Overall, our findings provide an empirical and longitudinal perspective on the role of AI coding agents in software development, offering a more nuanced understanding of their benefits and limitations in real-world practices.",
+          "authors": [
+            "Iren Mazloomzadeh",
+            "Mohammad Mehdi Morovati",
+            "Foutse Khomh"
+          ],
+          "primary_category": "cs.SE",
+          "categories": [
+            "cs.SE",
+            "cs.LG"
+          ],
+          "published": "2026-07-23T21:48:28+00:00",
+          "link": "https://arxiv.org/pdf/2607.21832v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Empirical study of AI coding agents in software development, analyzing agentic pull requests and their impact on code quality",
+          "llm_evidence_cn": "关于AI编码智能体在软件开发中的实证研究，分析智能体PR及其对代码质量的影响",
+          "llm_evidence": "关于AI编码智能体在软件开发中的实证研究，分析智能体PR及其对代码质量的影响",
+          "canonical_evidence": "关于AI编码智能体在软件开发中的实证研究，分析智能体PR及其对代码质量的影响",
+          "llm_tldr_en": "Empirically characterizes AI coding agent contributions via pull requests, comparing with human PRs across the software development lifecycle.",
+          "llm_tldr_cn": "该论文通过对AI编码智能体生成的拉取请求（PR）进行实证研究，比较了智能体PR与人类PR在软件开发不同阶段的属性差异。基于AIDev数据集，分析了代码大小、修改频率、安全性等特征，揭示了AI编码智能体在开发工作中的演变模式。",
+          "llm_tldr": "该论文通过对AI编码智能体生成的拉取请求（PR）进行实证研究，比较了智能体PR与人类PR在软件开发不同阶段的属性差异。基于AIDev数据集，分析了代码大小、修改频率、安全性等特征，揭示了AI编码智能体在开发工作中的演变模式。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21832v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.24717v1",
+          "source": "arxiv",
+          "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
+          "abstract": "Pretraining data processing is critical to the downstream performance of Large Language Models (LLMs). However, many existing approaches define a fixed processing strategy at the corpus or domain level and apply it uniformly to many examples, without adapting to the needs of each example. We propose DataOrchestra, a framework that unifies different processing operations and orchestrates an example-specific pipeline for each example. Given a chunk of pretraining data, an orchestrator decides whether to drop, untouch, or clean it. For a chunk to be cleaned, it selects one or more downstream operations, ranging from programmatic editing to different forms of LLM-based rewriting. For each rewriting step, it further generates a concrete instruction, which is executed by the corresponding downstream tool model. We pretrain models from 0.5B to 7B from scratch on web data processed by DataOrchestra and observe stable average gains over individual data-processing methods across 11 benchmarks. DataOrchestra is also effective for math continued pretraining and outperforms stronger processing baselines, while reducing processing compute by skipping unnecessary downstream operations.",
+          "authors": [
+            "Zhen Huang",
+            "Yikun Wang",
+            "Shijie Xia",
+            "Pengfei Liu"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL",
+            "cs.AI"
+          ],
+          "published": "2026-07-27T17:54:12+00:00",
+          "link": "https://arxiv.org/pdf/2607.24717v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Pretraining data curation and augmentation via LLM rewriting",
+          "llm_evidence_cn": "通过LLM重写进行预训练数据策展与增强",
+          "llm_evidence": "通过LLM重写进行预训练数据策展与增强",
+          "canonical_evidence": "通过LLM重写进行预训练数据策展与增强",
+          "llm_tldr_en": "DataOrchestra framework adaptively selects processing operations per pretraining example, including LLM-based rewriting, improving data quality and downstream performance.",
+          "llm_tldr_cn": "现有数据预处理方法缺乏逐样本适应性。论文提出DataOrchestra框架，为每个预训练示例动态决定丢弃、保留或清洗，清洗时可选择程序化编辑或LLM重写，并生成具体指令。实验证明该方法能有效提升LLM下游性能，展示了自适应数据策展对模型训练的重要价值。",
+          "llm_tldr": "现有数据预处理方法缺乏逐样本适应性。论文提出DataOrchestra框架，为每个预训练示例动态决定丢弃、保留或清洗，清洗时可选择程序化编辑或LLM重写，并生成具体指令。实验证明该方法能有效提升LLM下游性能，展示了自适应数据策展对模型训练的重要价值。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.24717v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.23639v1",
+          "source": "arxiv",
+          "title": "Distributed Convolutional Rank Regression over Decentralized Networks",
+          "abstract": "This paper studies convolution rank regression (CRR) over decentralized distributed learning networks. We propose a novel decentralized CRR framework, in which estimators are obtained by solving consensus-constrained optimization with kernel-smoothed rank loss. The developed estimation scheme relies solely on local node data and information shared by neighboring nodes, thereby achieving privacy preservation and high communication efficiency. For heterogeneous network settings, we establish finite-sample error bounds for the decentralized CRR estimator and derive exact support recovery guarantees for the sparse decentralized CRR LASSO estimator. To facilitate numerical implementation, we adopt a generalized consensus ADMM to efficiently solve local subproblems across all network nodes. We verify the favorable performance of our developed approach via extensive numerical simulations and real-data experiments.",
+          "authors": [
+            "Chunjing Li",
+            "Tiange Zhao",
+            "Xiaohui Yuan"
+          ],
+          "primary_category": "stat.ME",
+          "categories": [
+            "stat.ME",
+            "cs.LG"
+          ],
+          "published": "2026-07-26T13:07:42+00:00",
+          "link": "https://arxiv.org/pdf/2607.23639v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Decentralized distributed learning with consensus optimization",
+          "llm_evidence_cn": "去中心化分布式学习中的共识优化",
+          "llm_evidence": "去中心化分布式学习中的共识优化",
+          "canonical_evidence": "去中心化分布式学习中的共识优化",
+          "llm_tldr_en": "A decentralized convolutional rank regression (CRR) framework using consensus-constrained optimization with kernel-smoothed rank loss, achieving privacy and communication efficiency.",
+          "llm_tldr_cn": "分布式学习面临隐私与通信挑战。论文提出去中心化卷积秩回归框架，通过共识约束优化与核平滑秩损失求解，仅依赖局部节点数据和邻居交换信息。在异构网络下给出了有限样本误差界和稀疏LASSO的支撑恢复保证，采用广义ADMM高效求解，实现了隐私保护与高通信效率。",
+          "llm_tldr": "分布式学习面临隐私与通信挑战。论文提出去中心化卷积秩回归框架，通过共识约束优化与核平滑秩损失求解，仅依赖局部节点数据和邻居交换信息。在异构网络下给出了有限样本误差界和稀疏LASSO的支撑恢复保证，采用广义ADMM高效求解，实现了隐私保护与高通信效率。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23639v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.23250v1",
+          "source": "arxiv",
+          "title": "Libra: Taming Attention Workload Skew in Long-Context LLM Training with Bounded Sequence Pool",
+          "abstract": "Long-context LLM training suffers from a load-balancing problem that sequence packing does not solve. Packing samples into fixed-token sequences balances memory and linear-cost operators, but the dominant attention cost scales with the sum of squared sequence lengths. Thus, equally sized packed sequences drawn from a long-tailed corpus can carry substantially different attention workloads, creating data-parallel stragglers and pipeline bubbles. Existing approaches either balance at the granularity of sequences or microbatches, where an outlier can dominate an assignment, or disaggregate attention over a global worker pool whose communication domain grows with the data-parallel (DP) degree.   We present Libra, which operationalizes the law of large numbers (LLN) as a scaling principle for load balancing: the attention-balancing pool need not grow with the DP degree. Libra groups packed sequences and their CP groups into fixed-size sequence pools. As DP scales out, Libra adds pools rather than enlarging each one, bounding every attention exchange. Variance-Reduced Sequence Placement makes this effective for finite, long-tailed workloads by co-locating sequences with complementary attention workloads to reduce residual inter-pool skew. Within each pool, Tiled Attention Pooling dispatches sequence-head SH-Tiles across GPUs, while a pipelined runtime overlaps tile exchange with attention.   Libra exposes a drop-in context-parallel attention operator and a pluggable data sampler, requiring no changes to model layers, optimizers, or pipeline schedules. On Qwen3-Turbo training with 256K- and 1M-token workloads, Libra improves end-to-end throughput by up to 2.54x over Ulysses, with up to 3.14x worst-step straggler-attention speedup in microbenchmarks. Libra has run for hundreds of thousands of GPU-hours in production on jobs spanning 32K to 1M tokens while preserving training semantics.",
+          "authors": [
+            "Yan Wang",
+            "Xiulong Yuan",
+            "Kaiming Yang",
+            "Jiaxuan Peng",
+            "Pengju Lu",
+            "Mingzhen Li",
+            "Zhipeng Zhang",
+            "Chang Si",
+            "Zhixiang Ruan",
+            "Hongqing Chen",
+            "Linlang Jiang",
+            "Siyu Wang",
+            "Langshi Chen",
+            "Rui Men",
+            "Man Yuan",
+            "Guangming Tan",
+            "Yong Li",
+            "Weile Jia",
+            "Jingren Zhou"
+          ],
+          "primary_category": "cs.DC",
+          "categories": [
+            "cs.DC"
+          ],
+          "published": "2026-07-25T15:21:25+00:00",
+          "link": "https://arxiv.org/pdf/2607.23250v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "load balancing for long-context LLM training",
+          "llm_evidence_cn": "长上下文LLM训练中的负载均衡优化",
+          "llm_evidence": "长上下文LLM训练中的负载均衡优化",
+          "canonical_evidence": "长上下文LLM训练中的负载均衡优化",
+          "llm_tldr_en": "Libra uses a bounded sequence pool to balance attention workload skew in long-context LLM training, reducing stragglers and pipeline bubbles.",
+          "llm_tldr_cn": "长上下文LLM训练中，注意力计算负载分布不均导致数据并行中的掉队者和流水线气泡。Libra通过有界序列池机制，在序列粒度上均衡注意力工作量，不增加通信域，有效提升训练吞吐量。",
+          "llm_tldr": "长上下文LLM训练中，注意力计算负载分布不均导致数据并行中的掉队者和流水线气泡。Libra通过有界序列池机制，在序列粒度上均衡注意力工作量，不增加通信域，有效提升训练吞吐量。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "distributed machine learning system design and optimization",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23250v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20140v1",
+          "source": "arxiv",
+          "title": "CURED: Creating, Understanding, and Repairing Errors Demonstrator",
+          "abstract": "Detecting and cleaning errors in tabular data is a prerequisite for data intense software applications. Recent research at the intersection of Machine Learning (ML) and Database Management Systems (DBMS) highlights the potential of statistical learning algorithms for error detection and cleaning. This paper combines our recent work on ML-based data cleaning and error models in a unified demonstrator. The web application allows users to upload tabular data, perturb the data with realistic data dependent errors and use modern ML methods to clean and understand error mechanisms in data. Our demonstrator helps to bridge the gap between theoretical advancements and intuitive practical insights in the context of error models and data cleaning algorithms for tabular data. The demonstrator is available at https://cured.demo.calgo-lab.de/",
+          "authors": [
+            "Nicholas Chandler",
+            "Sebastian Jäger",
+            "Philipp Jung",
+            "Felix Bießmann"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG"
+          ],
+          "published": "2026-07-22T13:41:17+00:00",
+          "link": "https://arxiv.org/pdf/2607.20140v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "ML-based detection and cleaning of errors in tabular data",
+          "llm_evidence_cn": "基于ML的表格数据错误检测与清洗",
+          "llm_evidence": "基于ML的表格数据错误检测与清洗",
+          "canonical_evidence": "基于ML的表格数据错误检测与清洗",
+          "llm_tldr_en": "Presents CURED, a demonstrator for creating, understanding, and repairing errors in tabular data using ML-based error detection and cleaning algorithms.",
+          "llm_tldr_cn": "针对表格数据中的错误检测与清洗问题，开发CURED演示器，集成ML方法用于错误检测与修复。用户可上传数据、注入真实错误并使用现代ML方法清洗和理解错误机制，弥合理论与实践差距。",
+          "llm_tldr": "针对表格数据中的错误检测与清洗问题，开发CURED演示器，集成ML方法用于错误检测与修复。用户可上传数据、注入真实错误并使用现代ML方法清洗和理解错误机制，弥合理论与实践差距。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20140v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.23802v1",
+          "source": "arxiv",
+          "title": "From RLVR to RLSVR: Task Transformation Induces Self-Verifiable Rewards for Open-Ended LLM Self-Improvement",
+          "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) has driven recent progress in reasoning-oriented large language models (LLMs) by enabling large-scale optimization. However, its applicability remains largely limited to domains such as mathematics and coding, where correctness can be deterministically verified. Open-ended tasks instead often rely on human preferences, reward models, or LLM-based judges, introducing evaluation bias, judge capability bottlenecks, and additional inference costs.Drawing on the principle of self-supervised learning, which constructs pretext tasks to derive supervision from the data itself, we propose Reinforcement Learning with Self-Verifiable Rewards (RLSVR), a task-transformation-based training paradigm for extending RLVR to open-ended tasks. RLSVR transforms open-ended tasks into verifiable proxy environments whose internal rules and interaction outcomes automatically generate reward signals. We instantiate RLSVR with SpyRL, a multi-agent self-play environment inspired by Who Is the Spy?. Agents receive asymmetric information, complete the same target task, and vote to identify a designated spy. Because the spy identity is predetermined, voting outcomes provide fully verifiable rewards, while successful identification remains closely related to output quality. Experiments on text summarization, creative writing, and mathematical reasoning show that SpyRL outperforms existing self-improvement methods on non-verifiable tasks and yields consistent gains on verifiable reasoning tasks. These results demonstrate that task transformation can extend scalable RLVR-based self-improvement beyond inherently verifiable domains. Models and code have been released at https://github.com/wangqinsi1/SpyRL.",
+          "authors": [
+            "Qinsi Wang",
+            "Jing Shi",
+            "Huazheng Wang",
+            "Kun Wan",
+            "Yiran Wu",
+            "Bo Liu",
+            "Qingyun Wu",
+            "Hai Helen Li",
+            "Yiran Chen",
+            "Handong Zhao",
+            "Wentian Zhao"
+          ],
+          "primary_category": "cs.AI",
+          "categories": [
+            "cs.AI"
+          ],
+          "published": "2026-07-26T19:04:33+00:00",
+          "link": "https://arxiv.org/pdf/2607.23802v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "RL-based self-improvement for LLMs, applicable to code generation tasks",
+          "llm_evidence_cn": "基于强化学习的LLM自我改进，可应用于代码生成",
+          "llm_evidence": "基于强化学习的LLM自我改进，可应用于代码生成",
+          "canonical_evidence": "基于强化学习的LLM自我改进，可应用于代码生成",
+          "llm_tldr_en": "Proposes RLSVR, transforming open-ended tasks into self-verifiable forms, enabling LLM self-improvement without external judges.",
+          "llm_tldr_cn": "该论文针对RLVR局限于数学和编码等可验证领域的问题，提出了RLSVR方法，通过任务变换引入自验证奖励，使LLM能在开放任务中自我改进。方法借鉴自监督学习思想，构造预文本任务从数据本身派生监督。实验表明RLSVR在多种开放性任务上有效，降低了对外部评估器的依赖。",
+          "llm_tldr": "该论文针对RLVR局限于数学和编码等可验证领域的问题，提出了RLSVR方法，通过任务变换引入自验证奖励，使LLM能在开放任务中自我改进。方法借鉴自监督学习思想，构造预文本任务从数据本身派生监督。实验表明RLSVR在多种开放性任务上有效，降低了对外部评估器的依赖。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23802v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.20327v1",
+          "source": "arxiv",
+          "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
+          "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
+          "authors": [
+            "Niqi Lyu",
+            "Pengtao Shi",
+            "Wei Qiu",
+            "Jianlin Zhong",
+            "Sicong Xia",
+            "Jianyao Ma",
+            "Yicheng Ding"
+          ],
+          "primary_category": "cs.CL",
+          "categories": [
+            "cs.CL"
+          ],
+          "published": "2026-07-22T16:14:26+00:00",
+          "link": "https://arxiv.org/pdf/2607.20327v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "cost-efficient collaborative inference between small and large LMs for scalable ML system",
+          "llm_evidence_cn": "小模型和大模型的低成本协作推理，用于可扩展ML系统",
+          "llm_evidence": "小模型和大模型的低成本协作推理，用于可扩展ML系统",
+          "canonical_evidence": "小模型和大模型的低成本协作推理，用于可扩展ML系统",
+          "llm_tldr_en": "PyroDash enables token-level collaboration between SLM and frozen LLM, reducing inference cost while maintaining quality.",
+          "llm_tldr_cn": "该论文针对大语言模型服务成本高的问题，提出了PyroDash框架，让小语言模型在生成过程中动态决定是否请求大模型协助。通过控制令牌和单次移交机制，在不重新训练大模型的情况下实现了高效的协作推理。实验表明在多个推理任务上显著降低了成本，同时保持了较高的回答质量。",
+          "llm_tldr": "该论文针对大语言模型服务成本高的问题，提出了PyroDash框架，让小语言模型在生成过程中动态决定是否请求大模型协助。通过控制令牌和单次移交机制，在不重新训练大模型的情况下实现了高效的协作推理。实验表明在多个推理任务上显著降低了成本，同时保持了较高的回答质量。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "Scalable machine learning system design and optimization",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.20327v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.22769v1",
+          "source": "arxiv",
+          "title": "DomainPilot: Domain-Level Loss-Guided Two-Stage Data Mixture Optimization for Efficient Language Model Fine-Tuning",
+          "abstract": "The training efficacy of large language models (LLMs) is fundamentally constrained by the quality and composition of training data. Existing dynamic data scheduling methods face critical limitations in industrial-scale pretraining and supervised fine-tuning (SFT): data selection incurs prohibitive O(N) costs on terabyte-scale corpora, mixture optimization schemes introduce severe I/O bottlenecks or require training auxiliary reference models, and sample-level reweighting strategies rely on loss signals that conflate noise, difficulty, and novelty.   We present DomainPilot, a domain-level loss-guided two-stage data mixture optimization framework. DomainPilot introduces token-level domain loss monitoring to capture per-domain learning dynamics during training without halting the data pipeline. Building on these signals, we propose a Scaling Law guided coarse optimization stage that fits domain-specific convergence curves and derives a principled prior for mixture adjustment. A subsequent Mixing Law guided fine optimization stage refines the mixture by modeling cross-domain interaction effects through controlled sweep experiments. The entire mechanism is realized via a patch-based architecture that injects domain-aware loss computation into existing training frameworks (e.g., MindSpeed/Megatron-LM) with only ~30 lines of framework-specific adapter code.   We validate DomainPilot on the Qwen3-1.7B model during SFT. Compared to the original data mixture, our optimized mixture achieves improvements of +2% on MMLU-Redux, +1.8% on AIME24, +3.8% on LiveCodeBench v5, and +3.6% on BFCL v3, without increasing total data volume or training cost. These results demonstrate that domain-level training signals provide an effective, lightweight alternative to expensive data selection or auxiliary model training for mixture optimization.",
+          "authors": [
+            "He Zhang"
+          ],
+          "primary_category": "cs.LG",
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "published": "2026-07-24T03:54:58+00:00",
+          "link": "https://arxiv.org/pdf/2607.22769v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "domain-level data mixture optimization for LLM fine-tuning",
+          "llm_evidence_cn": "领域级数据混合优化用于LLM微调",
+          "llm_evidence": "领域级数据混合优化用于LLM微调",
+          "canonical_evidence": "领域级数据混合优化用于LLM微调",
+          "llm_tldr_en": "DomainPilot uses domain-level loss monitoring to optimize data mixture for LLM fine-tuning, addressing O(N) costs and I/O bottlenecks.",
+          "llm_tldr_cn": "大语言模型训练效率受限于数据质量和组成。现有动态数据调度方法在工业级预训练和微调中面临高昂成本和I/O瓶颈。DomainPilot提出领域级损失引导的两阶段数据混合优化框架，引入令牌级领域损失监控来指导数据混合比例。该方法避免辅助模型训练和采样级重新加权，在保持性能的同时显著降低计算开销。",
+          "llm_tldr": "大语言模型训练效率受限于数据质量和组成。现有动态数据调度方法在工业级预训练和微调中面临高昂成本和I/O瓶颈。DomainPilot提出领域级损失引导的两阶段数据混合优化框架，引入令牌级领域损失监控来指导数据混合比例。该方法避免辅助模型训练和采样级重新加权，在保持性能的同时显著降低计算开销。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "data quality and data augmentation for ml",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.22769v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.23088v1",
+          "source": "arxiv",
+          "title": "Poster: Rethinking Security in LLM Code Generation through Real-World Risk Scenarios",
+          "abstract": "Large Language Models (LLMs) are widely used for code generation, yet their security behavior in realistic development workflows remains underexplored. Existing benchmarks often rely on explicitly specified security requirements, failing to capture real-world scenarios where prompts are frequently ambiguous or incomplete. In this paper, we adopt a developer-centric perspective and identify three representative risk scenarios that commonly lead to security vulnerabilities in LLM-generated code: Ambiguous Requirements, Under-Specified Operational Context, and Security--Functionality Conflict. Based on these scenarios, we construct a large-scale benchmark comprising 2,700 test cases, enabling fine-grained evaluation of LLM security under realistic conditions. Extensive evaluation of eight state-of-the-art LLMs reveals that all models exhibit average vulnerability rates exceeding 56\\% across risk scenarios. We further demonstrate that security-aware prompting can substantially mitigate these risks, achieving up to 45\\% improvement.",
+          "authors": [
+            "Lixun Ma",
+            "Ruolong Ma",
+            "Bei Wang",
+            "Feng Wei",
+            "Zhenguang Liu",
+            "Lorenzo Cavallaro",
+            "Wentao Chen"
+          ],
+          "primary_category": "cs.CR",
+          "categories": [
+            "cs.CR",
+            "cs.AI"
+          ],
+          "published": "2026-07-25T07:46:13+00:00",
+          "link": "https://arxiv.org/pdf/2607.23088v1",
+          "tags": [
+            "keyword:code-ml-sys",
+            "query:code-ml-sys"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Security evaluation of LLM code generation in realistic scenarios",
+          "llm_evidence_cn": "在现实场景下评估LLM代码生成的安全性",
+          "llm_evidence": "在现实场景下评估LLM代码生成的安全性",
+          "canonical_evidence": "在现实场景下评估LLM代码生成的安全性",
+          "llm_tldr_en": "This paper identifies three risk scenarios causing security vulnerabilities in LLM-generated code and constructs a benchmark of 2700 test cases for fine-grained security evaluation.",
+          "llm_tldr_cn": "本文从开发者视角出发，识别了导致LLM生成代码存在安全漏洞的三种典型风险场景：模棱两可的需求、未明确的运行环境以及安全-功能冲突。基于这些场景构建了包含2700个测试用例的大规模基准，实现对LLM安全行为的细粒度评估。实验发现，现有LLM在现实场景中安全表现不足，尤其当需求模糊时易产生漏洞。该工作为LLM代码生成的安全性研究提供了重要评估工具。",
+          "llm_tldr": "本文从开发者视角出发，识别了导致LLM生成代码存在安全漏洞的三种典型风险场景：模棱两可的需求、未明确的运行环境以及安全-功能冲突。基于这些场景构建了包含2700个测试用例的大规模基准，实现对LLM安全行为的细粒度评估。实验发现，现有LLM在现实场景中安全表现不足，尤其当需求模糊时易产生漏洞。该工作为LLM代码生成的安全性研究提供了重要评估工具。",
+          "llm_tags": [
+            "query:code-ml-sys"
+          ],
+          "matched_query_tag": "query:code-ml-sys",
+          "matched_query_text": "deep learning for code generation using large language models",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23088v1",
           "carry_days": 1
         }
       ]

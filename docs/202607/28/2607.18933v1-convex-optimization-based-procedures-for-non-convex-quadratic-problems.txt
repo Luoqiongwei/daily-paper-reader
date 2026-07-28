@@ -1,0 +1,401 @@
+Title: Convex Optimization-Based Procedures for Non-Convex Quadratic Problems
+
+URL Source: https://arxiv.org/pdf/2607.18933v1
+
+Published Time: Wed, 22 Jul 2026 00:49:13 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+> 1
+
+# Convex Optimization-Based Procedures for Non-Convex Quadratic Problems 
+
+Mahmoud Zaher, and Emil Bj¨ ornson 
+
+Mathematical optimization plays a fundamental role in signal processing and wireless communications, serving as an essential framework for the systematic design of modern systems. Many design challenges in these fields, as well as in many others, can naturally be formulated as optimization problems. Over the years, the advancements in signal processing applications have significantly changed the structure and complexity of these optimization problems, creating new challenges in their analysis, understanding, and solution [1]. Consequently, the rapid development of sophisticated optimization theories and algorithms tailored to the demands of next-generation systems is crucial. Quadratic optimization problems constitute one of the most important classes of optimization problems in modern engineering systems. In signal processing and communications, quadratic forms naturally emerge when modeling power, energy, covariance matrices, and Euclidean distances, to name a few examples. Consequently, a broad family of practical design problems can be represented using quadrat-ically constrained quadratic programs (QCQPs), where both the objective function and the constraints are quadratic functions of the optimization variables. While convex QCQPs can be solved efficiently using polynomial-time algorithms, the general non-convex QCQP remains computationally challenging. Specifically, indefinite quadratic forms and rank constraints often induce NP-hardness. Non-convex QCQP problems arise in a broad range of signal processing, communications, control, machine learning, and network optimization applications. In the last three decades, substantial progress has been made in convex optimization-based procedures providing a principled way to construct tractable approximations and iterative algorithms capable of producing high-quality solutions for the non-convex and NP-hard QCQP problems with polynomial-time complexity. Among the most prominent methods in this regard are semidefinite relaxation (SDR) and successive convex approximation (SCA). The main idea behind SDR is to globally convexify a problem through lifting and relaxation of non-convex constraints. It has become one of the most influential approaches for handling rank-constrained formulations. On the other hand, SCA methods exploit local convexity through the construction of convex surrogate functions to approximate non-convex functions at  
+
+> July 22, 2026 DRAFT arXiv:2607.18933v1 [eess.SP] 21 Jul 2026 2
+
+a given point, and iteratively solve the resulting convex problems until convergence. A clear distinction between the two methods is that SDR often leads to infeasible solutions to the original problem due to relaxation, requiring post-processing of the SDR output to generate a feasible solution, whereas SCA belongs to the class of inner approximation methods, which leads to feasible solutions throughout its iterations. Technological advancements in different fields have driven performance optimization problems to a new era characterized by a high dimension and/or a large number of constraints, which poses significant design and computational challenges. For instance, in wireless communications, the emergence of massive multiple-input multiple-output (MIMO) architectures for cellular and cell-free networks has created optimization problems involving hundreds or thousands of coupled variables and constraints [2]. Solving such problems using global optimization methods is computationally infeasible. This has attracted interest in finding computationally efficient approaches for the non-convex QCQP problems. The idea is based on combining the convex optimization-based procedures mentioned earlier, with scalable first-order methods (FOMs) to enable the treatment of extremely large-scale problems. RELEVANCE 
+
+Non-convex quadratic optimization has become a cornerstone of modern signal processing applications. Many engineering systems require balancing multiple objectives and constraints that naturally admit quadratic representations. Important examples in signal processing and wireless communications include beamforming design, MIMO detection, sparse signal recovery, and covariance estimation. This lecture note article elucidates the latest advancements on solving non-convex QCQPs. We aim to provide an accessible yet rigorous overview of convex optimization-based procedures for this type of problems, from SDR and classical randomization techniques to modern iterative and large-scale optimization frameworks. The discussion culminates in multicast beamforming optimization, which serves as a representative application example where non-convex QCQPs arise naturally and where convex opti-mization techniques have demonstrated remarkable practical success. The goal is to bridge mathematical foundations with the underlying intuitions of various solution approaches and to highlight the interplay between convex optimization theory and modern wireless signal processing design. PREREQUISITES 
+
+The readers require basic knowledge in linear algebra and convex optimization.  
+
+> July 22, 2026 DRAFT 3
+
+NON -C ONVEX QUADRATIC PROBLEMS 
+
+In this section, we present a standard formulation for QCQPs that encompasses numerous problems that are highly relevant to the signal processing and communications community. Specifically, a general homogeneous QCQP can be formulated as 
+
+minimize  
+
+> x∈Cn
+
+xH Qx (1a) s.t. xH Pix ≥ gi, i = 1 , . . . , m, (1b) where Q, P1, . . . , Pm ∈ Hn are general n × n Hermitian matrices. The problem is convex if and only if the objective matrix Q is positive semidefinite (PSD) and all constraint matrices P1, . . . , Pm are negative semidefinite. Otherwise, the problem becomes non-convex and generally NP-hard. Note that the formulation above implicitly includes problems with equality constraints, which are equivalent to two opposing inequalities. Without loss of generality, we focus on the homogeneous QCQP (1), since a non-homogeneous QCQP, which includes an additional linear term, can be homogenized by adding an extra scalar variable; see [3] for details. To gain some insight into the problem structure, let us consider a special instance of (1), where all variables are real-valued, n = 2 and all matrices Q, P1, . . . , Pm ∈ Hn are positive (semi)definite. Note that this implies we are dealing with a non-convex QCQP. Figure 1 illustrates the intricate structure of the feasible region in this simplified scenario. As shown in the figure, the feasible region is formed by the intersection of the exteriors of multiple ellipsoids or elliptic cylinders, which makes the problem difficult even in such a simplified scenario. 
+
+Fig. 1: Non-convex QCQP example in R2. The black lines represent the boundaries of the constraints.  
+
+> July 22, 2026 DRAFT 4
+
+SUCCESSIVE CONVEX APPROXIMATION 
+
+SCA is one of the most widely used frameworks for solving non-convex optimization problems in modern signal processing and wireless communications. Unlike SDR, which attempts to convexify a problem globally through lifting and relaxation, SCA operates locally by iteratively constructing and solving convex approximations of the original non-convex problem. The central idea is to iteratively replace non-convex components with locally tight convex surrogates that can be solved efficiently. The resulting algorithms often exhibit lower computational complexity than classical SDR-based methods, which rely on randomization for producing a solution to the original problem, while maintaining good practical performance even for large-scale systems. The origins of SCA can be traced to the methodology proposed by [4] in the late 1970s, where non-convex constraints were replaced by conservative convex approximations that are successively updated around the current iterate. Specifically, the algorithm constructs a sequence of convex subproblems that “inner approximate” the feasible region of the original non-convex problem. Each subproblem provides a feasible solution, improving convergence and stability compared to outer approximation techniques. The method guarantees feasibility at every iteration and aims to converge to a stationary point satisfying necessary optimality conditions. The main advantages of SCA lie in its flexibility in handling complicated (non-convex) constraints and its ability to exploit problem-specific structure. In general, a surrogate function ˜f (x; x(t)), constructed around an arbitrary vector x(t), for a non-convex function f (x) used in SCA typically satisfies the following properties: 1) Local tightness: ˜f (x(t); x(t)) = f (x(t)).2) First-order consistency: ∇ ˜f (x(t); x(t)) = ∇f (x(t)).3) Convexity: ˜f (x; x(t)) is convex in x.4) Feasibility: either majorization or feasibility-preserving inner approximation, depending on whether the surrogate is constructed for the objective function or the constraints. The first two properties are primarily intended for achieving a good approximate solution in every SCA iteration. The third property ensures that the surrogate problem can be efficiently solved using accessible, usually free, optimization software. The last property ensures that the solution to the surrogate problem in every SCA iterate is also feasible for the original non-convex optimization problem. A general framework for the SCA method is provided in “A Generic SCA Framework”. 
+
+A Generic SCA Framework 
+
+Input: Initial feasible point x(0) .1. Set iteration index t = 0 . 
+
+> July 22, 2026 DRAFT 5
+
+2. Construct convex surrogate functions ˜f (x; x(t)) and ˜hi(x; x(t)).3. Solve the convex subproblem 
+
+minimize 
+
+> x∈Cn
+
+˜f (x; x(t))
+
+s.t. ˜hi(x; x(t)) ≤ gi, i = 1 , . . . , m. 
+
+4. Obtain the optimizer x(t+1) .5. Update t ← t + 1 .6. Repeat Steps 2-5 until convergence. 
+
+Output: Stationary solution x⋆ = x(t).
+
+For brevity, let us consider the special instance of QCQP (1), where all matrices Q, P1, . . . , Pm ∈
+
+Hn are positive (semi)definite. Note that this specific instance of (1) captures the multicast downlink beamforming optimization problem [5]. This results in the m constraints being non-convex. We highlight that if the matrices are indefinite, each constraint can then be divided into a convex and a concave part, and the same procedure will be applied for the concave parts as detailed below. The key idea of SCA is to replace the non-convex constraints at iteration t by tighter convex approximations. The first-order Taylor approximation of a function f (x) : Cn → R around an arbitrary point x0 can be written as 
+
+˜f (x) ≈ f (x0) + 2 ℜ
+
+n
+
+∇x∗ f (x0)H (x − x0)
+
+o
+
+. (2) Since Pi are Hermitian positive (semi)definite for all i, the first-order approximations of xH Pix, ∀i,represent its global lower-bound. Accordingly, for an arbitrary vector x(t), we have 
+
+xH Pix ≥ 2ℜ
+
+
+
+x(t)H
+
+Pix
+
+
+
+−
+
+
+
+x(t)H
+
+Pix(t), i = 1 , . . . , m, (3) where the right-hand side represents the first-order approximations of xH Pix, ∀i, around x(t). Note that the right-hand side is affine, and so convex, in x. To that end, the following convex surrogate problem is solved at every SCA iteration: 
+
+minimize  
+
+> x∈Cn
+
+xH Qx (4a) s.t. 2ℜ
+
+
+
+x(t)H
+
+Pix
+
+
+
+−
+
+
+
+x(t)H
+
+Pix(t) ≥ gi, i = 1 , . . . , m. (4b) It is easily verifiable that the first-order approximations satisfy the four conditions for the choice of the surrogate function listed earlier. Since the first-order approximations represent a lower-bound on 
+
+xH Pix, ∀i, starting from a feasible initial point at t = 0 , the solution to the approximate convex problem produces a feasible solution to the original problem at every iteration. After solving the surrogate convex  
+
+> July 22, 2026 DRAFT 6
+
+problem, the resulting solution becomes the center point for constructing the next approximation. In particular, a sequence of the convex problem is solved such that the vector x(t) is set to the solution of the convex problem of the previous iteration. The process repeats until convergence. Intuitively, SCA transforms a difficult global optimization problem into a sequence of tractable local optimization problems, each of which can be solved efficiently using convex optimization techniques. Although global optimality cannot generally be guaranteed, the SCA method guarantees convergence to a local optimal solution of the original non-convex optimization problem, thanks to the four properties utilized for the choice of the surrogate functions that we mentioned earlier. The quality of the final solution heavily depends on the following factors: (i) initialization strategy, (ii) surrogate construction, (iii) problem geometry, and (iv) number of local optima. Despite its wide adoption in many engineering applications, the SCA approach generally suffers from two limitations. The primary limitation is the lack of global optimality guarantees. Nevertheless, for many practical signal processing problems, especially large-scale problems, SCA provides one of the best trade-offs between solution quality and computational complexity. The second limitation is that it requires initialization with a feasible solution. A good initial feasible point can be challenging to obtain, particularly for large-scale problems. In fact, different initial points may result in final solutions that are of substantially different quality, which emphasizes the sensitivity of the SCA method to the chosen initialization. SEMIDEFINITE RELAXATION 
+
+Since the beginning of the 2000s, SDR has played a major role across a wide range of applications in signal processing and communication systems [3], [6]. In general, SDR serves as a powerful and computationally efficient approximation method for solving many challenging optimization problems, including those that are potentially NP-hard. Numerous practical studies have demonstrated that SDR can achieve accurate solutions that are close to optimal. Theoretical investigations, such as those in [3], [6] and references therein, have established the approximation performance of SDR under various problem formulations. The main idea in these classical works is to combine SDR with randomization to find an approximate solution from the output high-rank solutions of SDR. The first step to devise the SDR of (1) is to recognize that 
+
+xH Qx = Tr (xH Qx ) = Tr (Qxx H ), (5) 
+
+xH Pix = Tr (xH Pix) = Tr (Pixx H ). (6) where Tr (·) denotes the trace of a matrix.  
+
+> July 22, 2026 DRAFT 7
+
+Specifically, SDR can be applied to the non-convex QCQP (1) utilizing the lifted matrix variable 
+
+X = xx H . Such formulation implies that X corresponds to a rank-1 Hermitian PSD matrix. An equivalent reformulation of (1) can then be written as 
+
+minimize  
+
+> X
+
+Tr (QX ) (7a) s.t. Tr (PiX) ≥ gi, i = 1 , . . . , m, (7b) 
+
+X ⪰ 0, rank (X) = 1 , (7c) where X ⪰ 0 is used to indicate that X is PSD. The reformulated problem (7) is still non-convex, and it is as difficult to solve as the QCQP (1). The primary difference in (7) is that the non-convexity is now confined in the rank constraint, rank (X) = 1 ,which reveals the fundamental difficulty in solving (1). The objective and all other constraints are now linear, and so convex, in X. The idea of SDR is now clear—drop the non-convex rank constraint to obtain the following relaxed version of (7): 
+
+minimize  
+
+> X
+
+Tr (QX ) (8a) s.t. Tr (PiX) ≥ gi, i = 1 , . . . , m, (8b) 
+
+X ⪰ 0. (8c) Problem (8) is a standard semidefinite programming (SDP) problem. The key advantage of the formulation in (8) is that it can be solved with arbitrary accuracy in a numerically stable and computationally efficient manner. Moreover, SDR problems can be addressed conveniently and effectively using widely available free software packages; see [6] for an example. After solving the relaxed problem, the only immediate conclusion that can be drawn is that the obtained objective value serves as a lower bound on the optimal value of the original NP-hard problem, since ignoring the rank constraint expands the feasible set. If the optimal solution to (8), denoted as X⋆, is in fact rank-1, then our relaxation was not really a relaxation in the sense that the optimal solution X⋆
+
+is also a solution to (7). In this case, we can directly obtain the global optimal solution to (1) exactly, denoted as x⋆, by simply extracting the principal component of X⋆. Obviously, there must be a catch to this approach, for otherwise we would have solved an NP-hard problem in polynomial time. It turns out that standard interior-point SDP solvers will always favor a higher-rank solution over its lower-rank counterpart, even if both can achieve the same objective value. The reason is that low-rank solutions to SDP problems possess numerous zero eigenvalues and therefore tend to reside on the boundary of the feasible set rather than in its interior. This can be easily verified as a small additive perturbation to  
+
+> July 22, 2026 DRAFT 8
+
+these zero eigenvalues can render the solution infeasible by violating the PSD constraint on the solution matrix. This results in achieving the solution with maximum rank among all possible optimum solutions, requiring post-processing of the SDP solution matrix to produce an approximate rank-1 solution. Besides the rank-relaxation interpretation of SDR, an alternative interpretation can be derived from Lagrangian duality. Specifically, the SDR formulation in (8) can be shown to correspond to the Lagrangian bidual of the original problem in (1). As a result, it represents the convex hull, or tightest convex relaxation, of the original optimization problem. 
+
+Randomization Methods 
+
+Researchers in optimization have developed techniques to extract an approximate solution ˆx for the original QCQP (1) from the high-rank solution X⋆ to the SDP (8). The first classical idea is based on randomization; that is, using X⋆ to generate many candidate vectors and selecting the best candidate that provides the lowest objective value. Several randomization methods have been proposed in the literature. In the following, we briefly describe some of these methods, which are also presented in [7]. Let the eigen decomposition of the Hermitian PSD solution matrix be defined as X⋆ = UΣU H . The candidate vectors can then be generated according to xn = UΣ 12 en, n = 1 , . . . , N . The elements of the random vectors en can be chosen to be independent random variables that are uniformly distributed on the unit circle in the complex plane; i.e., [en]i = ejθ n,i , where the angles θn,i , ∀n, i are independent and uniformly distributed in the range [0 , 2π). This ensures that xHn xn = Tr (X⋆), regardless of the specific realization of en. Another option is to choose en ∼ CN (0, IN ), which denotes a zero-mean unit-variance circularly symmetric complex Gaussian random variable. In both cases, the following holds true for the randomized vectors: E{xx H } = X⋆, which entails E{xH Qx } = Tr (QX ⋆). This means that, on average, the objective value of the randomized vectors is equal to the SDR lower bound. For both uniform and Gaussian randomization, each randomized vector needs to be scaled to satisfy the constraints, and the best candidate is retained. Although randomization does not guarantee any kind of optimality, it often yields reasonable approximations for relatively small-scale problems. An overview of the results on the approximation accuracy of randomization methods can be found in [6]. The main problem with randomization is that an increasingly large number of candidate solutions must be tested to find a satisfactory approximation when the problem size grows, which results in high computational requirements. This necessitates the development of an efficient procedure to extract a near-optimal rank-1 solution from the higher-rank solution obtained via SDR.  
+
+> July 22, 2026 DRAFT 9
+
+Successive Elimination Algorithm 
+
+As discussed earlier, when utilizing SDR to solve the QCQP (1), the resulting solution matrix will most likely have high rank. In many QCQP formulations, SDR followed by randomization provides a “good” solution but may still exhibit large performance gaps to the global optimum due to the mismatch between the relaxed SDP (8) and the original rank-constrained problem (7). In particular, randomization methods often provide satisfactory performance for small-scale problems, however, the technological advancements in different engineering fields have driven the need for solving much larger-scale optimization problems. The development of more efficient and scalable procedures for solving this type of problem is thus vital. To this end, a novel iterative rank reduction procedure called Successive Elimination Algorithm (SEA) 
+
+was proposed in [8] to extract a near-globally optimal rank-1 solution to (7). This idea can be viewed as a generalization of the widespread approach of penalty methods, where a relaxation of a hard problem is performed to make the problem more tractable, then a penalty is introduced to tighten the optimality gap introduced by the relaxation (cf. common description of penalty methods as detailed in [1]). In our case, any formulation that attempts to directly reduce the rank of the solution matrix produced by SDR will result in a non-convex problem that cannot be handled in a straightforward manner, and hence the need for the iterative penalty procedure. Specifically, at each iteration of the SEA, a penalty term in the form of a quadratic matrix product is added to the objective function. As such, the following penalized problem is solved at each iteration until a rank-1 solution is achieved: 
+
+minimize  
+
+> X
+
+Tr (QX ) + ζ X
+
+> j
+
+uHj Xu j (9a) s.t. Tr (PiX) ≥ gi, i = 1 , . . . , m, (9b) 
+
+X ⪰ 0, (9c) The vectors uj , ∀j, appearing in the additive penalty terms are chosen as the eigenvectors corresponding to the second-largest eigenvalues of the higher-rank solutions obtained in previous iterations, whereas ζ
+
+is a constant penalty factor that is chosen to balance between the original objective and the introduced penalties. The goal of these penalty terms is to push the solver away from the high-rank solutions produced by solving a sequence of the (penalized) relaxed problem. Because the relaxed SDP solution matrices are Hermitian PSD and possess distinct nonzero eigenvalues, their eigenvectors are mutually orthogonal. Consequently, incorporating these eigenvectors into the penalty terms has only a limited impact on the achieved objective value of the original optimization problem (7). Furthermore, the eigenvectors associated with the second-largest eigenvalues cannot yield an optimal rank-1 solution, since the dominant  
+
+> July 22, 2026 DRAFT 10
+
+eigenvector of the same solution always yields a superior objective value. Therefore, penalizing these secondary eigenvectors minimally affects subsequent iterations while progressively steering the solution toward a near-globally optimal rank-1 solution. The idea of the elimination procedure is summarized in “SEA Framework”. 
+
+SEA Framework 
+
+1. Set iteration index j = 0 .2. Solve the convex SDP problem (8) globally. 3. Obtain the optimizer X(j).4. If X(j) is not rank-1 a. Set uj ← Eigenvector corresponding to the second-largest eigenvalue of X(j).b. Update j ← j + 1 .c. Update X(j) ← Solution to the penalized convex problem (9). d. Repeat Steps a-c until a rank-1 solution is achieved. 5. If X(j) is rank-1, its principal component is the optimal solution to QCQP (1). An advantage of the SEA is that it does not require an initialization with a feasible solution, which is necessary for algorithms that rely on the SCA method. In many cases, finding an effective feasible solution for initialization is a difficult problem on its own, particularly for large-scale problems. A theoretical proof of the approximation performance of the SEA is currently lacking; nevertheless, it has demonstrated superior practical performance compared to randomization methods and SCA-based solutions [8]. IMPLEMENTATION ASPECTS 
+
+Modern convex optimization-based procedures for non-convex QCQPs consist of two distinct layers: a high-level convexification strategy and a low-level numerical optimization solver. The former transforms the original non-convex problem into one or more convex subproblems, whereas the latter computes the numerical solution of these subproblems. This distinction is particularly important because the same convexification procedure may be implemented using different optimization solvers depending on the problem size, desired accuracy, and computational resources. Historically, interior-point methods (IPMs) have served as the workhorse for solving convex opti-mization problems due to their strong convergence guarantees and high numerical accuracy. However, the emergence of large-scale problems has motivated increasing interest in FOMs, which often provide  
+
+> July 22, 2026 DRAFT 11
+
+substantially lower computational complexity with moderate numerical accuracy. Fig. 2 illustrates the different layers of the convex optimization-based procedures for solving non-convex QCQPs. 
+
+Fig. 2: Convex optimization procedures and numerical solvers for non-convex QCQPs. For SDP problems, IPMs often achieve polynomial-time complexity and high numerical precision. Specifically, the worst-case computational complexity for solving an SDP involving an n × n matrix variable for a generic IPM solver is O(n6.5). However, the average complexity can be far lower than this worst-case bound with typical complexities of O(n3.5) to O(n4.5) depending on the problem structure; see [8] and references therein. As for IPMs employed for solving the convex surrogate problem in the SCA method, the typical complexity per SCA iteration is O(( n+m)3.5), which is comparable to that of solving the SDP. In addition, it is worth mentioning that, on average, SEA requires less iterations to converge to its final solution than SCA does. The above complexities illustrate why large-scale optimization problems quickly become computationally prohibitive to solve with IPM solvers, whether for SEA or SCA. There are various FOMs that can be utilized to solve the convex problems associated with SEA and SCA. Many practical studies show that the alternating direction method-of-multipliers (ADMM) algorithm provides superior performance compared to other FOMs for large-scale optimization problems in the majority of simulation settings [9]. It has thus been one of the most widespread FOMs for the implementation of large-scale optimization algorithms. For that reason, we will focus our discussion about FOMs to the ADMM algorithm. The complexity involved with the implementation of ADMM for solving SEA and SCA problems heavily depend on the specific problem at hand. Representative examples of SEA-ADMM and SCA-ADMM implementations for solving non-convex QCQPs in [10], [11], demonstrate a total computational complexity of order O(n3) in both cases. Table I gives a high- 
+
+> July 22, 2026 DRAFT 12
+
+level comparison of the convex optimization procedures and numerical solvers presented in this lecture note. TABLE I: Comparison of convex optimization procedures and numerical solvers.                             
+
+> Procedure Typical Convex Subproblem Solver Complexity Solution Quality
+> SDR + Randomization SDP IPM High Moderate SDR + Randomization SDP ADMM Medium Moderate SEA SDP IPM Medium Near-global SEA SDP ADMM Low Near-global SCA Quadratic IPM Medium Local optimum SCA Quadratic ADMM Low Local optimum
+
+APPLICATION EXAMPLE : M ULTICAST BEAMFORMING OPTIMIZATION 
+
+Physical-layer multicasting constitutes one of the most prominent applications of non-convex quadratic optimization in wireless communications [5], [7]. It enables efficient transmission by leveraging beam-forming at the transmitters and the broadcast nature of wireless channels to deliver the same data required by multiple user equipments (UEs) using shared transmission and time-frequency resources. It serves as a vital ingredient in modern wireless networks since it can support various applications such as video streaming of live events to multiple subscribers over mobile networks, virtual reality, internet of things (IoT) applications, videoconferencing, and broadcasting federated learning models, where large common information needs to be communicated to multiple nodes simultaneously. One key benefit of multicasting is to omit unnecessary co-channel interference among UEs requesting the same information. However, a major challenge lies in determining an appropriate beamforming design that ensures a satisfactory minimum data rate for all UEs within the multicast group, since the system performance is limited by the weakest UE [8]. Unlike conventional unicast transmission, where each UE receives an independent data stream and has a dedicated beamforming vector, multicast beamforming must boost the desired signal of all UEs in a multicast group using a single beamforming vector, which naturally leads to challenging non-convex optimization formulations. As a result, the effectiveness of multicast beamforming depends much on how well one can handle non-convex QCQPs. Consider a multicast communication system consisting of a single transmitter equipped with N antennas and K single-antenna UEs randomly located within a large coverage area. All UEs are served simultane- 
+
+> July 22, 2026 DRAFT 13
+
+ously through a common multicast transmission. A narrow-band channel model is assumed, whereby for each channel realization the channel remains frequency-flat and quasi-static in time. Furthermore, perfect channel state information is assumed to be available everywhere. The channel from the transmitter to UE 
+
+k, normalized by the noise power, is represented by hk ∈ CN . Accordingly, the received signal at UE k
+
+can be expressed as 
+
+ydl  
+
+> k
+
+= hHk ws + nk, (10) where s represents the zero-mean unit-variance multicast signal intended for all UEs, w ∈ CN is the common multicast beamforming vector, and nk ∼ N C(0 , 1) denotes the normalized Gaussian noise at UE k. The signal-to-noise-ratio (SNR) of UE k is thus given by SNR dl  
+
+> k
+
+= |hHk w|2. Since all UEs in the multicast group need to be able to decode the data, the minimum SNR across the group determines what rate can be utilized for the multicast transmission. Consequently, multicast beamforming optimization generally focuses on the quality-of-service (QoS) and max-min fair (MMF) objectives. For the QoS problem, the objective is to minimize the transmit power while guaranteeing a predefined target SNR for all multicast UEs, leading to the following formulation: 
+
+minimize  
+
+> w
+
+∥w∥2 (11a) s.t. |hHk w|2 ≥ γ, k = 1 , . . . , K, (11b) where γ represents the SNR constraint for all UEs receiving the multicast transmission. Since |hHk w|2 =
+
+wH Hkw ≥ γ, with Hk = hkhHk , defines the exterior of an ellipsoid or elliptic cylinder, the feasible region is non-convex. This results in a non-convex QCQP problem. For the MMF problem, the objective is to maximize the minimum SNR among the multicast UEs subject to a total power constraint at the transmitter, which can be viewed as the inverse of the QoS problem. Hence, the MMF multicast problem can be formulated as follows: 
+
+maximize  
+
+> w
+
+min  
+
+> k∈{ 1,...,K }
+
+|hHk w|2 (12a) s.t. ∥w∥2 ≤ Pmax , (12b) where Pmax defines the maximum transmitter power. Likewise, the MMF multicast problem is a non-convex QCQP problem due to the non-convex objective function. 
+
+SCA-Based Solution 
+
+The first-order approximation of the SNR constraints in (11b) is given by the following affine constraints in w at a given SCA iteration t:
+
+2ℜ
+
+
+
+w(t)H
+
+Hkw
+
+
+
+−
+
+
+
+w(t)H
+
+Hkw(t) ≥ γ, k = 1 , . . . , K. (13)  
+
+> July 22, 2026 DRAFT 14
+
+Hence, an approximation of the QoS problem in (11) at iteration t can be formulated as 
+
+minimize  
+
+> w
+
+∥w∥2 (14a) s.t. 2ℜ
+
+
+
+w(t)H
+
+Hkw
+
+
+
+−
+
+
+
+w(t)H
+
+Hkw(t) ≥ γ, k = 1 , . . . , K, (14b) which is a convex quadratic optimization problem with affine constraints in w. As previously stated, starting from an initial feasible solution, a sequence of the convex problem is solved such that the vector 
+
+w(t) is set to the solution of the convex surrogate problem of the previous iteration. The procedure is repeated until convergence to a stationary point of the original non-convex QoS problem. Utilizing the same approach, the convex surrogate problem at iteration t for the MMF multicast problem is given by 
+
+maximize  
+
+> w
+
+min  
+
+> k∈{ 1,...,K }
+
+2ℜ
+
+
+
+w(t)H
+
+Hkw
+
+
+
+−
+
+
+
+w(t)H
+
+Hkw(t) (15a) s.t. ∥w∥2 ≤ Pmax . (15b) To solve the MMF convex approximation problem, an auxiliary variable z is introduced to lower-bound the SNRs of the UEs. The resulting equivalent problem is formulated as 
+
+maximize  
+
+> w,z
+
+z (16a) s.t. 2ℜ
+
+
+
+w(t)H
+
+Hkw
+
+
+
+−
+
+
+
+w(t)H
+
+Hkw(t) ≥ z, k = 1 , . . . , K, (16b) 
+
+∥w∥2 ≤ Pmax . (16c) This problem is convex since the objective is linear in z, the approximate SNR constraints are affine in {w, z } and the power constraint is convex in w. Therefore, each SCA iteration can be solved efficiently using standard convex optimization software. The resulting algorithm solves a sequence of convex approximation problems monotonically improving the minimum UE SNR and converging to a stationary point of the original non-convex MMF problem. The extension of the SCA method to solve the multigroup multicast problem, where multiple multicast groups each having a dedicated beamforming vector are served on the same time-frequency resources simultaneously, can be found in [12].  
+
+> July 22, 2026 DRAFT 15
+
+SDR-Based Solution 
+
+To solve the QoS and MMF multicast problems using SDR, we define the lifted matrix variables 
+
+W = ww H and Hk = hkhHk . The multicast QoS problem can then be equivalently reformulated as 
+
+minimize  
+
+> w
+
+Tr (W) (17a) s.t. Tr (HkW) ≥ γ, k = 1 , . . . , K, (17b) 
+
+W ⪰ 0, rank (W) = 1 . (17c) The only source of non-convexity is the rank-1 constraint. After dropping the non-convex rank constraint, the relaxed convex SDP problem can be solved using a standard solver. As for the MMF multicast problem, a similar SDP formulation can be derived using the auxiliary variable z:
+
+maximize  
+
+> w,z
+
+z (18a) s.t. Tr (HkW) ≥ z, k = 1 , . . . , K, (18b) Tr (W) ≤ Pmax , (18c) 
+
+W ⪰ 0, rank (W) = 1 . (18d) Likewise, the non-convex rank-1 constraint is dropped to obtain the relaxed convex SDP problem that can be solved using a standard SDP solver. For both the QoS and MMF multicast problems, if the resulting solution is rank-1, the globally optimal multicast beamformer can be recovered directly. Unfortunately, the resulting solution matrix W will most likely have high rank that violates the rank constraint of the original problem. Post processing of the solution to the SDP problem is thus essential. The randomization methods and SEA presented earlier can be utilized to obtain an approximate rank-1 solution. Extension to the multigroup multicast problem and further details about the randomization methods and elimination procedure in this case can be found in [8]. 
+
+Numerical Examples 
+
+In this section, numerical simulation examples for the QoS and MMF multicast beamforming problems are provided to showcase the performance of the different optimization procedures and numerical solvers presented in this lecture note. We consider that K = 30 UEs are uniformly distributed in an area of 750 m × 750 m. To test the presented solution approaches under different simulation settings, two simulation scenarios are considered with either distributed or co-located N = 36 transmitter antennas.   
+
+> July 22, 2026 DRAFT 16
+> (a) QoS problem. (b) MMF problem.
+
+Fig. 3: Performance of different convex optimization procedures and numerical solvers for K = 30 UEs and N = 36 , (a) distributed, and (b) co-located, antennas. Fig. 3 plots the achievable performance of the different convex optimization procedures and numerical solvers for (a) required transmit power of the QoS problem with distributed transmitter antennas, and (b) max-min spectral efficiency (SE) of the MMF problem with co-located transmitter antennas. The high-rank SDR lower (or upper) bound for the QoS (or MMF) problem is plotted for comparison. It is clear that the ADMM-based solvers can achieve roughly the same performance as the IPM-based solvers for all simulation settings, regardless of the choice of the optimization procedure. This shows that the solution accuracy of the ADMM-based solvers is sufficient for the multicast beamforming problem. We highlight that ADMM offers around an order-of-magnitude lower computational time than its IPM counterpart for the same optimization procedure. Moreover, Fig. 3a shows that SEA can achieve a small reduction in the required transmit power over SCA for the same SNR target. Additionally, Fig. 3b shows a more significant max-min SE improvement for SEA over SCA, with SEA reaching a small gap to the SDR upper bound. It is also worth noting that SCA failed to produce a local optimal solution for about 2 % of the samples in these setups. The reason lies in the difficulty of finding an effective feasible initial point, which is necessary for SCA-based algorithms, unlike SEA, which does not require an initial feasible solution. Note that this issue can become more severe as the problem size grows larger. We point out that the classical approach of SDR followed by randomization fails to compete with the more advanced SEA and SCA algorithms, offering degraded performance with higher computational requirements. Finally, we would like to emphasize that multicast beamforming serves not only as an important  
+
+> July 22, 2026 DRAFT 17
+
+application in its own right but also as a representative case study demonstrating how convex optimization-based procedures can effectively address challenging non-convex quadratic optimization problems. LESSONS LEARNED 
+
+Non-convex quadratic optimization remains a vibrant and rapidly evolving research area for diverse engineering domains. Convex optimization-based procedures, such as SCA and SEA, have fundamentally reshaped the way that these computationally difficult problems are approached. In SCA, a feasibility-preserving inner approximation strategy is employed to construct convex surrogate constraints, and then iteratively solve a sequence of convex approximate problems until convergence to a stationary point of the original non-convex problem. As for SEA, an outer approximation strategy is employed, where penalty terms are iteratively added to tighten the relaxation gap introduced by SDR while having minimal effect on the achievable objective value. The presented optimization procedures have demonstrated that near-optimal approximations with scalable polynomial-time algorithms are attainable for this class of non-convex and NP-hard problems. The combination of these procedures with fast FOMs provides practically good solution accuracy with ultra-low complexity implementations that is adequate for many engineering applications. Future developments will likely continue integrating optimization theory with emerging machine learning techniques and distributed computational architectures. ACKNOWLEDGMENTS 
+
+This work was supported by the SUCCESS grant from the Swedish Foundation for Strategic Research. AUTHORS 
+
+Mahmoud Zaher (mahmoudz@kth.se) is a postdoctoral researcher at the Department of Communication Systems, KTH Royal Institute of Technology, Sweden. Emil Bj¨ ornson (emilbjo@kth.se) is a professor of wireless communications and the head of the Department of Communication Systems, KTH Royal Institute of Technology, Sweden. REFERENCES                    
+
+> [1] Y.-F. Liu, T.-H. Chang, M. Hong, Z. Wu, A. M.-C. So, E. A. Jorswieck, and W. Yu, “A survey of recent advances in optimization methods for wireless communications,” IEEE Journal on Selected Areas in Communications , vol. 42, no. 11, pp. 2992–3031, 2024. [2] Y. Shi, J. Zhang, B. O’Donoghue, and K. B. Letaief, “Large-scale convex optimization for dense wireless cooperative networks,” IEEE Transactions on Signal Processing , vol. 63, no. 18, pp. 4729–4743, 2015. [3] H. Wolkowicz, R. Saigal, and L. Vandenberghe, Handbook of semidefinite programming: theory, algorithms, and applications . Springer Science & Business Media, 2000.
+> July 22, 2026 DRAFT 18
+
+[4] B. R. Marks and G. P. Wright, “A general inner approximation algorithm for nonconvex mathematical programs,” Operations research , vol. 26, no. 4, pp. 681–683, 1978. [5] A. B. Gershman, N. D. Sidiropoulos, S. Shahbazpanahi, M. Bengtsson, and B. Ottersten, “Convex optimization-based beamforming,” IEEE Signal Processing Magazine , vol. 27, no. 3, pp. 62–75, 2010. [6] Z.-Q. Luo, W.-K. Ma, A. M.-C. So, Y. Ye, and S. Zhang, “Semidefinite relaxation of quadratic optimization problems,” 
+
+IEEE Signal Processing Magazine , vol. 27, no. 3, pp. 20–34, 2010. [7] N. D. Sidiropoulos, T. N. Davidson, and Z.-Q. Luo, “Transmit beamforming for physical-layer multicasting,” IEEE transactions on signal processing , vol. 54, no. 6, pp. 2239–2251, 2006. [8] M. Zaher, E. Bj¨ ornson, and M. Petrova, “Cell-free beamforming design for physical layer multigroup multicasting,” IEEE Transactions on Wireless Communications , vol. 25, pp. 5262–5274, 2026. [9] A. Konar and N. D. Sidiropoulos, “Fast approximation algorithms for a class of non-convex QCQP problems using first-order methods,” IEEE Transactions on Signal Processing , vol. 65, no. 13, pp. 3494–3509, 2017. [10] E. Chen and M. Tao, “ADMM-based fast algorithm for multi-group multicast beamforming in large-scale wireless systems,” 
+
+IEEE Transactions on Communications , vol. 65, no. 6, pp. 2685–2698, 2017. [11] M. Zaher and E. Bj¨ ornson, “Low-complexity ADMM-based multicast beamforming in cell-free massive MIMO systems,” 
+
+arXiv preprint [Online]. Available: https://arxiv.org/abs/2511.07310 , 2025. [12] G.-W. Hsu, B. Liu, H.-H. Wang, and H.-J. Su, “Joint beamforming for multicell multigroup multicast with per-cell power constraints,” IEEE Transactions on Vehicular Technology , vol. 66, no. 5, pp. 4044–4058, 2017.

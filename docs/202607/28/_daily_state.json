@@ -1,0 +1,521 @@
+{
+  "date": "20260728",
+  "date_label": "",
+  "generated_at": "2026-07-28 20:28:52 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2607.22471v1",
+      "route": "202607/28/2607.22471v1-minevalicoder-reliable-code-generation-with-test-case-quality-mining-and-bipartite-graph-based-mutual-validation",
+      "title": "MineValiCoder: Reliable Code Generation with Test Case Quality Mining and Bipartite Graph-Based Mutual Validation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "通过测试用例质量挖掘和互验实现可靠代码生成",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18555v1",
+      "route": "202607/28/2607.18555v1-lm2alloy-investigating-llm-generated-formal-specifications-for-automated-test-derivation-in-production-software",
+      "title": "LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "LLM生成形式化规范用于自动化测试推导",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18933v1",
+      "route": "202607/28/2607.18933v1-convex-optimization-based-procedures-for-non-convex-quadratic-problems",
+      "title": "Convex Optimization-Based Procedures for Non-Convex Quadratic Problems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "非凸二次问题的凸优化方法",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.20690v1",
+      "route": "202607/28/2607.20690v1-learning-to-detect-ui-principle-violations-via-reinforcement-learning",
+      "title": "Learning to Detect UI Principle Violations via Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "使用强化学习检测生成代码中的UI原则违规",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21453v2",
+      "route": "202607/28/2607.21453v2-test-time-scaling-via-error-localization",
+      "title": "Test-Time Scaling via Error Localization",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过测试时错误定位提升大语言模型代码生成",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21641v1",
+      "route": "202607/28/2607.21641v1-tool-guided-retrieval-augmented-repair-for-securing-llm-generated-c-code",
+      "title": "Tool-Guided Retrieval-Augmented Repair for Securing LLM-Generated C Code",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "结合静态分析和符号执行的LLM生成C代码安全修复，涉及自动化软件测试和漏洞检测",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21646v1",
+      "route": "202607/28/2607.21646v1-adjustment-speed-as-a-safety-constraint-for-nonstationary-reinforcement-learning",
+      "title": "Adjustment Speed as a Safety Constraint for Nonstationary Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过调整速度约束非平稳强化学习的安全性",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21861v1",
+      "route": "202607/28/2607.21861v1-data-quality-over-capacity-internalizing-documents-into-lora-adapters-for-closed-book-qa",
+      "title": "Data Quality over Capacity: Internalizing Documents into LoRA Adapters for Closed-Book QA",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "数据质量优于容量，通过LoRA内化文档实现闭卷问答",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21876v1",
+      "route": "202607/28/2607.21876v1-variance-reduced-q-learning-over-static-and-time-varying-networks",
+      "title": "Variance-Reduced Q-Learning over Static and Time-Varying Networks",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "网络上的方差缩减Q学习是一种分布式强化学习算法，与深度强化学习算法直接相关",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22002v1",
+      "route": "202607/28/2607.22002v1-learning-as-reasoning-unfolds-progressive-rollout-allocation-for-efficient-reinforcement-learning",
+      "title": "Learning as Reasoning Unfolds: Progressive Rollout Allocation for Efficient Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "高效rollout分配改进LLM推理的RLVR方法",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22186v1",
+      "route": "202607/28/2607.22186v1-deconstructing-off-policy-ratios-entropy-scaled-trust-regions-for-asynchronous-reinforcement-learning",
+      "title": "Deconstructing Off-Policy Ratios: Entropy-Scaled Trust Regions for Asynchronous Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "深度强化学习用于LLM后训练优化",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22406v1",
+      "route": "202607/28/2607.22406v1-vibe-coding-an-experiment-with-test-driven-development",
+      "title": "Vibe Coding: An Experiment with Test-Driven Development",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "人类与LLM协作代码生成，结合测试驱动开发",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22759v1",
+      "route": "202607/28/2607.22759v1-benchmarking-llms-for-verilog-design-flows",
+      "title": "Benchmarking LLMs for Verilog Design Flows",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "对LLM生成Verilog代码进行基准测试",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22883v1",
+      "route": "202607/28/2607.22883v1-evaluating-and-mitigating-the-misguidance-effect-of-buggy-code-in-llm-generated-unit-tests",
+      "title": "Evaluating and Mitigating the Misguidance Effect of Buggy Code in LLM-Generated Unit Tests",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "分析LLM生成单元测试中错误代码的误导效应",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22898v1",
+      "route": "202607/28/2607.22898v1-assumptionminer-extracting-tracing-and-revising-implicit-assumptions-in-llm-code-generation",
+      "title": "AssumptionMiner: Extracting, Tracing, and Revising Implicit Assumptions in LLM Code Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "提取LLM代码生成中的隐式假设",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.22906v1",
+      "route": "202607/28/2607.22906v1-learning-from-the-descent-direction-adaptive-gradient-descent-under-one-sided-hlder-regularity",
+      "title": "Learning from the Descent Direction: Adaptive Gradient Descent under One-Sided Hölder Regularity",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "针对非凸目标的自适应梯度下降，采用单侧Hölder正则性",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.23480v1",
+      "route": "202607/28/2607.23480v1-a-multi-stage-constrained-optimization-framework-for-data-driven-problems",
+      "title": "A Multi-stage Constrained Optimization Framework for Data-driven Problems",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向数据驱动问题的多阶段约束优化框架",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.23710v1",
+      "route": "202607/28/2607.23710v1-the-illusion-of-secure-llm-code-closing-the-security-gap-via-iterative-reprompting",
+      "title": "The Illusion of Secure LLM Code: Closing the Security Gap via Iterative Reprompting",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "使用静态分析和渗透测试评估LLM生成的认证代码安全，涉及自动化软件测试和漏洞检测",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.23815v1",
+      "route": "202607/28/2607.23815v1-kalypso-relational-llm-serving",
+      "title": "Kalypso: Relational LLM Serving",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "具有查询计划感知流水线和KV缓存重用的LLM服务系统",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.23963v1",
+      "route": "202607/28/2607.23963v1-restor-automated-test-oracle-generation-for-restful-apis-via-reinforcement-learning",
+      "title": "RESTOR: Automated Test Oracle Generation for RESTful APIs via Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "强化学习用于REST API测试预言自动生成",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.24062v1",
+      "route": "202607/28/2607.24062v1-acrl-adaptive-control-of-training-inference-discrepancy-for-stable-reinforcement-learning",
+      "title": "ACRL: Adaptive Control of Training-Inference Discrepancy for Stable Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "自适应控制训练-推理差异以实现稳定RL训练",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18057v1",
+      "route": "202607/28/2607.18057v1-test-coverage-analysis-of-agentic-pull-requests",
+      "title": "Test Coverage Analysis of Agentic Pull Requests",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "分析AI生成代码的测试覆盖率，与自动化软件测试相关",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18161v1",
+      "route": "202607/28/2607.18161v1-trim-reducing-ai-generated-codeslop-via-agent-trajectory-minimization",
+      "title": "TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过智能体轨迹精简减少LLM生成代码的冗余",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18955v1",
+      "route": "202607/28/2607.18955v1-h2sd-hybrid-hindsight-self-distillation",
+      "title": "H$^2$SD: Hybrid Hindsight Self-Distillation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "用于LLM推理和代码生成的带token级自蒸馏的RLVR",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.19450v1",
+      "route": "202607/28/2607.19450v1-regen-replay-recycling-for-expert-to-generalist-distillation-with-offline-reinforcement-learning",
+      "title": "REGEN: Replay-recycling for Expert-to-Generalist distillation with Offline Reinforcement Learning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "用于LLM蒸馏的离线强化学习",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.18098v1",
+      "route": "202607/28/2607.18098v1-vdar-router-adaptive-llms-routing-via-verbalized-query-difficulty-analysis-retrieval",
+      "title": "VDAR-Router: Adaptive LLMs Routing via Verbalized Query Difficulty Analysis Retrieval",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "自适应LLM路由，用于部署中的成本-性能权衡",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.19704v1",
+      "route": "202607/28/2607.19704v1-efficient-clustering-with-provable-guardrails-for-llm-inference-at-scale",
+      "title": "Efficient Clustering with Provable Guardrails for LLM Inference at Scale",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过带保障的聚类实现可扩展的LLM推理",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.20933v1",
+      "route": "202607/28/2607.20933v1-transformer-assisted-llm-based-source-code-summarisation-to-enable-more-secure-software-development",
+      "title": "Transformer-Assisted LLM-Based Source Code Summarisation: to Enable More Secure Software Development",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于Transformer的LLM源代码总结，与深度学习代码生成相关",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21291v1",
+      "route": "202607/28/2607.21291v1-adaptive-depth-sparse-framework-similarity-driven-resource-allocation-for-pre-trained-llms",
+      "title": "Adaptive Depth Sparse Framework: Similarity-Driven Resource Allocation for Pre-Trained LLMs",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过层次令牌保留和深度稀疏性加速LLM推理",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.17927v1",
+      "route": "202607/28/2607.17927v1-overreliance-on-test-agents-in-ai-assisted-software-testing",
+      "title": "(Over)Reliance on Test Agents in AI-Assisted Software Testing",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "对AI测试代理的过度依赖，与自动化软件测试相关",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.20806v1",
+      "route": "202607/28/2607.20806v1-profiling-lightweight-large-language-models",
+      "title": "Profiling Lightweight Large Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "轻量LLM推理效率剖析框架",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    },
+    {
+      "paper_id": "2607.21927v1",
+      "route": "202607/28/2607.21927v1-ris-kernel-a-model-agnostic-architecture-for-long-context-llm-inference-via-sparse-attention",
+      "title": "RIS-Kernel: A Model-Agnostic Architecture for Long-Context LLM Inference via Sparse Attention",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "RIS-Kernel是一种模型无关的长上下文LLM推理高效架构，有助于可扩展ML系统优化",
+      "first_seen_at": "2026-07-28 20:28:52 UTC",
+      "updated_at": "2026-07-28 20:28:52 UTC"
+    }
+  ]
+}

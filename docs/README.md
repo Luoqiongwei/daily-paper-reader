@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-26</span>
+      <span class="dpr-home-dashboard-kicker">2026-07-28</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 18 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 32 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>7</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>21</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-07-26 21:01:52 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-07-28 20:28:52 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今天共处理18篇论文，7篇精读中知识图谱搜索强化学习与离线RL正则化两项获9.0高分最值得关注。推荐优先阅读《Search-on-Graph-R1》与《Conservative Query and Adaptive Regularization》，把握强化学习在图搜索和不确定性估计中的最新突破。</p>
+<p>今日聚焦代码生成可靠性与测试自动化，精读10分论文《MineValiCoder》与9分论文《LM2Alloy》表现亮眼。</p>
+<p>最值得关注的方向：通过测试用例质量挖掘与二分图互验提升代码生成可靠性，以及利用LLM生成形式规约自动化推导生产软件测试。</p>
+<p>建议普通读者重点关注AI生成代码的验证与测试用例质量优化，速读中的《TRIM》和《H$^2$SD》也值得浏览。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">7 篇</strong>
+    <strong class="dpr-home-dashboard-count">21 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Search-on-Graph-R1: Training Large Language Models to Search Knowledge Graphs with Reinforcement Learning">Search-on-Graph-R1: Training Large Language Models to Search Knowledge Graphs with Reinforcement Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Conservative Query and Adaptive Regularization for Offline RL Under Uncertainty Estimation">Conservative Query and Adaptive Regularization for Offline RL Under Uncertainty Estimation</span></li><li><span class="dpr-home-dashboard-paper-title" title="PerfAgent: Profiler-Guided Iterative Refinement for Repository-Level Code Optimization">PerfAgent: Profiler-Guided Iterative Refinement for Repository-Level Code Optimization</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MineValiCoder: Reliable Code Generation with Test Case Quality Mining and Bipartite Graph-Based Mutual Validation">MineValiCoder: Reliable Code Generation with Test Case Quality Mining and Bipartite Graph-Based Mutual Validation</span></li><li><span class="dpr-home-dashboard-paper-title" title="LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software">LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software</span></li><li><span class="dpr-home-dashboard-paper-title" title="Convex Optimization-Based Procedures for Non-Convex Quadratic Problems">Convex Optimization-Based Procedures for Non-Convex Quadratic Problems</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>7</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>21</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -87,7 +89,7 @@
     <strong class="dpr-home-dashboard-count">11 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EdgeCoInfer: Hierarchical Collaborative Inference for On-Device Multimodal Large Models">EdgeCoInfer: Hierarchical Collaborative Inference for On-Device Multimodal Large Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents">Verify, Repair, Repeat, or Stop? Robust Stopping for Noisy Verify-Repair Loops in LLM Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="AutoEncoder-Compressed Parallel Split Learning for Pre-trained Model Fine-Tuning">AutoEncoder-Compressed Parallel Split Learning for Pre-trained Model Fine-Tuning</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Test Coverage Analysis of Agentic Pull Requests">Test Coverage Analysis of Agentic Pull Requests</span></li><li><span class="dpr-home-dashboard-paper-title" title="TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization">TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="H$^2$SD: Hybrid Hindsight Self-Distillation">H$^2$SD: Hybrid Hindsight Self-Distillation</span></li></ul>
   </div>
   <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>11</strong></span></div>
 </section>
