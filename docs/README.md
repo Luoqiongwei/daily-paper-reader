@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-28</span>
+      <span class="dpr-home-dashboard-kicker">2026-07-29</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 32 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 11 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>21</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>6</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-07-28 20:28:52 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-07-29 20:03:31 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日聚焦代码生成可靠性与测试自动化，精读10分论文《MineValiCoder》与9分论文《LM2Alloy》表现亮眼。</p>
-<p>最值得关注的方向：通过测试用例质量挖掘与二分图互验提升代码生成可靠性，以及利用LLM生成形式规约自动化推导生产软件测试。</p>
-<p>建议普通读者重点关注AI生成代码的验证与测试用例质量优化，速读中的《TRIM》和《H$^2$SD》也值得浏览。</p>
+<p>今日精读5篇、速读6篇，聚焦异构数据条件优化、C-to-Rust翻译及大模型训练效率。</p>
+<p>最值得看异构数据最优传输（8.0）与领域级数据混合优化（8.0）两个方向，均对实际应用有直接启发。</p>
+<p>建议优先阅读精读中两篇8分论文，理解如何融合异质数据与提升翻译可靠性。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -73,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">21 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MineValiCoder: Reliable Code Generation with Test Case Quality Mining and Bipartite Graph-Based Mutual Validation">MineValiCoder: Reliable Code Generation with Test Case Quality Mining and Bipartite Graph-Based Mutual Validation</span></li><li><span class="dpr-home-dashboard-paper-title" title="LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software">LM2Alloy: Investigating LLM-Generated Formal Specifications for Automated Test Derivation in Production Software</span></li><li><span class="dpr-home-dashboard-paper-title" title="Convex Optimization-Based Procedures for Non-Convex Quadratic Problems">Convex Optimization-Based Procedures for Non-Convex Quadratic Problems</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Harnessing Heterogeneous Data for Conditional Optimization via Optimal Transport">Harnessing Heterogeneous Data for Conditional Optimization via Optimal Transport</span></li><li><span class="dpr-home-dashboard-paper-title" title="Towards Reliable C-to-Rust Translation with Rule-Guided Reasoning and Reinforcement Learning">Towards Reliable C-to-Rust Translation with Rule-Guided Reasoning and Reinforcement Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="CURED: Creating, Understanding, and Repairing Errors Demonstrator">CURED: Creating, Understanding, and Repairing Errors Demonstrator</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>21</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>5</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -86,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Test Coverage Analysis of Agentic Pull Requests">Test Coverage Analysis of Agentic Pull Requests</span></li><li><span class="dpr-home-dashboard-paper-title" title="TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization">TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization</span></li><li><span class="dpr-home-dashboard-paper-title" title="H$^2$SD: Hybrid Hindsight Self-Distillation">H$^2$SD: Hybrid Hindsight Self-Distillation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="DomainPilot: Domain-Level Loss-Guided Two-Stage Data Mixture Optimization for Efficient Language Model Fine-Tuning">DomainPilot: Domain-Level Loss-Guided Two-Stage Data Mixture Optimization for Efficient Language Model Fine-Tuning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Poster: Rethinking Security in LLM Code Generation through Real-World Risk Scenarios">Poster: Rethinking Security in LLM Code Generation through Real-World Risk Scenarios</span></li><li><span class="dpr-home-dashboard-paper-title" title="Libra: Taming Attention Workload Skew in Long-Context LLM Training with Bounded Sequence Pool">Libra: Taming Attention Workload Skew in Long-Context LLM Training with Bounded Sequence Pool</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>6</strong></span></div>
 </section>
 </div>
 

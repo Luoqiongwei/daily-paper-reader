@@ -1,0 +1,185 @@
+{
+  "date": "20260729",
+  "date_label": "",
+  "generated_at": "2026-07-29 20:03:31 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2607.19761v1",
+      "route": "202607/29/2607.19761v1-harnessing-heterogeneous-data-for-conditional-optimization-via-optimal-transport",
+      "title": "Harnessing Heterogeneous Data for Conditional Optimization via Optimal Transport",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于最优传输的分布鲁棒条件优化",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.19966v1",
+      "route": "202607/29/2607.19966v1-towards-reliable-c-to-rust-translation-with-rule-guided-reasoning-and-reinforcement-learning",
+      "title": "Towards Reliable C-to-Rust Translation with Rule-Guided Reasoning and Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "使用LLM进行C到Rust自动翻译，属于代码生成，结合规则引导推理和强化学习增强",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.20140v1",
+      "route": "202607/29/2607.20140v1-cured-creating-understanding-and-repairing-errors-demonstrator",
+      "title": "CURED: Creating, Understanding, and Repairing Errors Demonstrator",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于ML的表格数据错误检测与清洗",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.20327v1",
+      "route": "202607/29/2607.20327v1-pyrodash-cost-efficient-token-level-small-large-language-model-collaborative-inference",
+      "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "小模型和大模型的低成本协作推理，用于可扩展ML系统",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.21832v1",
+      "route": "202607/29/2607.21832v1-how-do-ai-coding-agents-contribute-to-software-development-an-empirical-study-of-agentic-pull-requests",
+      "title": "How Do AI Coding Agents Contribute to Software Development? an Empirical Study of Agentic Pull Requests",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "关于AI编码智能体在软件开发中的实证研究，分析智能体PR及其对代码质量的影响",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.22769v1",
+      "route": "202607/29/2607.22769v1-domainpilot-domain-level-loss-guided-two-stage-data-mixture-optimization-for-efficient-language-model-fine-tuning",
+      "title": "DomainPilot: Domain-Level Loss-Guided Two-Stage Data Mixture Optimization for Efficient Language Model Fine-Tuning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "领域级数据混合优化用于LLM微调",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.23088v1",
+      "route": "202607/29/2607.23088v1-poster-rethinking-security-in-llm-code-generation-through-real-world-risk-scenarios",
+      "title": "Poster: Rethinking Security in LLM Code Generation through Real-World Risk Scenarios",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "在现实场景下评估LLM代码生成的安全性",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.23250v1",
+      "route": "202607/29/2607.23250v1-libra-taming-attention-workload-skew-in-long-context-llm-training-with-bounded-sequence-pool",
+      "title": "Libra: Taming Attention Workload Skew in Long-Context LLM Training with Bounded Sequence Pool",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "长上下文LLM训练中的负载均衡优化",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.23639v1",
+      "route": "202607/29/2607.23639v1-distributed-convolutional-rank-regression-over-decentralized-networks",
+      "title": "Distributed Convolutional Rank Regression over Decentralized Networks",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "去中心化分布式学习中的共识优化",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.23802v1",
+      "route": "202607/29/2607.23802v1-from-rlvr-to-rlsvr-task-transformation-induces-self-verifiable-rewards-for-open-ended-llm-self-improvement",
+      "title": "From RLVR to RLSVR: Task Transformation Induces Self-Verifiable Rewards for Open-Ended LLM Self-Improvement",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于强化学习的LLM自我改进，可应用于代码生成",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    },
+    {
+      "paper_id": "2607.24717v1",
+      "route": "202607/29/2607.24717v1-dataorchestra-learning-to-orchestrate-per-example-curation-of-pretraining-data",
+      "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过LLM重写进行预训练数据策展与增强",
+      "first_seen_at": "2026-07-29 20:03:31 UTC",
+      "updated_at": "2026-07-29 20:03:31 UTC"
+    }
+  ]
+}
