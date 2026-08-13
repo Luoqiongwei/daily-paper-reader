@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-03 ~ 2026-08-12</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-13</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 39 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 15 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>28</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>11</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>10</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-12 20:24:01 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-13 19:49:57 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>本期精读28篇、速读11篇，拓扑与联邦学习双星领跑。</p>
-<p>最值得看：网络拓扑如何重塑训练性能，以及FedJigsaw去中心化异构联邦学习的新组装思路。</p>
-<p>普通读者可速览INT2 KV缓存量化与VLM奖励模型微调，后续再深挖代码生成鲁棒性。</p>
+<p>今日聚焦代码智能体前沿：精读破解代码适配与仓库理解难题，速读覆盖技能复用与性能建模。最推荐《AdaptAgent》（多智能体代码适配）与《RepoProbe》（架构级仓库评测）。普通读者可优先借助这两项成果，检查自身代码工具在复杂任务中的适配与理解能力。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -73,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">28 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="On Topology&#x27;s Role in ML Training Performance">On Topology&#x27;s Role in ML Training Performance</span></li><li><span class="dpr-home-dashboard-paper-title" title="FedJigsaw: Multi-Agent Collaborative Model Reassembly for Decentralized Heterogeneous Federated Learning">FedJigsaw: Multi-Agent Collaborative Model Reassembly for Decentralized Heterogeneous Federated Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Effective and Efficient Context Retrieval via Partial Dependency Graph for Repository-Level Code Generation">Effective and Efficient Context Retrieval via Partial Dependency Graph for Repository-Level Code Generation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="AdaptAgent: A Multi-agent, Domain-Guided Reasoning Framework for Code Adaptation">AdaptAgent: A Multi-agent, Domain-Guided Reasoning Framework for Code Adaptation</span></li><li><span class="dpr-home-dashboard-paper-title" title="RepoProbe: Benchmarking Architecture-Aware Repository Comprehension with Checklists">RepoProbe: Benchmarking Architecture-Aware Repository Comprehension with Checklists</span></li><li><span class="dpr-home-dashboard-paper-title" title="OctoLong: Mid-Training On Cross-Repository Code Contexts Enhances Long-Context Modeling">OctoLong: Mid-Training On Cross-Repository Code Contexts Enhances Long-Context Modeling</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>28</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>5</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -86,12 +84,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">11 篇</strong>
+    <strong class="dpr-home-dashboard-count">10 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Output-Aware Rotation for INT2 KV-Cache Quantization">Output-Aware Rotation for INT2 KV-Cache Quantization</span></li><li><span class="dpr-home-dashboard-paper-title" title="GenOS: Compositional Certificates for Semantic Robustness in AI Code Generation">GenOS: Compositional Certificates for Semantic Robustness in AI Code Generation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Enhancing VLM Reward Models Through Structure-Aware Fine-Tuning">Enhancing VLM Reward Models Through Structure-Aware Fine-Tuning</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ML-for-ML">ML-for-ML</span></li><li><span class="dpr-home-dashboard-paper-title" title="Learning Globally Reusable Skills for Coding Agents">Learning Globally Reusable Skills for Coding Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="Multi-Level Modeling of Large Language Model Inference Latency and Energy via Hybrid Analytical--Machine-Learning Predictors">Multi-Level Modeling of Large Language Model Inference Latency and Energy via Hybrid Analytical--Machine-Learning Predictors</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>11</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>10</strong></span></div>
 </section>
 </div>
 

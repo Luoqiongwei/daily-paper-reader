@@ -1,0 +1,640 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-13T19:37:06.051456+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 0,
+    "deep_divecandidates": 23,
+    "deep_cap": 5,
+    "deep_selected": 5,
+    "quick_candidates": 18,
+    "quick_skim_target": 10,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2608.04459v1",
+      "source": "arxiv",
+      "title": "AdaptAgent: A Multi-agent, Domain-Guided Reasoning Framework for Code Adaptation",
+      "abstract": "Developers often need to adapt into their projects the code generated from LLMs or code snippets from online forums. However, integrating them into an existing repository remains challenging in a manual process. A successful integration typically requires more than copying code as a user must produce correct adapting changes at a designated location in the target repository. We formalize this as the code adaptation problem: given a snippet, functional intent, a target repository, and an adaptation location, generate a patch that adapts the snippet into the repository. We present AdaptAgent, a multi-agent, domain-guided reasoning framework for code adaptation. Rather than relying on single-shot prompting, AdaptAgent decomposes adaptation into specialized agents that communicate via typed artifacts: an Intent Summarizer extracts adaptation goals from Q&A text; a Policy Agent derives domain policies from six adaptation categories; a Domain Planner generates a self-ordered plan; a Context Miner distills sibling-method semantics from the target codebase; and a Code Adapter realizes the plan as a minimal unified diff, iteratively refined using a compiler-based Verifier. This division of labor enables robust, policy-aligned adaptations and supports adapting code snippets into a project. On a real-world dataset, AdaptAgent outperforms strong baselines in semantic correctness and produces patches that mirror developers' actual adaptation patterns. Our ablation study shows each agent's necessity, especially planning for code-hardening and exception-handling, and intent for logic customization.",
+      "authors": [
+        "Xiaokai Rong",
+        "Hridya Dhulipala",
+        "Aashish Yadavally",
+        "Tien N. Nguyen"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-08-05T05:34:40+00:00",
+      "link": "https://arxiv.org/pdf/2608.04459v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Code adaptation for LLM-generated code, directly relevant to code generation using LLMs",
+      "llm_evidence_cn": "针对LLM生成代码的适配，直接涉及使用大语言模型的代码生成",
+      "llm_evidence": "针对LLM生成代码的适配，直接涉及使用大语言模型的代码生成",
+      "canonical_evidence": "针对LLM生成代码的适配，直接涉及使用大语言模型的代码生成",
+      "llm_tldr_en": "AdaptAgent formalizes code adaptation as patch generation and uses a multi-agent, domain-guided reasoning framework to integrate LLM-generated code into repositories, reducing manual effort and improving success.",
+      "llm_tldr_cn": "论文针对LLM生成的代码或在线代码片段难以集成到现有仓库的问题，形式化定义了代码适配任务，并提出AdaptAgent多智能体领域引导推理框架，利用领域知识分解适配步骤并自动生成补丁。实验表明该框架在多种代码集成场景中提升了补丁生成的成功率，显著减少了开发者的手动适配成本，为代码生成技术从片段到仓库落地的最后一环提供了自动化支持。",
+      "llm_tldr": "论文针对LLM生成的代码或在线代码片段难以集成到现有仓库的问题，形式化定义了代码适配任务，并提出AdaptAgent多智能体领域引导推理框架，利用领域知识分解适配步骤并自动生成补丁。实验表明该框架在多种代码集成场景中提升了补丁生成的成功率，显著减少了开发者的手动适配成本，为代码生成技术从片段到仓库落地的最后一环提供了自动化支持。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.04459v1"
+    },
+    {
+      "id": "2608.04783v2",
+      "source": "arxiv",
+      "title": "RepoProbe: Benchmarking Architecture-Aware Repository Comprehension with Checklists",
+      "abstract": "The integration of Large Language Models (LLMs) into software engineering has shifted the focus from function-level generation to repository-scale assistance. However, existing benchmarks largely rely on bug reports from GitHub Issues, which often allow models to bypass genuine understanding via pattern matching on error logs. This misalignment under-measures Edit Bias, which refers to premature generation, where models prematurely propose code modifications instead of understanding the existing repository architecture. Furthermore, current LLM-as-a-Judge scalar scoring suffers from high variance and low interpretability. This work introduces RepoProbe, a novel benchmark for evaluating repository-level code understanding through open-ended Q&A using GitHub Discussions, which focuses on open-ended architectural inquiries rather than defect reporting. To ensure rigorous evaluation, we propose a Checklist-Based Verification Protocol that decomposes answers into atomic, verifiable facts, thereby replacing subjective ratings with objective verification. Our evaluation of state-of-the-art (SOTA) LLMs reveals a persistent gap between high clarity and evidencegrounded technical correctness. It also quantitatively confirms the prevalence of edit bias, in which models prioritize code generation instead of architectural analysis. Finally, we demonstrate that our verification protocol significantly improves evaluation reliability compared to traditional evaluations with scalar scoring.",
+      "authors": [
+        "Yuexi Yang",
+        "Alyssa Wu",
+        "Ji Luo",
+        "Richeng Xuan",
+        "Zhichao Hu",
+        "Yuhong Liu",
+        "Zhen Qin"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-05T12:49:36+00:00",
+      "link": "https://arxiv.org/pdf/2608.04783v2",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Benchmark for LLM-based repository-scale code understanding and generation, addressing edit bias",
+      "llm_evidence_cn": "面向LLM仓库级代码理解与生成的基准，关注过早编辑问题",
+      "llm_evidence": "面向LLM仓库级代码理解与生成的基准，关注过早编辑问题",
+      "canonical_evidence": "面向LLM仓库级代码理解与生成的基准，关注过早编辑问题",
+      "llm_tldr_en": "Introduces RepoProbe, a benchmark for evaluating LLMs' repository-scale code comprehension with open-ended checklists. It measures edit bias and uses interpretable checklist scoring instead of noisy LLM-as-a-Judge scalars.",
+      "llm_tldr_cn": "随着LLM进入软件工程，仓库级代码理解成为重点，但现有基准常依赖GitHub issue的错误日志，使模型可通过模式匹配逃避真正理解。本文提出RepoProbe，用开放式的检查清单评测仓库理解能力，并显式度量Edit Bias——模型在未理解架构时就提前提出代码修改的问题。相比LLM-as-a-Judge标量打分，该基准的清单打分更可解释、方差更低，为评估仓库级代码理解提供了更可靠的测试。",
+      "llm_tldr": "随着LLM进入软件工程，仓库级代码理解成为重点，但现有基准常依赖GitHub issue的错误日志，使模型可通过模式匹配逃避真正理解。本文提出RepoProbe，用开放式的检查清单评测仓库理解能力，并显式度量Edit Bias——模型在未理解架构时就提前提出代码修改的问题。相比LLM-as-a-Judge标量打分，该基准的清单打分更可解释、方差更低，为评估仓库级代码理解提供了更可靠的测试。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.04783v2"
+    },
+    {
+      "id": "2608.05141v1",
+      "source": "arxiv",
+      "title": "OctoLong: Mid-Training On Cross-Repository Code Contexts Enhances Long-Context Modeling",
+      "abstract": "Context lengths of language models (LMs) have dramatically increased, driven by the demands for in-context learning, self-improvement, and long-horizon agentic workflows. Existing long-context corpora, however, are dominated by books, academic articles, and code repositories, which are finite resources and often scarce in long-distance dependencies. In this work, we introduce OctoLong, a context engineering pipeline that instruments an AST parser, a language server backend, and a package manager to facilitate the recursive retrieval of code references, enabling the curation of dependency-rich code contexts of millions of tokens in length. We then train OctoLong-Instruct, a suite of capable long-context open LMs, derived from base models ranging in size from 600M to 14B parameters, via context-extension mid-training on a ~50B-token mixture containing ~6.2B tokens of OctoLong code contexts, followed by ~10B tokens of instruction tuning. Our training ablations and experimental evaluations against 18 state-of-the-art open-weight long-context LMs show that supplanting just 12% of traditional context-extension corpora with OctoLong data yields substantial gains in long-range retrieval, long-term state tracking, repository-level code understanding, and downstream agentic tasks, while also enhancing API usage in short-context coding scenarios.",
+      "authors": [
+        "Indraneil Paul",
+        "Falko Helm",
+        "Goran Glavaš",
+        "Iryna Gurevych"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.SE"
+      ],
+      "published": "2026-08-05T17:58:15+00:00",
+      "link": "https://arxiv.org/pdf/2608.05141v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Long-context code modeling with a context engineering pipeline for code repositories, relevant to code generation LLMs",
+      "llm_evidence_cn": "利用代码仓库上下文进行长上下文建模，与基于LLM的代码生成相关",
+      "llm_evidence": "利用代码仓库上下文进行长上下文建模，与基于LLM的代码生成相关",
+      "canonical_evidence": "利用代码仓库上下文进行长上下文建模，与基于LLM的代码生成相关",
+      "llm_tldr_en": "OctoLong builds dependency-rich code contexts from cross-repository sources using AST, language server, and package manager, then mid-trains long-context LMs to enhance code modeling.",
+      "llm_tldr_cn": "长上下文语言模型需要高质量语料，但现有长上下文语料以书籍和文章为主，代码仓库中的长距离依赖利用不足。论文提出OctoLong上下文工程流水线，借助AST解析器、语言服务器后端和包管理器递归检索代码引用，构建百万级token的依赖丰富代码上下文，并基于该数据训练OctoLong-Instruct系列模型。实验表明，跨仓库代码上下文能显著增强长上下文代码建模能力，为代码生成和理解类任务提供了更强大的基础模型。",
+      "llm_tldr": "长上下文语言模型需要高质量语料，但现有长上下文语料以书籍和文章为主，代码仓库中的长距离依赖利用不足。论文提出OctoLong上下文工程流水线，借助AST解析器、语言服务器后端和包管理器递归检索代码引用，构建百万级token的依赖丰富代码上下文，并基于该数据训练OctoLong-Instruct系列模型。实验表明，跨仓库代码上下文能显著增强长上下文代码建模能力，为代码生成和理解类任务提供了更强大的基础模型。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.05141v1"
+    },
+    {
+      "id": "2608.05493v1",
+      "source": "arxiv",
+      "title": "Learning Context-Free Grammars for Grammar-Constrained Decoding via Declarative Agentic Programming with Guarantees",
+      "abstract": "Language models (LMs) are increasingly used to interact with external services via programs written in domain-specific languages (DSLs). Unfortunately, since DSLs are often low-resource and esoteric, LMs frequently produce syntactically invalid programs in these languages. Grammar-constrained decoding can eliminate such failures, but requires syntactic constraints. These are usually in the form of a context-free grammar for the target language, an artifact that is hard to come by for third-party DSLs. In this work, we define an agent, called Autogrammar, that automatically learns context-free grammars from documentation and execution data. Autogrammar is formalized as a Kripke structure whose nondeterministic choices are resolved by a language model, enabling declarative control of agent behavior via linear temporal logic constraints. We evaluate four versions of Autogrammar on three DSLs (i.e., Amazon CloudWatch Logs Insights, Dynatrace Query Language, and Datadog Search Syntax) and find that it generates grammars that achieve near perfect precision on unseen data; that temporal restrictions reduce execution time by 3.8x without incurring statistically-significant loss in precision; that execution data is crucial while documentation is dispensable; and that grammar-constrained decoding using Autogrammar-generated grammars significantly improves end-to-end LM performance on eight out of ten real tasks, matching or exceeding the performance of a professionally-maintained grammar. In comparison, the context-free grammars generated by existing LM baselines and a state-of-the-art formal technique perform significantly worse over the same evaluation.",
+      "authors": [
+        "Kevin Cheang",
+        "Geoff Hulette",
+        "Rahul Kumar",
+        "Felipe R. Monteiro",
+        "Federico Mora",
+        "Robin Salkeld",
+        "Lin Tan",
+        "Serdar Tasiran"
+      ],
+      "primary_category": "cs.PL",
+      "categories": [
+        "cs.PL",
+        "cs.AI",
+        "cs.CL",
+        "cs.SE"
+      ],
+      "published": "2026-08-06T00:44:46+00:00",
+      "link": "https://arxiv.org/pdf/2608.05493v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Learning context-free grammars for grammar-constrained LM decoding, enabling syntactically valid code generation for DSLs",
+      "llm_evidence_cn": "自动从文档和执行数据学习上下文无关文法，用于约束语言模型生成语法有效的领域特定代码",
+      "llm_evidence": "自动从文档和执行数据学习上下文无关文法，用于约束语言模型生成语法有效的领域特定代码",
+      "canonical_evidence": "自动从文档和执行数据学习上下文无关文法，用于约束语言模型生成语法有效的领域特定代码",
+      "llm_tldr_en": "Autogrammar automatically learns context-free grammars from documentation and execution data, enabling grammar-constrained decoding that eliminates syntactically invalid LM outputs for low-resource DSLs.",
+      "llm_tldr_cn": "语言模型在低资源领域特定语言上生成的程序常出现语法错误，而文法约束解码又依赖难以获得的语法定义。为此提出Autogrammar智能体，从文档与执行数据中自动学习上下文无关文法，并以Kripke结构形式化保证其行为。该方法使模型在DSL上生成代码时能够满足语法约束，减少无效输出。该工作填补了语法约束解码在第三方DSL上的关键缺口。",
+      "llm_tldr": "语言模型在低资源领域特定语言上生成的程序常出现语法错误，而文法约束解码又依赖难以获得的语法定义。为此提出Autogrammar智能体，从文档与执行数据中自动学习上下文无关文法，并以Kripke结构形式化保证其行为。该方法使模型在DSL上生成代码时能够满足语法约束，减少无效输出。该工作填补了语法约束解码在第三方DSL上的关键缺口。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.05493v1"
+    },
+    {
+      "id": "2608.06041v1",
+      "source": "arxiv",
+      "title": "LangChoiceBench: Measuring and Explaining Programming-Language Choice in LLMs",
+      "abstract": "Large language models (LLMs) have been shown to exhibit strong Python preferences when generating project-level code, but there is currently no systematic way to measure this behaviour across new models. To bridge this gap, we introduce LangChoiceBench, a project-level code-generation benchmark for measuring Python preference, recommendation-implementation consistency, and language diversity. LangChoiceBench covers 28 projects across seven software areas where Python is often a poor default. We evaluate 25 diverse LLMs and find that Python remains heavily over-selected, recommendation-implementation consistency is low, and smaller open-weight models generally show stronger Python preference and lower language diversity. We further analyse 9,826 reasoning traces and find that most Python choices are automatic or driven primarily by ease, rather than explicit consideration of project requirements. In a smaller but important set of cases, models fabricate contextual support for choosing Python - a failure mode we call phantom evidence - or produce code that contradicts the language selected in their own reasoning.",
+      "authors": [
+        "Lukas Twist",
+        "Twm Stone",
+        "Helen Yannakoudakis",
+        "Jie M. Zhang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.CL"
+      ],
+      "published": "2026-08-06T13:52:16+00:00",
+      "link": "https://arxiv.org/pdf/2608.06041v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Benchmark for measuring Python preference and language diversity in LLM project-level code generation",
+      "llm_evidence_cn": "提出项目级代码生成基准，测量LLM对Python的偏好、推荐与实现一致性及语言多样性",
+      "llm_evidence": "提出项目级代码生成基准，测量LLM对Python的偏好、推荐与实现一致性及语言多样性",
+      "canonical_evidence": "提出项目级代码生成基准，测量LLM对Python的偏好、推荐与实现一致性及语言多样性",
+      "llm_tldr_en": "LangChoiceBench measures LLMs' Python preference and language diversity in project-level code generation, finding heavy Python over-selection and low recommendation-implementation consistency across 25 models.",
+      "llm_tldr_cn": "大语言模型在生成项目级代码时表现出强烈的Python偏好，但缺乏系统化测量手段。该工作提出LangChoiceBench基准，覆盖28个项目和7个软件领域，衡量Python偏好、推荐与实现一致性以及语言多样性。在25个LLM上的评估显示Python仍被过度选择，推荐与实现一致性低，较小开源模型偏好更强。该基准为理解和改进LLM代码生成中的语言选择提供了量化工具。",
+      "llm_tldr": "大语言模型在生成项目级代码时表现出强烈的Python偏好，但缺乏系统化测量手段。该工作提出LangChoiceBench基准，覆盖28个项目和7个软件领域，衡量Python偏好、推荐与实现一致性以及语言多样性。在25个LLM上的评估显示Python仍被过度选择，推荐与实现一致性低，较小开源模型偏好更强。该基准为理解和改进LLM代码生成中的语言选择提供了量化工具。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.06041v1"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.06046v1",
+      "source": "arxiv",
+      "title": "ML-for-ML",
+      "abstract": "AI training workloads are growing rapidly, making their time, energy, and infrastructure costs increasingly important. In shared cloud clusters, training and fine-tuning jobs compete with co-running workloads for network resources, while network mechanisms and ML training choices are typically optimized separately: networking controls how bytes move, whereas ML systems control when and how much communication occurs. We argue that this separation leaves end-to-end performance on the table.   We present ML-for-ML, a cross-layer perspective in which network-side and ML-side knobs are selected jointly under a shared time-to-target-loss objective. Our preliminary prototype shows that by co-optimizing the ML and network parameters, we reach the target loss up to 42% faster.",
+      "authors": [
+        "Yutong Zhao",
+        "Noga H. Rotman",
+        "Gianni Antichi",
+        "Ran Ben Basat"
+      ],
+      "primary_category": "cs.NI",
+      "categories": [
+        "cs.NI",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-08-06T13:57:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.06046v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Cross-layer co-optimization of networking and ML-side knobs for distributed training, with time-to-target-loss objective",
+      "llm_evidence_cn": "联合调整网络机制与机器学习训练参数，以时间到目标损失为指标优化分布式系统性能",
+      "llm_evidence": "联合调整网络机制与机器学习训练参数，以时间到目标损失为指标优化分布式系统性能",
+      "canonical_evidence": "联合调整网络机制与机器学习训练参数，以时间到目标损失为指标优化分布式系统性能",
+      "llm_tldr_en": "ML-for-ML proposes joint selection of network-side and ML-side knobs under a shared time-to-target-loss objective, showing up to 42% faster convergence in a preliminary distributed training prototype.",
+      "llm_tldr_cn": "大模型训练在共享云集群中与并行任务争抢网络资源，而网络控制和机器学习训练选择通常被割裂优化。为此提出ML-for-ML跨层视角，在统一的时间到目标损失目标下联合选择网络侧与ML侧参数。初步原型实验显示，该协同优化可将达到目标损失的耗时缩短最多42%。该工作表明网络与ML系统的联合设计是提升分布式训练效率的重要方向。",
+      "llm_tldr": "大模型训练在共享云集群中与并行任务争抢网络资源，而网络控制和机器学习训练选择通常被割裂优化。为此提出ML-for-ML跨层视角，在统一的时间到目标损失目标下联合选择网络侧与ML侧参数。初步原型实验显示，该协同优化可将达到目标损失的耗时缩短最多42%。该工作表明网络与ML系统的联合设计是提升分布式训练效率的重要方向。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.06046v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.06153v1",
+      "source": "arxiv",
+      "title": "Learning Globally Reusable Skills for Coding Agents",
+      "abstract": "Automated skill evolution enables Large Language Model (LLM) agents to continuously improve without expensive retraining. However, existing approaches typically treat skill evolution as a sequence of local updates, overlooking relationships among skills and often producing overfitted skill updates that fail to generalize across tasks. We propose GSE, a globalized skill evolution framework that jointly optimizes skill compatibility and skill generalization. To preserve consistency across the skill bank, GSE maintains a Skill Relation Graph (SRG) that explicitly models and co-evolves inter-skill relationships. To improve generalization, GSE performs cluster-based skill consolidation to abstract reusable capabilities from local updates and employs replay-driven verification to prevent overfitting and behavioral regressions. We evaluate GSE on two representative software engineering tasks: bug-revealing test generation and false-positive bug report filtering. Across two state-of-the-art coding agents, OpenHands and mini-SWE-agent, GSE consistently achieves the best precision, recall, and F1-score. Compared with existing evolution techniques, GSE improves precision and recall by 6.1%~34.1% and 31.8%~180.0% for test generation, and by 15.4%~96.4% and 13.1%~19.8% for false-positive filtering. Deployment on an internal industrial agent further yields a 61.4% improvement in F1-score, demonstrating the effectiveness and generalizability of GSE for evolving effective skills.",
+      "authors": [
+        "Chen Yang",
+        "Jiashuo Tian",
+        "Ziqi Wang",
+        "Xinyin Liu",
+        "Meiru Ye",
+        "Junjie Chen"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-06T15:19:56+00:00",
+      "link": "https://arxiv.org/pdf/2608.06153v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Coding agents with LLM skill evolution, relevant to code generation using large language models.",
+      "llm_evidence_cn": "面向编程智能体的技能进化，与基于大模型的代码生成相关。",
+      "llm_evidence": "面向编程智能体的技能进化，与基于大模型的代码生成相关。",
+      "canonical_evidence": "面向编程智能体的技能进化，与基于大模型的代码生成相关。",
+      "llm_tldr_en": "Proposes GSE, a globalized skill evolution framework for LLM coding agents that optimizes skill compatibility and generalization via skill relation graphs and cluster-based consolidation.",
+      "llm_tldr_cn": "针对LLM编程智能体技能演化中的过拟合和泛化不足，论文提出全局化技能进化框架GSE。GSE通过技能关系图显式建模技能间关系，并采用聚类整合与回放验证提高技能的可复用性。实验表明它能提升代码生成智能体在多种任务上的泛化能力。该工作推动了智能体技能学习的全局优化。",
+      "llm_tldr": "针对LLM编程智能体技能演化中的过拟合和泛化不足，论文提出全局化技能进化框架GSE。GSE通过技能关系图显式建模技能间关系，并采用聚类整合与回放验证提高技能的可复用性。实验表明它能提升代码生成智能体在多种任务上的泛化能力。该工作推动了智能体技能学习的全局优化。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.06153v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.06723v1",
+      "source": "arxiv",
+      "title": "Multi-Level Modeling of Large Language Model Inference Latency and Energy via Hybrid Analytical--Machine-Learning Predictors",
+      "abstract": "The rapid scaling of Large Language Models (LLMs) has significantly increased computational cost, energy consumption, and inference latency, making accurate estimation essential for sustainable artificial intelligence deployment and hardware-aware design. In this work, we introduce Hybrid Modeling for Energy and Latency of LLMs (HYMELL), a hybrid three-level framework for estimating LLM inference latency and energy by combining analytical modeling with machine learning (ML). HYMELL models LLM execution through a three-level hierarchy: analytical estimation of primitive operations, ML prediction of higher-level components, and an end-to-end model that captures system-level overheads across both prefill and decode phases. The framework supports diverse architectures, including dense and mixture-of-experts (MoE) feed-forward networks (FFNs), as well as multi-head attention (MHA) and grouped-query attention (GQA) mechanisms. Evaluated on an NVIDIA H100 graphics processing unit (GPU), HYMELL achieves high predictive accuracy; notably, for LLaMA 3 8B, it attains less than 5% error for both prefill and decode phases. By predicting execution costs directly from architectural parameters, it enables fast, hardware-free design space exploration and energy-efficient optimization.",
+      "authors": [
+        "Saeid Shokoufa",
+        "Mohammad Erfan Sadeghi",
+        "Mehdi Kamal",
+        "Massoud Pedram"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-07T02:37:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.06723v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "models LLM inference latency and energy to support scalable sustainable ML systems",
+      "llm_evidence_cn": "对LLM推理时延和能耗建模，支撑可扩展可持续ML系统",
+      "llm_evidence": "对LLM推理时延和能耗建模，支撑可扩展可持续ML系统",
+      "canonical_evidence": "对LLM推理时延和能耗建模，支撑可扩展可持续ML系统",
+      "llm_tldr_en": "Introduces HYMELL, a hybrid three-level framework for estimating LLM inference latency and energy by combining analytical modeling of primitive operations with ML prediction of components and end-to-end overheads.",
+      "llm_tldr_cn": "大型语言模型规模扩大带来推理时延与能耗激增，准确估计对可持续部署很关键。HYMELL提出混合三层框架，将基础操作的解析估计、高层组件的机器学习预测与端到端系统开销结合。该方法可跨前缀和解码阶段预测LLM性能，为硬件感知设计提供依据。",
+      "llm_tldr": "大型语言模型规模扩大带来推理时延与能耗激增，准确估计对可持续部署很关键。HYMELL提出混合三层框架，将基础操作的解析估计、高层组件的机器学习预测与端到端系统开销结合。该方法可跨前缀和解码阶段预测LLM性能，为硬件感知设计提供依据。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Scalable machine learning system design and optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.06723v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.06848v1",
+      "source": "arxiv",
+      "title": "Understanding and Improving Model Editing for Secure Code Generation",
+      "abstract": "Large language models (LLMs) are widely used for code generation, yet they can reproduce vulnerable implementations learned from insecure training patterns. Prior work has mainly explored inference-time hardening, which reduces insecure generations without modifying the target model but relies on auxiliary components and adds runtime overhead. We conduct the first systematic study of model editing as a model-level hardening mechanism for secure code generation. We evaluate 3 state-of-the-art editing methods across diverse LLM families and compare them with CoSec, a representative inference-time approach, focusing on security, robustness, generalization, and functional correctness. Model editing yields larger security gains than CoSec on seen vulnerability types, improving security ratios by 15%-25% over vanilla models, with gains remaining stable under prompt perturbations. However, these improvements transfer unreliably to unseen vulnerabilities and can reduce functional correctness. To mitigate this trade-off, we propose SafeEdit, a post-edit refinement method combining functional tuning with edit-aware regularization. Across eight target LLMs, SafeEdit improves Pass@1 over UltraEdit by 11.73/13.70/15.50 percentage points at T=0.1/0.4/0.8 while largely preserving security. Compared with CoSec, it achieves relative security-ratio gains of 7.54%-12.04%. Additional evaluation on CodeGuard+ confirms improved joint secure-and-correct generation. SafeEdit and CoSec are also complementary, and their combination can further improve security while maintaining strong functional correctness. Overall, our results provide evidence-backed guidance for applying model editing to secure code generation.",
+      "authors": [
+        "Weifeng Sun",
+        "Quanjun Zhang",
+        "Yuchen Chen",
+        "Chengran Yang",
+        "Gou Tan",
+        "David Lo"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "published": "2026-08-07T06:16:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.06848v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Systematic study of model editing as model-level hardening for secure LLM code generation",
+      "llm_evidence_cn": "系统研究模型编辑作为模型级加固手段，以提升LLM生成代码的安全性",
+      "llm_evidence": "系统研究模型编辑作为模型级加固手段，以提升LLM生成代码的安全性",
+      "canonical_evidence": "系统研究模型编辑作为模型级加固手段，以提升LLM生成代码的安全性",
+      "llm_tldr_en": "This paper systematically evaluates model editing for secure code generation, comparing three editing methods with inference-time hardening across LLM families on security, robustness, generalization, and functional correctness.",
+      "llm_tldr_cn": "大型语言模型生成代码时可能复现不安全模式，而现有推理时加固依赖辅助组件并带来额外开销。该工作首次系统研究模型编辑作为模型级安全加固机制，评估三类编辑方法并与推理时方法CoSec对比。结果显示模型编辑在已见漏洞上可获得比CoSec更大的安全提升，且需在鲁棒性、泛化与功能正确性间权衡。这为安全代码生成提供了一条不依赖推理时额外组件的模型级路径。",
+      "llm_tldr": "大型语言模型生成代码时可能复现不安全模式，而现有推理时加固依赖辅助组件并带来额外开销。该工作首次系统研究模型编辑作为模型级安全加固机制，评估三类编辑方法并与推理时方法CoSec对比。结果显示模型编辑在已见漏洞上可获得比CoSec更大的安全提升，且需在鲁棒性、泛化与功能正确性间权衡。这为安全代码生成提供了一条不依赖推理时额外组件的模型级路径。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.06848v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.07086v1",
+      "source": "arxiv",
+      "title": "Beyond Isolation: Unlocking Reinforcement Learning Component Synergy for Sample-Efficient Continuous Control",
+      "abstract": "Reinforcement learning systems are significantly more complex than other machine learning paradigms due to inherent properties, causing RL system design to jointly account for many tightly coupled factors. Despite advances in individual algorithmic components, their functional interdependencies remain underexplored: do they exhibit mutual synergy or counterproductive interference? To bridge this gap, we conduct a systematic investigation and find that the efficacy of different components exhibits significant task-dependency, and naively stacking state-of-the-art techniques does not necessarily yield performance gains; instead, it often triggers emergent challenges, such as compounded non-stationarity. Building upon these findings, we distill a suite of actionable insights into the principled coordination of these components. Guided by these insights, we propose ROSER, an RL framework that coordinates three critical dimensions: Model-based Representation, Optimization Stability, and Experience Replay. Across diverse continuous-control benchmarks, ROSER consistently outperforms vanilla baselines and achieves 17.60% gains over naive stack. Our findings underscore the necessity of a holistic perspective in RL system design and paves the way for developing sample-efficient agents.",
+      "authors": [
+        "Qi Zhao",
+        "Guozheng Ma",
+        "Yilun Kong",
+        "Lu Li",
+        "Haoyu Wang",
+        "Zilin Wang",
+        "Tiantian Zhang",
+        "Yuxing Wang",
+        "Jian Sha",
+        "Yongzhe Chang",
+        "Xueqian Wang",
+        "Dacheng Tao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-07T10:38:31+00:00",
+      "link": "https://arxiv.org/pdf/2608.07086v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Systematic study of RL component interdependencies for sample-efficient continuous control",
+      "llm_evidence_cn": "系统性研究强化学习组件间的相互依赖，以实现样本高效的连续控制",
+      "llm_evidence": "系统性研究强化学习组件间的相互依赖，以实现样本高效的连续控制",
+      "canonical_evidence": "系统性研究强化学习组件间的相互依赖，以实现样本高效的连续控制",
+      "llm_tldr_en": "Analyzes how RL algorithm components interact, showing task-dependent synergy; naively stacking SOTA components often harms performance due to compounded non-stationarity.",
+      "llm_tldr_cn": "强化学习系统复杂且组件高度耦合，但组件间是协同还是相互干扰尚不清楚。本文系统研究后发现不同组件的效能具有显著任务依赖性，简单堆叠最先进技术并不总能带来提升，反而可能引发复合非平稳性等新问题。基于这些发现，研究工作为RL组件协同设计提供了指导，有助于构建更高效的连续控制算法。",
+      "llm_tldr": "强化学习系统复杂且组件高度耦合，但组件间是协同还是相互干扰尚不清楚。本文系统研究后发现不同组件的效能具有显著任务依赖性，简单堆叠最先进技术并不总能带来提升，反而可能引发复合非平稳性等新问题。基于这些发现，研究工作为RL组件协同设计提供了指导，有助于构建更高效的连续控制算法。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.07086v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.07395v1",
+      "source": "arxiv",
+      "title": "PACE: Primitive-Aware Code Evolution for Automated Algorithm Design",
+      "abstract": "Large Language Model (LLM)-based automated algorithm design typically evolves algorithms as complete, indivisible programs. While this whole-program perspective simplifies the search space, it fundamentally couples the useful local logic to its host program. Consequently, valuable code snippets vanish when the overall program is discarded, making it highly difficult to assess the contribution of individual algorithmic components.To address this, we propose Primitive-Aware Code Evolution (PACE), which decouples local logic from complete programs by representing it as persistent units called Executable Algorithmic Primitives (EAPs). To enable code-level transfer, PACE maintains a dynamic set of EAPs. Algorithm evolution is driven by primitive-aware operators that structurally guarantee the retention and cross-program transfer of these components. To evaluate them effectively, PACE leverages Thompson sampling based on parent-relative performance improvements, guiding primitive selection from the set without requiring extra evaluation datasets. Experiments on four tasks demonstrate that PACE effectively discovers competitive algorithms while structurally preserving valuable algorithmic components.",
+      "authors": [
+        "Zhuoliang Xie",
+        "Ruihao Zheng",
+        "Xiang Xu",
+        "Genghui Li",
+        "Zhengkun Wang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-08-07T16:40:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.07395v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-based automated algorithm design via code evolution; Executable Algorithmic Primitives for code-level transfer",
+      "llm_evidence_cn": "基于LLM的自动算法设计，通过代码进化和可执行算法原语实现代码级迁移",
+      "llm_evidence": "基于LLM的自动算法设计，通过代码进化和可执行算法原语实现代码级迁移",
+      "canonical_evidence": "基于LLM的自动算法设计，通过代码进化和可执行算法原语实现代码级迁移",
+      "llm_tldr_en": "PACE decouples local logic from whole programs by persistent Executable Algorithmic Primitives, enabling LLM-based algorithm evolution with transferable code snippets.",
+      "llm_tldr_cn": "基于LLM的自动算法设计通常把算法视为不可分割的整体程序，导致有价值的局部代码随程序被丢弃。为此提出PACE，用可执行算法原语（EAPs）将局部逻辑从完整程序中解耦，并维护动态原语集合以支持代码级迁移。实验表明这种方式能更有效地演化算法并评估各组件贡献，推动了LLM辅助算法设计。",
+      "llm_tldr": "基于LLM的自动算法设计通常把算法视为不可分割的整体程序，导致有价值的局部代码随程序被丢弃。为此提出PACE，用可执行算法原语（EAPs）将局部逻辑从完整程序中解耦，并维护动态原语集合以支持代码级迁移。实验表明这种方式能更有效地演化算法并评估各组件贡献，推动了LLM辅助算法设计。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.07395v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.07419v1",
+      "source": "arxiv",
+      "title": "Beyond Post-Hoc Temperature Scaling: Bilevel Optimization for LLM Calibration",
+      "abstract": "Preference alignment often makes large language models (LLMs) overconfident and poorly calibrated. Traditional post-hoc temperature scaling is inherently domain-dependent: a temperature fitted on one domain does not generalize across domains. This motivates us to modify model parameters during training to improve calibration. We propose maximizing the entropy of predictive distributions as the calibration objective, which directly targets overconfidence by discouraging overly concentrated predictions. Inspired by temperature scaling, we realize this through a bilevel optimization formulation, where the lower level trains the model under a parametric loss and the upper level selects loss hyperparameters to maximize entropy. To make the framework practical at LLM scale, we adopt an efficient first-order approximation that avoids explicit second-order computation. Across both multiple-choice and open-ended generative question answering, experiments demonstrate that our method yields well-calibrated LLMs with particular advantages in out-of-domain generalization.",
+      "authors": [
+        "Ruochen Jin",
+        "Zhanliang Wang",
+        "Zongyu Dai",
+        "Jiancong Xiao",
+        "Bojian Hou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-07T17:05:10+00:00",
+      "link": "https://arxiv.org/pdf/2608.07419v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Bilevel optimization for LLM calibration, applying optimization methods for machine learning.",
+      "llm_evidence_cn": "利用双层优化进行LLM校准，属于机器学习中的优化方法应用。",
+      "llm_evidence": "利用双层优化进行LLM校准，属于机器学习中的优化方法应用。",
+      "canonical_evidence": "利用双层优化进行LLM校准，属于机器学习中的优化方法应用。",
+      "llm_tldr_en": "Formulates LLM calibration as a bilevel optimization that maximizes entropy of predictive distributions, improving calibration beyond post-hoc temperature scaling.",
+      "llm_tldr_cn": "当前偏好对齐使LLM过度自信，事后温度缩放又依赖域。论文将校准目标定义为最大化预测分布熵，并通过双层优化调整训练损失超参数。该方法在训练过程中直接改善校准，而无需针对每个域重新拟合温度。实验表明其校准效果优于现有的后处理方法。",
+      "llm_tldr": "当前偏好对齐使LLM过度自信，事后温度缩放又依赖域。论文将校准目标定义为最大化预测分布熵，并通过双层优化调整训练损失超参数。该方法在训练过程中直接改善校准，而无需针对每个域重新拟合温度。实验表明其校准效果优于现有的后处理方法。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.07419v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.08245v1",
+      "source": "arxiv",
+      "title": "Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations",
+      "abstract": "LLM applications deployed at scale face a fundamental challenge: privacy constraints prevent direct inspection of user interactions, making it difficult to obtain any representative evaluation dataset or to track the ongoing evolution of production traffic. We present ProxyDrift, a framework that (i) identifies and measures drift between production traffic and offline evaluation sets, and (ii) constructs and refreshes those evaluation sets accordingly; all without access to raw user data. Our approach operates entirely on non-PII proxy representations: structured, multi-dimensional descriptors derived from LLM-based classification of user interactions. We introduce (1) a chance-calibrated, redundancy-aware (RA) alignment score that aggregates per-dimension drift measurements via mutual information; (2) a conditional sampler that generates synthetic proxies respecting inter-dimensional dependencies; (3) a roundtrip consistency analysis that exposes generator/classifier disagreements and guides proxy taxonomy refinement; and (4) a feedback-linkage analysis that ties per-dimension and per-value proxy distributions to user satisfaction, surfacing actionable failure and success modes. Serving hundreds of millions of users, ProxyDrift enables continuous drift monitoring and targeted synthetic data generation without exposing sensitive user data. Experiments confirm strong roundtrip consistency, discriminator-level indistinguishability of synthetic queries from human queries, and tight end-to-end alignment (RA~0.9) with production.",
+      "authors": [
+        "Michael Levit",
+        "Josh Ledgard",
+        "Haoyu Dong",
+        "Vishwas Suryanarayanan",
+        "Eyal Kolman",
+        "Sharon Tan",
+        "Qiang Gan",
+        "Vishal Chowdhary"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-08-08T17:15:18+00:00",
+      "link": "https://arxiv.org/pdf/2608.08245v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Privacy-preserving data drift detection and evaluation-set refresh for LLM applications",
+      "llm_evidence_cn": "面向LLM应用的隐私保护数据漂移检测与评估集更新",
+      "llm_evidence": "面向LLM应用的隐私保护数据漂移检测与评估集更新",
+      "canonical_evidence": "面向LLM应用的隐私保护数据漂移检测与评估集更新",
+      "llm_tldr_en": "ProxyDrift uses non-PII proxy representations to detect drift between production traffic and offline evaluation sets for large-scale LLM applications, enabling privacy-preserving construction and refresh of evaluation sets to maintain model performance.",
+      "llm_tldr_cn": "针对大规模LLM应用因隐私约束难以直接检查用户交互、无法获得代表性评估集的问题，提出ProxyDrift框架，利用非PII代理表示检测线上流量与离线评估集的漂移，并据此构建和刷新评估集。实验表明该方法能在不访问原始数据的情况下有效追踪数据演化，保障模型性能。该工作为隐私保护下的数据漂移监测与评估集维护提供了系统方案。",
+      "llm_tldr": "针对大规模LLM应用因隐私约束难以直接检查用户交互、无法获得代表性评估集的问题，提出ProxyDrift框架，利用非PII代理表示检测线上流量与离线评估集的漂移，并据此构建和刷新评估集。实验表明该方法能在不访问原始数据的情况下有效追踪数据演化，保障模型性能。该工作为隐私保护下的数据漂移监测与评估集维护提供了系统方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Data centric approaches for improving model performance",
+      "matched_requirement_id": "req-9",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.08245v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.08326v2",
+      "source": "arxiv",
+      "title": "StructReward: Efficient Structured Process Rewards for Self-Correcting Multimodal Reasoning",
+      "abstract": "Reinforcement learning with verifiable rewards (RLVR) has emerged as an effective approach for improving multimodal reasoning. However, most existing methods evaluate an entire response using a binary reward based only on final-answer correctness, thereby discarding the supervision available in intermediate reasoning steps. Process reward models offer finer-grained feedback, but they typically rely on separately trained verifiers, costly chain-of-thought annotations, or online judging by large language models (LLMs). In this work, we introduce StructReward, a compute-efficient framework that provides dense reinforcement signals through structured step-level reward alignment. StructReward represents each generated solution as a sequence of reasoning steps and aligns them with process-labeled reference steps using lightweight numerical, symbolic, and lexical matching rules. The aligned labels are aggregated into a dense process reward and combined with final-answer consistency and output-validity rewards through a gated Group Relative Policy Optimization (GRPO) objective. We further recycle policy rollouts into complementary supervision for response comparison and reflective self-correction, rather than discarding them after policy updates. Separately, we use a strong LLM to rewrite sampled correct trajectories into reflection-oriented training instances, further strengthening the policy's ability to evaluate and refine its reasoning. Since reward computation is performed online without an additional learned verifier or external LLM judge, StructReward substantially reduces the computational overhead of multimodal reinforcement learning. Experimental results show that structured process supervision and rollout recycling provide an efficient path toward self-improving multimodal reasoning.",
+      "authors": [
+        "Yifan Li",
+        "Ruxin Sun",
+        "Tongzhou Zhao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-08T20:29:32+00:00",
+      "link": "https://arxiv.org/pdf/2608.08326v2",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reinforcement learning with verifiable rewards; structured step-level process rewards for multimodal reasoning",
+      "llm_evidence_cn": "可验证奖励的强化学习；面向多模态推理的结构化步骤级过程奖励",
+      "llm_evidence": "可验证奖励的强化学习；面向多模态推理的结构化步骤级过程奖励",
+      "canonical_evidence": "可验证奖励的强化学习；面向多模态推理的结构化步骤级过程奖励",
+      "llm_tldr_en": "StructReward introduces compute-efficient structured step-level reward alignment for RLVR, providing dense RL signals without costly chain-of-thought annotations.",
+      "llm_tldr_cn": "现有RLVR只用最终答案的二元奖励，忽略了中间推理步骤的监督信息；过程奖励模型又依赖独立验证器或昂贵标注。为此提出StructReward，将生成解答表示为序列并进行结构化步骤级奖励对齐，以较低计算成本提供密集强化信号。该方法适用于自纠正多模态推理，提高了训练效率和推理准确性。",
+      "llm_tldr": "现有RLVR只用最终答案的二元奖励，忽略了中间推理步骤的监督信息；过程奖励模型又依赖独立验证器或昂贵标注。为此提出StructReward，将生成解答表示为序列并进行结构化步骤级奖励对齐，以较低计算成本提供密集强化信号。该方法适用于自纠正多模态推理，提高了训练效率和推理准确性。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.08326v2",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.08414v1",
+      "source": "arxiv",
+      "title": "Constrained Learning with Universally Learnable Concept Classes",
+      "abstract": "We study constrained statistical learning over infinite-dimensional hypothesis classes in the fully nonconvex setting, and establish universal PACC learnability of the solutions of dual algorithms: Probably Approximately Correct on Constraints, guaranteeing optimality and constraint satisfaction at once. This strengthens near-PACC results, whose feasibility residual no amount of data can remove. Optimality is caught between generalization, governed by Rademacher complexity and favoring small classes, and strong Lagrangian duality, which rests on Lyapunov convexity for vector measures and needs decomposability, a demand pulling the other way. We reconcile the two by posing the population problem over a universal RKHS $\\mathcal{H}_K$, dense in a decomposable envelope, and learning over norm balls of growing radius. This yields the Tikhonov complexity $\\mathfrak{T}^{\\varepsilon}_{n}$, the least RKHS norm reaching an $\\varepsilon$-optimal Lagrangian level set; we prove it finite, obtain exact learnability of the optimal value, and make the sample threshold explicit and polynomial in $1/\\varepsilon$ under a source condition. Feasibility is harder: absent convexity the Lagrangian may not attain its infimum, and dual information pins down only an averaged constraint-risk vector, not the risks of any returned predictor. We introduce the closure-realization gap $\\varepsilon^\\star_\\infty$, an index of how well $\\mathcal{H}_K$ retrieves feasible solutions from dualization; it is a property of the problem, not of a modeling choice. Learnability is exact when $\\varepsilon^\\star_\\infty=0$, in particular under dual differentiability, and near-PACC with residual exactly $\\varepsilon^\\star_\\infty$ otherwise. Finally, no distribution-free threshold exists already in the unconstrained specialization, so universality is the canonical frame for dual algorithms over large hypothesis classes.",
+      "authors": [
+        "Herlock SeyedAbolfazl Rahimi",
+        "Spyridon Pougkakiotis",
+        "Dionysis Kalogerias"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.OC",
+        "math.ST",
+        "stat.ML"
+      ],
+      "published": "2026-08-09T02:13:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.08414v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Theoretical results for constrained nonconvex learning with universal learnability and duality",
+      "llm_evidence_cn": "关于带约束非凸学习的通用可学习性与对偶性的理论结果",
+      "llm_evidence": "关于带约束非凸学习的通用可学习性与对偶性的理论结果",
+      "canonical_evidence": "关于带约束非凸学习的通用可学习性与对偶性的理论结果",
+      "llm_tldr_en": "This paper establishes universal PACC learnability of dual algorithms for constrained statistical learning over infinite-dimensional nonconvex hypothesis classes, reconciling generalization with strong Lagrangian duality in a universal RKHS.",
+      "llm_tldr_cn": "针对无限维假设类上的带约束统计学习在完全非凸场景下的可学习性问题，该论文建立了对偶算法解的通用PACC可学习性，同时保证最优性与约束满足。通过将总体问题定义在通用再生核希尔伯特空间上，调和了由Rademacher复杂度驱动的泛化性与依赖Lyapunov凸性和可分解性的强Lagrange对偶性。该结果改进了近PACC结论，消除了数据无法去除的可行性残差。",
+      "llm_tldr": "针对无限维假设类上的带约束统计学习在完全非凸场景下的可学习性问题，该论文建立了对偶算法解的通用PACC可学习性，同时保证最优性与约束满足。通过将总体问题定义在通用再生核希尔伯特空间上，调和了由Rademacher复杂度驱动的泛化性与依赖Lyapunov凸性和可分解性的强Lagrange对偶性。该结果改进了近PACC结论，消除了数据无法去除的可行性残差。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.08414v1",
+      "quick_tier": "8plus"
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "date": "20260813",
+  "date_label": "",
+  "generated_at": "2026-08-13 19:49:57 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.04459v1",
+      "route": "202608/13/2608.04459v1-adaptagent-a-multi-agent-domain-guided-reasoning-framework-for-code-adaptation",
+      "title": "AdaptAgent: A Multi-agent, Domain-Guided Reasoning Framework for Code Adaptation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "针对LLM生成代码的适配，直接涉及使用大语言模型的代码生成",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.04783v2",
+      "route": "202608/13/2608.04783v2-repoprobe-benchmarking-architecture-aware-repository-comprehension-with-checklists",
+      "title": "RepoProbe: Benchmarking Architecture-Aware Repository Comprehension with Checklists",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向LLM仓库级代码理解与生成的基准，关注过早编辑问题",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.05141v1",
+      "route": "202608/13/2608.05141v1-octolong-mid-training-on-cross-repository-code-contexts-enhances-long-context-modeling",
+      "title": "OctoLong: Mid-Training On Cross-Repository Code Contexts Enhances Long-Context Modeling",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "利用代码仓库上下文进行长上下文建模，与基于LLM的代码生成相关",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.05493v1",
+      "route": "202608/13/2608.05493v1-learning-context-free-grammars-for-grammar-constrained-decoding-via-declarative-agentic-programming-with-guarantees",
+      "title": "Learning Context-Free Grammars for Grammar-Constrained Decoding via Declarative Agentic Programming with Guarantees",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "自动从文档和执行数据学习上下文无关文法，用于约束语言模型生成语法有效的领域特定代码",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.06041v1",
+      "route": "202608/13/2608.06041v1-langchoicebench-measuring-and-explaining-programming-language-choice-in-llms",
+      "title": "LangChoiceBench: Measuring and Explaining Programming-Language Choice in LLMs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "提出项目级代码生成基准，测量LLM对Python的偏好、推荐与实现一致性及语言多样性",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.06046v1",
+      "route": "202608/13/2608.06046v1-ml-for-ml",
+      "title": "ML-for-ML",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "联合调整网络机制与机器学习训练参数，以时间到目标损失为指标优化分布式系统性能",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.06153v1",
+      "route": "202608/13/2608.06153v1-learning-globally-reusable-skills-for-coding-agents",
+      "title": "Learning Globally Reusable Skills for Coding Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向编程智能体的技能进化，与基于大模型的代码生成相关。",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.06723v1",
+      "route": "202608/13/2608.06723v1-multi-level-modeling-of-large-language-model-inference-latency-and-energy-via-hybrid-analytical--machine-learning-predictors",
+      "title": "Multi-Level Modeling of Large Language Model Inference Latency and Energy via Hybrid Analytical--Machine-Learning Predictors",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "对LLM推理时延和能耗建模，支撑可扩展可持续ML系统",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.06848v1",
+      "route": "202608/13/2608.06848v1-understanding-and-improving-model-editing-for-secure-code-generation",
+      "title": "Understanding and Improving Model Editing for Secure Code Generation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "系统研究模型编辑作为模型级加固手段，以提升LLM生成代码的安全性",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.07086v1",
+      "route": "202608/13/2608.07086v1-beyond-isolation-unlocking-reinforcement-learning-component-synergy-for-sample-efficient-continuous-control",
+      "title": "Beyond Isolation: Unlocking Reinforcement Learning Component Synergy for Sample-Efficient Continuous Control",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "系统性研究强化学习组件间的相互依赖，以实现样本高效的连续控制",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.07395v1",
+      "route": "202608/13/2608.07395v1-pace-primitive-aware-code-evolution-for-automated-algorithm-design",
+      "title": "PACE: Primitive-Aware Code Evolution for Automated Algorithm Design",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于LLM的自动算法设计，通过代码进化和可执行算法原语实现代码级迁移",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.07419v1",
+      "route": "202608/13/2608.07419v1-beyond-post-hoc-temperature-scaling-bilevel-optimization-for-llm-calibration",
+      "title": "Beyond Post-Hoc Temperature Scaling: Bilevel Optimization for LLM Calibration",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "利用双层优化进行LLM校准，属于机器学习中的优化方法应用。",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.08245v1",
+      "route": "202608/13/2608.08245v1-privacy-preserving-data-drift-detection-and-recovery-for-large-scale-llm-applications-via-proxy-representations",
+      "title": "Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向LLM应用的隐私保护数据漂移检测与评估集更新",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.08326v2",
+      "route": "202608/13/2608.08326v2-structreward-efficient-structured-process-rewards-for-self-correcting-multimodal-reasoning",
+      "title": "StructReward: Efficient Structured Process Rewards for Self-Correcting Multimodal Reasoning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "可验证奖励的强化学习；面向多模态推理的结构化步骤级过程奖励",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    },
+    {
+      "paper_id": "2608.08414v1",
+      "route": "202608/13/2608.08414v1-constrained-learning-with-universally-learnable-concept-classes",
+      "title": "Constrained Learning with Universally Learnable Concept Classes",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "关于带约束非凸学习的通用可学习性与对偶性的理论结果",
+      "first_seen_at": "2026-08-13 19:49:57 UTC",
+      "updated_at": "2026-08-13 19:49:57 UTC"
+    }
+  ]
+}
