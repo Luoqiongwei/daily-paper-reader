@@ -1,0 +1,784 @@
+Title: Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs
+
+URL Source: https://arxiv.org/pdf/2608.10803v1
+
+Published Time: Wed, 12 Aug 2026 00:59:10 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs 
+
+Yuhang Zhou *
+
+Nanjing University State Key Laboratory for Novel Software Technology Nanjing, China 
+
+Peng Jiang *
+
+Nanjing University State Key Laboratory for Novel Software Technology Nanjing, China 
+
+Qianyu Jiang 
+
+Nanjing University State Key Laboratory for Novel Software Technology Nanjing, China 
+
+Zhibin Wang 
+
+Nanjing University State Key Laboratory for Novel Software Technology Nanjing, China 
+
+Xinghui Tian 
+
+Huawei China 
+
+Jianwei Zhou 
+
+Huawei China 
+
+Songxiang Zhu 
+
+Huawei China 
+
+Jingyi Zhang 
+
+Huawei China 
+
+Junsong Wang 
+
+Huawei China 
+
+Chen Tian 
+
+Nanjing University State Key Laboratory for Novel Software Technology Nanjing, China 
+
+Abstract 
+
+Matrix Multiplication (MatMul) faces a “generalization crisis” driven by highly dynamic tensor shapes. This crisis is par-ticularly acute on Ascend NPUs, where explicitly controlled architectures and strict physical constraints render exist-ing GPU-centric optimizations ineffective. To resolve this, we propose AdaptCore , an adaptive framework for univer-sally high-performance MatMul on Ascend NPUs. AdaptCore 
+
+systematically decouples operator optimization into spatial tiling and instruction orchestration. It first maps dynamic shapes into a hardware-aware 2D tiling taxonomy to balance on-chip capacity limit and multi-core parallelism. Further-more, it integrates a composable optimization library with a deterministic analytical performance model. By mathemati-cally evaluating hardware state mutations, AdaptCore proac-tively selects and caches optimal implementations, enabling 
+
+𝑂 (1) overhead runtime dispatching. Evaluations demon-strate that AdaptCore delivers a remarkable 1.85 × mean speedup across 80,000 input shapes, and achieves up to a 1.48 × acceleration in representative end-to-end models over the highly-tuned native vendor library (ACLNN). 
+
+1 Introduction 
+
+Matrix Multiplication (MatMul) has long been the compu-tational core of AI workloads, highly optimized for static 
+
+> *These authors contributed equally.
+
+uniform input shapes. However, as workloads become in-creasingly complex, MatMul operators face a severe “gener-alization crisis.” On the one hand, input dimensions exhibit massive variance, often spanning multiple orders of mag-nitude (e.g., from 1 to 100,000 in recommendation scenar-ios [10, 16, 19]), degrading from standard square matrices to highly skewed matrices. On the other hand, emerging model architectures introduce unpredictable fluctuations to input dimensions, such as the real-time gating mechanism in Mixture-of-Experts (MoE) models [3, 7]. Consequently, traditional operators optimized for specific static shapes in-evitably suffer a sharp decline in performance. This dynamic shape crisis is particularly severe on Ascend NPUs. Unlike GPUs, which follow the SIMT paradigm and hardware-managed hierarchical memory, Ascend NPUs [4, 8] feature an explicitly managed SIMD architecture coupled with decoupled, complex memory buffers (e.g., L1 and L0 A/B/C). This requires developers to manually control in-struction sequences and dependencies to ensure pipeline efficiency. Constrained by strict hardware limits and explicit control requirements, MatMul operators easily fall into a dilemma when encountering irregular dynamic shapes: ei-ther the tiles are too small, leaving compute units idle, or the tiles are too large, exceeding buffer capacity and triggering massive memory bandwidth pressure. Unfortunately, existing operator optimizations fail to achieve both architectural awareness and runtime flexibility. High-level auto-tuning frameworks (e.g., Triton [13], cuTile [11]) 
+
+> 1arXiv:2608.10803v1 [cs.AR] 11 Aug 2026
+
+significantly lower the programming barrier but are intrinsi-cally designed for GPUs. When ported to Ascend NPUs, they often ignore hardware characteristics, yielding sub-optimal performance and introducing search overhead. Similarly, while static template libraries (e.g., CUTLASS [12]) and spe-cialized JIT compilers (e.g., DeepGEMM [2]) maximize hard-ware utilization, they either fail to handle dynamic shapes gracefully or strictly target specific hardware (e.g., Hopper). In practice, developing such an ideal MatMul operator for dynamic shapes on Ascend NPUs is hindered by two chal-lenges: (i) Hardware-Constrained Tiling. Mapping massive dynamic workloads to optimal tile sizes requires a balance between on-chip buffer capacities and multi-core parallelism. Enlarging tiles to save memory bandwidth inevitably risks buffer overflow, while shrinking them leaves compute cores starved. (ii) Coupled Optimization Space. Beyond tiling, fine-grained instruction optimizations (e.g., memory padding, preloading) introduce complex trade-offs. Each technique accelerates execution but also incurs inherent overheads. Without a method to quantitatively evaluate these combi-natorial impacts, identifying the optimal implementation remains an open challenge. To overcome these challenges, we propose AdaptCore , an adaptive framework designed for universally high-performance MatMul execution on Ascend NPUs. At its core, AdaptCore 
+
+is driven by the insight that operator optimization can be decoupled into macro-level spatial tiling and micro-level instruction orchestration. (i) To resolve the tiling conflict between memory constraints and load balance, AdaptCore 
+
+abandons empirical heuristics. Instead, it maps dynamic in-put shapes into a rigorous hardware-aware 2D taxonomy, classifying them into four base tiling templates to achieve the balance between buffer capacity and multi-core parallelism. (ii) To navigate the complex optimization space, AdaptCore 
+
+constructs a unified analytical performance model based on Ascend’s deterministic instruction pipeline. By mathemati-cally evaluating the impact of computation, bandwidth, and pipeline optimizations, this model identifies the global opti-mal implementation across various tiling and optimization combinations. Finally, to seamlessly fuse these two stages for dynamic workloads, AdaptCore adopts a synergistic offline-online execution mechanism. In the offline phase, the an-alytical model proactively explores, compiles, and caches the optimal implementations into a lookup table. During on-line execution, AdaptCore achieves 𝑂 (1) overhead runtime dispatching through rapid shape indexing. In summary, this paper makes the following contributions: 
+
+• We formulate MatMul tiling as a hardware-aware 2D template space defined by spatial task sufficiency and the accumulation regime, associating each shape with a template and hierarchical tiling parameters. GM       
+
+> Compute Unit Memory Unit MTE-2 MTE-1 MTE-3 FixPipe
+> L0C L0B L0A Cube BT FP L1 Vector Scalar UB Scalar
+> 1:2 AI Cube AI Vector
+
+Figure 1. Architectural overview of the Ascend 910 NPU. 
+
+• We construct an analytical model and a composable optimization library to select legal optimization config-urations by their data movement, resource efficiency, and pipeline schedule. 
+
+• We design an offline-selection/online-dispatch work-flow that encodes each preselected implementation in a compact TilingKey , enabling constant-time runtime kernel lookup without online exploration. 
+
+• We evaluate AdaptCore on 80,000 dynamic shapes and five recommendation models. It achieves a 1 .85 × mean single-operator speedup over vendor library ACLNN and delivers 1 .09 ×–1 .48 × end-to-end speedups. The rest of this paper is organized as follows. Section 2 provides the background, and Section 3 presents the system overview. Section 4 introduces the hardware-aware tiling taxonomy. Section 5 presents model-guided selection, ana-lytical performance modeling, and the optimization library. Section 6 reports the evaluation. Section 7 discusses limita-tions, and Section 8 concludes. 
+
+2 Background 
+
+2.1 Ascend Architecture and Physical Constraints 
+
+To fully understand the necessity of specialized operator optimization on the Ascend architecture, we first contrast its hardware design with the dominant GPU paradigm. 
+
+GPU: Implicit Synchronization. Modern GPUs, such as NVIDIA’s Blackwell architecture, employ a Single Instruction Multiple Threads (SIMT) execution model and hierarchical memory. Crucially, GPUs utilize hardware mechanisms to help developers hide memory latency and manage data flow, thereby reducing the need for explicit instruction pipeline orchestration. For example, the Tensor Memory Accelerator (TMA) autonomously fetches matrix tiles from Global Mem-ory to Shared Memory, while hardware-level barriers (e.g., 
+
+mbarrier ) implicitly resolve dependencies. 
+
+Ascend NPU: Explicit Execution. Unlike GPUs, the As-cend NPU [8] features a deeply decoupled Single Instruction Multiple Data (SIMD) architecture. As illustrated in Figure 1, 
+
+> 2
+
+the computational core (AICore) is composed of asynchro-nous units: the Cube unit (matrix multiplication), the Vec-tor unit (element-wise), multiple Memory Transfer Engines (MTEs), and complex on-chip memory buffers, including the L1 Buffer, L0A/B/C Buffers and Unified Buffer (UB). To unlock peak performance, developers must explicitly orchestrate both the data movement across a complex on-chip memory hierarchy and the instruction synchronization. As shown in Listing 1, the MatMul operator on Ascend consists of the following instructions: (i) The MTE2 transfers data from Global Memory (GM) to L1 Buffer. (ii) The MTE1 routes the left matrix A from L1 Buffer to L0A, and the right matrix B to L0B. (iii) The Cube unit reads operands from L0A/B to perform matrix multiplication, accumulating the results in L0C. (iv) The FixPipe (handles format conversion and post-processing) writes the results back to GM.                                                                                                      
+
+> 1GlobalTensor < half > gm_A , gm_B ; GlobalTensor < float >gm_C ;
+> 2TQue < QuePosition :: VECIN , 1> qL1_A , qL1_B ;
+> 3TQue < QuePosition :: A1 , 1> qL0A ;
+> 4TQue < QuePosition :: B1 , 1> qL0B ;
+> 5TQue < QuePosition :: CO1 , 1> qL0C ;
+> 6/* (i) GM -> L1 ( MTE2 ) */
+> 7DataCopy ( l1_A , gm_A , TSIZE ); DataCopy ( l1_B , gm_B , TSIZE );
+> 8qL1_A . EnQue ( l1_A ); qL1_B . EnQue ( l1_B ); // SetFlag ( L1 )
+> 9/* ( ii ) L1 -> L0A / L0B ( MTE1 ) */
+> 10 l1_A =qL1_A . DeQue < half >() ; l1_B =qL1_B . DeQue < half >() ; // WaitFlag ( L1 )
+> 11 DataCopy ( l0a , l1_A , TSIZE ); DataCopy ( l0b , l1_B , TSIZE );
+> 12 qL0A . EnQue ( l0a ); qL0B . EnQue ( l0b ); // SetFlag ( L0A /B)
+> 13 /* ( iii ) L0A , L0B -> Cube -> L0C */
+> 14 l0a =qL0A . DeQue < half >() ; l0b =qL0B . DeQue < half >() ; // WaitFlag ( L0A /B)
+> 15 Mmad ( l0c , l0a , l0b , ...) ;
+> 16 qL0C . EnQue ( l0c ); // SetFlag ( L0C )
+> 17 /* ( iv ) L0C -> GM ( FixPipe ) */
+> 18 l0c =qL0C . DeQue < float >() ; // WaitFlag ( L0C )
+> 19 DataCopy ( gm_C , l0c , TSIZE );
+
+Listing 1. Abstracted Ascend C MatMul kernel In fact, the performance of MatMul on Ascend NPUs is fun-damentally impacted by two constraints: (i) Limited Buffer Capacities. The capacities of the dedicated on-chip buffers di-rectly impact the efficiency of operand fetching (L0A/B) and result accumulation (L0C). In particular, if the intermediate partial sums overflow the L0C buffer, the AICore is forced to flush data back to the off-chip GM for accumulation, severely degrading the memory bandwidth. (ii) Instruction Pipeline Ef-ficiency. Overall execution throughput relies heavily on how developers orchestrate instruction sequences and synchro-nization dependencies. For example, through fine-grained instruction optimization, we can overlap the MTE data fetch-ing for the next block with the ongoing Cube computation to improve efficiency. Conversely, sequential execution results in poor performance. 
+
+2.2 The Dynamic Shape Crisis of MatMul 
+
+In modern AI workloads, Matrix Multiplication is no longer confined to the static, uniform input dimensions characteris-tic of traditional dense models. Instead, it faces two profound 0 500 1000 1500 2000 2500 
+
+> Arithmetic Intensity (FLOPs/Byte)
+> 0100 200 300
+> Performance (TFLOPs/s)
+> (4096,4096,4096) (256,65536,4096) Peak M=4096, N=4096, K=4096 M=256, N=65536, K=4096
+
+Figure 2. Roofline analysis: square vs. skewed MatMul shapes on Ascend 910. generalization challenges: (i) Extreme Dimensional Variance. 
+
+In industrial-scale recommendation systems, the input di-mensions ( 𝑀, 𝑁 , 𝐾 ) of MatMul operators exhibit massive variance. The shape sizes can span a magnitude of over 10 5,ranging from standard square matrices to highly skewed “Tall-Skinny” or “Short-Wide” matrices. (ii) Real-Time Dy-namic Fluctuations. Furthermore, in emerging Mixture-of-Experts (MoE) architectures, sparse activation mechanisms dynamically route tokens to a subset of experts. This real-time decision-making causes the underlying GEMM input dimensions to fluctuate unpredictably on the fly. Consequently, operators heavily optimized for specific shapes suffer severe performance degradation when con-fronted with these dynamic variations. Based on the roofline analysis on Ascend NPUs in Figure 2, for a standard square matrix (e.g., 𝑀 = 4096 , 𝑁 = 4096 , 𝐾 = 4096), a fixed tiling strategy (256 × 256) can perfectly balance the workload be-tween compute units and memory units, allowing the hard-ware to approach its peak performance. However, when the same strategy is applied to highly irregular shapes (e.g., 
+
+𝑀 = 256 , 𝑁 = 64 𝐾, 𝐾 = 4096), it triggers a dual-sided hard-ware crisis. On the compute side, the constrained 𝑀 dimen-sion drastically reduces the computational workload per tile, leaving the Cube constantly starved for data. Concurrently, on the memory side, fetching static tiles from a large 𝑁 di-mension (64 𝐾 ) forces the DMA engine into inefficient strided memory accesses. This causes both compute throughput and memory bandwidth to be far below the hardware limits. 
+
+2.3 Existing Work and Limitations 
+
+To resolve the aforementioned crisis, an ideal Ascend MatMul operator must possess both deep architectural awareness and runtime flexibility. However, existing solutions fall into a Catch-22 dilemma, failing to achieve this goal. 
+
+High-Level Compilers and Auto-Tuning. OpenAI’s Triton [13] and NVIDIA’s cuTile [11] use auto-tuners to search for optimal block-level parallelism. While highly pro-ductive, they are intrinsically tailored to the implicit syn-chronization of GPUs. When ported to explicitly controlled 
+
+> 3
+
+Ascend NPUs, they exhibit severe “architectural blindness,” failing to guide an efficient instruction pipeline. Furthermore, auto-tuning may incur prohibitive search overheads when faced with the dynamic shapes in practical workloads. 
+
+Static Libraries and Specialized Compilers. Conversely, expert-level template libraries prioritize peak hardware uti-lization but sacrifice adaptability. For example, NVIDIA’s CUTLASS [12] delivers near-handwritten performance via C++ templates, yet its rigid static configurations fail to grace-fully handle extreme dynamic shapes (e.g., “Tall-Skinny” ma-trices). While specialized compilers like DeepSeek’s Deep-GEMM [2] solve this via Just-In-Time heuristics, they are locked into the specific hardware architecture (NVIDIA Hop-per), offering zero portability to Ascend NPUs. Fortunately, the native CATLASS template library [6] suc-cessfully abstracts Ascend’s explicit memory routing and syn-chronization barriers into reusable C++ components. Rather than reinventing these intricate low-level instructions from scratch, utilizing CATLASS guarantees hardware affinity. However, it is fundamentally static. Fully unlocking its po-tential under dynamic irregular workloads is an challenge. 
+
+3 Overview 
+
+In this section, we first summarize core challenges in op-timizing the performance of MatMul operators on Ascend NPUs, and then introduce our framework AdaptCore .
+
+3.1 Core Challenges 
+
+In fact, optimizing the MatMul operator on Ascend NPUs can be distilled into solving two deeply intertwined challenges: 
+
+Challenge 1: How to select optimal tiling configura-tions under Ascend hardware constraints? The Ascend architecture imposes rigorous physical limitations, partic-ularly the limited on-chip buffers (e.g., L0C) and complex coordination across multiple cores. The essence of the tiling problem lies in mapping dynamic input shapes to appropri-ate tile sizes. However, enlarging the tiles to save memory bandwidth inevitably breaches the on-chip memory limit, while shrinking them leads to low multi-core utilization. Given the variance in input shapes, finding the optimal tiling policy is extremely difficult. 
+
+Challenge 2: How to navigate the highly coupled, multi-dimensional optimization space? Beyond tiling, maximizing MatMul performance relies on fine-grained soft-ware optimizations, such as scalar elimination, memory padding, and preloading. These optimizations span multiple dimen-sions, including compute efficiency, memory bandwidth, and pipeline overlap. However, each optimization inevitably in-troduces inherent overheads alongside its performance gain. For example, preloading exacerbates on-chip buffer occu-pancy, while memory padding incurs extra format-conversion computation overhead. Composing multiple optimizations makes these performance impacts even more complex. The Ascend NPU Hardware Architecture FixPipe Cube Vector MTE1/2/3            
+
+> 𝐀 =𝐀 𝐀𝐀𝐀 + max 𝐀 𝐀𝐀𝐀𝐀 ( 𝐀 ) +𝐀 𝐀𝐀𝐀
+> Analytical Performance Model ( §5.2 ). Hardware-Aware Tiling Taxonomy ( §4 ).
+> CommonMatMul SingleCoreSplitk MultiCoreSplitk HybridSplitk
+> On-Chip Accumulation Off-Chip Accumulation Spatial Parallelism K-Axis Parallelism
+> MKNK
+> k1
+> m1
+> Encode
+> Online Phase
+> k1
+> n1
+> L1 L0C GM
+> m1
+> n1
+> Optimal Kernel Dynamic Shape Lookup
+> O(1) Precompiled Hash Table 64-bit TilingKey
+> 512
+> Optimization Library and Modeling ( §5.3 ).
+> Prologue Main Loop Epilogue MTE2 MTE1 Cube FixPipe Bandwidth
+> Padding L1 Resident
+> Pipeline
+> Multi-Buffer Preloading
+> Compute
+> Eliminate Scalar
+> D,η ∆dep critical path Latency Impact
+
+... 
+
+Figure 3. System overview of the proposed adaptive MatMul framework. lack of quantitative evaluation of operator performance makes it difficult to determine an efficient operator implementation. 
+
+3.2 System Architecture 
+
+As shown in Figure 3, AdaptCore consists of three compo-nents that collaborate within a unified offline-online work-flow. 
+
+Hardware-Aware Tiling Taxonomy (§4). AdaptCore 
+
+systematically maps dynamic input shapes into a 2D deci-sion space governed by Ascend hardware constraints. This taxonomy is constructed along two orthogonal dimensions: spatial parallelism (multi-core task demands) and data reuse (the L0C capacity). The two axes naturally divide the tiling space into four distinct quadrants, each representing a spe-cific tiling template. For example, shapes with small 𝑀 and 
+
+𝑁 map to MultiCoreSplitK , splitting the 𝐾 -axis to keep all AICores active. Conversely, massive read-bound shapes map to SingleCoreSplitK , which enlarges tiles to maximize data reuse while overflowing the L0C buffer. 
+
+Analytical Performance Model (§5.2). AdaptCore pro-poses an analytical performance model built on two abstrac-tions of Ascend’s explicit execution: (i) a three-phase decom-position of every MatMul execution into Prologue , Main Loop ,and Epilogue ; and (ii) a four-stage instruction pipeline (MTE2 
+
+→ MTE1 → Cube → FixPipe) within each Main Loop itera-tion. Under this view, the per-iteration latency is precisely the critical-path length of this pipeline, which the model evaluates in closed form. Based on this, AdaptCore provides a unified analytical framework, enabling microsecond-level latency prediction without runtime profiling. 
+
+Optimization Library and Modeling (§5.3). Consider-ing the vast optimization space, as shown in Table 2, Adapt-Core componentizes representative optimizations into a li-brary and categorizes them by the bottlenecks they address: (i) Bandwidth optimizations satisfy strict alignment constraints and manage memory hierarchies to saturate data read/write throughput. (ii) Pipeline optimizations manipulate the instruc-tion streams to maximize the execution overlap between 
+
+> 4
+
+asynchronous compute and memory units. (iii) Compute optimizations eliminate redundant control logic to ensure dense computing operations dominate the critical path. By feeding each module into the analytical model, AdaptCore 
+
+quantitatively predicts its latency impact. In practical application, AdaptCore comprises two distinct execution phases. During the offline phase , AdaptCore in-jects the composable optimization modules into specific tem-plates, utilizes the performance model to evaluate all valid combinations, and registers the optimal kernel into a pre-compiled hash table named launch_map . During the online phase , AdaptCore encodes the incoming shape into a compact 64-bit TilingKey . This key serves as a direct index to per-form an 𝑂 (1) lookup within the launch_map , retrieving the optimal implementation with near-zero runtime overhead. 
+
+4 Hardware-Aware Tiling Taxonomy 
+
+In this section, we first introduce the fundamental tiling prin-ciples for the MatMul operator on the Ascend NPU and sys-tematically categorize diverse tiling scenarios into specific templates. We then present several case studies to demon-strate the superiority of tiling templates. 
+
+4.1 Rethinking Tiling on Ascend NPUs 
+
+Unlike GPUs that rely on SIMT thread schedulers to implic-itly hide memory latencies, Ascend NPUs employ a decou-pled SIMD design comprising independent MTE, Cube, and Vector units. Therefore, hardware synchronization, pipeline overlapping, and data transfer are not automatically man-aged, but explicitly governed by the tiling strategy. Here, we outline the tiling process of a MatMul operator. As illustrated in Figure 4 and Table 1, computing an 𝑀 ×𝐾 
+
+by 𝐾 × 𝑁 matrix multiplication requires parallelizing the workload across multiple AICores, where each core handles a sub-task of size 𝑚 × 𝑘 and 𝑘 × 𝑛 . Within each sub-task, the AICore processes L1 tiles of size 𝑚 1 × 𝑘 1 and 𝑘 1 × 𝑛 1,where 𝑚 1 ≤ 𝑚 , 𝑛 1 ≤ 𝑛 , and 𝑘 1 ≤ 𝑘 . These tiles are fur-ther partitioned into 𝑚 0 × 𝑘 0 and 𝑘 0 × 𝑛 0 micro-tiles for the L0A/L0B buffers and Cube execution. The correspond-ing 𝑚 1 × 𝑛 1 FP32 output tile is accumulated in L0C from the 𝑚 0 × 𝑛 0 micro-tiles. We therefore use 𝑚 1𝑛 1 · 4B, rather than the full AICore sub-task size 𝑚𝑛 , to determine whether accumulation remains on chip. If this L0C tile exceeds capac-ity, the AICore periodically flushes partial sums to Global Memory. Thus, 𝑚, 𝑛, 𝑘 determine inter-core task partitioning, whereas 𝑚 1, 𝑛 1, 𝑘 1 determine intra-core data reuse and L0C accumulation behavior. 
+
+4.2 Design of the 2D Template Space 
+
+When mapping diverse dynamic shapes onto the Ascend NPU, a conflict emerges between inter-core load balancing and intra-core data reuse. Inter-core parallelism is deter-mined by the AICore sub-task dimensions 𝑚, 𝑛, 𝑘 , whereas NK k1  
+
+> m1
+> n1
+> GM
+> KM
+> L1 k1
+> m1
+> n1
+> k1
+> L0A/L0B k0
+> m0
+> n0
+> k0
+> L0C
+
+## ... 
+
+> n0
+> m0
+> Add
+> n1
+> m1
+> Cube
+> AICore1
+
+Figure 4. Multi-level tiling decomposition for MatMul on Ascend NPUs. 
+
+Table 1. Key notation.                                   
+
+> Symbol Description
+> 𝑀, 𝑁 , 𝐾 Input matrix shapes.
+> 𝑚, 𝑛, 𝑘 AICore sub-task dimensions; they determine inter-core task partitioning. 𝑘 =𝐾 denotes no
+> 𝐾 -split, whereas 𝑘 <𝐾 denotes 𝐾 -axis parallelism.
+> 𝑚 1, 𝑛 1, 𝑘 1L1 tile dimensions within a sub-task. The
+> 𝑚 1×𝑛 1FP32 result is L0C accumulation tile.
+> 𝑚 0, 𝑛 0, 𝑘 0L0 micro-tile dimensions for L1 →L0A/L0B transfers and MMAD.
+> 𝐶 𝐿 1, 𝐶 𝐿 0𝐴 , 𝐶 𝐿 0𝐵 , 𝐶 𝐿 0𝐶 L1, L0A, L0B and L0C buffer capacities, on-chip accumulation requires
+> 𝑚 1𝑛 1·4B ≤𝑆 𝐿 0𝐶 for FP32 results.
+> 𝑃 𝑚 , 𝑃 𝑛 , 𝑃 𝑘 Task counts along 𝑀, 𝑁 , 𝐾 :𝑃 𝑚 =⌈𝑀 /𝑚 ⌉,
+> 𝑃 𝑛 =⌈𝑁 /𝑛 ⌉,𝑃 𝑘 =⌈𝐾 /𝑘 ⌉.
+
+GM traffic and L0C occupancy are determined by the L1 tile dimensions 𝑚 1, 𝑛 1, 𝑘 1. Assuming FP16 inputs and no cross-tile residency, each L1 tile reads 𝑚 1𝑘 1 + 𝑘 1𝑛 1 elements. Sum-ming over all tiles gives 
+
+𝐷 𝑟 = 2 · 𝑀𝑁 𝐾 
+
+ 1
+
+𝑚 1
+
++ 1
+
+𝑛 1
+
+
+
+. (1) Larger 𝑚 1 and 𝑛 1 improve data reuse and reduce 𝐷 𝑟 , but the resulting FP32 accumulation tile may exceed L0C capacity. Independently, larger 𝑚 and 𝑛 reduce the spatial task count 
+
+𝑃 𝑚 𝑃 𝑛 and may leave AICores idle. These two constraints— L0C residency and spatial parallelism—form the axes of our template space. Because no single tiling strategy can reconcile these con-straints across all shapes, AdaptCore organizes four template classes in the hardware-aware 2D space shown in Figure 5. The X-axis represents Spatial Parallelism , determined by whether the AICore task count is sufficient to saturate the cores. The Y-axis represents the L0C Accumulation Regime ,determined by whether the FP32 L0C tile fits on chip. 
+
+Common (Spatial Parallelism, On-Chip Accumula-tion). This is the baseline template when spatial partitioning generates sufficient tasks to saturate all AICores ( 𝑃 𝑚 · 𝑃 𝑛 ≥     
+
+> 5L0C
+> Workspace Add
+> GM MultiCore
+> SingleCoreSplitk HybridSplitk Common Matmul
+> SingleCore
+> MultiCoreSplitk AICore GM
+> n1
+> m1
+> n1
+> m1
+> k1
+> m1
+> AICore
+> L0C
+> m1
+> n1
+> k1
+> n1
+> GM
+> m1
+> n1
+> k1
+> m1
+> KM
+> n1
+> KN
+> k1
+> m1
+> n1
+> L0C
+> k1
+> m1
+> L1
+> k1
+> n1
+> L1
+> K
+> m1
+> M
+> k1Add Cast
+> GM AICore AICore
+> m1
+> k1
+> n1
+> k1
+> L0C
+> m1
+> n1
+> GM AICore AICore
+> n1
+> m1L0C
+> L1
+> Add Cast
+> m1
+> k1
+> n1
+> k1
+> L1
+> Workspace Add K
+> m1M
+> kk1
+> K
+> n1
+> N
+> kk1
+> K
+> m1M
+> k1kK
+> n1
+> N
+> k1
+> k
+> m1
+> n1
+> m1
+> n1
+> n1
+> m1
+> K
+> n1
+> N
+> k1
+
+Figure 5. Hardware-aware 2D tiling template taxonomy. 
+
+𝑁 𝑐𝑜𝑟𝑒 ) and the L0C accumulation tile fits on chip ( 𝑚 1𝑛 1 · 4B ≤
+
+𝑆 𝐿 0𝐶 ). The entire 𝐾 -dimension is processed per core ( 𝑘 = 𝐾 ), while each 𝑚 1 × 𝑛 1 output tile is accumulated in L0C. The core performs a single FP32-to-FP16 cast and writes each fi-nal output element once to GM, yielding the minimum write volume: 
+
+𝐷 𝑐 𝑤 = 2 · 𝑀𝑁 (2) 
+
+SingleCoreSplitK (Spatial Parallelism, Off-Chip Ac-cumulation). For read-bound matrices, AdaptCore enlarges 
+
+𝑚 1 and 𝑛 1 to improve L1-level data reuse, even when the resulting 𝑚 1 × 𝑛 1 FP32 tile exceeds L0C capacity. The entire 
+
+𝐾 -dimension remains assigned to one core ( 𝑘 = 𝐾 ), but the core flushes intermediate partial sums after each 𝑘 1 slice. This template trades increased write volume for reduced GM read volume: 
+
+𝐷 𝑠 𝑤 = 4 · 𝑀𝑁 
+
+ 𝐾 𝑘 1
+
+
+
++ 2 · 𝑀𝑁 (3) 
+
+MultiCoreSplitK ( 𝐾 -Axis Parallelism, On-Chip Ac-cumulation). For compute-underutilized shapes (e.g., tall-skinny matrices), 𝑃 𝑚 𝑃 𝑛 < 𝑁 𝑐𝑜𝑟𝑒 leaves AICores idle. This template partitions the 𝐾 -dimension across multiple cores (𝑘 < 𝐾 ), while each local 𝑚 1 × 𝑛 1 FP32 tile still fits in L0C. Every 𝐾 -partition exports one partial result to GM for cross-core reduction, so the write volume depends on the partition count 𝑃 𝑘 :
+
+𝐷 𝑚 𝑤 = 4 · 𝑀𝑁 
+
+𝐾 𝑘 
+
+
+
++ 2 · 𝑀𝑁 (4) 
+
+HybridSplitK ( 𝐾 -Axis Parallelism, Off-Chip Accumu-lation). This template combines SingleCoreSplitK and 
+
+MultiCoreSplitK when spatial tasks cannot saturate all AICores ( 𝑃 𝑚 𝑃 𝑛 < 𝑁 𝑐𝑜𝑟𝑒 ) and the enlarged L0C tile exceeds capacity ( 𝑚 1𝑛 1 · 4B > 𝑆 𝐿 0𝐶 ). It partitions the 𝐾 -axis across 
+
+𝑃 𝑘 > 1 cores while using large 𝑚 1, 𝑛 1 tiles for data reuse. Each AICore consequently flushes local partial sums after every 𝑘 1 slice, giving: 
+
+𝐷 ℎ𝑤 = 𝑃 𝑘 ×
+
+
+
+4 · 𝑀𝑁 ·
+
+ 𝑘 𝑘 1
+
+ 
+
++ 2 · 𝑀𝑁 = 4 · 𝑀𝑁 ·
+
+ 𝐾 𝑘 1
+
+
+
++ 2 · 𝑀𝑁 
+
+(5) While its mathematical write volume is identical to Equa-tion 3, this massive memory penalty is distributed concur-rently across 𝑃 𝑘 AICores. In summary, these four templates establish a complete de-sign space to balance data transfer volumes and multi-core utilization. Furthermore, these templates can be combined with other tiling strategies to handle extreme cases. For exam-ple, the StreamK strategy can be applied to existing templates to address the tail-iteration load imbalance problem. 
+
+4.3 Mapping Shapes to Templates 
+
+In practice, standard shapes often fall into the Common quad-rant. If the enlarged tiles overflow the L0C buffer, execution shifts to SingleCoreSplitK . Conversely, if the shape lacks spatial parallelism, the system triggers MultiCoreSplitK 
+
+to partition the 𝐾 -axis. Finally, shapes suffering from both core starvation and L0C overflow land in the HybridSplitK .Here, we provide four representative tiling cases on an As-cend NPU equipped with 16 AICores and a 128 KB L0C. Note that the accumulation on L0C uses the Float32 data type. 
+
+Case 1: Well-Balanced Workload. For 𝑀 = 𝑁 = 𝐾 =
+
+1024, let each AICore task contain one L1 output tile with 
+
+𝑚 = 𝑚 1 = 128 and 𝑛 = 𝑛 1 = 256. The FP32 L0C tile occu-pies exactly 128 KB, while the spatial partitioning generates 
+
+(1024 /128 ) × ( 1024 /256 ) = 32 tasks for 16 AICores. The 
+
+Common template therefore provides both on-chip accumula-tion and sufficient parallelism. 
+
+Case 2: Read-Bound Large Matrices. For 𝑀 = 𝑁 = 4096 and 𝐾 = 1024, increasing the L1 tile from 𝑚 1 ×𝑛 1 = 128 × 256 to 256 × 256 reduces 𝐷 𝑟 but enlarges the FP32 L0C tile from 128 KB to 256 KB. With 𝑘 = 𝐾 and sufficient spatial tasks, this selects SingleCoreSplitK : the larger L1 tile improves reuse, while partial sums are accumulated off chip. 
+
+Case 3: Compute Underutilization for Skewed Shapes. 
+
+For 𝑀 = 𝑁 = 128 and 𝐾 = 4096, let 𝑚 = 𝑚 1 = 𝑛 = 𝑛 1 = 64. The 16 KB FP32 L0C tile fits on chip, but the spatial par-titioning yields only (128 /64 )2 = 4 tasks, leaving 12 of 16 AICores idle. Splitting 𝐾 across the idle cores selects 
+
+MultiCoreSplitK and improves parallelism at the cost of cross-core reduction. 
+
+Case 4: Skewed-Massive Shapes. For 𝑀 = 𝑁 = 256 and 
+
+𝐾 = 8192, let 𝑚 = 𝑚 1 = 𝑛 = 𝑛 1 = 256. The configuration produces only one spatial task and a 256 KB FP32 L0C tile. It therefore violates both conditions, selecting HybridSplitK 
+
+to combine 𝐾 -axis parallelism with off-chip accumulation. 
+
+5 Optimization Space Exploration 
+
+Although base tiling templates bring substantial performance improvements, achieving peak performance still relies on 
+
+> 6
+
+complex instruction-level optimizations. In this section, we detail how AdaptCore decouples these optimizations into pluggable components applied to the templates. We also introduce a lightweight cost model to evaluate the benefits of applying the optimizations, guiding developers to choose the optimal operator implementation. 
+
+5.1 Model-Guided Candidate Selection 
+
+Given an input shape 𝑠 = (𝑀, 𝑁 , 𝐾 ), the 2D taxonomy in Section 4.2 deterministically produces a base implementation 
+
+𝑏 (𝑠 ) = (𝑞 (𝑠 ), 𝜽 (𝑠 )) , where 𝑞 (𝑠 ) is one of the four templates and 𝜽 (𝑠 ) = {𝑚, 𝑛, 𝑘, 𝑚 1, 𝑛 1, 𝑘 1, 𝑚 0, 𝑛 0, 𝑘 0 } contains its associ-ated tiling parameters. Based on this, AdaptCore explores a set S( 𝑏 (𝑠 )) of compatible optimization configurations. Each configuration x specifies both the enabled optimizations and their internal choices, such as the padding format and preloading depth. AdaptCore rejects configurations that vi-olate instruction requirements or any capacity limit in the explicitly managed memory hierarchy. Let M(𝑏, x, 𝑠 ) denote the resulting footprint across the L1 and L0A/B/C buffers, and let C𝑙𝑖𝑚𝑖𝑡 denote their hardware capacities. AdaptCore se-lects the configuration with the minimum latency predicted by its analytical model b𝑇 :
+
+x∗ (𝑠 ) = arg min   
+
+> x∈ S ( 𝑏 (𝑠 ) )
+
+b𝑇 (𝑏 (𝑠 ), x, 𝑠 ) s.t. M(𝑏 (𝑠 ), x, 𝑠 ) ⪯ C𝑙𝑖𝑚𝑖𝑡 .
+
+(6) The exploration is performed offline for the target shape set. The selected optimization configuration, together with its predetermined template and tiling parameters, is encoded into a compact TilingKey and cached with the generated kernel. At runtime, AdaptCore only maps the incoming shape to its key and retrieves the corresponding kernel. 
+
+5.2 Analytical Performance Modeling 
+
+Given the base implementation 𝑏 (𝑠 ) and an optimization configuration x, AdaptCore predicts latency by decomposing execution into a Prologue, a parallel Main Loop, and an Epilogue: 
+
+b𝑇 (𝑏, x, 𝑠 ) = 𝑇 𝑝𝑟𝑜 + max   
+
+> 𝑗 ∈ P
+
+𝑇 ( 𝑗 ) 
+
+> 𝑚𝑎𝑖𝑛
+
++ 𝑇 𝑒𝑝𝑖 , (7) where P is the set of participating AICores. The maximum captures the fact that kernel completion is determined by the slowest core. 
+
+Resource Cost. For a transfer stage 𝑟 , its latency on a tile 
+
+𝑣 is modeled as 
+
+𝑡 𝑟,𝑣 = 𝑛 𝑟,𝑣 𝜆 𝑟 + 𝐷 𝑟,𝑣 
+
+𝐵𝑊 𝑟 𝜂 𝑟,𝑣 
+
+, (8) where 𝑛 𝑟,𝑣 and 𝐷 𝑟,𝑣 are its instruction count and transferred bytes, 𝐵𝑊 𝑟 is the peak bandwidth, and 𝜆 𝑟 and 𝜂 𝑟,𝑣 denote the per-instruction overhead and the shape- and alignment-dependent hardware efficiency, respectively. We obtain 𝜆 𝑟 
+
+and 𝜂 𝑟,𝑣 through empirical offline latency profiling. Cube latency is similarly computed as 𝑡 𝑐𝑢𝑏𝑒,𝑣 = 𝑁 𝑚𝑚𝑎𝑑,𝑣 𝜆 𝑚𝑚𝑎𝑑 ,where 𝑁 𝑚𝑚𝑎𝑑,𝑣 is derived from the L0 tiling parameters. Equa-tion 8 evaluates an optimization by propagating its effects on data volume, instruction count, and hardware efficiency. 
+
+Prologue. The Prologue contains optional preprocessing before the kernel main loop. For example, Padding reads an input through MTE2, reformats it on the Vector unit, and writes the transformed data through MTE3. We compute 
+
+𝑇 𝑝𝑟𝑜 by summing these dependent stages using Equation 8; 
+
+𝑇 𝑝𝑟𝑜 = 0 when no preprocessing is required. 
+
+Main Loop. Let V𝑗 be the set of L1-level tile instances assigned to core 𝑗 . Each tile 𝑣 produces an output region of at most 𝑚 1 × 𝑛 1 and processes its local 𝐾 range in 𝐿 𝑣 = ⌈𝑘 𝑣 /𝑘 1⌉
+
+slices. A slice follows the deterministic MTE2–MTE1–Cube pipeline, with FixPipe additionally appearing as a recurring stage when partial sums must be spilled from L0C. For a given template and optimization configuration, the steady-state initiation interval is 
+
+𝐼𝐼 𝑣 (𝑏, x) = max  
+
+> 𝑟 ∈ R 𝑏
+
+𝑡 𝑟,𝑣 + Δ𝑑𝑒𝑝,𝑣 (𝑏, x), (9) where R𝑏 is the set of recurring hardware stages and Δ𝑑𝑒𝑝,𝑣 
+
+is the exposed latency caused by data dependencies, syn-chronization, and buffer reuse hazards. Multi-buffering and preloading reduce Δ𝑑𝑒𝑝,𝑣 by enabling overlap across adjacent slices, but are enabled only when the capacity constraint in Equation 6 remains satisfied. Accounting for pipeline fill, steady-state execution, and drain, the main-loop latency is 
+
+𝑇 ( 𝑗 ) 
+
+> 𝑚𝑎𝑖𝑛
+
+=∑︁  
+
+> 𝑣 ∈ V 𝑗
+
+𝑇 𝑓 𝑖𝑙𝑙,𝑣 + ( 𝐿 𝑣 − 1)𝐼𝐼 𝑣 + 𝑇 𝑑𝑟𝑎𝑖𝑛,𝑣 
+
+ . (10) For Common and MultiCoreSplitK , accumulation remains on chip, so FixPipe is excluded from 𝐼𝐼 𝑣 and its final write is included in 𝑇 𝑑𝑟𝑎𝑖𝑛,𝑣 . For SingleCoreSplitK and HybridSplitK ,L0C overflow causes periodic partial-sum spills, making Fix-Pipe a recurring stage in R𝑏 . Boundary tiles and the last 𝐾 
+
+slice are evaluated using their actual dimensions. 
+
+Epilogue. The Epilogue contains only post-processing required by the selected template and modules: 
+
+𝑇 𝑒𝑝𝑖 = 𝑇 𝑙𝑜𝑐𝑎𝑙 _𝑟𝑒𝑑𝑢𝑐𝑒 + 𝑇 𝑐𝑟𝑜𝑠𝑠 _𝑟𝑒𝑑𝑢𝑐𝑒 + 𝑇 𝑓 𝑜𝑟𝑚𝑎𝑡 . (11) 
+
+SingleCoreSplitK requires local reduction of off-chip par-tial sums, MultiCoreSplitK requires cross-core reduction, and HybridSplitK requires both; the corresponding terms are zero for Common . Format conversion are included only when activated. Each term is evaluated from its data move-ment and Vector instruction costs using Equation 8. 
+
+5.3 Optimization Library and Modeling 
+
+AdaptCore componentizes common techniques from expert-tuned kernels into the optimization library summarized in Table 2. The modules target three bottleneck dimensions. 
+
+> 7
+
+Bandwidth modules change transferred bytes 𝐷 or band-width efficiency 𝜂 ; pipeline modules reduce the exposed de-pendency latency Δ𝑑𝑒𝑝 ; and compute modules remove in-efficient compute instructions from the critical path. Our analytical model can evaluate their benefits and penalties, both individually and in combination. 
+
+Pipeline Optimization Modeling. We use double buffering and preloading to illustrate how the model evaluates pipeline optimizations. As shown in Figure 6, these optimizations preserve the transferred bytes and MMAD count, but change the instruction dependencies and buffer footprint. For an L1 tile 𝑣 , let 𝑡 𝑀,𝑣 = 𝑡 𝑚𝑡𝑒 2,𝑣 denote the MTE2 time of one 𝐾 -slice and let 𝑡 𝑃,𝑣 = max (𝑡 𝑚𝑡𝑒 1,𝑣 , 𝑡 𝑐𝑢𝑏𝑒,𝑣 ) denote the overlapped L0/Cube pipeline time. The tile contains 𝐿 𝑣 slices. 
+
+Baseline. As shown in Figure 6a, the same buffer cannot be refilled until its MTE1/Cube consumers finish. MTE2 and the L0/Cube pipeline are serialized across slices, giving 
+
+𝑇 𝑏𝑎𝑠𝑒 𝑣 = 𝐿 𝑣 (𝑡 𝑀,𝑣 + 𝑡 𝑃,𝑣 ) + 𝑇 𝑑𝑟𝑎𝑖𝑛,𝑣 . (12) 
+
+Double Buffering. Figure 6b alternates two buffer stages in a ping-pong manner. While MTE1/Cube consumes one stage, MTE2 fills the other. After the initial fill, consecutive slices are issued every max (𝑡 𝑀,𝑣 , 𝑡 𝑃,𝑣 ) cycles: 
+
+𝑇 𝑑𝑏 𝑣 = 𝑡 𝑀,𝑣 + ( 𝐿 𝑣 − 1) max (𝑡 𝑀,𝑣 , 𝑡 𝑃,𝑣 ) + 𝑡 𝑃,𝑣 + 𝑇 𝑑𝑟𝑎𝑖𝑛,𝑣 . (13) Thus, the initiation interval in Equation 9 becomes 𝐼𝐼 𝑏𝑎𝑠𝑒 𝑣 =
+
+𝑡 𝑀,𝑣 + 𝑡 𝑃,𝑣 for the baseline and 𝐼𝐼 𝑑𝑏 𝑣 = max (𝑡 𝑀,𝑣 , 𝑡 𝑃,𝑣 ) for double buffering. 
+
+Preloading. Double buffering still pays an MTE2 fill at the beginning of every L1 tile. Figure 6c advances the first MTE2 transfer of tile 𝑣 + 1 into the L0/Cube pipeline of tile 𝑣 . For 𝑄 𝑗 
+
+regular tiles assigned to core 𝑗 , each containing 𝐿 slices with stage times 𝑡 𝑀 and 𝑡 𝑃 , the continuous pipeline is modeled as 
+
+𝑇 ( 𝑗 ),𝑝𝑟𝑒 𝑚𝑎𝑖𝑛,𝑟𝑒𝑔 = 𝑡 𝑀 + ( 𝑄 𝑗 𝐿 − 1) max (𝑡 𝑀 , 𝑡 𝑃 ) + 𝑡 𝑃 + 𝑄 𝑗 𝑇 𝑑𝑟𝑎𝑖𝑛 . (14) In contrast, double buffering executes the same tiles in 𝑄 𝑗 [𝑡 𝑀 +(𝐿 − 1) max (𝑡 𝑀 , 𝑡 𝑃 ) + 𝑡 𝑃 + 𝑇 𝑑𝑟𝑎𝑖𝑛 ].The model substitutes Equations 12–14 into the latency model and selects the fastest legal schedule. Double buffering or preloading is rejected if it violate hardware limits. The remaining optimizations in Table 2 are evaluated analogously by updating their affected model variables. 
+
+6 Evaluation 
+
+In this section, we evaluate the performance of the Mat-Mul operators generated by AdaptCore against baselines on Ascend. We also conduct comprehensive scalability and ab-lation studies to demonstrate AdaptCore ’s effectiveness. 
+
+6.1 Experimental Setup Hardware. The evaluation of our MatMul templates was conducted on Linux servers equipped with Huawei Ascend 910B NPUs. Each NPU card accommodates 24 AICores, de-livering a theoretical peak FP16 compute throughput of 376 TFLOPS and an off-chip Global Memory (GM) to L1 Cache bandwidth of approximately 1.6 TB/s. 
+
+Software. The detailed software environment included CANN 9.0.T500, Python 3.13.11, CMake 3.31.10, Clang 15.0.5, and GCC 10.3.1. We utilized the msprof profiling tool included in the CANN package to collect hardware metrics and exe-cution traces during operator runtime. 
+
+Baselines. We compared AdaptCore ’s MatMul operator im-plementations with those provided by the Ascend vendor library (ACLNN [5]) and the basic CATLASS templates [6]. Given high auto-tuning overhead and the lack of awareness regarding the Ascend memory architecture, the latency of Triton-Ascend [14] operators is currently far higher than that of the aforementioned options. Therefore, it is not being considered. By comparing the practical execution times of these implementations, we demonstrate the generalization capability and effectiveness of AdaptCore .
+
+Workloads. To comprehensively assess the effectiveness, we evaluated the single-operator latency and end-to-end latency of real-world recommendation scenarios, which are heav-ily affected by dynamic input shapes. For single-operator latency, we construct a large-scale dataset of roughly 80,000 diverse and dynamic MatMul input shapes derived from real-world industrial input ranges and distributions. For end-to-end performance, we benchmark inference work-loads from representative recommendation models, includ-ing MMOE [17], DLRM [10], DCN V2 [15], ESMM [9], and RankMixer [20]. 
+
+6.2 Single-Operator Latency 
+
+Figure 7 visualizes the distribution of approximately 80,000 input shapes in the 3D (𝑀, 𝑁 , 𝐾 ) space with their assigned tiling templates. The dataset spans regular to extreme shapes, fully capturing the variance of dynamic workloads. Through its hardware-aware taxonomy, AdaptCore maps these shapes to distinct templates, revealing clear shape characteristics. For example, shapes with a large 𝐾 dimension favor the 
+
+MultiCoreSplitK template to maximize multi-core paral-lelism, while shapes with larger 𝑀 and 𝑁 dimensions tend to use SingleCoreSplitK to optimize memory bandwidth. Fi-nally, due to its strict triggering conditions, the HybridSplitK 
+
+template is rarely activated, appearing only 591 times. We compare the operator execution latency of three im-plementations: the ACLNN library, basic CATLASS template library, and AdaptCore . Unlike the hand-tuned ACLNN imple-mentation, basic CatLASS exposes explicit tiling primitives but requires the user to manually select the template and schedule the pipeline. Figure 8 quantifies the hardware utilization of different operator implementations for these dynamic shapes. The Roofline-style plot summarizes the performance distribution of four GEMM implementations. The median performance 
+
+> 8
+
+Table 2. Composable optimization modules and their effects. 
+
+Dimension Optimization Benefit Cost or constraint Bandwidth Padding Improves MTE2 efficiency through 512B-align. Adds padded traffic and format conversion. L1 Resident Reduces GM-to-L1 traffic by reusing the operand. Increases the L1 footprint. ShuffleK Improves effective GM bandwidth by staggering inter-core accesses. May increase TLB pressure; benefit is shape-dependent. Small-𝑀 Copy Reduces conversion and MTE instruction overhead for narrow matrices. Adds specialized scalar control and applicability constraints. 
+
+Pipeline Multi-Buffer Reduces Δ𝑑𝑒𝑝 by alternating independent buffers. Multiplies the corresponding L1/L0 footprint. Preloading Reduces Δ𝑑𝑒𝑝 and repeated fill cost by advancing the next transfer. Requires additional L1 stages. 
+
+Compute Eliminate Scalar Reduces control instructions on the critical path. Specializes the kernel and increases code variants. B0 A0 00 00 0
+
+> MTE2 MTE1 CUBE FIXPIPE
+> 101 01
+
+(a) Baseline. B0 A0 01 00 01 00 0 1   
+
+> MTE2 MTE1 CUBE FIXPIPE
+> B1 01A1 11 11 10 10
+
+(b) Double-Buffer. B0 A0 01 00 01 00 0 1  
+
+> MTE2 MTE1 CUBE FIXPIPE
+> B1 01A1 11 11 10 B2 A2
+> Preload
+> 10 B2 A2
+
+(c) Preloading. 
+
+Figure 6. Comparison of three pipeline schedules and their effects on buffer-reuse hazards. 24 
+
+> 26
+> 28
+> 210
+> 212
+> 214
+> 216
+
+M
+
+> 24
+> 26
+> 28
+> 210
+> 212
+> 214
+> 216
+
+N
+
+> 24
+> 26
+> 28
+> 210
+> 212
+> 214
+> 216
+
+K
+
+Single Multi Common Hybrid 
+
+Figure 7. Statistical distribution of input shapes. 0 5000 10000 15000 
+
+Arithmetic Intensity (FLOPs/Byte) 
+
+0100 200 300 400  
+
+> Performance (TFLOPs/s)  Peak ACLNN (P10-P90)
+> AdaptCore 90) P90) (P10-P CATLASS (P10-
+
+Figure 8. Roofline model of different Matmul. 0 5 10 15 20 Speedup over baseline 050 100 Cumulative Percentage (%)    
+
+> 91.3% >1x, mean=1.85x 87.9% >1x, mean=5.47x
+> Baseline (1.0x) Mean (ACLNN): 1.85x Mean (CATLASS): 5.47x AdaptCore vs. ACLNN
+> AdaptCore vs. CATLASS
+
+Figure 9. CDF of speedup. (solid lines) and P10–P90 interval (shaded areas) are com-puted via arithmetic intensity binning, enabling a robust com-parison of both peak throughput and performance variability. Relying on static tiling rules, the baseline ACLNN operator severely underutilizes both compute and memory bandwidth when encountering irregular shapes (blue), achieving an av-erage throughput of only 71.50 TFLOPs/s. In contrast, Adapt-Core significantly boosts both arithmetic and memory band-width utilization (red), driving the average throughput up to 90.96 TFLOPs/s. Meanwhile, the basic CATLASS matmul (green) achieves an average throughput of 55.81 TFLOPs/s on dynamic shapes, Both the baselines fall considerably behind 
+
+AdaptCore .The CDF of latency-speedup in Figure 9 also confirms the trend: AdaptCore achieves a mean speedup of 1.85 × over ACLNN, and 5.47 × over basic CATLASS The largest gains occur on highly skewed shapes, for which generic template and pipeline choices leave substantial hardware resources underutilized. 
+
+6.3 Ablation Study 
+
+To evaluate the performance gains from AdaptCore ’s tiling templates and composable optimizations, we conduct an ab-lation study on a representative regular shape ( 𝑀 = 12288, 
+
+𝑁 = 688, 𝐾 = 16991). As illustrated in Figure 10, using the native ACLNN implementation (3246.0 𝜇 s) as the baseline, we incrementally activate optimizations. First, applying the 
+
+9Baseline +Template +Padding +Preload +ShuffleK   
+
+> Ablation Settings
+> 01000 2000 3000
+> Latency (us)  3246.0 3054.7 1789.4 1101.8 1091.4
+
+Figure 10. Ablation analysis on a repre-sentative skewed shape. 12 4 8 16 24 Number of Active AICores 0500 1000 1500 Latency(us)  1399.1 881.7 441.5 231.7 124.3 77.3 63.8 21.9x Speedup 
+
+> Ideal Scaling ACLNN AdaptCore
+
+Figure 11. Multi-core scalability analy-sis. MMOE DLRM DCN_V2 ESMM RANKMIXER    
+
+> 020 40 60 80 100
+> Normalized Time (%)
+> E2E Speedup Baseline Total Optimized Total
+> 1.0 1.2 1.4 1.6 1.8
+> Speedup
+> 1.09x 1.10x 1.25x 1.15x 1.48x
+
+Figure 12. Latency reduction of end-to-end latency. 
+
+Common Template slightly reduces latency to 3054.7 𝜇 s by automatically deriving optimal tiling parameters for this uni-form shape. Next, integrating Memory Padding drastically cuts the latency to 1789.4 𝜇 s. This optimization uses the Vec-tor unit to pre-transform the right matrix into the NZ format and aligns the stride to 512B, strictly matching the L1 buffer layout. This eliminates the massive bandwidth degradation caused by unaligned memory accesses and ND-to-NZ format conversions. Building on this, we enable Preloading (𝑝 = 1) to perfectly overlap Cube computation with GM to L1 data fetches. This pipelining effectively hides the memory latency, further dropping the execution time to 1101.8 𝜇 s. Finally, we apply ShuffleK , which temporally staggers the data access sequence to prevent concurrent read conflicts across multi-ple AICores. However, since the read bandwidth is already near-optimal due to previous steps, the latency yields a mar-ginal reduction to 1091.4 𝜇 s. Overall, these results strongly validate the effectiveness of AdaptCore ’s tiling templates and composable optimizations. 
+
+6.4 Scalability Analysis 
+
+To evaluate AdaptCore ’s impact on multi-core parallelism efficiency, we conduct a comprehensive scalability study. We select a highly skewed shape with a large 𝐾 dimension ( 𝑀 =
+
+3, 𝑁 = 256 , 𝐾 = 87087) and scale the number of available AICores on the Ascend NPU from 1 to 24 to monitor latency variations. As illustrated in Figure 11, the native ACLNN implementation suffers from a severe scalability bottleneck. Constrained by static tiling rules, the total number of parallel tasks in ACLNN is strictly limited by the minuscule 𝑀 and 
+
+𝑁 dimensions. Consequently, it activates only a single core (yielding a latency of 1399.1 𝜇 s) and leaves the remaining 23 AI Cores completely idle, failing to extract any scaling benefits. In contrast, AdaptCore leverages its hardware-aware taxonomy to dispatch the MultiCoreSplitK template. By partitioning the massive 𝐾 axis and coordinating inter-core reductions, AdaptCore achieves exceptional load balancing and sustained latency reductions. Its execution time scales near-ideally, plunging from 881.7 𝜇 s on a single core down to 63.8 𝜇 s on 24 cores. At full 24-core utilization, AdaptCore 
+
+delivers a massive 21.9 × speedup over the native baseline. 
+
+6.5 End-to-End Latency 
+
+To evaluate the end-to-end benefits of AdaptCore in real-world scenarios, we benchmark the inference latency across representative recommendation models (e.g., MMoE, DLRM, DCN V2, ESMM, and RankMixer). By seamlessly replacing the native General Matrix Multiply (GEMM) operators (in-cluding standard MatMul, AddMM, GroupMM, and BatchMM) with AdaptCore ’s implementation, we observe substantial speedups in end-to-end time. As illustrated in Figure 12, we present the normalized execution time breakdown and the corresponding speedups. In the ACLNN implementation of different models, GEMM operators are the primary bot-tleneck. Following our optimization, the latency of these GEMM operators is drastically compressed while the non-GEMM operators remain constant. Eliminating the GEMM bottleneck yields the 1.09 ×-1.48 × speedups of end-to-end latency. 
+
+6.6 Performance Model 
+
+We first evaluate the prediction accuracy of the analyti-cal model. Because the model is designed to rank candi-date configurations rather than predict cycle-accurate abso-lute latency, moderate point-wise error is expected. On the 80,000-shape benchmark, we exhaustively measure all valid template–optimization configurations and treat the fastest as the oracle. AdaptCore selects the exact oracle configuration for 63.86% of the shapes. Importantly, the selected kernels still outperform ACLNN on 91.3% of the shapes, confirming that the model-guided ranking is effective in practice. We then measure the deployment cost of the cost model. The model is invoked only at template selection time, be-fore operator kernel generation. Its main overhead comes from evaluating the performance formulas for each candi-date strategy and checking capacity constraints. The average modeling time per shape is on the order of 10 milliseconds. Since this process can be performed offline, its cost remains acceptable even for a dataset of 80,000 shapes. This confirms 
+
+> 10
+
+that AdaptCore ’s analytical model is practical for deploy-ment. 
+
+7 Limitations and Future Work 
+
+We list the current limitations of AdaptCore and outline sev-eral directions for future exploration. 
+
+Architectural Generality. While the methodology of Adapt-Core (hardware-aware tiling taxonomy and optimization modeling) is theoretically generalizable, its specific templates and empirical estimates heavily rely on Ascend hardware. Porting AdaptCore to other Domain-Specific Architectures (DSAs) with different memory hierarchies would require re-defining the taxonomy and analytical performance models. 
+
+Operator Scope and Workload Shifts. Currently, AdaptCore 
+
+focuses on matrix multiplication operators (e.g., MatMul, GroupMM, BatchMM). As AI workloads evolve towards ultra-low precision (FP8/INT4), highly unstructured sparsity, or complex operator fusion, execution bottlenecks may shift. Moving forward, we plan to extend our methodology to a broader spectrum of complex operators (e.g., FlashAttention, Convolution) by formalizing their hardware constraints. 
+
+Agent-Driven Operator Generation. Recent research has ex-plored the use of LLM agent workflows (e.g., CUDA Agent [1], TensorCoder [18]) for auto kernel generation. However, due to a lack of hardware knowledge of Ascend NPUs and reli-able training data, these models perform poorly on Ascend. In the future, we aim to integrate our architectural insights into an Ascend operator agent to assist efficient bottleneck localization, bug elimination, and performance tuning. 
+
+8 Conclusion 
+
+In this paper, we propose AdaptCore to resolve the severe dynamic shape crisis on explicitly decoupled Ascend NPUs. By introducing a hardware-aware 2D tiling taxonomy, an an-alytical performance model and a composable optimization library, AdaptCore mathematically navigates strict physical constraints to achieve 𝑂 (1) optimal runtime dispatching. Comprehensive evaluations across 80,000 industrial shapes and representative end-to-end models demonstrate that Adapt-Core delivers a remarkable 1 .85 × mean speedup over native vendor libraries. Ultimately, AdaptCore successfully bridges deep architectural awareness with runtime flexibility, estab-lishing a new paradigm for universally high-performance AI execution on explicitly controlled hardware. 
+
+Acknowledgment 
+
+The authors acknowledge OpenAI GPT 5.6 Sol as a language assistant to polish English prose and improve overall read-ability. The authors carefully reviewed all AI-assisted edits and take full responsibility for the content of this paper. 
+
+References 
+
+[1] Weinan Dai, Hanlin Wu, Qiying Yu, Huan ang Gao, Jiahao Li, Chengquan Jiang, Weiqiang Lou, Yufan Song, Hongli Yu, Jiaze Chen, Wei-Ying Ma, Ya-Qin Zhang, Jingjing Liu, Mingxuan Wang, Xin Liu, and Hao Zhou. 2026. CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation. arXiv:2602.24286 [cs.LG] doi: 10.48550/arXiv.2602.24286 
+
+[2] DeepSeek AI. 2025. DeepGEMM: Clean and Efficient FP8 GEMM Kernels with Fine-Grained Scaling. https://github.com/deepseek-ai/ DeepGEMM . JIT-compiled GEMM library for Hopper (SM90) and Blackwell (SM100) GPUs. [3] William Fedus, Barret Zoph, and Noam Shazeer. 2022. Switch Trans-formers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity. arXiv:2101.03961 [cs.LG] doi: 10.48550/arXiv.2101.03961 
+
+[4] Huawei. 2019. Ascend 910 AI Processor Technical White Paper . https: //www.hiascend.com/document Accessed on 2026-04-09. [5] Huawei. 2026. CANN: Compute Architecture for Neural Networks. 
+
+https://www.hiascend.com/cann . Accessed on 2026-04-09. [6] Huawei CANN Community. 2026. catlass. https://gitcode.com/cann/ catlass . Accessed on 2026-04-09; version v1.4.0. [7] Changho Hwang, Wei Cui, Yifan Xiong, Ziyue Yang, Ze Liu, Han Hu, Zilong Wang, Rafael Salas, Jithin Jose, Prabhat Ram, Joe Chau, Peng Cheng, Fan Yang, Mao Yang, and Yongqiang Xiong. 2023. Tutel: Adaptive Mixture-of-Experts at Scale. arXiv:2206.03382 [cs.DC] doi: 10. 48550/arXiv.2206.03382 
+
+[8] Heng Liao, Jiajin Tu, Jing Xia, Hu Liu, Xiping Zhou, Honghui Yuan, and Yuxing Hu. 2021. Ascend: a Scalable and Unified Architecture for Ubiquitous Deep Neural Network Computing : Industry Track Paper. In 2021 IEEE International Symposium on High-Performance Computer Architecture (HPCA) . 789–801. doi: 10.1109/HPCA51647.2021.00071 
+
+[9] Xiao Ma, Liqin Zhao, Guan Huang, Zhi Wang, Zelin Hu, Xiao-qiang Zhu, and Kun Gai. 2018. Entire Space Multi-Task Model: An Effective Approach for Estimating Post-Click Conversion Rate. arXiv:1804.07931 [stat.ML] doi: 10.48550/arXiv.1804.07931 
+
+[10] Maxim Naumov, Dheevatsa Mudigere, Hao-Jun Michael Shi, Jianyu Huang, Narayanan Sundaraman, Jongsoo Park, Xiaodong Wang, Udit Gupta, Carole-Jean Wu, Alisson G. Azzolini, Dmytro Dzhulgakov, Andrey Mallevich, Ilia Cherniavskii, Yinghai Lu, Raghuraman Krish-namoorthi, Ansha Yu, Volodymyr Kondratenko, Stephanie Pereira, Xianjie Chen, Wenlin Chen, Vijay Rao, Bill Jia, Liang Xiong, and Misha Smelyanskiy. 2019. Deep Learning Recommendation Model for Per-sonalization and Recommendation Systems. arXiv:1906.00091 [cs.IR] doi: 10.48550/arXiv.1906.00091 
+
+[11] NVIDIA Corporation. 2026. cuTile-python. https://github.com/nvidia/ cutile-python . Accessed on 2026-04-09. [12] NVIDIA Corporation. 2026. CUTLASS: CUDA Templates for Linear Algebra Subroutines. https://github.com/NVIDIA/cutlass . Accessed on 2026-04-09. [13] Philippe Tillet, H. T. Kung, and David Cox. 2019. Triton: an interme-diate language and compiler for tiled neural network computations. In Proceedings of the 3rd ACM SIGPLAN International Workshop on Machine Learning and Programming Languages (Phoenix, AZ, USA) 
+
+(MAPL 2019) . Association for Computing Machinery, New York, NY, USA, 10–19. doi: 10.1145/3315508.3329973 
+
+[14] Triton community. 2026. Triton-Ascend. https://github.com/triton-lang/triton-ascend . Accessed on 2026-08-04. [15] Ruoxi Wang, Rakesh Shivanna, Derek Cheng, Sagar Jain, Dong Lin, Lichan Hong, and Ed Chi. 2021. DCN V2: Improved Deep & Cross Network and Practical Lessons for Web-scale Learning to Rank Sys-tems. In Proceedings of the Web Conference 2021 (Ljubljana, Slovenia) 
+
+(WWW ’21) . Association for Computing Machinery, New York, NY, USA, 1785–1797. doi: 10.1145/3442381.3450078 
+
+[16] Zehuan Wang, Yingcan Wei, Minseok Lee, Matthias Langer, Fan Yu, Jie Liu, Shijie Liu, Daniel G. Abel, Xu Guo, Jianbing Dong, Ji Shi, and 
+
+> 11
+
+Kunlun Li. 2022. Merlin HugeCTR: GPU-accelerated Recommender System Training and Inference. In Proceedings of the 16th ACM Con-ference on Recommender Systems (Seattle, WA, USA) (RecSys ’22) . As-sociation for Computing Machinery, New York, NY, USA, 534–537. doi: 10.1145/3523227.3547405 
+
+[17] Haofei Yu, Zhengyang Qi, Lawrence Jang, Ruslan Salakhutdinov, Louis-Philippe Morency, and Paul Pu Liang. 2024. MMoE: Enhancing Mul-timodal Models with Mixtures of Multimodal Interaction Experts. arXiv:2311.09580 [cs.CL] doi: 10.48550/arXiv.2311.09580 
+
+[18] Shuai Zhang, Peng Zhang, Xindian Ma, Junqiu Wei, Ningning Wang, and Qun Liu. 2020. TensorCoder: Dimension-Wise Atten-tion via Tensor Representation for Natural Language Modeling. arXiv:2008.01547 [cs.CL] doi: 10.48550/arXiv.2008.01547 
+
+[19] Ruiqi Zheng, Liang Qu, Bin Cui, Yuhui Shi, and Hongzhi Yin. 2023. AutoML for Deep Recommender Systems: A Survey. ACM Trans. Inf. Syst. 41, 4, Article 101 (March 2023), 38 pages. doi: 10.1145/3579355 
+
+[20] Jie Zhu, Zhifang Fan, Xiaoxie Zhu, Yuchen Jiang, Hangyu Wang, Xin-tian Han, Haoran Ding, Xinmin Wang, Wenlin Zhao, Zhen Gong, Huizhi Yang, Zheng Chai, Zhe Chen, Yuchao Zheng, Qiwei Chen, Feng Zhang, Xun Zhou, Peng Xu, Xiao Yang, Di Wu, and Zuotao Liu. 2025. RankMixer: Scaling Up Ranking Models in Industrial Recommenders. In Proceedings of the 34th ACM International Conference on Information and Knowledge Management (Seoul, Republic of Korea) (CIKM ’25) .Association for Computing Machinery, New York, NY, USA, 6309–6316. doi: 10.1145/3746252.3761507

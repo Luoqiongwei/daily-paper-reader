@@ -1,0 +1,137 @@
+{
+  "date": "20260814",
+  "date_label": "",
+  "generated_at": "2026-08-14 19:36:40 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.08878v1",
+      "route": "202608/14/2608.08878v1-distillcache-kl-guided-adaptive-kv-cache-eviction-for-memory-efficient-llm-inference",
+      "title": "DistillCache: KL-Guided Adaptive KV-Cache Eviction for Memory-Efficient LLM Inference",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向内存高效的LLM推理，基于强化学习的KV缓存驱逐",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.09221v1",
+      "route": "202608/14/2608.09221v1-fedtvd-balancing-data-quality-and-quantity-for-robust-federated-learning",
+      "title": "FedTVD: Balancing Data Quality and Quantity for Robust Federated Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "使用全变差距离平衡客户端标签分布质量与数据量的联邦学习聚合加权方法",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.09366v1",
+      "route": "202608/14/2608.09366v1-beyond-binary-continuous-state-optimization-with-graph-structured-objectives",
+      "title": "Beyond Binary: Continuous State Optimization with Graph-Structured Objectives",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向大规模学习系统的连续状态图结构优化，与凸/非凸优化主题强相关。",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.09376v1",
+      "route": "202608/14/2608.09376v1-will-this-data-break-my-task---interactive-synthesis-of-task-aware-data-unit-tests",
+      "title": "\"Will This Data Break My Task?\" - Interactive Synthesis of Task-Aware Data Unit Tests",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过任务感知的数据单元测试进行数据质量验证，结合数据与下游代码合成测试",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.10016v1",
+      "route": "202608/14/2608.10016v1-sheaf-based-federated-representation-learning",
+      "title": "Sheaf-Based Federated Representation Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于层束几何对齐的联邦表示学习",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.10357v1",
+      "route": "202608/14/2608.10357v1-efficient-reinforcement-learning-for-long-horizon-tool-use-agentic-tasks",
+      "title": "Efficient Reinforcement Learning for Long-Horizon Tool-Use Agentic Tasks",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向长程工具使用智能体的强化学习训练系统",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.10803v1",
+      "route": "202608/14/2608.10803v1-adaptive-matrix-multiplication-for-dynamic-shapes-on-ascend-npus",
+      "title": "Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向Ascend NPU动态形状的矩阵乘法自适应优化",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    },
+    {
+      "paper_id": "2608.11052v1",
+      "route": "202608/14/2608.11052v1-efficient-hypergradient-descent-for-inverse-reinforcement-learning",
+      "title": "Efficient Hypergradient Descent for Inverse Reinforcement Learning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "利用Fisher信息矩阵逼近逆强化学习中的超梯度，提升内层策略优化效率",
+      "first_seen_at": "2026-08-14 19:36:40 UTC",
+      "updated_at": "2026-08-14 19:36:40 UTC"
+    }
+  ]
+}

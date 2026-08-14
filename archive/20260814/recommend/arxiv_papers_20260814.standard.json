@@ -1,0 +1,340 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-14T19:30:39.436170+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 0,
+    "deep_divecandidates": 8,
+    "deep_cap": 5,
+    "deep_selected": 5,
+    "quick_candidates": 3,
+    "quick_skim_target": 10,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2608.08878v1",
+      "source": "arxiv",
+      "title": "DistillCache: KL-Guided Adaptive KV-Cache Eviction for Memory-Efficient LLM Inference",
+      "abstract": "Transformer-based large language models (LLMs) achieve strong performance across many tasks, but their Key-Value (KV) cache grows linearly with sequence length, creating a severe memory bottleneck for long-context inference. Existing heuristic eviction methods (e.g., H$_2$O and SnapKV) rely on static attention or positional signals that often fail to capture a token's future predictive influence. We propose DistillCache, a reinforcement learning framework that formulates KV-cache eviction as a sequential decision problem. DistillCache learns a lightweight policy network using rich internal model signals (attention statistics, value norms, entropy, and position) and trains it with REINFORCE via a per-step KL-divergence reward to preserve the full-cache output distribution. On a 7B-parameter instruction-tuned Transformer (Mistral-7B-Instruct-v0.3), DistillCache retains 94.2% of full-cache accuracy on LongBench at a 25% cache budget, outperforming both strong heuristic baselines (H$_2$O, SnapKV) by up to 2.7 absolute points and, under our re-implementations, concurrent RL-based methods (ForesightKV, RLKV) by up to 1.4 points on long-context tasks. On reasoning benchmarks, DistillCache is competitive with the best concurrent method and surpasses it under aggressive compression. It also delivers up to 2.1x full-cache throughput while maintaining competitive practical efficiency. These results highlight the effectiveness of learned, distribution-aware policies for memory-efficient long-context LLM inference.",
+      "authors": [
+        "Asaad Althoubi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.PF"
+      ],
+      "published": "2026-08-09T19:33:43+00:00",
+      "link": "https://arxiv.org/pdf/2608.08878v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "RL-based KV-cache eviction for memory-efficient LLM inference",
+      "llm_evidence_cn": "面向内存高效的LLM推理，基于强化学习的KV缓存驱逐",
+      "llm_evidence": "面向内存高效的LLM推理，基于强化学习的KV缓存驱逐",
+      "canonical_evidence": "面向内存高效的LLM推理，基于强化学习的KV缓存驱逐",
+      "llm_tldr_en": "Presents DistillCache, a reinforcement learning framework for adaptive KV-cache eviction that learns a policy via REINFORCE with a KL-divergence reward, improving memory efficiency for long-context LLM inference.",
+      "llm_tldr_cn": "长上下文大模型推理中KV缓存线性增长造成严重内存瓶颈，现有启发式驱逐方法依赖静态注意力信号。论文提出DistillCache，将缓存驱逐建模为顺序决策问题，利用内部模型信号训练轻量策略网络，并通过REINFORCE与KL散度奖励优化，保留对预测有重要影响的token，显著改善内存效率与推理质量。",
+      "llm_tldr": "长上下文大模型推理中KV缓存线性增长造成严重内存瓶颈，现有启发式驱逐方法依赖静态注意力信号。论文提出DistillCache，将缓存驱逐建模为顺序决策问题，利用内部模型信号训练轻量策略网络，并通过REINFORCE与KL散度奖励优化，保留对预测有重要影响的token，显著改善内存效率与推理质量。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Scalable machine learning system design and optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.08878v1"
+    },
+    {
+      "id": "2608.09221v1",
+      "source": "arxiv",
+      "title": "FedTVD: Balancing Data Quality and Quantity for Robust Federated Learning",
+      "abstract": "Federated Learning (FL) enables collaborative model training across distributed client devices while preserving data privacy. However, FL faces significant challenges due to data heterogeneity, particularly in terms of label distribution skewness and variations in dataset sizes, which can lead to biased model updates and hinder convergence. To address this, we propose FedTVD, a novel FL algorithm that weights client contributions during aggregation by considering both data quality and quantity. Unlike traditional FL approaches such as FedAvg, which rely solely on dataset size for client weighting, FedTVD integrates Total Variation Distance (TVD) to measure the divergence between each client's local label distribution and a uniform global distribution. Clients with highly skewed distributions receive lower weights, preventing unbalanced datasets with imbalances from disproportionately influencing the global model. At the same time, dataset size is incorporated to ensure scalability and fairness. This dual-weighting mechanism effectively mitigates the impact of data imbalance, leading to more stable and generalized global models. Experimental results show that FedTVD consistently outperforms state-of-the-art methods across all datasets (FMNIST, CIFAR-10, and CIFAR-100) and all levels of data heterogeneity. Notably, it achieves up to 10.6% improvement over FedAvg on CIFAR-10 under highly skewed data, while maintaining top performance even under moderate and IID settings.",
+      "authors": [
+        "Radwan Selo",
+        "Majid Kundroo",
+        "Taehong Kim"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV",
+        "cs.DC"
+      ],
+      "published": "2026-08-10T07:45:25+00:00",
+      "link": "https://arxiv.org/pdf/2608.09221v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Federated learning client weighting using total variation distance to balance label distribution quality and dataset size",
+      "llm_evidence_cn": "使用全变差距离平衡客户端标签分布质量与数据量的联邦学习聚合加权方法",
+      "llm_evidence": "使用全变差距离平衡客户端标签分布质量与数据量的联邦学习聚合加权方法",
+      "canonical_evidence": "使用全变差距离平衡客户端标签分布质量与数据量的联邦学习聚合加权方法",
+      "llm_tldr_en": "FedTVD improves federated learning by weighting client contributions using total variation distance between local label distributions and a uniform global distribution, balancing data quality and quantity.",
+      "llm_tldr_cn": "针对联邦学习中数据异质性导致更新有偏的问题，提出FedTVD算法，在聚合时结合全变差距离衡量客户端标签分布质量与数据量，自适应调整贡献权重。相比仅依赖数据量加权的FedAvg，FedTVD更稳健地处理标签分布倾斜与样本量差异，实验验证其能提升异构联邦学习的收敛速度与模型精度，为联邦学习的数据质量感知聚合提供了新思路。",
+      "llm_tldr": "针对联邦学习中数据异质性导致更新有偏的问题，提出FedTVD算法，在聚合时结合全变差距离衡量客户端标签分布质量与数据量，自适应调整贡献权重。相比仅依赖数据量加权的FedAvg，FedTVD更稳健地处理标签分布倾斜与样本量差异，实验验证其能提升异构联邦学习的收敛速度与模型精度，为联邦学习的数据质量感知聚合提供了新思路。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.09221v1"
+    },
+    {
+      "id": "2608.09366v1",
+      "source": "arxiv",
+      "title": "Beyond Binary: Continuous State Optimization with Graph-Structured Objectives",
+      "abstract": "Large-scale learning systems often face the challenge of balancing multiple,   potentially competing objectives, such as fairness, accuracy, and   latency. While recent work has formalized this as an optimization problem over   binary states, many real-world control parameters, such as fairness   thresholds, diversity mixing rates, or resource budgets, are continuous. In   this work, we extend the framework to \\emph{continuous state spaces}. We model   the problem as minimizing a sum of linear objectives subject to \\emph{movement   costs} that penalize system instability. We capture the local structure of   the objectives using a \\emph{dependency graph} (or factor graph), where each   objective is determined by a subset of the state attributes. To address the   tension between exploration and stability, we propose \\emph{Lazy   Graph-LinUCB}, an algorithm that performs lazy updates to minimize switching   costs while maintaining near-optimal regret. Beyond stability, we introduce   three advanced mechanisms to exploit the underlying graph structure: (1) an   \\emph{asynchronous} update schedule that eliminates synchronization overhead   in sparse graphs; (2) an \\emph{adaptive} algorithm that learns the graph   structure from data; and (3) a \\emph{joint estimator} that leverages data   sharing among correlated objectives to significantly tighten regret   bounds. Empirically, we demonstrate that these structural exploitations reduce   movement costs by more than a factor of three in heterogeneous systems while   maintaining similar cumulative losses.",
+      "authors": [
+        "Corinna Cortes",
+        "Yishay Mansour",
+        "Mehryar Mohri"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-10T09:46:28+00:00",
+      "link": "https://arxiv.org/pdf/2608.09366v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Continuous-state graph-structured optimization for large-scale learning systems, matching convex/nonconvex optimization themes.",
+      "llm_evidence_cn": "面向大规模学习系统的连续状态图结构优化，与凸/非凸优化主题强相关。",
+      "llm_evidence": "面向大规模学习系统的连续状态图结构优化，与凸/非凸优化主题强相关。",
+      "canonical_evidence": "面向大规模学习系统的连续状态图结构优化，与凸/非凸优化主题强相关。",
+      "llm_tldr_en": "Extends binary-state optimization to continuous state spaces with graph-structured objectives and movement costs, enabling multi-objective balancing in learning systems.",
+      "llm_tldr_cn": "许多学习系统需要在多个连续控制参数间权衡，但已有方法仅处理二元状态。该论文将问题扩展到连续状态空间，并利用依赖图描述目标局部结构，同时加入移动成本项惩罚系统不稳定。实验表明该方法能有效平衡公平性、精度和延迟等指标。为大规模系统的多目标优化提供了通用框架。",
+      "llm_tldr": "许多学习系统需要在多个连续控制参数间权衡，但已有方法仅处理二元状态。该论文将问题扩展到连续状态空间，并利用依赖图描述目标局部结构，同时加入移动成本项惩罚系统不稳定。实验表明该方法能有效平衡公平性、精度和延迟等指标。为大规模系统的多目标优化提供了通用框架。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.09366v1"
+    },
+    {
+      "id": "2608.09376v1",
+      "source": "arxiv",
+      "title": "\"Will This Data Break My Task?\" - Interactive Synthesis of Task-Aware Data Unit Tests",
+      "abstract": "Data is a central resource for modern enterprises and institutions, and data errors propagating through data pipelines lead to serious impact in production. Therefore, data validation is essential for ensuring the reliability of downstream applications. This led to the development of data unit tests, executable programs that test data before moving it around through large data pipelines. However, existing frameworks derive data unit tests from observed data alone, ignoring the semantics of the code that consumes the data downstream.   To this end, we present PrismaDV, a compound AI system that synthesizes task-aware data unit tests for tabular data by jointly analyzing data and downstream task code. PrismaDV decomposes the test generation into multiple LLM-powered steps: data profiling, detection of column accesses, data flow analysis in the task code, and the inference of implicit data assumptions. It subsequently synthesizes code for the data unit test, and maintains an internal ``data-code assumption graph'' that links generated data constraints back to the task's source code.   We demonstrate PrismaDV through an interactive web-based interface where attendees run the system on five real-world datasets with 60 downstream tasks, synthesize, inspect and refine both natural language assumptions about the data and executable data constraints. The interface allows attendees to navigate the data-code assumption graph, compare task-aware data unit tests against task-agnostic baselines on erroneous data batches, and interactively edit assumptions and data constraints. Furthermore, attendees can observe how a custom prompt optimizer adapts the system to specific datasets over time.",
+      "authors": [
+        "Hao Chen",
+        "Arnab Phani",
+        "Sebastian Schelter"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB"
+      ],
+      "published": "2026-08-10T09:56:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.09376v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "data quality validation via task-aware data unit tests synthesizes tests from data and downstream code",
+      "llm_evidence_cn": "通过任务感知的数据单元测试进行数据质量验证，结合数据与下游代码合成测试",
+      "llm_evidence": "通过任务感知的数据单元测试进行数据质量验证，结合数据与下游代码合成测试",
+      "canonical_evidence": "通过任务感知的数据单元测试进行数据质量验证，结合数据与下游代码合成测试",
+      "llm_tldr_en": "Introduces PrismaDV, a compound AI system that synthesizes task-aware data unit tests for tabular data by jointly analyzing data and downstream task code, improving data validation for reliable ML pipelines.",
+      "llm_tldr_cn": "数据错误在流水线中传播会造成严重后果，而现有数据单元测试框架只依赖观察数据，忽略下游消费代码语义。PrismaDV提出复合AI系统，联合分析数据与下游任务代码，合成任务感知的数据单元测试。通过交互式分解测试生成过程，系统能发现更符合实际任务的数据问题，提升数据可靠性。",
+      "llm_tldr": "数据错误在流水线中传播会造成严重后果，而现有数据单元测试框架只依赖观察数据，忽略下游消费代码语义。PrismaDV提出复合AI系统，联合分析数据与下游任务代码，合成任务感知的数据单元测试。通过交互式分解测试生成过程，系统能发现更符合实际任务的数据问题，提升数据可靠性。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.09376v1"
+    },
+    {
+      "id": "2608.10016v1",
+      "source": "arxiv",
+      "title": "Sheaf-Based Federated Representation Learning",
+      "abstract": "Heterogeneous federated systems require agents to learn and exchange informative representations despite differences in data distributions, sensing modalities, model architectures, latent dimensionalities, and local learning objectives. To address this challenge, we propose Sheaf-based Federated Representation Learning (SFRL), a general framework that jointly optimizes local objectives with a manifold-constrained geometric alignment regularizer based on learnable sheaf restriction maps. Unlike most existing approaches, SFRL does not assume a shared global latent space. Instead, global consistency emerges from the alignment of neighboring latent representations through orthogonal transformations and isometric embeddings. This alignment is enforced by a quadratic gluing regularizer induced by the sheaf Laplacian, whose learnable restriction maps adapt the geometry to the observed data. The penalty is evaluated on a small set of shared pilot samples, ensuring scalability and communication efficiency. We develop a decentralized algorithm for solving SFRL, termed Sheaf-FRL, which alternates between gradient updates of the local models and closed-form Procrustes updates of the edge-wise restriction maps. We further establish convergence of Sheaf-FRL to first-order stationary points in both deterministic and stochastic settings. As an application, we consider a cooperative classification task in the context of semantic communication, under model and data heterogeneity. Our results show that Sheaf-FRL outperforms baseline approaches in terms of local and post-communication classification accuracy across different levels of local distribution shift and exhibits greater robustness to latent-space dimensionality compression.",
+      "authors": [
+        "Gabriele D'Acunto",
+        "Enrico Grimaldi",
+        "Valeria Avino",
+        "Mario Edoardo Pandolfo",
+        "Leonardo Di Nino",
+        "Sergio Barbarossa",
+        "Paolo Di Lorenzo"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.MA",
+        "eess.SP"
+      ],
+      "published": "2026-08-08T16:38:34+00:00",
+      "link": "https://arxiv.org/pdf/2608.10016v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Federated representation learning with sheaf-based geometric alignment",
+      "llm_evidence_cn": "基于层束几何对齐的联邦表示学习",
+      "llm_evidence": "基于层束几何对齐的联邦表示学习",
+      "canonical_evidence": "基于层束几何对齐的联邦表示学习",
+      "llm_tldr_en": "Proposes SFRL, a general federated learning framework that aligns neighboring latent representations via learnable sheaf restriction maps and orthogonal transformations, avoiding a shared global latent space while improving heterogeneous representation learning.",
+      "llm_tldr_cn": "异构联邦系统中各客户端数据分布、架构和特征维度差异大，多数方法假设共享全局潜在空间。论文提出SFRL，通过可学习的层束限制映射与正交变换对齐相邻表示，仅用二次黏合正则器实现全局一致性，无需共享潜空间。该方法灵活适应异构环境，提升了联邦表示学习效果。",
+      "llm_tldr": "异构联邦系统中各客户端数据分布、架构和特征维度差异大，多数方法假设共享全局潜在空间。论文提出SFRL，通过可学习的层束限制映射与正交变换对齐相邻表示，仅用二次黏合正则器实现全局一致性，无需共享潜空间。该方法灵活适应异构环境，提升了联邦表示学习效果。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.10016v1"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.10357v1",
+      "source": "arxiv",
+      "title": "Efficient Reinforcement Learning for Long-Horizon Tool-Use Agentic Tasks",
+      "abstract": "Long-horizon tool-using agents must reason over user goals, domain policies, tool calls, simulator state, and delayed verifiable rewards. Reinforcement learning (RL) is a natural fit for this setting, but multi-turn on-policy rollouts create long contexts, while model-specific attention layers may require custom masks and learned sink normalization. We present SINKFLEX-RL, a modular training system for RL in dual-control tool-use environments. The system combines a Gymnasium-compatible environment wrapper, a VERL-style rollout dataflow, group-relative policy optimization without a separate value model, and a sink-aware FlexAttention path designed to preserve model-specific sink scaling under causal and sliding-window masks. In a preliminary Tau2Bench retail run, validation reward (mean@1) rises from 0.25 early in training to $0.44$ later in the observed training window, while training-score and trajectory-reward proxies also trend upward. In a fixed-configuration memory benchmark, the optimized attention path reduces peak VRAM from 28.06GB to 22.52GB at 4096 tokens, a $19.7\\%$ reduction, and runs the measured 8192-token configuration using $25.53$~GB where the eager baseline runs out of memory. These results illustrate the value of integrating environment interfaces, RL dataflow, and attention-kernel design for memory-feasible long-horizon agent training.",
+      "authors": [
+        "Zelei Cheng",
+        "Amritansh Mishra",
+        "Sambit Sahu",
+        "William Campbell"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-11T01:30:56+00:00",
+      "link": "https://arxiv.org/pdf/2608.10357v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reinforcement learning training system for long-horizon tool-use agents",
+      "llm_evidence_cn": "面向长程工具使用智能体的强化学习训练系统",
+      "llm_evidence": "面向长程工具使用智能体的强化学习训练系统",
+      "canonical_evidence": "面向长程工具使用智能体的强化学习训练系统",
+      "llm_tldr_en": "SINKFLEX-RL is a modular RL training system for long-horizon tool-use tasks, combining a Gymnasium-compatible wrapper, rollout dataflow, group-relative policy optimization, and sink-aware FlexAttention to handle long contexts.",
+      "llm_tldr_cn": "针对长程工具使用智能体强化学习训练中多轮轨迹上下文过长、注意力机制需要定制掩码的问题，本文提出SINKFLEX-RL模块化训练系统，集成Gymnasium环境包装器、VERL风格回放数据流、无需独立价值模型的组相对策略优化以及保持sink缩放特性的FlexAttention路径。在初步Tau2Bench实验中验证了系统在长上下文RL训练中的可行性和效率，为工具使用型智能体的RL应用提供了良好基础。",
+      "llm_tldr": "针对长程工具使用智能体强化学习训练中多轮轨迹上下文过长、注意力机制需要定制掩码的问题，本文提出SINKFLEX-RL模块化训练系统，集成Gymnasium环境包装器、VERL风格回放数据流、无需独立价值模型的组相对策略优化以及保持sink缩放特性的FlexAttention路径。在初步Tau2Bench实验中验证了系统在长上下文RL训练中的可行性和效率，为工具使用型智能体的RL应用提供了良好基础。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.10357v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.10803v1",
+      "source": "arxiv",
+      "title": "Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs",
+      "abstract": "Matrix Multiplication (MatMul) faces a \"generalization crisis\" driven by highly dynamic tensor shapes. This crisis is particularly acute on Ascend NPUs, where explicitly controlled architectures and strict physical constraints render existing GPU-centric optimizations ineffective. To resolve this, we propose AdaptCore, an adaptive framework for universally high-performance MatMul on Ascend NPUs. AdaptCore systematically decouples operator optimization into spatial tiling and instruction orchestration. It first maps dynamic shapes into a hardware-aware 2D tiling taxonomy to balance on-chip capacity limits and multi-core parallelism. Furthermore, it integrates a composable optimization library with a deterministic analytical performance model. By mathematically evaluating hardware state mutations, AdaptCore proactively selects and caches optimal implementations, enabling O(1) overhead runtime dispatching. Evaluations demonstrate that AdaptCore delivers a remarkable 1.85x mean speedup across 80,000 input shapes, and achieves up to a 1.48x acceleration in representative end-to-end models over the highly-tuned native vendor library (ACLNN).",
+      "authors": [
+        "Yuhang Zhou",
+        "Jiang Peng",
+        "Qianyu Jiang",
+        "Zhibin Wang",
+        "Xinghui Tian",
+        "Jianwei Zhou",
+        "Songxiang Zhu",
+        "Jingyi Zhang",
+        "Junsong Wang",
+        "Chen Tian"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-08-11T11:22:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.10803v1",
+      "tags": [
+        "keyword:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Adaptive matrix multiplication optimization for dynamic shapes on Ascend NPUs",
+      "llm_evidence_cn": "面向Ascend NPU动态形状的矩阵乘法自适应优化",
+      "llm_evidence": "面向Ascend NPU动态形状的矩阵乘法自适应优化",
+      "canonical_evidence": "面向Ascend NPU动态形状的矩阵乘法自适应优化",
+      "llm_tldr_en": "Presents AdaptCore, an adaptive framework for high-performance MatMul on Ascend NPUs with dynamic shapes, decoupling spatial tiling and instruction orchestration via a hardware-aware 2D tiling taxonomy and a deterministic analytical performance model.",
+      "llm_tldr_cn": "矩阵乘法在动态形状下存在“泛化危机”，GPU中心的优化在Ascend NPU上失效。论文提出AdaptCore，将算子优化解耦为空间分块与指令编排，用硬件感知的2D分块分类法平衡容量与并行度，并集成组合式优化库与解析性能模型。其在Ascend NPU上实现了动态形状下的高性能MatMul，为专用AI芯片软件栈优化提供方案。",
+      "llm_tldr": "矩阵乘法在动态形状下存在“泛化危机”，GPU中心的优化在Ascend NPU上失效。论文提出AdaptCore，将算子优化解耦为空间分块与指令编排，用硬件感知的2D分块分类法平衡容量与并行度，并集成组合式优化库与解析性能模型。其在Ascend NPU上实现了动态形状下的高性能MatMul，为专用AI芯片软件栈优化提供方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Scalable machine learning system design and optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.10803v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2608.11052v1",
+      "source": "arxiv",
+      "title": "Efficient Hypergradient Descent for Inverse Reinforcement Learning",
+      "abstract": "Inverse reinforcement learning (IRL) aims to recover a reward function under which the resulting policy reproduces the behavior observed in expert demonstrations. A natural approach is to formulate IRL as a bilevel optimization problem, in which the inner level corresponds to policy optimization under the learned reward and the outer level measures the discrepancy between the induced policy and expert data. However, this formulation is computationally challenging in practice because the outer update requires a hypergradient involving an inverse-Hessian-vector product for the inner objective. We address this challenge by showing that, at the inner optimum, the Hessian of the inner objective is proportional to the Fisher information matrix of the policy, yielding a structured Fisher-based hypergradient closely related to Natural Hypergradient Descent. To address the resulting scalability bottleneck associated with large Fisher matrices, we approximate the required inverse-Fisher-vector product using a streaming spectral sketch, avoiding explicit construction of the Fisher matrix. We evaluate our approach against a first-order stochastic bilevel baseline across discrete- and continuous-control environments. The results demonstrate competitive policy performance and strong reward-ranking quality, while Fisher sketching reduces curvature-storage complexity and can improve computational efficiency relative to an explicit Fisher solver.",
+      "authors": [
+        "Nikita Sevriukov",
+        "Anna Barabanova",
+        "Uliana Gagarina",
+        "Karina Ivanova",
+        "Sofiia Kasaeva",
+        "Ilya Levin",
+        "Marina Sheshukova"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-08-11T15:22:16+00:00",
+      "link": "https://arxiv.org/pdf/2608.11052v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient hypergradient descent for inverse reinforcement learning via Fisher information approximation",
+      "llm_evidence_cn": "利用Fisher信息矩阵逼近逆强化学习中的超梯度，提升内层策略优化效率",
+      "llm_evidence": "利用Fisher信息矩阵逼近逆强化学习中的超梯度，提升内层策略优化效率",
+      "canonical_evidence": "利用Fisher信息矩阵逼近逆强化学习中的超梯度，提升内层策略优化效率",
+      "llm_tldr_en": "Shows that at the inner optimum the Hessian is proportional to the policy Fisher information, enabling efficient hypergradient descent for inverse reinforcement learning without inverse-Hessian-vector products.",
+      "llm_tldr_cn": "逆强化学习通常建模为双层优化，内层策略优化使外层超梯度需要逆Hessian向量积，计算代价高。论文发现内层最优处Hessian与策略Fisher信息矩阵成比例，从而给出高效的超梯度下降方法，避免了昂贵的二阶计算。该方法使IRL在实践上更为高效，为奖励恢复提供了可扩展的优化工具。",
+      "llm_tldr": "逆强化学习通常建模为双层优化，内层策略优化使外层超梯度需要逆Hessian向量积，计算代价高。论文发现内层最优处Hessian与策略Fisher信息矩阵成比例，从而给出高效的超梯度下降方法，避免了昂贵的二阶计算。该方法使IRL在实践上更为高效，为奖励恢复提供了可扩展的优化工具。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2608.11052v1",
+      "quick_tier": "8plus"
+    }
+  ]
+}
