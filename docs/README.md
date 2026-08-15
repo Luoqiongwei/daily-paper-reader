@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-14</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-15</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 8 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 0 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>3</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>0</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-14 19:36:40 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-15 18:58:44 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读8篇论文，聚焦高效LLM推理与联邦学习两大方向，另速读强化学习工具使用、NPU矩阵乘法等3篇。</p>
-<p>最值得关注《DistillCache》用KL引导自适应KV缓存驱逐以节省显存，以及《FedTVD》平衡数据质量与数量以增强联邦学习鲁棒性。</p>
-<p>建议优先阅读这两篇精读论文，并结合速读中的长程工具强化学习，思考其在不同场景下的适用性。</p>
+<p>今日无新推荐，系统未产出可展示论文。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -73,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">5 篇</strong>
+    <strong class="dpr-home-dashboard-count">0 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="DistillCache: KL-Guided Adaptive KV-Cache Eviction for Memory-Efficient LLM Inference">DistillCache: KL-Guided Adaptive KV-Cache Eviction for Memory-Efficient LLM Inference</span></li><li><span class="dpr-home-dashboard-paper-title" title="FedTVD: Balancing Data Quality and Quantity for Robust Federated Learning">FedTVD: Balancing Data Quality and Quantity for Robust Federated Learning</span></li><li><span class="dpr-home-dashboard-paper-title" title="Beyond Binary: Continuous State Optimization with Graph-Structured Objectives">Beyond Binary: Continuous State Optimization with Graph-Structured Objectives</span></li></ul>
+<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>5</strong></span></div>
+
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -86,12 +84,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">3 篇</strong>
+    <strong class="dpr-home-dashboard-count">0 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Efficient Reinforcement Learning for Long-Horizon Tool-Use Agentic Tasks">Efficient Reinforcement Learning for Long-Horizon Tool-Use Agentic Tasks</span></li><li><span class="dpr-home-dashboard-paper-title" title="Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs">Adaptive Matrix Multiplication for Dynamic Shapes on Ascend NPUs</span></li><li><span class="dpr-home-dashboard-paper-title" title="Efficient Hypergradient Descent for Inverse Reinforcement Learning">Efficient Hypergradient Descent for Inverse Reinforcement Learning</span></li></ul>
+<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">code-ml-sys <strong>3</strong></span></div>
+
 </section>
 </div>
 
