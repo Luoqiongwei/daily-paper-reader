@@ -1,0 +1,1950 @@
+Information-Gain Rewards over Diversity-Pruned Tests:
+GT-Anchored Verifier Co-Training for Reliable Code Generation
+Ana Nunez
+Secure AI and Autonomy Lab
+University of Texas at San Antonio
+ana.nunez@utsa.edu
+Peyman Najafirad
+Secure AI and Autonomy Lab
+University of Texas at San Antonio
+peyman.najafirad@utsa.edu
+Abstract
+Self-play methods that co-train a single lan-
+guage model as both coder and test author
+promise to move code-generation RL beyond
+fixed test suites, but they suffer from two
+coupled pathologies: permissiveness collapse,
+where pass-rate rewards are maximised by triv-
+ial, non-discriminative tests, and concentration
+bias, where i.i.d. sampled tests cluster on modal
+inputs and inflate estimator variance. We intro-
+duce CoVer (Co-trained Coder and Verifier), a
+single-policy GRPO framework that addresses
+both failure modes. First, an information-gain
+(IG) reward scores each self-generated test by
+the mutual information between its pass/fail
+vector and a graded, ground-truth-anchored
+correctness signal y ∈[0, 1]m, gated by the
+sign of their covariance so that only positively
+discriminative tests receive reward. Second,
+a three-stage diversity-aware selection step
+prunes a candidate pool to a behaviourally
+non-redundant suite (invalidity, input-string,
+execution-profile filtering), raising the effective
+sample size of the IG estimator at fixed execu-
+tion budget. On five benchmarks (LiveBench,
+MBPP, LiveCodeBench, CodeContests, Code-
+Forces), CoVer raises one-shot pass@1 by +5.8
+points at 7B and +7.1 points at 14B over the
+Qwen2.5-Instruct backbone, and achieves the
+highest macro-average among all compared
+methods at both scales. As a drop-in back-
+bone inside the CodeT ranking pipeline, CoVer-
+7B adds +3.5 points, demonstrating the dual
+benefit of co-training for both generation and
+selection.
+1
+Introduction
+Large language models (LLMs) have become the
+dominant tool for program synthesis, supporting
+tasks from competitive programming (Li et al.,
+2022; Penedo et al., 2025) to functional code com-
+pletion (Austin et al., 2021). The standard post-
+training recipe is Reinforcement Learning with
+Figure 1: Two failure modes of standard self-play code
+RL (left) and CoVer’s solutions (right). (1) Permis-
+siveness collapse: trivial, non-discriminative tests max-
+imise pass-rate and other binary-acceptance rewards
+while carrying zero information. (2) Concentration
+bias: i.i.d. sampling clusters tests on modal inputs,
+inflating estimator variance. (3) CoVer’s IG reward
+scores each test by I(E:,j; y) if Cov(E:,j, y) > 0, re-
+warding only positively discriminative tests. (4) Three-
+stage diversity-aware selection (invalidity, input-string,
+execution-profile) selects a behaviourally diverse suite
+at fixed execution budget.
+Verifiable Rewards (RLVR): a policy is updated
+against an executable correctness signal, typically
+from a fixed unit-test suite. Group Relative Policy
+Optimization (GRPO) (Shao et al., 2024), together
+with PPO-based and critic-free RL-for-code meth-
+ods (Dou et al., 2024; Gehring et al., 2025; Zeng
+et al., 2025), has made this loop a reliable recipe
+for improving one-shot pass@1. To move beyond
+fixed test sets, recent self-play work has the model
+author its own tests inside the RL loop and trains
+a single policy as both coder and verifier (Wang
+et al., 2025; Lin et al., 2025; Wilf et al., 2026),
+arXiv:2609.21208v1  [cs.AI]  18 Sep 2026
+
+
+Method family
+GT only at
+Trains a
+MI-based
+Diversity
+No GT at
+training
+verifier
+reward
+selection
+evaluation
+Curated-test RL (Gehring et al., 2025; Dou et al., 2024; Zeng et al., 2025)
+✓
+–
+–
+–
+✓
+Inference-time filtering (Chen et al., 2023; Ridnik et al., 2024)
+–
+–
+–
+–
+✓
+Self-play co-training (Lin et al., 2025; Wang et al., 2025)
+–/✓
+✓
+–
+–
+✓
+CoVer (ours)
+✓
+✓
+✓
+✓
+✓
+Table 1: Positioning CoVer against four threads of prior work. CoVer channels GT through a graded MI reward,
+prunes self-generated tests via diversity-aware selection for variance reduction, and evaluates in zero-shot mode
+with no GT signal.
+shifting correctness specification onto the model
+itself.
+However, two coupled failure modes undermine
+existing self-play approaches. Permissiveness col-
+lapse: the verifier reward is a function of which can-
+didates a test accepts rather than how informative
+the test is about correctness. A pass-rate reward,
+for instance, is maximised by a trivial constant-
+pass test that contributes zero discriminative sig-
+nal; more broadly, rewards defined over binary
+acceptance patterns carry little information about
+a candidate’s graded correctness, and the reward-
+maximisers are easy to generate, so the verifier
+drifts toward them. Concentration bias: tests
+drawn i.i.d. from a single policy concentrate on a
+narrow region of modal inputs, producing highly
+correlated pass/fail columns in the execution table.
+Any reward computed from such a table inherits
+inflated variance and a biased view of program be-
+haviour.
+We propose COVER (Co-trained Coder and
+Verifier), a single-policy GRPO framework that
+addresses both pathologies through two coupled
+mechanisms (Figure 2):
+1. Information-Gain (IG) Reward. Each self-
+generated test is scored by the mutual informa-
+tion between its pass/fail column across m can-
+didate solutions and a graded GT-anchored cor-
+rectness signal y∈[0, 1]m, gated by the sign of
+their covariance so that only positively discrim-
+inative tests receive reward. The graded form
+is essential: with a binary y, early in training
+almost no code passes every GT test, H(y)≈0,
+and the IG reward vanishes. A graded y pre-
+serves H(y) from the first GRPO step and re-
+wards tests that stratify codes by partial correct-
+ness.
+2. Three-Stage Diversity-Aware Selection. We
+sample K candidate tests per task and prune
+to a behaviourally non-redundant k-test suite
+through three discrete filters: (i) removal of in-
+valid tests, (ii) input-string deduplication, and
+(iii) execution-profile deduplication. The kept
+suite is a lower-variance estimator of the IG
+functional than direct k-sampling at matched
+execution budget, raising the effective sample
+size toward k.
+Both rewards are jointly optimized in a single-
+policy GRPO update, so gradients flow back to the
+same parameters under both roles. On five bench-
+marks (White et al., 2025; Austin et al., 2021; Jain
+et al., 2025; Li et al., 2022; Penedo et al., 2025),
+COVER achieves a macro-average one-shot pass@1
+of 35.94% at the 7B scale and 42.90% at 14B
+on the Qwen2.5-Instruct backbone (Yang et al.,
+2025), improving over the Instruct baseline and
+code-pretrained variants on every benchmark, and
+achieving the best macro-average among all com-
+pared methods at both scales.
+Contributions.
+1. We propose COVER, a single-policy GRPO
+framework that combines a covariance-gated MI
+verifier reward with diversity-aware selection,
+addressing permissiveness collapse and concen-
+tration bias in self-play code RL.
+2. We frame self-generated test selection as a
+variance-reduction problem and prove that
+diversity-aware selection strictly reduces the
+variance of the IG estimator at matched exe-
+cution budget.
+3. We conduct experiments across five benchmarks
+at two scales, demonstrating consistent gains
+and isolating each design choice through tar-
+geted ablations.
+2
+Related Work
+2.1
+RL with Execution Feedback for Code
+PPO-based and related actor–critic methods (Schul-
+man et al., 2017; Le et al., 2022; Shojaee et al.,
+2023) and GRPO (Shao et al., 2024) reward the
+policy with pass/fail signals from dataset-shipped
+
+
+Figure 2: Overview of the COVER pipeline. Given a program specification, a single shared policy πθ acts in two
+roles, coder and verifier, sampling a pool of candidate solutions {ci} and candidate tests {tj}. During trajectory
+execution, every solution is run against every test to populate an execution table E; in parallel, each solution is
+run against the ground-truth tests to compute a graded correctness signal y. The COVER verifier signal then (1)
+applies a three-stage diversity-aware selection to prune the pool to a behaviourally non-redundant suite, (2) keeps a
+verifier group ST of distinct tests, and (3) assigns each kept test a covariance-gated information-gain reward, so that
+only positively discriminative tests are rewarded. Finally, in the GRPO update, the coder reward and the verifier IG
+reward over ST update the shared policy, which feeds back into the next round.
+tests. StepCoder (Dou et al., 2024) decomposes
+rewards by execution sub-step; RLEF (Gehring
+et al., 2025) grounds the policy in multi-turn com-
+piler and test feedback. ACECoder (Zeng et al.,
+2025) synthesises tests offline and trains a sepa-
+rate Bradley–Terry reward model from pass-rate
+preferences. All these methods either use binary
+pass-aggregation as the per-step reward or train
+a separate reward model. CoVer uses the same
+GT tests but channels them through a graded cor-
+rectness signal that anchors a mutual-information
+verifier reward inside a single co-training loop, re-
+quiring no separate reward model.
+2.2
+Inference-Time Test Generation and
+Filtering
+A complementary line generates tests at decoding
+time to filter, rerank, or cluster candidate solutions
+(Chen et al., 2023; Li et al., 2022; Huang et al.,
+2024; Ridnik et al., 2024; Li et al., 2025). These
+methods are inference-only: the verification signal
+does not propagate into the policy. CoVer moves
+test-generation supervision into training so that a
+single backbone internalises both code and test
+distributions, and the resulting verifier transfers di-
+rectly to inference-time scaling pipelines (§4.2.4).
+2.3
+Self-Generated Tests as RL Supervision
+CURE (Wang et al., 2025) co-evolves coder and
+tester roles, rewarding each test with a precision
+estimator under a Bernoulli correctness model. Sol-
+Ver (Lin et al., 2025) shares our single-LLM two-
+role setup and sub-samples tests by branch cover-
+age; supervision uses SFT followed by DPO rather
+than RL rewards. PSV (Wilf et al., 2026) relies
+on a formal verifier as oracle, a distinct supervi-
+sion assumption. CoVer differs along two axes:
+(i) the verifier reward is the signed MI between a
+test’s pass/fail vector and a graded GT-anchored
+signal y; and (ii) tests are pruned by three-stage
+diversity-aware selection over execution profiles
+rather than by coverage on a single solution. Con-
+current self-rewarding alignment (Yuan et al., 2024;
+Wu et al., 2025) and self-play critic work (Chen
+et al., 2025) target non-code domains and are not
+directly comparable.
+2.4
+Information-Theoretic Rewards
+Information-theoretic functionals have served as
+intrinsic rewards for exploration, variational infor-
+mation maximisation (Houthooft et al., 2016), and
+information-theoretic intrinsic motivation (Aubret
+et al., 2023). These rewards drive exploration;
+CoVer repurposes the information-gain functional
+as the verifier reward inside a single-policy GRPO
+
+
+loop, anchored by an external GT-derived correct-
+ness signal.
+Table 1 positions CoVer against these four
+threads. Unlike prior self-play code RL methods
+that reward the verifier with pass-rate signals or
+discrimination scores and select tests by cover-
+age heuristics, CoVer is, to our knowledge, the
+first to combine a covariance-gated MI verifier re-
+ward with execution-profile deduplication inside a
+single-policy GRPO loop, framing test selection as
+a variance-reduction problem.
+3
+Method
+3.1
+Overview
+CoVer couples two mechanisms inside a single-
+policy GRPO loop. An information-gain verifier
+reward (§3.3) scores each self-generated test by
+the mutual information between its pass/fail col-
+umn and a graded GT-anchored correctness signal
+y, gated by the sign of their covariance. A diversity-
+aware selection step (§3.4) prunes a candidate test
+pool to a behaviourally non-redundant suite, rais-
+ing the effective sample size of the reward estima-
+tor at fixed execution cost. The coder is updated
+against y, the verifier against the IG reward, and
+both roles share a single policy (§3.5). Algorithm 1
+summarises the procedure.
+3.2
+Problem Formulation
+A coding task τ ∼T consists of a problem state-
+ment qτ and a GT test set T ⋆
+τ = {u⋆
+τ,g}Gτ
+g=1. A sin-
+gle policy πθ generates sequences under two role-
+specific prompts: as coder it samples m candidate
+solutions {ci}m
+i=1 ∼πθ(· | qτ, coder), and as veri-
+fier it samples K candidate tests {tj}K
+j=1 ∼πθ(· |
+qτ, verifier). A deterministic sandbox O(c, t) ∈
+{0, 1} scores any code–test pair as pass (1) or
+fail (0). Running the sandbox yields two objects:
+Graded GT-anchored correctness.
+yi =
+1
+Gτ
+Gτ
+X
+g=1
+O(ci, u⋆
+τ,g) ∈[0, 1],
+(1)
+the fraction of GT tests that ci passes, collected
+into y=(y1, . . . , ym)∈[0, 1]m.
+Execution table.
+Against a k-test subset Sτ ⊆
+{tj} chosen by the diversity-aware selection step
+(§3.4), we record E ∈{0, 1}m×k with Eij =
+O(ci, tj). Each column E:,j is the pass/fail pat-
+tern of test tj across the m codes and is the object
+the verifier is rewarded on.
+Algorithm 1 CoVer training loop.
+1: Input: task set T = {τ1, . . . , τN} with GT
+tests T ⋆
+τ ; policy πθ; steps M; group sizes
+m, K, k (k < K); learning rate η; KL coef-
+ficient β.
+2: for s = 1 to M do
+3:
+for each task τ ∈T do
+4:
+Sample m codes {ci}m
+i=1 ∼πθ(· |
+qτ, coder).
+5:
+Sample K tests {tj}K
+j=1 ∼πθ(· |
+qτ, verifier).
+6:
+Compute graded y∈[0, 1]m via Eq. 1.
+7:
+Three-stage diversity-aware selection
+(invalidity, input-string, execution-profile):
+rank by b(·) (Eq. 4), keep Sτ of size k.
+8:
+Build execution table E ∈{0, 1}m×k
+for ({ci}, Sτ).
+9:
+Compute RIG
+j
+= rIG(tj) for each tj ∈
+Sτ (Eq. 2; zero unless d
+Cov(E:,j, y) > 0).
+10:
+Coder rewards: Rcode
+i
+= yi.
+11:
+end for
+12:
+Compute group-normalised advantages
+Acode
+i
+, AIG
+j
+per task.
+13:
+θ ←θ + η∇θJ coder(θ).
+14:
+θ ←θ + η∇θJ verifier(θ).
+15: end for
+16: Output: trained πθ.
+The coder receives reward Rcode
+i
+derived from
+y; the verifier receives RIG
+j
+derived from E.
+Our goal is to maximise the coding objective
+Eπθ(·|qτ,coder)[Rcode], using the verifier role as
+training-time scaffolding whose GRPO updates
+flow back into the shared policy.
+3.3
+Information-Gain Verifier Reward
+A test is informative when its pass/fail outcomes
+track codes’ true correctness. A natural reward for
+each kept test tj ∈Sτ is the mutual information
+between its column E:,j and the correctness vector
+y from Equation 1. MI alone, however, is unsigned:
+it credits any statistical dependence between E:,j
+and y, including adversarial patterns in which test
+passes track incorrect codes. We propose a signed
+MI reward that zeros these out via a covariance-
+sign gate:
+rIG(tj) =
+(bI
+ E:,j ; y
+
+if d
+Cov(E:,j, y) > 0,
+0
+otherwise,
+(2)
+
+
+where d
+Cov(E:,j, y) = 1
+m
+P
+i(Ei,j −¯E·,j)(yi −¯y)
+is the sample covariance between the test’s pass/fail
+vector and code quality: it is positive when above-
+average codes tend to pass tj and below-average
+codes tend to fail it, and negative when this rela-
+tionship is inverted. The gate retains only tests
+whose pass/fail pattern moves in the same direction
+as correctness.
+Estimator.
+Both variables are discrete: Ei,j ∈
+{0, 1} and yi ∈{0,
+1
+Gτ , . . . , 1}. Their joint distribu-
+tion fits a 2×(Gτ+1) contingency table populated
+by counting (Ei,j, yi) outcomes. The plug-in esti-
+mator is
+bI(E:,j; y) =
+X
+e,v
+bP(e, v) log
+bP(e, v)
+bP(e) bP(v)
+,
+(3)
+where e ∈{0, 1}, v ∈supp(y), and 0 log 0 = 0.
+Because y is discrete by construction, no binning
+or finite-sample bias correction is required.
+Why graded y is essential.
+Binary y ∈{0, 1}m
+degenerates early in training: with almost no code
+passing all GT tests, H(y) ≈0 and bI(E:,j; y) ≈0
+for every test, leaving the verifier without signal in
+its most pliable phase. Graded y keeps H(y) non-
+trivial from the first GRPO step. A test distinguish-
+ing 6/7-correct from 2/7-correct codes contributes
+positive MI even when no code passes all GT tests.
+What the IG reward zeros out.
+Three test
+classes receive zero reward: (i) constant tests
+(E:,j ≡0 or ≡1) yield ˆI = 0; (ii) independent
+tests whose pass/fail vector is statistically inde-
+pendent of y; (iii) anti-discriminative tests with
+d
+Cov(E:,j, y)≤0, suppressed by the sign gate. Pos-
+itive reward is reserved for tests that cleanly stratify
+codes by correctness, directly penalising the per-
+missiveness collapse inherent in pass-rate rewards.
+3.4
+Three-Stage Diversity-Aware Selection
+A single policy sampled i.i.d. produces tests that
+cluster around the most likely inputs, producing
+correlated execution columns. This correlation in-
+flates the variance of per-test MI estimates and cre-
+ates a reward amplification loop: redundant tests
+sharing the same pass/fail column receive corre-
+lated advantages, over-crediting the dominant test
+pattern and narrowing the verifier’s output distribu-
+tion (Yu et al., 2026; Liu et al., 2025). We address
+this with exact deduplication, a deliberately simple,
+zero-overhead mechanism whose effectiveness we
+justify empirically (§4.2.1); soft similarity-based
+selection is an open direction.
+We apply three discrete filters in sequence, fol-
+lowing the principle that redundancy reduction im-
+proves estimator efficiency (Mirzasoleiman et al.,
+2020):
+1. Invalidity filter. Remove tests that fail to parse
+or produce empty input/output.
+2. Input-string deduplication. Remove tests shar-
+ing a whitespace-normalised input with another
+candidate, since under the deterministic oracle
+O identical inputs yield identical columns.
+3. Execution-profile deduplication.
+Remove
+tests whose pass/fail signature across the m
+codes exactly matches that of another retained
+test. Two such tests are functionally equivalent
+with respect to the current candidate set and
+contribute zero marginal information.
+We score each candidate test by the lexico-
+graphic key
+b(tj) =
+
+1[tj invalid], din(tj), dcol(tj)
+
+,
+(4)
+where din(tj) counts other candidates sharing tj’s
+normalised input and dcol(tj) counts those sharing
+its execution profile. Sorting ascending by b and
+retaining the top k maximises the number of unique
+execution profiles. Invalid tests therefore rank last,
+entering the kept suite only when fewer than k valid
+tests exist. The effective sample size of the kept
+suite is
+keff ≈
+k
+1 + (k −1) ¯ρ,
+(5)
+where ¯ρ is the average pairwise correlation of the
+kept columns. Diversity drives ¯ρ toward zero and
+keff toward k, yielding a strictly lower-variance
+IG estimator than direct k-sampling at the same
+execution budget.
+3.5
+Joint GRPO Update
+We optimize πθ with GRPO (Shao et al., 2024):
+JGRPO(θ) =
+E{o(i)}∼πθold
+"
+1
+G
+G
+X
+i=1
+1
+|o(i)|
+|o(i)|
+X
+t=1
+min
+ πθ(o(i)
+t |x,o(i)
+<t)
+πθold(o(i)
+t |x,o(i)
+<t)Ai, clip(·, 1−ε, 1+ε)Ai
+#
+.
+(6)
+For the coder, Rcode
+i
+= yi (Eq. 1); for the ver-
+ifier, RIG
+j
+= rIG(tj) (Eq. 2), computed on the
+
+
+Model
+LiveBench
+MBPP
+LCB
+CC
+CF
+Avg.
+Baselines (∼7–8B scale)
+RLEF-8B (Llama 3.1 8B Inst) (Gehring et al., 2025)
+–
+–
+–
+9.7
+–
+–
+Sol-Ver (Llama 3.1 8B) (Lin et al., 2025)
+–
+41.0
+27.24
+–
+–
+–
+ReasonFlux-Coder-7B (Wang et al., 2025)
+37.1
+70.2
+31.2
+25.9
+8.2
+34.52
+Qwen2.5-7B-Coder-Instruct
+35.0
+68.0
+29.8
+22.8
+6.7
+32.46
+Qwen2.5-7B-Instruct
+31.1
+66.3
+26.9
+21.2
+5.4
+30.18
+CoVer-7B (ours)
+40.0
+72.4
+32.8
+26.0
+8.5
+35.94
+Baselines (∼14B scale)
+ReasonFlux-Coder-14B (Wang et al., 2025)
+47.5
+78.5
+40.5
+32.1
+12.1
+42.14
+Qwen2.5-14B-Coder-Instruct
+42.2
+72.6
+38.2
+23.3
+7.8
+36.82
+Qwen2.5-14B-Instruct
+36.4
+76.3
+33.5
+25.6
+7.3
+35.82
+CoVer-14B (ours)
+47.75
+79.44
+41.49
+32.92
+12.88
+42.90
+Table 2: CoVer achieves the highest macro-average one-shot pass@1 (%) at both 7B and 14B scales. We compare
+against four families of baselines: general-purpose backbones (Qwen2.5-Instruct), code-pretrained LLMs (Qwen2.5-
+Coder-Instruct), Curated-test RL (RLEF), and RL self-play methods for code (Sol-Ver, ReasonFlux-Coder). LCB =
+LiveCodeBench, CC = CodeContests, CF = CodeForces. Backbone is noted in parentheses where it differs from
+Qwen2.5.
+diversity-selected suite Sτ. Per-task rewards are
+mean-centred and standardised within each role’s
+group; tasks with zero reward variance are dropped
+from that role’s update.
+4
+Experiments
+4.1
+Experimental Settings
+Benchmarks.
+We evaluate on five widely used
+coding benchmarks: LiveBench (128 tasks) (White
+et al., 2025), MBPP (221) (Austin et al., 2021),
+LiveCodeBench (v2, 511) (Jain et al., 2025), Code-
+Contests (Li et al., 2022), and CodeForces (467)
+(Penedo et al., 2025). Our CodeContests pool is re-
+stricted to difficulty ≤2 and split into 4.5k training
+and 239 evaluation tasks; the other four bench-
+marks are evaluation-only (Table 7), and we con-
+firmed the CodeForces set is disjoint from the train-
+ing pool.
+Training configuration.
+We use Qwen2.5-7B-
+Instruct and Qwen2.5-14B-Instruct (Yang et al.,
+2025) as base models, optimized with GRPO (Shao
+et al., 2024). At each step we draw m = 16 can-
+didate codes and K = 32 candidate tests per task
+using vLLM (Kwon et al., 2023) with tempera-
+ture 1.0 and top-p 1.0. Learning rate: 1×10−6; KL
+coefficient β = 0.01; clip ε = 0.2; training: 350
+steps on 2×B200 GPUs, with ablations trained un-
+der identical settings. The diversity-aware selection
+step retains k=16 tests per task.
+Baselines.
+We compare against five families:
+(1) General-purpose backbones:
+Qwen2.5-
+Figure 3: Code accuracy (pass@1, %) versus training
+step for CoVer-7B and CoVer-14B. Both scales improve
+steadily over training, with the largest gains in the first
+150 steps.
+7B/14B-Instruct (Yang et al., 2025). (2) Code-
+pretrained LLMs:
+Qwen2.5-7B/14B-Coder-
+Instruct (Hui et al., 2024). (3) RL with curated
+tests: RLEF-8B (Gehring et al., 2025), which fine-
+tunes on execution feedback from a fixed, human-
+curated test suite. (4) RL self-play methods: Sol-
+Ver (Lin et al., 2025) (Llama 3.1 8B, coder–verifier
+co-training with DPO) and ReasonFlux-Coder-
+7B/14B (Wang et al., 2025) (RL-based coder–
+verifier co-evolution). (5) Inference-time test fil-
+tering: CodeT (Chen et al., 2023) (ranks candi-
+dates by self-generated test pass count, no policy
+update).
+Metric.
+One-shot
+pass@1,
+reported
+per-
+benchmark and as macro-average across the five
+benchmarks.
+
+
+Variant (Qwen2.5-7B-Instruct)
+LiveBench
+MBPP
+LCB
+CC
+CF
+Avg.
+CoVer-7B (diversity selection, k=16)
+40.0
+72.4
+32.8
+26.0
+8.5
+35.94
+No pruning (all K =32 columns)
+37.64
+70.0
+30.68
+24.81
+8.2
+34.27
+∆
++2.36
++2.4
++2.12
++1.19
++0.3
++1.67
+Table 3: Three-stage diversity-aware selection ablation at matched sampling budget (K =32, m=16). Both variants
+execute m×K code–test pairs; CoVer prunes to a diverse k=16 columns for the IG reward. The consistent gain
+confirms that removing redundant columns recovers verifier signal lost to correlated test outcomes.
+4.2
+Results
+4.2.1
+Main Results
+Table 2 reports one-shot pass@1 across five bench-
+marks. CoVer achieves the best macro-average
+at both scales: 35.94 at 7B and 42.90 at 14B, with
+both scales training stably and reaching these levels
+within 350 steps (Figure 3).
+7B scale.
+CoVer improves over Qwen2.5-7B-
+Instruct by +5.76 macro points and surpasses
+the code-pretrained Qwen2.5-7B-Coder-Instruct
+(32.46) by +3.48 points, despite the latter’s
+substantial code-pretraining advantage.
+CoVer
+achieves the highest macro-average among all 7B-
+scale methods, with the largest per-benchmark
+gains on LiveBench (+8.9) and LiveCodeBench
+(+5.9) over the Instruct backbone.
+14B scale.
+CoVer-14B is the top method on every
+benchmark, gaining +11.35 on LiveBench, +3.14
+on MBPP, +7.99 on LiveCodeBench, +7.32 on
+CodeContests, and +5.58 on CodeForces over the
+Instruct backbone. It outperforms the strongest pub-
+licly reported 14B comparator, ReasonFlux-Coder-
+14B (42.14), on every benchmark.
+Table 6 reports the per-benchmark pass@1 im-
+provement (∆) of CoVer over both the instruct
+backbone and the coder-only baseline, together
+with the cross-seed standard deviation. All num-
+bers are averaged over 4 random seeds. For cross-
+Variant
+LB
+MBPP LCB
+CC
+CF
+Avg.
+CoVer-7B
+40.0
+72.4
+32.8
+26.0
+8.5 35.94
+A1: pass-rate rew. 36.32
+69.25
+31.25 24.94 7.8 33.91
+A2: binary y
+37.98
+70.5
+31.73 25.52 8.0 34.75
+A3: coder only
+38.03
+67.7
+30.19 23.92 7.7 33.51
+Table 4:
+Reward-design ablation on Qwen2.5-7B-
+Instruct. A1: pass-rate reward replaces IG; A2: binary y
+replaces graded y; A3: no verifier role. Each ablation re-
+moves one design choice; all three degrade performance.
+All training runs are conducted with 350 optimization
+steps.
+training-run variance, we additionally trained a
+second, fully independent run at each scale; the
+runs differ by 0.61 points at 7B and 0.35 at 14B
+in macro-average pass@1, small relative to the
++5.76 and +7.08 gains over the backbones (Ap-
+pendix C.2).
+Against RL baselines.
+CoVer’s margins are pos-
+itive on every benchmark each RL baseline re-
+ports:
++16.3 pp on CodeContests (RLEF-8B),
++31.4/+5.6 pp on MBPP/LiveCodeBench (Sol-
+Ver), and positive on every benchmark at both
+scales against ReasonFlux-Coder.
+4.2.2
+Diversity-aware Selection Reduces
+Estimator Variance
+Table 3 evaluates the effect of diversity-aware se-
+lection by comparing CoVer against a no-pruning
+baseline at matched sampling budget on Qwen2.5-
+7B-Instruct. Both variants draw K =32 tests and
+execute all m×K code–test pairs; CoVer prunes
+to a diverse k=16 subset for the IG reward, while
+the baseline uses all K = 32 columns. The com-
+parison therefore isolates the value of column-level
+deduplication in the IG estimator.
+Diversity-aware selection improves the macro-
+average pass@1 by 1.67 points (34.27 →35.94),
+with positive gains on every benchmark. The con-
+sistent gain reflects how much signal the verifier
+loses when tests sampled i.i.d. from the policy pro-
+duce correlated pass/fail columns. Using more
+i.i.d.-sampled columns in the IG estimate does not
+compensate for their redundancy, because corre-
+lated columns contribute little to the effective sam-
+ple size of the per-test MI estimate. Pruning re-
+covers the lost signal at zero additional execution
+cost.
+4.2.3
+Ablation Study
+Table 4 ablates CoVer’s three reward-design com-
+ponents on Qwen2.5-7B-Instruct, keeping all other
+settings fixed. We evaluate three variants:
+• A1: Pass-rate verifier reward. Replaces the IG
+
+
+Method
+LiveBench
+MBPP
+LCB
+CC
+CF
+Avg.
+Qwen2.5-7B-Instruct (one-shot)
+31.1
+66.3
+26.9
+21.2
+5.4
+30.18
+CodeT (n=8)
+44.53
+75.95
+37.76
+28.03
+8.56
+38.97
+CodeT + CoVer-7B (n=8)
+50.78
+79.63
+40.70
+29.70
+11.56
+42.47
+∆vs CodeT
++6.25
++3.68
++2.94
++1.67
++3.00
++3.50
+Table 5: Test-time scaling with CodeT (Chen et al., 2023) (n = 8 candidates). Replacing the backbone with
+CoVer-7B raises the macro-average by +3.50 points, confirming that co-training produces both a stronger coder
+and a more discriminative verifier.
+Comparison
+LiveBench
+MBPP
+LCB
+CC
+CF
+∆(std)
+∆(std)
+∆(std)
+∆(std)
+∆(std)
+CoVer-7B vs Qwen2.5-7B-Inst
++8.9 (0.36)
++6.1 (0.47)
++5.9 (0.31)
++4.8 (0.33)
++3.1 (0.28)
+CoVer-14B vs Qwen2.5-14B-Inst
++11.4 (0.14)
++3.1 (0.32)
++8.0 (0.27)
++7.3 (0.37)
++5.6 (0.20)
+CoVer-7B vs Coder-7B
++5.0 (0.36)
++4.4 (0.47)
++3.0 (0.31)
++3.2 (0.33)
++1.8 (0.28)
+CoVer-14B vs Coder-14B
++5.6 (0.14)
++6.8 (0.32)
++3.3 (0.27)
++9.6 (0.37)
++5.1 (0.20)
+Table 6: Per-benchmark pass@1 improvement (∆) with cross-seed standard deviation (in parentheses) over 4 seeds.
+CoVer shows consistent improvements across all benchmarks, with gains exceeding the cross-seed variance on
+every comparison.
+reward with a simplified reward for the unit test
+that assigns 1 if all correct codes pass it and 0 oth-
+erwise rpass(tj)=1[all correct codes pass tj].
+• A2: Binary y.
+Replaces the graded correct-
+ness vector y with a binary all-or-nothing ybin
+i
+=
+Q
+g O(ci, u⋆
+g).
+• A3: Coder only. Drops the verifier role entirely;
+trains on Rcoder =yi alone.
+A1 drops the macro-average by 2.03 points
+(35.94 →33.91), confirming that mutual infor-
+mation is a better-shaped signal than pass-rate for
+self-generated tests. A2 drops the macro-average
+by 1.19 points (35.94 →34.75); the smaller gap
+relative to A1 is consistent with the entropy-bound
+argument of Section 3.3, since partial correctness
+still provides usable signal once any code passes
+any GT test. A3 gives the largest degradation, 2.43
+points (35.94 →33.51), showing that the verifier
+role supplies gradient information that the coder
+loss alone cannot recover.
+4.2.4
+Application to Test-Time Scaling
+We evaluate CoVer as the generator inside CodeT
+(Chen et al., 2023), which samples multiple can-
+didates and ranks them by the number of self-
+generated tests they pass. CodeT’s effectiveness
+therefore depends on both the quality of the can-
+didate codes and the discriminative power of the
+self-generated tests that score them, both of which
+are capabilities CoVer is designed to improve. Re-
+placing the Qwen2.5-7B-Instruct code generator
+with CoVer-7B inside the CodeT pipeline raises the
+macro-average pass@1 from 38.97 to 42.47, a gain
+of 3.50 points over the CodeT baseline and 12.29
+points over the bare Instruct backbone (Table 5).
+5
+Conclusion
+We introduced CoVer, a single-policy GRPO frame-
+work that co-trains an LLM as both coder and veri-
+fier, addressing two pathologies of prior self-play
+methods: permissiveness collapse from pass-rate
+rewards and concentration bias from i.i.d. test sam-
+pling. CoVer replaces these with a covariance-
+gated MI verifier reward anchored to a graded
+GT-derived correctness signal and a three-stage
+diversity-aware selection step that prunes redun-
+dant execution columns to raise the effective sam-
+ple size at fixed cost. On five coding benchmarks,
+CoVer achieves the best macro-average pass@1 at
+both 7B and 14B scales, surpassing code-pretrained
+variants while training from a general-purpose In-
+struct backbone. As a drop-in backbone for the
+CodeT reranking pipeline, CoVer-7B adds +3.50
+points, confirming that co-training yields both a
+stronger coder and a more discriminative verifier.
+This work demonstrates that framing verifier
+learning as an information-theoretic, variance-
+aware estimation problem yields a principled and
+empirically stronger path than pass-rate maximi-
+sation. The underlying principle is to reward a
+verifier for the information its probes add about
+a fixed correctness anchor, measured over a low-
+redundancy probe set. This recipe may extend
+to domains beyond unit-test generation. We hy-
+
+
+pothesise that mathematical reasoning (where par-
+tial proofs serve as probes) and structured predic-
+tion (where constraint-satisfaction checks serve as
+probes) are natural next steps, provided a graded
+correctness signal can be defined.
+Limitations
+Several factors constrain the scope of our conclu-
+sions. Model family coverage. Our experiments
+use the Qwen2.5-Instruct family at 7B and 14B, as
+well as Llama-3.1-Instruct at 8B (Appendix C.1);
+transfer to additional families (e.g., DeepSeek-V2,
+Gemma) is not yet established. We initialise from
+the general-purpose Instruct variant rather than the
+code-pretrained Coder variant by design, so that
+gains can be attributed to CoVer rather than to
+code pretraining. GT test dependency. CoVer
+requires each training task to ship with at least one
+ground-truth test for computing the graded y; a
+fully bootstrapped variant that estimates y from the
+execution table (e.g., via majority vote or EM) is
+left to future work, as it must address permissive-
+ness collapse and coordinated hallucinations across
+the coder and verifier roles. Exact deduplication
+only. The diversity-aware selection step removes
+exact input-string and column duplicates but does
+not penalise high-correlation near-duplicates; soft
+column-similarity criteria (e.g., cosine-similarity
+clustering over execution-profile embeddings) may
+recover additional signal and are an open direc-
+tion. Determinism assumption. CoVer presup-
+poses deterministic sandbox execution of gener-
+ated tests; tasks involving non-deterministic side
+effects, GUI interaction, or distributed systems fall
+outside its scope. Distribution shift. The verifier
+is trained on the policy’s own code distribution;
+out-of-distribution code at deployment may be mis-
+classified.
+Ethical considerations
+CoVer improves the reliability of code-generation
+models by training a single policy as both coder
+and verifier under GT supervision. Improvements
+in pass@1 do not constitute correctness guaran-
+tees; developers should independently verify gen-
+erated code, especially in safety-critical contexts.
+Like any more capable code generator, CoVer
+marginally lowers the cost of malware authoring;
+we follow ACL’s Publication Ethics policy regard-
+ing responsible release. All generated tests are
+executed inside a sandboxed Python subprocess
+with restricted system-call access, capped wall-
+clock time (5 s per execution), and capped memory
+(512 MB). GPU-hours and energy footprint are re-
+ported in Appendix B. The benchmark datasets
+(LiveBench, MBPP, LiveCodeBench, CodeCon-
+tests, CodeForces) are publicly released and used
+under their respective licences.
+References
+Arthur Aubret, Laetitia Matignon, and Salima Hassas.
+2023. An information-theoretic perspective on intrin-
+sic motivation in reinforcement learning: A survey.
+Entropy, 25(2):327.
+Jacob Austin, Augustus Odena, Maxwell Nye, Maarten
+Bosma, Henryk Michalewski, David Dohan, Ellen
+Jiang, Carrie Cai, Michael Terry, Quoc Le, and
+Charles Sutton. 2021. Program synthesis with large
+language models. arXiv preprint arXiv:2108.07732.
+Bei Chen, Fengji Zhang, Anh Nguyen, Daoguang Zan,
+Zeqi Lin, Jian-Guang Lou, and Weizhu Chen. 2023.
+Codet: Code generation with generated tests. In
+The Eleventh International Conference on Learning
+Representations.
+Jiaqi Chen, Bang Zhang, Ruotian Ma, Peisong Wang,
+Xiaodan Liang, Zhaopeng Tu, Xiaolong Li, and
+Kwan-Yee K. Wong. 2025. SPC: Evolving self-play
+critic via adversarial games for LLM reasoning. In
+The Thirty-ninth Annual Conference on Neural Infor-
+mation Processing Systems.
+Shihan Dou, Yan Liu, Haoxiang Jia, Enyu Zhou, Limao
+Xiong, Junjie Shan, Caishuang Huang, Xiao Wang,
+Xiaoran Fan, Zhiheng Xi, Yuhao Zhou, Tao Ji, Rui
+Zheng, Qi Zhang, Tao Gui, and Xuanjing Huang.
+2024. StepCoder: Improving code generation with
+reinforcement learning from compiler feedback. In
+Proceedings of the 62nd Annual Meeting of the As-
+sociation for Computational Linguistics (Volume 1:
+Long Papers), pages 4571–4585, Bangkok, Thailand.
+Association for Computational Linguistics.
+Jonas Gehring, Kunhao Zheng, Jade Copet, Vegard
+Mella, Taco Cohen, and Gabriel Synnaeve. 2025.
+RLEF: Grounding code LLMs in execution feedback
+with reinforcement learning. In Proceedings of the
+42nd International Conference on Machine Learning,
+volume 267, pages 19034–19055. PMLR.
+Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri,
+Abhinav Pandey, Abhishek Kadian, Ahmad Al-
+Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten,
+Alex Vaughan, and 1 others. 2024. The llama 3 herd
+of models. arXiv preprint arXiv:2407.21783.
+Rein Houthooft, Xi Chen, Xi Chen, Yan Duan, John
+Schulman, Filip De Turck, and Pieter Abbeel. 2016.
+Vime: Variational information maximizing explo-
+ration. In Advances in Neural Information Process-
+ing Systems, volume 29. Curran Associates, Inc.
+
+
+Baizhou Huang, Shuai Lu, Xiaojun Wan, and Nan Duan.
+2024. Enhancing large language models in coding
+through multi-perspective self-consistency. In Pro-
+ceedings of the 62nd Annual Meeting of the Associa-
+tion for Computational Linguistics (Volume 1: Long
+Papers), pages 1429–1450, Bangkok, Thailand. As-
+sociation for Computational Linguistics.
+Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang, Day-
+iheng Liu, Lei Zhang, Tianyu Liu, Jiajun Zhang,
+Bowen Yu, Keming Lu, Kai Dang, Yang Fan,
+Yichang Zhang, An Yang, Rui Men, Fei Huang,
+Bo Zheng, Yibo Miao, Shanghaoran Quan, and 5
+others. 2024. Qwen2.5-coder technical report. arXiv
+preprint arXiv:2409.12186.
+Naman Jain, King Han, Alex Gu, Wen-Ding Li, Fanjia
+Yan, Tianjun Zhang, Sida Wang, Armando Solar-
+Lezama, Koushik Sen, and Ion Stoica. 2025. Live-
+codebench: Holistic and contamination free evalua-
+tion of large language models for code. In The Thir-
+teenth International Conference on Learning Repre-
+sentations.
+Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying
+Sheng, Lianmin Zheng, Cody Hao Yu, Joseph Gon-
+zalez, Hao Zhang, and Ion Stoica. 2023. Efficient
+memory management for large language model serv-
+ing with pagedattention. In Proceedings of the 29th
+Symposium on Operating Systems Principles, SOSP
+’23, page 611–626, New York, NY, USA. Association
+for Computing Machinery.
+Hung Le, Yue Wang, Akhilesh Deepak Gotmare, Silvio
+Savarese, and Steven Hoi. 2022. CodeRL: Master-
+ing code generation through pretrained models and
+deep reinforcement learning. In Advances in Neural
+Information Processing Systems.
+Dacheng Li, Shiyi Cao, Chengkun Cao, Xiuyu Li,
+Shangyin Tan, Kurt Keutzer, Jiarong Xing, Joseph E.
+Gonzalez, and Ion Stoica. 2025. S*: Test time scal-
+ing for code generation. In Findings of the Associ-
+ation for Computational Linguistics: EMNLP 2025,
+pages 15964–15978, Suzhou, China. Association for
+Computational Linguistics.
+Yujia Li, David Choi, Junyoung Chung, Nate Kush-
+man, Julian Schrittwieser, Rémi Leblond, Tom
+Eccles, James Keeling, Felix Gimeno, Agustin
+Dal Lago, Thomas Hubert, Peter Choy, Cyprien
+de Masson d’Autume, Igor Babuschkin, Xinyun
+Chen, Po-Sen Huang, Johannes Welbl, Sven Gowal,
+Alexey Cherepanov, and 7 others. 2022. Competition-
+level code generation with alphacode.
+Science,
+378(6624):1092–1097.
+Zi Lin, Sheng Shen, Jingbo Shang, Jason E Weston, and
+Yixin Nie. 2025. Learning to solve and verify: A self-
+play framework for mutually improving code and test
+generation. In NeurIPS 2025 Fourth Workshop on
+Deep Learning for Code.
+Henglin Liu, Huijuan Huang, Jing Wang, Chang
+Liu, Xiu Li, and Xiangyang Ji. 2025.
+Diverseg-
+rpo:
+Mitigating mode collapse in image gener-
+ation via diversity-aware grpo.
+arXiv preprint
+arXiv:2512.21514.
+Baharan Mirzasoleiman, Jeff Bilmes, and Jure Leskovec.
+2020. Coresets for data-efficient training of machine
+learning models. In Proceedings of the 37th Inter-
+national Conference on Machine Learning, volume
+119 of Proceedings of Machine Learning Research,
+pages 6950–6960. PMLR.
+Guilherme Penedo,
+Anton Lozhkov,
+Hynek Ky-
+dlíˇcek,
+Loubna Ben Allal,
+Edward Beeching,
+Agustín Piqueres Lajarín, Quentin Gallouédec,
+Nathan Habib, Lewis Tunstall, and Leandro von
+Werra. 2025. Codeforces. https://huggingface.
+co/datasets/open-r1/codeforces.
+Tal Ridnik, Dedy Kredo, and Itamar Friedman. 2024.
+Code generation with alphacodium: From prompt
+engineering to flow engineering.
+arXiv preprint
+arXiv:2401.08500.
+John Schulman, Filip Wolski, Prafulla Dhariwal,
+Alec Radford, and Oleg Klimov. 2017.
+Proxi-
+mal policy optimization algorithms. arXiv preprint
+arXiv:1707.06347.
+Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu,
+Junxiao Song, Xiao Bi, Haowei Zhang, Mingchuan
+Zhang, YK Li, Yang Wu, and 1 others. 2024.
+Deepseekmath: Pushing the limits of mathematical
+reasoning in open language models. arXiv preprint
+arXiv:2402.03300.
+Parshin Shojaee, Aneesh Jain, Sindhu Tipirneni, and
+Chandan K. Reddy. 2023. Execution-based code
+generation using deep reinforcement learning. Trans-
+actions on Machine Learning Research.
+Yinjie Wang, Ling Yang, Ye Tian, Ke Shen, and Mengdi
+Wang. 2025. Co-evolving LLM coder and unit tester
+via reinforcement learning. In The Thirty-ninth An-
+nual Conference on Neural Information Processing
+Systems.
+Colin White, Samuel Dooley, Manley Roberts, Arka Pal,
+Benjamin Feuer, Siddhartha Jain, Ravid Shwartz-Ziv,
+Neel Jain, Khalid Saifullah, Sreemanti Dey, Shubh-
+Agrawal, Sandeep Singh Sandha, Siddartha Venkat
+Naidu, Chinmay Hegde, Yann LeCun, Tom Gold-
+stein, Willie Neiswanger, and Micah Goldblum. 2025.
+Livebench: A challenging, contamination-limited
+LLM benchmark. In The Thirteenth International
+Conference on Learning Representations.
+Alex Wilf, Pranjal Aggarwal, Bryan Parno, Daniel Fried,
+Louis-Philippe Morency, Paul Pu Liang, and Sean
+Welleck. 2026.
+Propose, solve, verify: Self-play
+through formal verification. In Forty-third Interna-
+tional Conference on Machine Learning.
+Tianhao Wu, Weizhe Yuan, Olga Golovneva, Jing Xu,
+Yuandong Tian, Jiantao Jiao, Jason E Weston, and
+
+
+Sainbayar Sukhbaatar. 2025. Meta-rewarding lan-
+guage models: Self-improving alignment with LLM-
+as-a-meta-judge. In Proceedings of the 2025 Con-
+ference on Empirical Methods in Natural Language
+Processing, pages 11537–11554, Suzhou, China. As-
+sociation for Computational Linguistics.
+An Yang, Baosong Yang, Beichen Zhang, Binyuan
+Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Day-
+iheng Liu, Fei Huang, Haoran Wei, and 1 others.
+2025.
+Qwen2.5 technical report.
+arXiv preprint
+arXiv:2412.15115.
+Qiying Yu, Zheng Zhang, Ruofei Zhu, Yufeng Yuan, Xi-
+aochen Zuo, YuYue, Weinan Dai, Tiantian Fan, Gao-
+hong Liu, Juncai Liu, LingJun Liu, Xin Liu, Haibin
+Lin, Zhiqi Lin, Bole Ma, Guangming Sheng, Yuxuan
+Tong, Chi Zhang, Mofan Zhang, and 17 others. 2026.
+DAPO: An open-source LLM reinforcement learning
+system at scale. In The Thirty-ninth Annual Confer-
+ence on Neural Information Processing Systems.
+Weizhe Yuan, Richard Yuanzhe Pang, Kyunghyun Cho,
+Xian Li, Sainbayar Sukhbaatar, Jing Xu, and Jason E
+Weston. 2024. Self-rewarding language models. In
+Proceedings of the 41st International Conference on
+Machine Learning, volume 235 of Proceedings of
+Machine Learning Research, pages 57905–57923.
+PMLR.
+Huaye Zeng, Dongfu Jiang, Haozhe Wang, Ping Nie, Xi-
+aotong Chen, and Wenhu Chen. 2025. ACECODER:
+Acing coder RL via automated test-case synthesis.
+In Proceedings of the 63rd Annual Meeting of the
+Association for Computational Linguistics (Volume 1:
+Long Papers), pages 12023–12040, Vienna, Austria.
+Association for Computational Linguistics.
+A
+Prompts used by Coder and Tester
+Coder Prompt
+<|im_start|>You are a helpful
+assistant that helps users solve
+programming problems. <|im_end|>
+<|im_start|>User: Think through
+the problem before writing your
+Python solution. Use input() for
+reading input and print() for
+producing output in your script.
+Ensure your output matches the
+required format exactly, with no
+extra spaces or lines.
+Here is the problem:
+<problem_statement> <|im_end|>
+<|im_start|>Assistant:
+Tester Prompt
+<|im_start|>You are a helpful
+assistant specialized in
+generating test examples for
+coding tasks. <|im_end|>
+<|im_start|>User: Given a coding
+task, your goal is not to write
+the solution, but to generate a
+new test example consisting of
+an input, an expected output,
+and an explanation.
+Here is the problem:
+<problem_statement>
+Your test example must be
+completely accurate and conform
+to the problem's format
+requirements, while also being
+discriminative enough to
+distinguish correct code from
+incorrect code.
+Begin by thinking carefully and
+reasoning step by step inside
+<reasoning> tags to derive an
+input and output you are
+confident are correct. A good
+approach is to first design an
+input you can reliably work
+through, then compute the output
+step by step. If you are unsure
+about the output, revise or
+redesign the input until you are
+certain. Skipping this process
+and directly providing
+input/output pairs is strongly
+discouraged, as it frequently
+leads to incorrect results.
+Once you have thoroughly
+completed your reasoning and
+derivation, your final response
+MUST follow this exact format:
+<reasoning>
+your explanation here.
+</reasoning>
+<answer>
+<input>
+your raw input here
+
+
+</input>
+<output>
+your raw output here
+</output>
+</answer>
+<|im_end|>
+<|im_start|>Assistant: <reasoning>
+B
+Experiment Details
+B.1
+Data Preprocessing
+Benchmark coverage.
+All five benchmarks con-
+sist of English-language natural-language prob-
+lem statements paired with executable test cases,
+and all solutions are evaluated as Python 3.10 pro-
+grams (§B.3). They span two domains: competi-
+tive programming, covered by CodeContests (Li
+et al., 2022), CodeForces (Penedo et al., 2025),
+and LiveCodeBench (Jain et al., 2025), where
+problems involve algorithmic reasoning over stdio
+I/O; and functional code completion, covered by
+MBPP (Austin et al., 2021) and the function-level
+subset of LiveBench (White et al., 2025), where
+problems specify a target function from a short
+description.
+Format.
+We adopt the stdio input/output for-
+mat used in LiveBench (White et al., 2025), Live-
+CodeBench (Jain et al., 2025), CodeContests (Li
+et al., 2022), and CodeForces (Penedo et al., 2025).
+For MBPP (Austin et al., 2021) and a subset of
+LiveBench/LiveCodeBench tasks that are released
+in a functional format, we use the pre-converted
+stdio versions provided by Wang et al. (2025), in
+which each variable is placed on a separate line and
+lists are flattened into space-separated values on a
+single line.
+Benchmark
+Train
+Eval
+CodeContests (diff. ≤2)
+4,500
+239
+LiveBench
+–
+128
+MBPP
+–
+221
+LiveCodeBench (v2)
+–
+511
+CodeForces
+–
+467
+Total
+4,500
+1,527
+Table 7: Training and evaluation task counts. RL train-
+ing uses only the CodeContests training partition; the
+other four benchmarks contribute no training data and
+are used solely for evaluation.
+Licensing.
+All artifacts are used in accordance
+with their licenses and intended research use. The
+Qwen2.5-7B/14B-Instruct backbones (Yang et al.,
+2025) are released under Apache 2.0, and Llama-
+3.1-8B-Instruct (Grattafiori et al., 2024), used for
+the cross-family experiment in Appendix C.1, un-
+der the Llama 3.1 Community License. Among
+the evaluation benchmarks, MBPP (Austin et al.,
+2021) is distributed under CC-BY-4.0, CodeCon-
+tests (Li et al., 2022) and LiveBench (White et al.,
+2025) under Apache 2.0, LiveCodeBench (Jain
+et al., 2025) under the MIT license, and Code-
+Forces (Penedo et al., 2025) under CC-BY-4.0. Our
+training pipeline uses vLLM (Kwon et al., 2023)
+and OpenRLHF (both Apache 2.0) and PyTorch
+(BSD-3).
+B.2
+Hyperparameters
+Table 8 lists the full hyperparameter configuration.
+Parameter
+Value
+Backbones
+Qwen2.5-7B/14B-Instruct
+Llama-3.1-8B-Instruct
+Candidate codes (m)
+16
+Sampled tests (K)
+32
+Kept tests (k)
+16
+Learning rate
+1 × 10−6
+KL coefficient (β)
+0.01
+Clip ε
+0.2
+Training steps
+350
+Temperature (train)
+1.0
+Top-p (train)
+1.0
+Temperature (eval)
+0.0 (greedy)
+Hardware
+2× NVIDIA B200
+Three-stage diversity-aware selection
+Invalidity filter
+parse failure or empty I/O
+Input dedup
+whitespace-normalised exact
+Column dedup
+exact pass/fail signature
+Ordering
+lexicographic on Eq. 4
+IG estimator
+Estimator
+plug-in MI, 2 × (Gτ+1) table
+Bias correction
+none (finite discrete support)
+Table 8: CoVer hyperparameter configuration.
+B.3
+Sandbox Configuration
+All execution of candidate code and self-generated
+tests takes place inside a sandboxed Python sub-
+process. Each execution is constrained by: (i) re-
+stricted system-call access (no network, no filesys-
+tem writes outside a temporary directory), (ii) a 5-
+second wall-clock timeout per code–test pair, and
+(iii) a 512 MB memory cap. Tests that trigger time-
+out or memory errors are treated as failures (O=0).
+The sandbox uses Python 3.10 with resource mod-
+ule limits on Linux.
+
+
+B.4
+CodeT Baseline
+CodeT (Chen et al., 2023) is an inference-time
+test-filtering method that requires no policy update.
+Given a problem, it samples n candidate solutions
+and a set of self-generated tests from the same
+model, then executes every candidate against every
+test. Candidates are grouped by their pass/fail sig-
+natures, and each candidate is scored by the number
+of self-generated tests it passes (weighted by the
+size of its agreement cluster); the highest-scoring
+candidate is returned. CodeT thus relies on both
+the quality of the sampled candidates and the dis-
+criminative power of the self-generated tests, the
+two capabilities CoVer is designed to improve.
+B.5
+Ablation Definitions
+The ablations referred to in Section 4 are opera-
+tionalised as follows.
+Direct-k at matched test-execution budget.
+Skip the diversity-aware selection step. Sample
+k tests directly from πθ(· | qτ, verifier) and use
+them as Sτ.
+(A1) Simple Pass-rate verifier reward. Re-
+place rIG(tj) (Equation 2) with the pass-rate re-
+ward rpass(tj) = 1
+m
+Pm
+i=1 Ei,j, i.e., the fraction of
+candidate codes that pass test tj. All other compo-
+nents of CoVer are unchanged.
+(A2) Binary y inside the IG reward.
+Re-
+place the graded correctness signal yi
+=
+1
+Gτ
+P
+g O(ci, u⋆
+τ,g) with ybin
+i
+= Q
+g O(ci, u⋆
+τ,g) ∈
+{0, 1}. All other components are unchanged.
+(A3) Coder reward only. Drop the verifier role
+entirely and train πθ on the coder reward Rcoder
+i
+=
+yi alone. The diversity-aware selection step, the IG
+estimator, and the verifier-side GRPO update are
+disabled; the policy is updated solely against the
+graded GT-anchored correctness signal.
+B.6
+Compute Budget
+Training CoVer-7B for 350 steps requires approxi-
+mately 72 GPU-hours on 2× B200 GPUs; CoVer-
+14B requires approximately 96 GPU-hours. Total
+wall-clock time per run is 36 hours (7B) and 48
+hours (14B). We use vLLM v0.6.0 (Kwon et al.,
+2023) for inference, PyTorch 2.4, and the Open-
+RLHF framework for GRPO training.
+Cost efficiency vs. coder-only.
+We compare
+CoVer-7B against the coder-only variant (A3, §B.5)
+trained for the same 350 steps under matched in-
+frastructure; reported GPU-hours include all CPU-
+side sandbox executions. Coder-only reaches 33.50
+macro pass@1 (+3.32 over the Instruct backbone)
+in 46 GPU-hours, while CoVer reaches 35.94
+(+5.76) in 72 GPU-hours. This is 0.80 macro
+points per 10 GPU-hours for CoVer against 0.72 for
+coder-only, so the verifier role costs additional com-
+pute without reducing per-GPU-hour efficiency,
+while reaching a higher final accuracy.
+C
+Additional Results
+C.1
+Cross-Family Generalization
+To address generality beyond the Qwen family, we
+additionally train and evaluate CoVer on Llama-
+3.1-8B-Instruct (Grattafiori et al., 2024), using the
+same 350-step protocol, the same hyperparameters
+(Table 8), and the same evaluation setup as the
+Qwen2.5 runs.
+Table 10 reports the results. CoVer improves the
+Llama backbone on every benchmark, raising the
+macro-average from 19.38 to 28.31 (+8.94 points),
+with the largest gains on LiveBench (+13.96) and
+LiveCodeBench (+11.73). These results show that
+the mechanisms are not Qwen-specific.
+C.2
+Training-Run Variance
+For cross-training-run variance, we additionally
+trained a second, fully independent run at each
+scale under an identical protocol. Table 11 re-
+ports both runs. The macro-average differs by 0.61
+points at 7B and 0.35 at 14B, and no single bench-
+mark differs by more than 1.85. All four runs ex-
+ceed the corresponding Qwen2.5-Instruct backbone
+on every benchmark.
+Tests passed (of k=16)
+GT-correct
+0–3
+4.2%
+4–7
+17.4%
+8–11
+37.1%
+12–15
+53.7%
+16 (all)
+86.8%
+Table 9: Fraction of candidate solutions correct un-
+der the GT tests, bucketed by the number of CoVer-
+generated tests passed (held-out problems).
+C.3
+Direct Verifier Analysis
+Sections 4.2.1 and 4.2.4 evaluate the verifier
+through its downstream generation and candidate
+selection. To assess the verifier directly, we eval-
+uate its output on held-out problems under the
+CodeT setup of Section 4.2.4. We bucket candidate
+solutions by how many of the k=16 generated tests
+they pass and report the fraction of each bucket that
+
+
+Model
+LiveBench
+MBPP
+LCB
+CC
+CF
+Avg.
+Llama-3.1-8B-Instruct
+17.38
+49.97
+14.56
+12.47
+2.50
+19.38
+CoVer-Llama-8B (ours)
+31.34
+59.04
+26.29
+20.10
+4.80
+28.31
+∆
++13.96
++9.07
++11.73
++7.63
++2.30
++8.94
+Table 10: Cross-family generalization. One-shot pass@1 (%) for CoVer trained on Llama-3.1-8B-Instruct under the
+same 350-step protocol and hyperparameters used for the Qwen2.5 runs.
+Run
+LiveBench
+MBPP
+LCB
+CC
+CF
+Avg.
+CoVer-7B
+Run 1
+40.00
+72.40
+32.80
+26.00
+8.50
+35.94
+Run 2
+39.06
+70.55
+32.61
+25.73
+8.70
+35.33
+CoVer-14B
+Run 1
+47.75
+79.44
+41.49
+32.92
+12.88
+42.90
+Run 2
+48.29
+78.73
+42.31
+33.79
+13.14
+43.25
+Table 11: Two fully independent training runs at each scale under an identical protocol. Macro-averages differ by
+0.61 points at 7B and 0.35 at 14B, well below the +5.76 and +7.08 gains over the respective Qwen2.5-Instruct
+backbones.
+is correct under the GT tests (Table 9); the GT-
+correctness rate rises monotonically across all five
+buckets, from 4.2% to 86.8%, showing that the
+verifier’s acceptance count is a meaningful graded
+correctness signal.
+D
+Formal Properties of the IG Reward
+and Diversity-Aware Selection
+The propositions below isolate individual mech-
+anisms of CoVer under simplifying assumptions
+rather than characterize the full end-to-end pipeline
+dynamics. Proposition 2 uses approximately homo-
+geneous, conditionally independent GT-test out-
+comes to analyze early-training signal density.
+Proposition 3 isolates the variance effect of exact
+duplicate execution profiles and does not model
+residual correlations among non-duplicate tests or
+policy-update dynamics. We evaluate these mecha-
+nisms under the full training pipeline through the
+corresponding ablations in §4.2.
+D.1
+Notation
+Fix a task τ with GT test set T ⋆
+τ of size Gτ. Let
+{c1, . . . , cm} be candidate codes and {t1, . . . , tK}
+candidate tests from πθ. Let Sτ ⊆{t1, . . . , tK}
+of size k < K be the suite after the three-stage
+diversity-aware selection step (Eq. 4), with execu-
+tion table E ∈{0, 1}m×k, Eij = O(ci, tj). The
+graded correctness signal is y∈{0,
+1
+Gτ , . . . , 1}m.
+D.2
+IG Reward: Behaviour on Degenerate
+Tests
+Proposition 1 (Zero reward on degenerate tests).
+Let rIG(tj) denote the signed MI reward (Eq. 2).
+Then:
+1. If E:,j is constant (Eij =Ei′j for all i, i′), then
+bI(E:,j; y)=0.
+2. If E:,j and y are statistically independent,
+I(E:,j; y) = 0 and bI(E:,j; y) concentrates
+around zero at rate Op(1/m).
+3. If d
+Cov(E:,j, y) ≤0, then rIG(tj) = 0 by the
+covariance gate.
+Proof. (1) Constant E:,j gives H(E:,j)=0, hence
+I(E:,j; y)≤H(E:,j)=0 and the plug-in estimator
+is exactly zero. (2) Under independence the em-
+pirical joint converges to the product of marginals;
+the plug-in MI is nonnegative by the information
+inequality. (3) Immediate from Eq. 2: the gate
+evaluates d
+Cov before the MI estimator and any
+nonpositive value triggers the zero branch.
+Part (1) formalises the claim that permissive tests
+(all ones) and universally failing tests (all zeros)
+receive zero reward. Part (2) shows that uninfor-
+mative tests with pass/fail patterns independent of
+correctness receive near-zero reward. Part (3) con-
+firms that anti-discriminative tests, those failing
+high-quality codes and passing low-quality ones,
+are suppressed. Pass-rate rewards lack all three
+properties: a permissive test receives maximum
+pass-rate reward, driving permissiveness collapse.
+
+
+D.3
+Graded vs. Binary y: Early-Training
+Signal Density
+Proposition 2 (Graded y preserves H(y) when ful-
+ly-correct codes are rare). Assume per-GT-test pass
+probability pg ∈(0, 1), approximately constant
+across Gτ tests and, for analytic tractability, condi-
+tionally independent given the code. Under binary
+aggregation ybin
+i
+=Q
+g O(ci, u⋆
+τ,g), Pr(ybin
+i
+=1)=
+pGτ
+g
+→0 as Gτ grows when pg <1, so H(ybin)→0
+and bI(E:,j; ybin)≤H(ybin)→0 for every test. Un-
+der graded aggregation yi ∼Binom(Gτ, pg)/Gτ,
+H(y) > 0 for pg ∈(0, 1), keeping the IG upper
+bound nontrivial from the first training step.
+Proof. Binary aggregation is the conjunction of Gτ
+Bernoulli(pg) events with success probability pGτ
+g ;
+the entropy of a Bernoulli with vanishing success
+probability vanishes. Graded aggregation is a Bino-
+mial sum normalised by Gτ; its entropy is positive
+on pg ∈(0, 1). The bound I(E:,j; y)≤H(y) is the
+standard information inequality.
+D.4
+Diversity-aware Selection Reduces
+Estimator Variance
+Proposition 3 (Variance reduction). Let bIj :=
+bI(E:,j; y) and bIS = 1
+k
+P
+j∈S bIj. Let ¯ρ(S) be the
+average pairwise correlation of {bIj}j∈S. Then
+Var(bIS) =
+σ2
+keff(S),
+keff(S) :=
+k
+1 + (k −1)¯ρ(S).
+Under any policy placing excess mass on a low-
+entropy input region, direct k-sampling yields
+¯ρ(Sdirect)
+>
+¯ρ(Sdiv),
+hence Var(bISdiv)
+<
+Var(bISdirect) at the same k and execution budget.
+Proof. The identity Var( ¯X)=σ2/keff is standard
+for the average of k equivariant correlated variables.
+Tests with identical columns satisfy ρjj′ = 1, the
+worst contributor to ¯ρ. Three-stage diversity-aware
+selection removes all column duplicates whenever
+at least k distinct execution profiles are available, in
+which case the kept suite contains no pairs with ρ=
+1. Direct k-sampling retains such duplicates with
+positive probability under any policy with excess
+mass on modal inputs, strictly raising ¯ρ.
+E
+Qualitative Examples
+E.1
+Worked Example from Training
+To make the Coder and Tester behaviour con-
+crete, we present a single self-contained exam-
+ple observed during training, drawn from a sim-
+ple “blackjack-style” threshold problem. The ex-
+ample exercises a boundary case: the Tester de-
+liberately targets the input whose sum equals the
+decision threshold.
+We reproduce the problem
+statement, one Coder-generated solution, and one
+Tester-generated case (including the model’s rea-
+soning) verbatim.
+Problem Statement
+Given are three integers A1, A2, and A3.
+If A1 + A2 + A3 is greater than or equal to
+22, print bust; otherwise, print win.
+Constraints
+• 1 ≤Ai ≤13 (i = 1, 2, 3)
+• All values in input are integers.
+Input. Given from standard input in the
+format: A_1 A_2 A_3
+Output. If A1 +A2 +A3 ≥22, print bust;
+otherwise, print win.
+Example.
+Input: 5 7 9
+→
+Output:
+win
+Coder-Generated Solution
+# Read the three integers from input
+A1, A2, A3 = map(int, input().split())
+# Calculate the sum
+total_sum = A1 + A2 + A3
+# Check the condition and print the
+# result
+if total_sum >= 22:
+print("bust")
+else:
+print("win")
+Tester-Generated Case (with reasoning)
+This is the most illustrative of the 16 gener-
+ated cases because the model deliberately
+targets the boundary sum == 22.
+Reasoning. Let’s start by designing an input
+that we can reliably handle. A simple and
+reliable input would be where the sum of
+the three integers is exactly 22, since this
+boundary case can help us verify the logic
+around the ≥22 condition.
+Consider the input: 10 7 5.
+• Calculate the sum: A1 + A2 + A3 =
+10 + 7 + 5 = 22.
+
+
+• Check if the sum is greater than or
+equal to 22: 22 ≥22 is true.
+• Therefore, the output should be bust.
+We are confident that this input and output
+pair are correct and discriminative.
+Generated case.
+Input: 10 7 5
+Output: bust
+E.2
+Information Gain Identifies
+Discriminative Tests
+The following example motivates the IG reward of
+Section 3.3: two tests are equally valid, yet only
+one is informative about correctness. The task is a
+counting problem: given positive integers N and
+M, count the length-N integer sequences whose
+product is M. Of the m = 16 sampled codes, 8
+are correct under the GT tests. Two selected tests
+illustrate the contrast. Both are valid and well-
+formed, but they carry very different amounts of
+information:
+Test
+Correct
+Incorrect
+rIG
+3 12 →18
+8/8
+1/8
+0.685
+1 1 →1
+8/8
+8/8
+0.000
+The first test almost perfectly partitions the can-
+didate set: every correct code passes it and only
+one incorrect code does, giving bI(E:,j; y)=0.685.
+The second is a trivially satisfiable case, since for
+N = M = 1 the only sequence is [1]; all 16 codes
+pass it, its column is constant, and it receives ex-
+actly zero reward. Both tests are correct, so a
+validity- or pass-rate-based criterion would not sep-
+arate them; the IG reward tracks discriminative
+power rather than surface validity.
+E.3
+Diversity Pruning Removes Behaviourally
+Redundant Tests
+The next example shows why the diversity-aware
+selection of Section 3.4 deduplicates on execu-
+tion profiles rather than on test strings.
+The
+task is a Fibonacci variant: given a, b, n with
+fib(1) = a, fib(2) = b and fib(k) = (fib(k−1) +
+fib(k−2)) mod (109+7), print the n-th term. Two
+generated tests, 1 1 3 →2 and 1 1 4 →3, request
+the third and fourth terms of 1, 1, 2, 3. Their inputs
+differ and their expected outputs differ, so neither
+the invalidity filter nor input-string deduplication
+removes either one.
+Executed against the 16 candidate codes, how-
+ever, both produce the identical pass/fail column
+1011101111111111, rejecting exactly codes #2
+and #6.
+The second test therefore contributes
+no marginal information about correctness: con-
+ditioned on the first, its outcome is fully deter-
+mined on this candidate set, and retaining both
+would place a pair with ρjj′ = 1 in the suite. The
+execution-profile stage prunes 1 1 4 and keeps 1 1
+3. This is the stage that distinguishes behavioural
+redundancy from literal duplication: the two tests
+are textually distinct and would survive any string-
+level criterion.
+E.4
+Failure Case: Selected Tests Miss an
+Incorrect Solution
+The final example marks the boundary of what
+selection can address:
+the kept suite is non-
+degenerate, yet it still admits an incorrect solution.
+The task requires maintaining two length-N integer
+arrays A and B under Q operations: set A[y]=z,
+set B[y]=z, range-minimum over A[y..z], range-
+minimum over B[y..z], copy A ←B, and copy
+B ←A. Candidate code #7 implements the two
+copy operations by rebinding rather than copying:
+Incorrect Solution (code #7, aliasing bug)
+elif x == 5:
+if y == -1:
+A = B
+# should be B[:]
+elif x == 6:
+if y == -1:
+B = A
+# should be A[:]
+After either copy, A and B alias the same list,
+so a later update to one silently changes the other.
+This code passes all 16 selected tests yet fails 4 of
+the 8 GT tests. The bug is observable only under
+a specific chain, copy, then update one array, then
+query the other; the generated tests use short op-
+eration lists and never compose these three steps,
+whereas the GT tests do.
+The kept suite is not degenerate here: it contains
+16 distinct inputs and 16 distinct execution profiles,
+so neither the invalidity filter nor either dedupli-
+cation stage is responsible. The limitation lies in
+the depth of the generated tests rather than in the
+selection step.

@@ -1,0 +1,329 @@
+{
+  "date": "20260912-20260921",
+  "date_label": "2026-09-12 ~ 2026-09-21",
+  "generated_at": "2026-09-21 21:02:19 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.13890v1",
+      "route": "20260912-20260921/2609.13890v1-learning-how-much-to-collaborate-difficulty-aware-topology-selection-for-multi-agent-code-generation",
+      "title": "Learning How Much to Collaborate: Difficulty-Aware Topology Selection for Multi-Agent Code Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "带难度感知拓扑选择的多智能体LLM代码生成",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14784v1",
+      "route": "20260912-20260921/2609.14784v1-enhancing-automated-unit-test-generation-for-nlp-libraries-using-large-language-models",
+      "title": "Enhancing Automated Unit Test Generation for NLP Libraries Using Large Language Models",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于大模型自动生成单元测试",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.16096v1",
+      "route": "20260912-20260921/2609.16096v1-coaching-qwen3-coder-30b-to-think-like-a-codeclash-arena-agent",
+      "title": "Coaching Qwen3 Coder 30B to Think Like a CodeClash Arena Agent",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "引导开源编码智能体提升长时程代码编辑能力",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.16604v1",
+      "route": "20260912-20260921/2609.16604v1-execucritic-calibrated-critic-shaping-for-code-generation-with-verifiable-rewards",
+      "title": "ExecuCritic: Calibrated Critic Shaping for Code Generation with Verifiable Rewards",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向可验证奖励代码生成的联合训练评论家塑形",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.18311v1",
+      "route": "20260912-20260921/2609.18311v1-a-study-on-the-impact-of-natural-language-differences-in-prompts-on-automatic-code-generation-using-llms",
+      "title": "A Study on the Impact of Natural Language Differences in Prompts on Automatic Code Generation Using LLMs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "量化LLM代码生成中的提示语言偏置",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.18325v1",
+      "route": "20260912-20260921/2609.18325v1-a-sequential-regularized-piecewise-affine-algorithm-for-nonconvex-nonsmooth-multicomposite-optimization-in-rnn-training",
+      "title": "A sequential regularized piecewise affine algorithm for nonconvex nonsmooth multicomposite optimization in RNN training",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向RNN训练的非凸非光滑多复合优化",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.21190v1",
+      "route": "20260912-20260921/2609.21190v1-swe-proof-can-language-models-resolve-real-world-issues-with-machine-checked-proofs",
+      "title": "SWE-Proof: Can Language Models Resolve Real-World Issues with Machine-Checked Proofs?",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向大模型代码生成正确性的形式化验证基准",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.21208v1",
+      "route": "20260912-20260921/2609.21208v1-information-gain-rewards-over-diversity-pruned-tests-gt-anchored-verifier-co-training-for-reliable-code-generation",
+      "title": "Information-Gain Rewards over Diversity-Pruned Tests: GT-Anchored Verifier Co-Training for Reliable Code Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于信息增益奖励的编码器-验证器协同训练以提升代码生成可靠性",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.21327v1",
+      "route": "20260912-20260921/2609.21327v1-deep-reinforcement-learning-with-buffered-quantile-objectives",
+      "title": "Deep Reinforcement Learning with Buffered Quantile Objectives",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "带缓冲分位目标的深度强化学习算法",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.13975v1",
+      "route": "20260912-20260921/2609.13975v1-introspective-uncertainty-estimation-for-llm-based-code-generation",
+      "title": "Introspective Uncertainty Estimation for LLM-Based Code Generation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "用不确定性估计识别 LLM 生成代码的功能错误",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14992v1",
+      "route": "20260912-20260921/2609.14992v1-mtac-ifbench-benchmarking-instruction-following-in-multi-turn-agentic-coding",
+      "title": "MTAC-IFBench: Benchmarking Instruction-Following in Multi-Turn Agentic Coding",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向多轮LLM智能体编码与代码生成的指令遵循评测基准",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.15209v1",
+      "route": "20260912-20260921/2609.15209v1-failure-guided-co-evolution-of-prompts-and-training-data",
+      "title": "Failure-Guided Co-Evolution of Prompts and Training Data",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "依据失败模式与变异策略合成新训练数据",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.15387v2",
+      "route": "20260912-20260921/2609.15387v2-iwc-bench-evaluating-web-application-generation-from-a-software-testing-perspective",
+      "title": "IWC-Bench: Evaluating Web Application Generation from a Software Testing Perspective",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "从软件测试视角用代码覆盖率评估LLM生成的Web应用",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14246v1",
+      "route": "20260912-20260921/2609.14246v1-joint-optimization-for-federated-learning-and-transmission-over-unreliable-wireless-networks-with-heterogeneous-data",
+      "title": "Joint Optimization for Federated Learning and Transmission over Unreliable Wireless Networks with Heterogeneous Data",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "不可靠无线网络下异构数据联邦学习优化",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.15064v1",
+      "route": "20260912-20260921/2609.15064v1-what-does-an-llm-learn-from-reinforcement-learning-a-mechanistic-interpretability-perspective-with-fixed-sae-track",
+      "title": "What Does an LLM Learn from Reinforcement Learning? A Mechanistic Interpretability Perspective with Fixed-SAE Track",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "强化学习如何重塑LLM表征的机制研究",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.15664v1",
+      "route": "20260912-20260921/2609.15664v1-ciders-cloud-edge-llm-collaborative-learning-via-accelerating-personalized-bilevel-optimization",
+      "title": "CIDERS: Cloud-Edge LLM Collaborative Learning via Accelerating Personalized Bilevel Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于双层优化的云边协同LLM学习",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.15763v1",
+      "route": "20260912-20260921/2609.15763v1-sylvas-synergistic-learning-value-based-device-scheduling-in-federated-continual-learning",
+      "title": "Sylvas: Synergistic Learning Value based Device Scheduling in Federated Continual Learning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "资源受限下联邦持续学习的分布式设备调度",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14045v1",
+      "route": "20260912-20260921/2609.14045v1-data-efficient-agentic-graph-domain-adaptation-via-reliability-aware-prototype-learning",
+      "title": "Data-Efficient Agentic Graph Domain Adaptation via Reliability-Aware Prototype Learning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "数据高效且可靠性感知的原型学习适配",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14485v1",
+      "route": "20260912-20260921/2609.14485v1-retrieval-guided-fine-tuning-as-noisy-estimation-risk-bounds-and-architectural-analysis",
+      "title": "Retrieval-Guided Fine-Tuning as Noisy Estimation: Risk bounds and Architectural Analysis",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "对微调中噪声检索数据质量的理论分析",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    },
+    {
+      "paper_id": "2609.14858v1",
+      "route": "20260912-20260921/2609.14858v1-dream-rsi-recursive-self-improvement-through-evolving-worlds",
+      "title": "Dream-RSI: Recursive Self-Improvement through Evolving Worlds",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向编码代理的可扩展递归自我改进探索框架",
+      "first_seen_at": "2026-09-21 21:02:19 UTC",
+      "updated_at": "2026-09-21 21:02:19 UTC"
+    }
+  ]
+}

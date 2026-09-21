@@ -1,0 +1,182 @@
+{
+  "version": 2,
+  "extractor": "pymupdf-images",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-001.webp",
+      "caption": "",
+      "page": 9,
+      "index": 1,
+      "width": 2507,
+      "height": 2484
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-002.webp",
+      "caption": "",
+      "page": 18,
+      "index": 2,
+      "width": 848,
+      "height": 1251
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-003.webp",
+      "caption": "",
+      "page": 21,
+      "index": 3,
+      "width": 1020,
+      "height": 1239
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-004.webp",
+      "caption": "",
+      "page": 41,
+      "index": 4,
+      "width": 1697,
+      "height": 995
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-005.webp",
+      "caption": "",
+      "page": 43,
+      "index": 5,
+      "width": 1121,
+      "height": 660
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-006.webp",
+      "caption": "",
+      "page": 47,
+      "index": 6,
+      "width": 1163,
+      "height": 872
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-007.webp",
+      "caption": "",
+      "page": 49,
+      "index": 7,
+      "width": 1061,
+      "height": 880
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-008.webp",
+      "caption": "",
+      "page": 102,
+      "index": 8,
+      "width": 705,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-009.webp",
+      "caption": "",
+      "page": 102,
+      "index": 9,
+      "width": 705,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-010.webp",
+      "caption": "",
+      "page": 102,
+      "index": 10,
+      "width": 705,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-011.webp",
+      "caption": "",
+      "page": 102,
+      "index": 11,
+      "width": 705,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-012.webp",
+      "caption": "",
+      "page": 103,
+      "index": 12,
+      "width": 1341,
+      "height": 494
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-013.webp",
+      "caption": "",
+      "page": 103,
+      "index": 13,
+      "width": 1341,
+      "height": 638
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-014.webp",
+      "caption": "",
+      "page": 103,
+      "index": 14,
+      "width": 1341,
+      "height": 549
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-015.webp",
+      "caption": "",
+      "page": 104,
+      "index": 15,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-016.webp",
+      "caption": "",
+      "page": 104,
+      "index": 16,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-017.webp",
+      "caption": "",
+      "page": 104,
+      "index": 17,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-018.webp",
+      "caption": "",
+      "page": 104,
+      "index": 18,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-019.webp",
+      "caption": "",
+      "page": 104,
+      "index": 19,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-020.webp",
+      "caption": "",
+      "page": 104,
+      "index": 20,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-021.webp",
+      "caption": "",
+      "page": 104,
+      "index": 21,
+      "width": 746,
+      "height": 559
+    },
+    {
+      "url": "assets/figures/arxiv/2609.13975v1/fig-022.webp",
+      "caption": "",
+      "page": 104,
+      "index": 22,
+      "width": 746,
+      "height": 559
+    }
+  ]
+}

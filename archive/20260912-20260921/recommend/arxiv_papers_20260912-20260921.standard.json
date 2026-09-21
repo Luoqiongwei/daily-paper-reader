@@ -1,0 +1,801 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-21T20:56:17.995885+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 28,
+    "deep_cap": 6,
+    "deep_selected": 9,
+    "quick_candidates": 61,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2609.13890v1",
+      "source": "arxiv",
+      "title": "Learning How Much to Collaborate: Difficulty-Aware Topology Selection for Multi-Agent Code Generation",
+      "abstract": "Multi-agent systems for code generation are deployed with a single communication topology, chosen once for every problem. This is the wrong granularity. Evaluating five topologies on 614 problems from APPS, HumanEval+ and LiveCodeBench, we find that the advantage of hierarchical collaboration over a single agent grows from 2.4 points of pass@1 on the easiest third of problems to 21.1 points on the hardest third, while its token cost stays about ten times higher. We propose the Difficulty-Aware Topology Selector (DATS), which predicts each topology's probability of solving a problem and selects the one maximising predicted success minus cost. Its predictor is a graph network that treats the five topologies as nodes of a connectivity order rather than independent labels, worth 1.7 points over a flat multi-label head. Because the cost penalty is a single scalar recalibrable without retraining, routers compare at equal spend: under this budget-matched protocol six cost-aware methods span 21.6 percentage points, and two baselines leading DATS fall behind once calibrated to it. Fixed at 40% of the always-hierarchical cost, DATS reaches 77.7% pass@1 against 73.6% (always-hierarchical) and 74.3% (strongest learned competitor), all eleven pairwise McNemar comparisons surviving Holm-Bonferroni correction. The 4.1-point gain holds across four backbones spanning fourteen points of capability, and replacing the 39 interpretable features with a graph network or a pretrained encoder shifts accuracy by at most 1.3 points, never significantly. A cross-domain study on 400 mathematical reasoning problems reproduces the effect, the gap widening from 2.5 to 20.9 points.",
+      "authors": [
+        "Yunsong Hong"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.SE"
+      ],
+      "published": "2026-09-12T11:28:16+00:00",
+      "link": "https://arxiv.org/pdf/2609.13890v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-agent LLM code generation with difficulty-aware topology selection",
+      "llm_evidence_cn": "带难度感知拓扑选择的多智能体LLM代码生成",
+      "llm_evidence": "带难度感知拓扑选择的多智能体LLM代码生成",
+      "canonical_evidence": "带难度感知拓扑选择的多智能体LLM代码生成",
+      "llm_tldr_en": "Multi-agent code generation systems fix one communication topology for all problems. This paper proposes a difficulty-aware topology selector that predicts each topology's success and cost, improving pass@1 on APPS, HumanEval+ and LiveCodeBench.",
+      "llm_tldr_cn": "多智能体代码生成系统通常为所有问题固定单一通信拓扑，忽视了问题难度的差异，导致简单题浪费算力、难题协作不足。本文在APPS、HumanEval+与LiveCodeBench的614个问题上评测五种拓扑，发现层级协作相对单智能体的优势从简单题2.4分扩大到难题21.1分，但代价约为十倍词元。为此作者提出难度感知拓扑选择器DATS，用图网络预测各拓扑成功率并权衡成本进行选择。该工作为LLM代码生成的协作策略优化提供了自适应方案。",
+      "llm_tldr": "多智能体代码生成系统通常为所有问题固定单一通信拓扑，忽视了问题难度的差异，导致简单题浪费算力、难题协作不足。本文在APPS、HumanEval+与LiveCodeBench的614个问题上评测五种拓扑，发现层级协作相对单智能体的优势从简单题2.4分扩大到难题21.1分，但代价约为十倍词元。为此作者提出难度感知拓扑选择器DATS，用图网络预测各拓扑成功率并权衡成本进行选择。该工作为LLM代码生成的协作策略优化提供了自适应方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.14784v1",
+      "source": "arxiv",
+      "title": "Enhancing Automated Unit Test Generation for NLP Libraries Using Large Language Models",
+      "abstract": "Automated unit test generation tools like EvoSuite perform well on general-purpose software but often struggle with domain-specific software such as Natural Language Processing (NLP) libraries, where inputs must follow semantic, syntactic, and structural constraints. Large Language Models (LLMs) can generate domain-relevant test code, but tests produced by LLMs alone often fail to compile or achieve sufficient coverage. We propose LLMSuite, a hybrid test generation framework that integrates self-refinement prompting with class-level LLM reasoning into the search-based testing process. In this mechanism, the LLM iteratively improves its test snippets based on feedback from previous generations. This enables the model to produce increasingly precise, domain-consistent code fragments that steer the evolutionary search toward exercising complex and otherwise hard-to-reach behaviors. When no objective improves over multiple generations in the underlying evolutionary algorithm, these refined snippets are parsed and injected into EvoSuite's population to expand the search space. To support our evaluation, we constructed a new dataset comprising 100 classes drawn from five widely used Java NLP projects. We also re-implemented CodaMOSA, a recent hybrid SBST-LLM technique, in Java to enable a direct comparison. Across this dataset, LLMSuite improves branch and line coverage by approximately 10% and 8%, respectively, and achieves an 11% higher mutation score than CodaMOSA-J. Compared to EvoSuite, LLMSuite yields roughly 15% higher branch and line coverage and 5% higher mutation score. Against an LLM-only baseline, it improves structural coverage by 36% and mutation score by about 24.7 percentage points. Finally, LLMSuite complements manually written test suites by exercising domain-specific behaviors that are often left untested.",
+      "authors": [
+        "Amirhossein Deljouyi",
+        "Annibale Panichella",
+        "Andy Zaidman"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-09-13T20:53:41+00:00",
+      "link": "https://arxiv.org/pdf/2609.14784v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based automated unit test generation for NLP libraries",
+      "llm_evidence_cn": "基于大模型自动生成单元测试",
+      "llm_evidence": "基于大模型自动生成单元测试",
+      "canonical_evidence": "基于大模型自动生成单元测试",
+      "llm_tldr_en": "LLMSuite combines self-refinement prompting and class-level LLM reasoning with search-based testing to generate compilable, high-coverage unit tests for domain-specific NLP libraries where EvoSuite struggles.",
+      "llm_tldr_cn": "现有EvoSuite等自动化测试工具在NLP库这类领域特定软件上因输入需满足语义与结构约束而表现不佳，而单纯由大模型生成的测试又常无法编译或覆盖率不足。本文提出LLMSuite，将自反思提示与类级大模型推理融入基于搜索的测试流程，让模型依据历史反馈迭代改进测试片段。实验表明该混合框架能显著提升测试的可编译性与覆盖率，为领域特定软件的自动化测试提供了新范式。",
+      "llm_tldr": "现有EvoSuite等自动化测试工具在NLP库这类领域特定软件上因输入需满足语义与结构约束而表现不佳，而单纯由大模型生成的测试又常无法编译或覆盖率不足。本文提出LLMSuite，将自反思提示与类级大模型推理融入基于搜索的测试流程，让模型依据历史反馈迭代改进测试片段。实验表明该混合框架能显著提升测试的可编译性与覆盖率，为领域特定软件的自动化测试提供了新范式。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.16096v1",
+      "source": "arxiv",
+      "title": "Coaching Qwen3 Coder 30B to Think Like a CodeClash Arena Agent",
+      "abstract": "Large language model coding agents have recently become useful for software tasks, but weaker or open-weight agents still struggle to reliably interpret user intent and execute complex multi-step workflows. This gap is especially visible in long-horizon settings, where an agent must repeatedly inspect prior outcomes, diagnose failure, and choose the next code edit under interaction constraints. It motivates a natural question: what can we do to improve the thinking process of a weak code agent? We study this question in CodeClash, a code-arena benchmark where the original work evaluates 8 commercial coding agents across 6 arenas through multi-round tournaments. Since Qwen3 Coder Plus ranks last among them, we take the open-weight Qwen3-Coder-30B as a case study and investigate how to improve it with distilled knowledge from stronger agents. Our analysis shows that Qwen3-Coder-30B is not well optimized for arena-style interaction: it frequently produces syntax and protocol-breaking errors and exhibits weak strategic adaptation across rounds. These failures are difficult to correct with vanilla instruction tuning alone, since offline SFT cannot directly verify whether a generated action is valid or beneficial. To address this, we propose ReAct SFT, which rewrites teacher trajectories into explicit [obs][thought][act] chains, and trajectoryquality weighted SFT, which reweights samples to encourage post-edit checking. ReAct SFT substantially improves strategic behavior, and our fine-tuned model outperforms the original Qwen3 Coder Plus in tournament evaluation.",
+      "authors": [
+        "Ivy Ning Zhang"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-14T14:50:05+00:00",
+      "link": "https://arxiv.org/pdf/2609.16096v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "coaching an open-weight code agent to improve long-horizon code editing",
+      "llm_evidence_cn": "引导开源编码智能体提升长时程代码编辑能力",
+      "llm_evidence": "引导开源编码智能体提升长时程代码编辑能力",
+      "canonical_evidence": "引导开源编码智能体提升长时程代码编辑能力",
+      "llm_tldr_en": "Open-weight coding agents still fail at long-horizon multi-step software tasks; this work takes Qwen3-Coder-30B in the CodeClash arena and coaches its reasoning to improve agent reliability.",
+      "llm_tldr_cn": "大语言模型编码智能体在软件任务中已具实用性，但较弱的开源模型仍难以稳定理解用户意图并完成多步工作流，长时程场景尤为明显。本文以 CodeClash 代码竞技场为测试床，将排名靠后的开源 Qwen3-Coder-30B 作为案例，通过引导其推理过程提升智能体表现。研究揭示了弱编码智能体的思考瓶颈，并给出可迁移的训练与提示改进思路，对提升代码生成智能体可靠性有参考价值。",
+      "llm_tldr": "大语言模型编码智能体在软件任务中已具实用性，但较弱的开源模型仍难以稳定理解用户意图并完成多步工作流，长时程场景尤为明显。本文以 CodeClash 代码竞技场为测试床，将排名靠后的开源 Qwen3-Coder-30B 作为案例，通过引导其推理过程提升智能体表现。研究揭示了弱编码智能体的思考瓶颈，并给出可迁移的训练与提示改进思路，对提升代码生成智能体可靠性有参考价值。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.16604v1",
+      "source": "arxiv",
+      "title": "ExecuCritic: Calibrated Critic Shaping for Code Generation with Verifiable Rewards",
+      "abstract": "Execution feedback is a useful supervision signal for code models because unit tests are objective and directly measure program correctness. Its weakness is that an entire program is often reduced to one pass or fail bit, leaving RLVR to solve a difficult credit assignment problem. At the same time, coding systems often include separate reviewer or tester roles, but these critics are usually prompted rather than trained and are not calibrated against execution. We propose ExecuCritic, a joint training framework in which a coder and a critic are updated on the same execution rollouts. The critic predicts pass or fail outcomes and gives short diagnostic feedback; the coder uses this signal only when the critic agrees with the executor on the current rollout group. Across eight code benchmarks and two recent open backbones, ExecuCritic improves over GRPO without a critic, prompted reviewer systems and scalar reward model baselines, while requiring fewer policy gradient steps and fewer sandbox executions. Ablations and reliability analyses suggest that the gains come from better credit assignment rather than larger sampling budgets.",
+      "authors": [
+        "Junjie Cao",
+        "Yingjie He"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-09-15T03:58:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.16604v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "jointly trained critic shaping for code generation with verifiable rewards",
+      "llm_evidence_cn": "面向可验证奖励代码生成的联合训练评论家塑形",
+      "llm_evidence": "面向可验证奖励代码生成的联合训练评论家塑形",
+      "canonical_evidence": "面向可验证奖励代码生成的联合训练评论家塑形",
+      "llm_tldr_en": "Unit-test feedback for code models collapses to a pass/fail bit, creating credit assignment difficulty for RLVR. ExecuCritic jointly trains a coder and a critic on shared execution rollouts, using calibrated diagnostic feedback only when the critic agrees with the executor.",
+      "llm_tldr_cn": "执行反馈是代码生成的强监督信号，但单元测试常把一个程序压缩为通过或失败的一位信息，给带可验证奖励的强化学习带来信用分配难题。本文提出ExecuCritic联合训练框架，让编码器与评论家在相同的执行轨迹上更新，评论家预测成败并给出简短诊断反馈，编码器仅在评论家与执行器一致时采用该信号。实验证明该方法有效提升代码生成质量，为代码模型提供了校准的执行反馈监督。",
+      "llm_tldr": "执行反馈是代码生成的强监督信号，但单元测试常把一个程序压缩为通过或失败的一位信息，给带可验证奖励的强化学习带来信用分配难题。本文提出ExecuCritic联合训练框架，让编码器与评论家在相同的执行轨迹上更新，评论家预测成败并给出简短诊断反馈，编码器仅在评论家与执行器一致时采用该信号。实验证明该方法有效提升代码生成质量，为代码模型提供了校准的执行反馈监督。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.18311v1",
+      "source": "arxiv",
+      "title": "A Study on the Impact of Natural Language Differences in Prompts on Automatic Code Generation Using LLMs",
+      "abstract": "Large Language Models (LLMs) have demonstrated remarkable performance in automatic code generation tasks, thereby encouraging new research in this area. Although numerous studies have explored LLM-based code generation, the impact of the natural language in input prompts remains unexplored (language bias). This study aims to (1) quantify how the natural language of input prompts influences LLM-based code generation performance and (2) evaluate a mitigation strategy to reduce language bias in code generation. We assess code generation Accuracy on AtCoder, LeetCode, and BigCodeBench. To quantify the language bias on code generation, each problem is presented in English, Japanese, and Chinese. We use seven LLMs (GPT-4o, o3-mini, DeepSeek-V3.2, Llama-3, Qwen2.5-Coder-14B, Qwen2.5-Coder-0.5B, and GitHub Copilot) and assess their performance in terms of Accuracy (the number of problems for which generated code passes all test cases). We compare Accuracy before and after translation to evaluate the effectiveness of translation as a mitigation strategy. We observed that the natural language of problem statements affects LLM-based code generation performance. Specifically, the languages officially supported by each dataset achieved the highest median Accuracy. Also, translation improved Accuracy, but its effectiveness was not consistent across datasets and model types. We found that AtCoder contained a particularly high proportion of narrative-style problem statements and longer problem statements. Natural language significantly affects LLM code generation accuracy. Translation can mitigate language bias in some settings, but its effectiveness depends on the dataset and model type. Furthermore, the narrative aspects and context length of input prompts are important factors related to language bias and the effectiveness of translation as a mitigation strategy.",
+      "authors": [
+        "Haruka Tokumasu",
+        "Masanari Kondo",
+        "Alexander Serebrenik",
+        "Dong Wang",
+        "Kei Koyanagi",
+        "Kotaro Noguchi",
+        "Naoyasu Ubayashi",
+        "Yasutaka Kamei"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-09-16T08:32:09+00:00",
+      "link": "https://arxiv.org/pdf/2609.18311v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "quantifies language bias in LLM-based automatic code generation",
+      "llm_evidence_cn": "量化LLM代码生成中的提示语言偏置",
+      "llm_evidence": "量化LLM代码生成中的提示语言偏置",
+      "canonical_evidence": "量化LLM代码生成中的提示语言偏置",
+      "llm_tldr_en": "This study quantifies how the natural language of prompts affects LLM code generation, presenting problems in English, Japanese and Chinese on AtCoder, LeetCode and BigCodeBench across seven LLMs and evaluating a bias mitigation strategy.",
+      "llm_tldr_cn": "尽管大量研究探索了基于大语言模型的代码生成，但输入提示所用自然语言对生成性能的影响尚未被系统研究。本文在AtCoder、LeetCode与BigCodeBench上，将同一问题分别以英语、日语和中文呈现，使用七种LLM量化语言偏置，并评估一种缓解策略。实验揭示了明显的语言偏置现象，为构建更公平、更稳健的代码生成系统提供了依据。",
+      "llm_tldr": "尽管大量研究探索了基于大语言模型的代码生成，但输入提示所用自然语言对生成性能的影响尚未被系统研究。本文在AtCoder、LeetCode与BigCodeBench上，将同一问题分别以英语、日语和中文呈现，使用七种LLM量化语言偏置，并评估一种缓解策略。实验揭示了明显的语言偏置现象，为构建更公平、更稳健的代码生成系统提供了依据。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.18325v1",
+      "source": "arxiv",
+      "title": "A sequential regularized piecewise affine algorithm for nonconvex nonsmooth multicomposite optimization in RNN training",
+      "abstract": "This paper focuses on a class of nonconvex nonsmooth multicomposite optimization problems for training RNNs (Recurrent Neural Networks). We first establish easily verifiable conditions under which an approximate first-order d-stationary point of the problem is guaranteed to be an approximate second-order d-stationary point. Subsequently, we propose a sequential regularized piecewise affine algorithm, SRPA, that minimizes a regularized piecewise affine function at each iteration, where the idea of active-set strategy is incorporated to reduce the computational cost per iteration. Leveraging the aforementioned conditions for second-order d-stationarity, we establish the global convergence of SRPA to second-order d-stationary points and the complexity bound of $ \\mathcal{O}(ε^{-2}) $ for obtaining an $ ε$-approximate second-order d-stationary point. Finally, numerical experiments for training RNNs on synthetic and real-world datasets demonstrate the promising performance of SRPA compared with state-of-the-art algorithms.",
+      "authors": [
+        "Lingzi Jin",
+        "Xiao Wang",
+        "Xiaojun Chen"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC"
+      ],
+      "published": "2026-09-16T08:50:09+00:00",
+      "link": "https://arxiv.org/pdf/2609.18325v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Nonconvex nonsmooth multicomposite optimization for RNN training",
+      "llm_evidence_cn": "面向RNN训练的非凸非光滑多复合优化",
+      "llm_evidence": "面向RNN训练的非凸非光滑多复合优化",
+      "canonical_evidence": "面向RNN训练的非凸非光滑多复合优化",
+      "llm_tldr_en": "The paper studies nonconvex nonsmooth multicomposite optimization for RNN training, establishing second-order d-stationarity conditions and proposing the SRPA algorithm with active-set strategy and global convergence guarantees.",
+      "llm_tldr_cn": "本文关注训练循环神经网络时出现的非凸非光滑多复合优化问题，这类问题缺乏良好的收敛性理论保障。作者首先给出易验证的条件，保证近似一阶d-稳定点即为近似二阶d-稳定点；随后提出序列正则化分片仿射算法SRPA，在每步最小化正则化分片仿射函数并引入活跃集策略降低单步计算开销。基于二阶稳定性条件，证明了SRPA的全局收敛性，为机器学习中的非凸优化提供了理论工具。",
+      "llm_tldr": "本文关注训练循环神经网络时出现的非凸非光滑多复合优化问题，这类问题缺乏良好的收敛性理论保障。作者首先给出易验证的条件，保证近似一阶d-稳定点即为近似二阶d-稳定点；随后提出序列正则化分片仿射算法SRPA，在每步最小化正则化分片仿射函数并引入活跃集策略降低单步计算开销。基于二阶稳定性条件，证明了SRPA的全局收敛性，为机器学习中的非凸优化提供了理论工具。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.21190v1",
+      "source": "arxiv",
+      "title": "SWE-Proof: Can Language Models Resolve Real-World Issues with Machine-Checked Proofs?",
+      "abstract": "Ensuring the correctness of LLM-generated code is a core challenge for modern software engineering. Benchmarks for agentic code generation check correctness with held-out test suites, which are inherently incomplete and increasingly susceptible to memorization. Formal verification avoids both problems, but existing work covers only standalone tasks whose specifications are given as input, not real issues, which touch large repositories and state intent in vague natural language. We present Benchproofer, a pipeline that turns a coding task with a known correct patch into a formally verified one: it writes a specification for the new code, summarizes the existing functions that code calls with axioms, and admits an instance only after mechanical and adversarial gates agree. Applying it to SWE-bench Verified yields SWE-Proof, 500 real issues whose correctness is formally verified rather than tested, and it extends to SWE-bench Pro. Across two frontier models, verification catches what tests miss: a quarter to a half of test-passing patches admit counterexamples, which a structured natural-language specification does not fix, while a correct formal one lifts resolution from 85% to 95% for Opus 4.8. Writing that specification is the hard part: models that must write their own gain nothing over an unaided baseline, and only 62% of their specifications pass our audit. The usual failure is faithfulness, a specification that constrains part of the required behavior and leaves the rest free. Specification quality still tracks the outcome, failing on 89% of unresolved instances against 47% of resolved ones, making faithful specification synthesis a concrete open problem.",
+      "authors": [
+        "George Ma",
+        "Benjamin Mikek",
+        "Haoyu Li",
+        "Ferhat Erata",
+        "Yuhao Zhang",
+        "Zeren Shui",
+        "Behrooz Omidvar Tehrani",
+        "Jun Huan",
+        "Murali Krishna Ramanathan",
+        "Somayeh Sojoudi",
+        "Hao Zhou",
+        "Anoop Deoras"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-09-18T01:16:53+00:00",
+      "link": "https://arxiv.org/pdf/2609.21190v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Formally verified benchmarks for LLM-generated code correctness",
+      "llm_evidence_cn": "面向大模型代码生成正确性的形式化验证基准",
+      "llm_evidence": "面向大模型代码生成正确性的形式化验证基准",
+      "canonical_evidence": "面向大模型代码生成正确性的形式化验证基准",
+      "llm_tldr_en": "Benchproofer turns real-world coding tasks with known patches into machine-checked verified instances, using specifications and axioms to evaluate whether language models can resolve repository-level issues correctly.",
+      "llm_tldr_cn": "确保大模型生成代码的正确性是现代软件工程的核心挑战，而基于留出测试套件的评测本身不完整且易受记忆影响。形式化验证可规避这两点，但现有工作只覆盖规格已给定的独立任务，无法处理涉及大型仓库、意图表述含糊的真实issue。本文提出Benchproofer流水线，为代码编写规格、用公理概括被调用函数，并仅在机器检验通过后才纳入实例，从而构建可形式化验证的代码生成基准。",
+      "llm_tldr": "确保大模型生成代码的正确性是现代软件工程的核心挑战，而基于留出测试套件的评测本身不完整且易受记忆影响。形式化验证可规避这两点，但现有工作只覆盖规格已给定的独立任务，无法处理涉及大型仓库、意图表述含糊的真实issue。本文提出Benchproofer流水线，为代码编写规格、用公理概括被调用函数，并仅在机器检验通过后才纳入实例，从而构建可形式化验证的代码生成基准。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Recent advances in code generation using large language models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.21208v1",
+      "source": "arxiv",
+      "title": "Information-Gain Rewards over Diversity-Pruned Tests: GT-Anchored Verifier Co-Training for Reliable Code Generation",
+      "abstract": "Self-play methods that co-train a single language model as both coder and test author promise to move code-generation RL beyond fixed test suites, but they suffer from two coupled pathologies: permissiveness collapse, where pass-rate rewards are maximised by trivial, non-discriminative tests, and concentration bias, where i.i.d. sampled tests cluster on modal inputs and inflate estimator variance. We introduce CoVer (Co-trained Coder and Verifier), a single-policy GRPO framework that addresses both failure modes. First, an information-gain (IG) reward scores each self-generated test by the mutual information between its pass/fail vector and a graded, ground-truth-anchored correctness signal y [0, 1] m, gated by the sign of their covariance so that only positively discriminative tests receive reward. Second, a three-stage diversity-aware selection step prunes a candidate pool to a behaviourally non-redundant suite (invalidity, input-string, execution-profile filtering), raising the effective sample size of the IG estimator at fixed execution budget. On five benchmarks (LiveBench, MBPP, LiveCodeBench, CodeContests, Code-Forces), CoVer raises one-shot pass@1 by +5.8 points at 7B and +7.1 points at 14B over the Qwen2.5-Instruct backbone, and achieves the highest macro-average among all compared methods at both scales. As a drop-in backbone inside the CodeT ranking pipeline, CoVer-7B adds +3.5 points, demonstrating the dual benefit of co-training for both generation and selection.",
+      "authors": [
+        "Ana Nunez",
+        "Peyman Najafirad"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-18T01:46:28+00:00",
+      "link": "https://arxiv.org/pdf/2609.21208v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "GRPO-based co-training of coder and verifier with information-gain rewards for reliable code generation",
+      "llm_evidence_cn": "基于信息增益奖励的编码器-验证器协同训练以提升代码生成可靠性",
+      "llm_evidence": "基于信息增益奖励的编码器-验证器协同训练以提升代码生成可靠性",
+      "canonical_evidence": "基于信息增益奖励的编码器-验证器协同训练以提升代码生成可靠性",
+      "llm_tldr_en": "CoVer is a single-policy GRPO framework that co-trains a coder and a verifier with information-gain rewards over diversity-pruned tests for reliable LLM code generation.",
+      "llm_tldr_cn": "自博弈方法让同一语言模型同时充当编码器与测试作者，有望突破固定测试集限制，但存在宽松性坍缩与集中偏差两大问题。作者提出CoVer，一个单策略GRPO框架，引入信息增益奖励，用测试通过/失败向量与真值锚定正确性信号之间的互信息来评估自生成测试，并配合多样性剪枝抑制方差。实验表明该方法能生成更具判别力的测试并提升代码生成可靠性，为LLM代码生成的强化学习训练提供了更稳健的验证机制。",
+      "llm_tldr": "自博弈方法让同一语言模型同时充当编码器与测试作者，有望突破固定测试集限制，但存在宽松性坍缩与集中偏差两大问题。作者提出CoVer，一个单策略GRPO框架，引入信息增益奖励，用测试通过/失败向量与真值锚定正确性信号之间的互信息来评估自生成测试，并配合多样性剪枝抑制方差。实验表明该方法能生成更具判别力的测试并提升代码生成可靠性，为LLM代码生成的强化学习训练提供了更稳健的验证机制。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.21327v1",
+      "source": "arxiv",
+      "title": "Deep Reinforcement Learning with Buffered Quantile Objectives",
+      "abstract": "Quantile-based reinforcement learning provides an interpretable approach to risk-sensitive decision-making by optimizing a prescribed quantile of the cumulative-return distribution. Despite this appeal, learning under a point quantile objective is challenging: quantiles can change abruptly under small perturbations of the return distribution, and exact quantile-sensitive planning requires computationally demanding distributional optimization. Lower-buffered quantiles alleviate the former difficulty by averaging neighboring quantiles immediately below the target level, providing a smoother surrogate while preserving the underlying point-quantile objective. Existing methods based on this principle, however, remain model-based and rely on explicit return-law planning, limiting their applicability beyond small tabular problems. We develop Deep-BQRL, a model-free distributional reinforcement-learning framework that extends buffered-quantile learning to neural function approximation. The method learns conditional return quantiles directly from sampled transitions, constructs buffered action scores from the relevant region of the learned quantile function, and uses ensemble disagreement to guide exploration. An augmented input representation allows the learned policy to respond to trajectory information without explicitly reproducing the quantile-state recursion required by exact planning. Experiments on an asset-selling optimal-stopping problem and slippery FrozenLake compare Deep-BQRL with model-based UCB-BQRL and tabular PPO and TRPO implementations. In asset selling, Deep-BQRL attains smaller mean cumulative point-quantile policy gaps than PPO and TRPO at the reported target levels, while UCB-BQRL retains the smallest gaps. The learned stopping decisions also vary with the target quantile, providing an interpretable illustration of the method's risk-sensitive behavior.",
+      "authors": [
+        "Mohammad Alipour-vaezi",
+        "Sajad Khodadadian"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "math.OC"
+      ],
+      "published": "2026-09-18T05:17:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.21327v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "deep reinforcement learning with a buffered quantile objective",
+      "llm_evidence_cn": "带缓冲分位目标的深度强化学习算法",
+      "llm_evidence": "带缓冲分位目标的深度强化学习算法",
+      "canonical_evidence": "带缓冲分位目标的深度强化学习算法",
+      "llm_tldr_en": "Quantile RL gives interpretable risk-sensitive control but point-quantile objectives are unstable and need costly distributional planning; this work proposes a model-free buffered quantile objective that smooths learning while preserving the target quantile.",
+      "llm_tldr_cn": "分位强化学习通过优化累积回报分布的指定分位数实现可解释的风险敏感决策，但点分位目标在回报分布微小扰动下会突变，且精确分位规划需昂贵的分布优化。下缓冲分位通过对目标分位附近较低分位取平均得到更平滑的代理目标，同时保留原始点分位意图。已有方法多基于模型并依赖显式回报分布规划，本文提出无模型的分位目标学习算法以突破这一限制。该工作拓展了深度强化学习中风险敏感决策的可扩展性。",
+      "llm_tldr": "分位强化学习通过优化累积回报分布的指定分位数实现可解释的风险敏感决策，但点分位目标在回报分布微小扰动下会突变，且精确分位规划需昂贵的分布优化。下缓冲分位通过对目标分位附近较低分位取平均得到更平滑的代理目标，同时保留原始点分位意图。已有方法多基于模型并依赖显式回报分布规划，本文提出无模型的分位目标学习算法以突破这一限制。该工作拓展了深度强化学习中风险敏感决策的可扩展性。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.13975v1",
+      "source": "arxiv",
+      "title": "Introspective Uncertainty Estimation for LLM-Based Code Generation",
+      "abstract": "Large Language Models (LLMs) are increasingly used for code generation but can produce fluent yet functionally incorrect outputs, which limits trust in their usage for practical software engineering workflows. This thesis investigates whether Introspective Uncertainty Estimation (IUE), based on internal hidden-state representations of LLMs, can reliably indicate correctness at the response and line levels for code generation tasks. The objective is to determine the extent to which hidden states encode information about functional code correctness and how this can be leveraged for practical risk assessment and fault localization. Methodologically, this thesis combines response-level evaluation on LiveCodeBench (LCB) and BigCodeBench (BCB) with an augmentation pipeline that derives token- and line-level labels from incorrect programs. In this setup, it compares static and dynamic response-level features, evaluates generalization across tasks, programming domains, and token positions, and studies line-level fault localization.   The results show that hidden states contain a strong response-level correctness signal. Static single-token probes perform best, while more elaborate dynamic strategies yield no consistent gains. While generalization across tasks, domains, and token positions is feasible, setting-dependent degradation largely remains for real-world software projects. At a fine granularity, line-level prediction is substantially harder than response-level estimation. However, in a conditional localization setup with known-incorrect programs, Top-K point-of-failure ranking remains effective. Overall, the findings suggest that hidden states are a robust and informative resource for estimating functional code correctness, supporting a two-stage workflow that combines response-level risk screening with targeted line-level prioritization.",
+      "authors": [
+        "Thomas Klassert"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.LG"
+      ],
+      "published": "2026-09-12T14:43:07+00:00",
+      "link": "https://arxiv.org/pdf/2609.13975v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uncertainty estimation to flag incorrect LLM-generated code",
+      "llm_evidence_cn": "用不确定性估计识别 LLM 生成代码的功能错误",
+      "llm_evidence": "用不确定性估计识别 LLM 生成代码的功能错误",
+      "canonical_evidence": "用不确定性估计识别 LLM 生成代码的功能错误",
+      "llm_tldr_en": "LLMs often produce fluent but functionally incorrect code; this thesis tests whether introspective uncertainty from hidden states can predict correctness at response and line levels on LiveCodeBench and BigCodeBench.",
+      "llm_tldr_cn": "大语言模型虽被广泛用于代码生成，却常产生语法流畅但功能错误的输出，制约了其在软件工程流程中的可信使用。本文研究基于模型内部隐状态的内省式不确定性估计，判断其能否在响应级与行级可靠指示代码正确性。方法上结合 LiveCodeBench 与 BigCodeBench 评估以及数据增强策略，探索隐状态对功能正确性的编码能力。结果有望服务于风险预警与故障定位，提升 LLM 代码生成的可信度。",
+      "llm_tldr": "大语言模型虽被广泛用于代码生成，却常产生语法流畅但功能错误的输出，制约了其在软件工程流程中的可信使用。本文研究基于模型内部隐状态的内省式不确定性估计，判断其能否在响应级与行级可靠指示代码正确性。方法上结合 LiveCodeBench 与 BigCodeBench 评估以及数据增强策略，探索隐状态对功能正确性的编码能力。结果有望服务于风险预警与故障定位，提升 LLM 代码生成的可信度。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.14246v1",
+      "source": "arxiv",
+      "title": "Joint Optimization for Federated Learning and Transmission over Unreliable Wireless Networks with Heterogeneous Data",
+      "abstract": "In wireless federated learning (FL), data heterogeneity and multiple local updates induce client drift, degrading model convergence. It is further affected by unreliable wireless links, as transmission errors may invalidate model updates. To address these challenges, we propose a federated random walk averaging (FedRW) framework, which is a variant of federated averaging (FedAvg) that mitigates data heterogeneity by updating models along random walk (RW) paths and aggregating them at the server. Model parameters are transmitted in packets with retransmission support to improve training quality by mitigating wireless errors along RW paths. Meanwhile, wireless transmission delays hinder the exploration of FedRW. To this end, we formulate a joint optimization problem that integrates learning, RW path selection, and transmission parameter tuning, aiming to minimize the training loss under delay constraints. By deriving an upper bound on the expected convergence of FedRW over unreliable wireless networks, we reduce the problem to a general form agnostic to task type and model architecture. A distributed solution is then proposed, in which the server or clients optimize packet size and maximum number of retransmissions locally, and efficiently select reliable and expandable next-hop nodes via a resilience-aware beam search with dynamic pruning. Simulation results show that FedRW achieves 2.26%-9% higher accuracy than state-of-the-art baselines under high data heterogeneity. Furthermore, the jointly optimized FedRW yields at least 2.78% higher accuracy and faster convergence compared to baselines.",
+      "authors": [
+        "Changheng Wang",
+        "Xianchao Zhang",
+        "Zhiqing Wei",
+        "Lingzhu Zhao",
+        "Zhongming Yang",
+        "Zhiyong Feng"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-09-13T02:49:28+00:00",
+      "link": "https://arxiv.org/pdf/2609.14246v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "federated learning over unreliable wireless networks with heterogeneous data",
+      "llm_evidence_cn": "不可靠无线网络下异构数据联邦学习优化",
+      "llm_evidence": "不可靠无线网络下异构数据联邦学习优化",
+      "canonical_evidence": "不可靠无线网络下异构数据联邦学习优化",
+      "llm_tldr_en": "Proposes FedRW, a federated random walk averaging framework that mitigates client drift from data heterogeneity and transmission errors via random-walk updates and packet retransmission.",
+      "llm_tldr_cn": "无线联邦学习中数据异构与多次本地更新会导致客户端漂移，不可靠链路又会使模型更新失效，从而降低收敛性。本文提出联邦随机游走平均框架FedRW，沿随机游走路径更新并聚合模型，并以带重传的分组传输缓解无线错误。结果表明该框架能缓解数据异构并提升训练质量。其贡献在于联合优化分布式联邦学习与不可靠无线传输。",
+      "llm_tldr": "无线联邦学习中数据异构与多次本地更新会导致客户端漂移，不可靠链路又会使模型更新失效，从而降低收敛性。本文提出联邦随机游走平均框架FedRW，沿随机游走路径更新并聚合模型，并以带重传的分组传输缓解无线错误。结果表明该框架能缓解数据异构并提升训练质量。其贡献在于联合优化分布式联邦学习与不可靠无线传输。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.14045v1",
+      "source": "arxiv",
+      "title": "Data-Efficient Agentic Graph Domain Adaptation via Reliability-Aware Prototype Learning",
+      "abstract": "Agentic learning systems are often required to adapt after deployment by observing new data and reusing prior knowledge under limited supervision or feedback. For graph-structured prediction, Graph Domain Adaptation (GDA) naturally instantiates this setting by transferring knowledge from labeled source graphs to unlabeled target graphs under distribution shifts. However, most GDA methods assume sufficient labeled source graphs, which becomes restrictive in data-efficient agentic settings where only limited source evidence can be retained. Under such constraints, source semantics become unreliable, leading to unstable source anchoring, uncertain target association, and fragile targetmarginal calibration. To address these challenges, we propose DEAG, a reliability-aware prototype learning framework for data-efficient agentic GDA. DEAG estimates class reliability from retained source support and embedding compactness, and constructs stable reusable source anchors by blending empirical prototypes with classifier directions. Guided by these anchors, DEAG performs prototype-aware soft target association and aligns confidence-weighted target centers with source semantics. A source-prior regularizer further sharpens target predictions while keeping the target marginal consistent with retained source evidence. Experiments on graph benchmarks with diverse domain shifts show that DEAG improves average adaptation performance over competitive GDA baselines under the same source-data budget.",
+      "authors": [
+        "Yingxu Wang",
+        "Kunyu Zhang",
+        "Siyang Gao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-12T16:54:53+00:00",
+      "link": "https://arxiv.org/pdf/2609.14045v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Data-efficient adaptation with reliability-aware prototype learning",
+      "llm_evidence_cn": "数据高效且可靠性感知的原型学习适配",
+      "llm_evidence": "数据高效且可靠性感知的原型学习适配",
+      "canonical_evidence": "数据高效且可靠性感知的原型学习适配",
+      "llm_tldr_en": "This work tackles graph domain adaptation under limited labeled source data, proposing reliability-aware prototype learning to stabilize source anchoring and target calibration in data-efficient agentic settings.",
+      "llm_tldr_cn": "智能体学习系统常需在有限监督下利用新数据与既有知识进行部署后适配，图领域自适应正是其典型实例。然而多数方法假设有充足标注源图，在只能保留有限源证据的数据高效场景下源语义不可靠，导致源锚定不稳、目标关联不确定与目标边缘校准脆弱。本文提出可靠性感知原型学习加以应对，提升了数据高效设定下图预测的适配效果，属于以数据为中心的方法探索。",
+      "llm_tldr": "智能体学习系统常需在有限监督下利用新数据与既有知识进行部署后适配，图领域自适应正是其典型实例。然而多数方法假设有充足标注源图，在只能保留有限源证据的数据高效场景下源语义不可靠，导致源锚定不稳、目标关联不确定与目标边缘校准脆弱。本文提出可靠性感知原型学习加以应对，提升了数据高效设定下图预测的适配效果，属于以数据为中心的方法探索。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Data centric approaches for improving model performance",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.14992v1",
+      "source": "arxiv",
+      "title": "MTAC-IFBench: Benchmarking Instruction-Following in Multi-Turn Agentic Coding",
+      "abstract": "Recently, the rapid development of large language models (LLMs) has reshaped software engineering by enabling autonomous code agents that plan, execute, and utilize external tools iteratively to tackle complex tasks. Beyond achieving functional correctness, these agents must faithfully follow process instructions and constraints throughout the development lifecycle. However, existing benchmarks typically focus on final functional correctness or confine instruction-following evaluation to single-turn, general chat or simple code generation scenarios, leaving instruction-following in multi-turn agentic coding underexplored. To bridge this gap, we propose MTAC-IFBench, a comprehensive benchmark for this critical capability. It features multi-turn progressive software development instructions with diverse constraints spanning 6 primary and 18 secondary categories. With an average of 7.04 turns and 91.33 constraints per instance, it poses a rigorous challenge to current LLMs. To make the evaluation reliable, we construct a checklist for each constraint and functional requirement, and integrate verification scripts and judge agents to verify each checklist item. MTAC-IFBench identifies significant deficiencies in existing code agents in multi-turn instruction-following, with their performance degrading rapidly as the interaction session grows longer.",
+      "authors": [
+        "Bosi Wen",
+        "Cunxiang Wang",
+        "Jiayi Gui",
+        "Haoke Zhang",
+        "Yilin Niu",
+        "Pei Ke",
+        "Dayong Yang",
+        "Hongning Wang",
+        "Minlie Huang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-14T03:57:37+00:00",
+      "link": "https://arxiv.org/pdf/2609.14992v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark for instruction-following in multi-turn LLM agentic coding and code generation",
+      "llm_evidence_cn": "面向多轮LLM智能体编码与代码生成的指令遵循评测基准",
+      "llm_evidence": "面向多轮LLM智能体编码与代码生成的指令遵循评测基准",
+      "canonical_evidence": "面向多轮LLM智能体编码与代码生成的指令遵循评测基准",
+      "llm_tldr_en": "MTAC-IFBench is a benchmark for instruction-following in multi-turn agentic coding, evaluating whether LLM code agents follow process constraints beyond functional correctness across iterative development tasks.",
+      "llm_tldr_cn": "针对大模型驱动的自主编码智能体需在开发全流程中遵循过程指令与约束、而现有基准多只关注最终功能正确性或限于单轮简单代码生成的问题，本文提出多轮智能体编码指令遵循基准MTAC-IFBench。该基准面向规划、执行与工具调用的多轮迭代场景，系统评测智能体在开发生命周期中对过程指令与约束的遵循能力。它为代码生成智能体的过程可靠性提供了新的评测维度，弥补了多轮智能体编码指令遵循评测的空白。",
+      "llm_tldr": "针对大模型驱动的自主编码智能体需在开发全流程中遵循过程指令与约束、而现有基准多只关注最终功能正确性或限于单轮简单代码生成的问题，本文提出多轮智能体编码指令遵循基准MTAC-IFBench。该基准面向规划、执行与工具调用的多轮迭代场景，系统评测智能体在开发生命周期中对过程指令与约束的遵循能力。它为代码生成智能体的过程可靠性提供了新的评测维度，弥补了多轮智能体编码指令遵循评测的空白。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Recent advances in code generation using large language models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.15064v1",
+      "source": "arxiv",
+      "title": "What Does an LLM Learn from Reinforcement Learning? A Mechanistic Interpretability Perspective with Fixed-SAE Track",
+      "abstract": "Reinforcement learning (RL) is widely utilized in large language model training to improve targeted capabilities, yet how RL reshapes a model remains poorly understood. Prior attempts to explain how RL works largely offer behavioral perspectives, leaving open what RL gives a model at the representation level: can RL create genuinely novel features, and which existing features does it enhance or suppress? Recent developments in mechanistic interpretability suggest sparse autoencoders (SAEs) as a promising lens to decompose internal activations into human-interpretable features; however, they cannot be directly applied to tracking change across training. In this work, we introduce Fixed-SAE Track, a framework that trains one shared SAE per considered layer on activations pooled across the base model and all RL checkpoints, holding every feature direction fixed so that representation shifts are rigorously defined through the activations of interpretable SAE latents, including the detection of emerging novel features. Validated across multiple datasets and RL algorithms, we find that RL-induced drift is small, gradual, concept specific, and concentrated in late layers, mainly enhancing the sampling rates of a small set of ladder tokens, formatting scaffolding such as step breaks and answer delimiters, rather than reshaping problem content. Steering these features into the base model recovers around 80% of RL's performance gain, suggesting that RL primarily elicits capabilities the model already possesses, much as steering does. We further design a synthetic benchmark with features known by construction to test whether RL can instill genuinely novel features. We believe Fixed-SAE Track provides a principled approach to tracking representation shifts and offers representational evidence for understanding how reinforcement learning changes the inner representation of LLMs.",
+      "authors": [
+        "Lingheng Du",
+        "Yiming Tang",
+        "Xufeng Duan",
+        "Dianbo Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-14T05:29:45+00:00",
+      "link": "https://arxiv.org/pdf/2609.15064v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Mechanistic study of how reinforcement learning reshapes LLM representations",
+      "llm_evidence_cn": "强化学习如何重塑LLM表征的机制研究",
+      "llm_evidence": "强化学习如何重塑LLM表征的机制研究",
+      "canonical_evidence": "强化学习如何重塑LLM表征的机制研究",
+      "llm_tldr_en": "Fixed-SAE Track uses sparse autoencoders to track how reinforcement learning reshapes LLM internal features, addressing whether RL creates novel features or enhances and suppresses existing ones.",
+      "llm_tldr_cn": "强化学习被广泛用于提升大模型特定能力，但它在表征层面究竟改变了什么仍不清楚，以往解释多停留在行为层面。本文提出Fixed-SAE Track框架，借助固定稀疏自编码器追踪训练过程中内部激活特征的变化，考察RL是否能创造新特征以及增强或抑制了哪些已有特征。该工作从机制可解释性角度揭示了RL对大模型内部表征的作用，深化了对深度强化学习算法的理解。",
+      "llm_tldr": "强化学习被广泛用于提升大模型特定能力，但它在表征层面究竟改变了什么仍不清楚，以往解释多停留在行为层面。本文提出Fixed-SAE Track框架，借助固定稀疏自编码器追踪训练过程中内部激活特征的变化，考察RL是否能创造新特征以及增强或抑制了哪些已有特征。该工作从机制可解释性角度揭示了RL对大模型内部表征的作用，深化了对深度强化学习算法的理解。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.14485v1",
+      "source": "arxiv",
+      "title": "Retrieval-Guided Fine-Tuning as Noisy Estimation: Risk bounds and Architectural Analysis",
+      "abstract": "Retrieval-Guided Fine-Tuning (RAG-FT) incorporates retrieved data directly into the training objective, but the statistical consequences of noisy retrieval during training remain theoretically undercharacterized. We study this question by modeling RAG-FT as an estimation problem in a multi-task linear regression framework, using an OLS proxy for single-layer linear self-attention to obtain finite-sample risk bounds. Under homoscedastic retrieval noise, we show that retrieval failure decays exponentially with task separation relative to noise, and derive explicit finite-sample conditions under which RAG-FT achieves lower risk than both target-only and full-corpus training. We then introduce a Distance-Proportional Noise (DPN) model, in which retrieval quality degrades with rank, and compare two estimators under the same retrieval process: the OLS proxy and the literal, uniform-weight forward pass of linear self-attention. We prove that the attention estimator's bias diverges as $Θ(n^{2q})$ even under exact retrieval, while OLS risk remains $Θ(d/n)$ for every noise exponent $q>0$. These results locate the instability not in noisy retrieval itself, but in the fixed, unweighted aggregation of the literal LSA forward pass, which reweighting by reliability empirically removes. We validate the predicted rate separation through direct simulation of the DPN model.",
+      "authors": [
+        "Bhargav Lad",
+        "Yifan Hao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.ST"
+      ],
+      "published": "2026-09-13T12:51:02+00:00",
+      "link": "https://arxiv.org/pdf/2609.14485v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "theoretical analysis of noisy retrieved data quality in fine-tuning",
+      "llm_evidence_cn": "对微调中噪声检索数据质量的理论分析",
+      "llm_evidence": "对微调中噪声检索数据质量的理论分析",
+      "canonical_evidence": "对微调中噪声检索数据质量的理论分析",
+      "llm_tldr_en": "The paper studies how noisy retrieval affects retrieval-guided fine-tuning, modeling RAG-FT as multi-task linear regression with an OLS proxy for linear self-attention, deriving finite-sample risk bounds and introducing a Distance-Proportional Noise model.",
+      "llm_tldr_cn": "检索引导微调把检索数据直接纳入训练目标，但检索噪声带来的统计后果缺乏理论刻画。本文将其建模为多任务线性回归估计问题，用最小二乘代理单层线性自注意力，推导有限样本风险界，并分析检索失败随任务可分性指数衰减的规律，进而提出距离比例噪声模型。结果给出了RAG-FT优于仅目标训练与全语料训练的显式条件，为数据质量与检索增强训练提供了理论指导。",
+      "llm_tldr": "检索引导微调把检索数据直接纳入训练目标，但检索噪声带来的统计后果缺乏理论刻画。本文将其建模为多任务线性回归估计问题，用最小二乘代理单层线性自注意力，推导有限样本风险界，并分析检索失败随任务可分性指数衰减的规律，进而提出距离比例噪声模型。结果给出了RAG-FT优于仅目标训练与全语料训练的显式条件，为数据质量与检索增强训练提供了理论指导。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.15209v1",
+      "source": "arxiv",
+      "title": "Failure-Guided Co-Evolution of Prompts and Training Data",
+      "abstract": "Automatic prompt optimization (APO) improves language-model programs by revising prompts from task feedback, yet it typically holds its training data fixed. Repeatedly optimizing against the same instances confines feedback to weaknesses already represented in those data, leaving related failure conditions unexplored. We therefore view each failure as a dual signal: it indicates both how the prompt should be revised and what new training evidence should be synthesized. We introduce FORGE, a failure-guided framework that co-evolves prompts and training data. FORGE abstracts imperfect executions into reusable failure modes and synthesizes new training data through four complementary mutation strategies. Verified instances are fed back into prompt search, allowing updated prompts to expose the next data needs. Across eight heterogeneous benchmarks, FORGE improves the aggregate score over the unoptimized baseline by 16.52 percentage points and outperforms all evaluated APO baselines. The synthesized data also transfer beyond FORGE: in a transfer study, they improve all nine APO comparisons by 2--9 points and all three GRPO comparisons by 4--8 points under matched optimization budgets. These results establish failures as a shared interface between prompt optimization and data synthesis, and show the benefit of jointly adapting what a model is instructed to do and what it learns from.",
+      "authors": [
+        "Tianyu Yuan",
+        "Zhuzhong Qian"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-14T08:29:47+00:00",
+      "link": "https://arxiv.org/pdf/2609.15209v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "synthesizing new training data via failure modes and mutation strategies",
+      "llm_evidence_cn": "依据失败模式与变异策略合成新训练数据",
+      "llm_evidence": "依据失败模式与变异策略合成新训练数据",
+      "canonical_evidence": "依据失败模式与变异策略合成新训练数据",
+      "llm_tldr_en": "Automatic prompt optimization usually keeps training data fixed; FORGE treats each failure as a dual signal, abstracting reusable failure modes and synthesizing new training data so prompts and data co-evolve, improving robustness.",
+      "llm_tldr_cn": "自动提示优化通常固定训练数据，仅依据任务反馈修改提示，导致反馈局限于已有数据中的弱点，相关失败情形难以被发现。本文把每次失败视为双重信号，既指示提示应如何修改，也指示应合成哪些新训练证据，提出失败引导框架 FORGE，将不完美执行抽象为可复用失败模式，并通过四种变异策略合成新数据。经过验证的实例回流到提示搜索中，实现提示与训练数据协同演化，为以数据为中心的模型改进提供了新范式。",
+      "llm_tldr": "自动提示优化通常固定训练数据，仅依据任务反馈修改提示，导致反馈局限于已有数据中的弱点，相关失败情形难以被发现。本文把每次失败视为双重信号，既指示提示应如何修改，也指示应合成哪些新训练证据，提出失败引导框架 FORGE，将不完美执行抽象为可复用失败模式，并通过四种变异策略合成新数据。经过验证的实例回流到提示搜索中，实现提示与训练数据协同演化，为以数据为中心的模型改进提供了新范式。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.15664v1",
+      "source": "arxiv",
+      "title": "CIDERS: Cloud-Edge LLM Collaborative Learning via Accelerating Personalized Bilevel Optimization",
+      "abstract": "Amid the rapid advancement of physical-world intelligence, cloud-edge collaborative large language models (LLMs) have emerged as a promising roadmap for practical LLM deployment. However, existing cloud-edge paradigms struggle to balance global consensus with local personalization, which fails to satisfy the need for a unified knowledge foundation on the cloud and domain-specific adaptation at the edge. To address this, we introduce, for the first time, a personalized bilevel optimization framework that formalizes cloud-edge LLM collaboration as a dual structure: the upper level optimizes edge-side personalization, while the lower level governs cloud-side knowledge transfer, reaching cloud-edge evolving in coordination. We then propose CIDERS, an efficient solver that decomposes the model into a learnable backbone and a messenger. While the cloud performs knowledge transfer to the learnable backbone, the key lies in embedding global trajectories into each local personalization step via consensus-variate correction to reconcile personalization with consensus. We provide a comprehensive theoretical analysis, including a geometric characterization of the local trajectory and a full convergence guarantee, revealing an explicit trade-off structure between personalization and global convergence. Extensive experiments demonstrate that CIDERS consistently outperforms competitive baselines on the compressed edge path, with 3.1x and 1.7x gains on mathematical reasoning and code generation, respectively, and a 10\\% relative gain on instruction metrics. Mechanism experiments attribute these gains to early consensus-corrected coordination and task-aware distillation. Overall, CIDERS offers a viable path toward consensus-guided continuous personalization in cloud-edge LLM systems.",
+      "authors": [
+        "Victor H. Chen",
+        "Hairui Yu",
+        "Stella K. Chung",
+        "Hong Yan"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI"
+      ],
+      "published": "2026-09-14T14:45:24+00:00",
+      "link": "https://arxiv.org/pdf/2609.15664v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "cloud-edge collaborative LLM learning via bilevel optimization",
+      "llm_evidence_cn": "基于双层优化的云边协同LLM学习",
+      "llm_evidence": "基于双层优化的云边协同LLM学习",
+      "canonical_evidence": "基于双层优化的云边协同LLM学习",
+      "llm_tldr_en": "Formalizes cloud-edge LLM collaboration as personalized bilevel optimization, jointly optimizing edge personalization and cloud knowledge transfer to balance global consensus with local adaptation.",
+      "llm_tldr_cn": "现有云边协同大模型难以兼顾云端全局共识与边缘端个性化适配。本文首次将云边LLM协作形式化为个性化双层优化框架，上层优化边缘端个性化，下层负责云端知识迁移，并提出加速求解算法。结果表明该框架能在协同演化中取得更优的全局与本地性能平衡。其贡献在于为分布式LLM部署提供了新的优化建模范式。",
+      "llm_tldr": "现有云边协同大模型难以兼顾云端全局共识与边缘端个性化适配。本文首次将云边LLM协作形式化为个性化双层优化框架，上层优化边缘端个性化，下层负责云端知识迁移，并提出加速求解算法。结果表明该框架能在协同演化中取得更优的全局与本地性能平衡。其贡献在于为分布式LLM部署提供了新的优化建模范式。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.14858v1",
+      "source": "arxiv",
+      "title": "Dream-RSI: Recursive Self-Improvement through Evolving Worlds",
+      "abstract": "Recursive self-improvement is becoming increasingly vital for autonomous AI agents, where progress hinges on discovering high-value solutions across complex domains. The driver of this process is effective exploration, however, managing and improving exploration strategies remains a major bottleneck. Current systems face a fundamental dilemma: fixed strategies fail to adapt as search spaces scale, while online policy optimization requires navigating vast meta-search spaces under delayed and expensive feedback over long-horizon rollouts. We introduce \\textsc{Dream-RSI}, a framework for scalable and recursively self-improving exploration. A lightweight orchestration layer makes exploration explicit and programmable while leaving the underlying coding agent unchanged. Our key insight is that accumulated discovery history can serve as a replay simulator over the realized search space. By performing dreaming in the replay simulator constructed from historical discovery trees, \\textsc{Dream-RSI} secures immediate, low-cost off-policy feedback to evaluate and refine exploration policies without invoking repetitive, expensive online evaluations. The improved policy is subsequently redeployed online to drive further discovery, continuously expanding the simulator pool in a self-improving loop. Across algorithm engineering, mathematical optimization, and GPU kernel engineering, \\textsc{Dream-RSI} achieves competitive or improved discovery quality while substantially reducing discovery cost in several settings.",
+      "authors": [
+        "Tong Zheng",
+        "Xidong Wu",
+        "Zheng Zhang",
+        "Zhankui He",
+        "Chaoyi Zhang",
+        "Benjamin Coleman",
+        "Ruoqiao Wei",
+        "Di Bai",
+        "Haolin Liu",
+        "Rui Liu",
+        "Xue Wang",
+        "Yue Zhuan",
+        "Wang-Cheng Kang",
+        "Renkai Xiang",
+        "Heng Huang",
+        "Xinwu Cheng",
+        "Yunsong Guo"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-14T00:10:47+00:00",
+      "link": "https://arxiv.org/pdf/2609.14858v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "scalable recursive self-improvement exploration over coding agents",
+      "llm_evidence_cn": "面向编码代理的可扩展递归自我改进探索框架",
+      "llm_evidence": "面向编码代理的可扩展递归自我改进探索框架",
+      "canonical_evidence": "面向编码代理的可扩展递归自我改进探索框架",
+      "llm_tldr_en": "Recursive self-improvement hinges on effective exploration, but fixed strategies fail to scale while online policy optimization is costly. Dream-RSI adds a lightweight orchestration layer making exploration explicit and programmable over an unchanged coding agent, enabling scalable recursive self-improvement.",
+      "llm_tldr_cn": "自主智能体的递归自我改进依赖高效探索，但固定策略难以适应不断扩大的搜索空间，在线策略优化又需在延迟且昂贵的反馈下搜索巨大的元空间。本文提出Dream-RSI框架，通过轻量编排层将探索显式化与可编程化，同时保持底层编码代理不变，实现可扩展的递归自改进探索。该工作为长时程复杂域中的探索策略管理提供了新范式。",
+      "llm_tldr": "自主智能体的递归自我改进依赖高效探索，但固定策略难以适应不断扩大的搜索空间，在线策略优化又需在延迟且昂贵的反馈下搜索巨大的元空间。本文提出Dream-RSI框架，通过轻量编排层将探索显式化与可编程化，同时保持底层编码代理不变，实现可扩展的递归自改进探索。该工作为长时程复杂域中的探索策略管理提供了新范式。",
+      "llm_tags": [
+        "query:code-ml-sys:composite"
+      ],
+      "matched_query_tag": "query:code-ml-sys:composite",
+      "matched_query_text": "Papers central to 主要关注代码生成与机器学习系统，同时也涵盖数学优化、高维统计、以数据为中心的ML、强化学习、软件测试等方向, especially work that connects or combines: deep learning for code generation using large language models; distributed machine learning system design and optimization; convex and nonconvex optimization for machine learning; data quality and data augmentation for ml; deep reinforcement learning algorithms and applications; automated software testing and bug detection using ml; Recent advances in code generation using large language models; Scalable machine learning system design and optimization; Data centric approaches for improving model performance; Reinforcement learning for automated software testing.",
+      "matched_requirement_id": "req-composite-code-ml-sys",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.15387v2",
+      "source": "arxiv",
+      "title": "IWC-Bench: Evaluating Web Application Generation from a Software Testing Perspective",
+      "abstract": "Human evaluation provides a direct measure of the quality of LLM-generated web applications. However, fitting human judgments through automated evaluation remains challenging. Static benchmarks can credit functionality that exists in source code but is unreachable at runtime. Interactive benchmarks exercise the application, yet incomplete exploration can cause them to miss implemented functionality and confound application defects with agent execution failures.   To address these limitations, we propose IWC-Bench, an interactive benchmark for evaluating web application generation from a software testing perspective. IWC-Bench instruments each generated application and uses code coverage to guide an agent in exploring its functionality through user-simulated interactions. It then abstracts the interaction trace into a state-transition graph and evaluates the application along three dimensions: visual aesthetics, usability, and requirement alignment. By separating exploration from scoring, IWC-Bench collects runtime evidence without constraining exploration to predefined acceptance criteria.   IWC-Bench comprises 369 real-world user requirements and 5,088 acceptance criteria. Evaluation of 17 frontier LLMs reveals distinct strengths across the three dimensions, with no model leading on every dimension. On 197 validated sessions sampled from an internal arena, IWC-Bench achieves 85.3\\% agreement with human preferences, with agreement generally increasing as the score difference between paired applications grows. Further experiments show that coverage guidance improves exploration coverage and the model rankings remain stable when the judge model is replaced.",
+      "authors": [
+        "Chenxu Liu",
+        "Zilu Zou",
+        "Peizhong Gao",
+        "Jiawen Tao",
+        "Zhexin Zhang",
+        "Guang Chen",
+        "Haowei Lin",
+        "Ying Zhou",
+        "Tianyi Bai",
+        "Dolly Deng",
+        "Suncong Zheng",
+        "Maxm Pan"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-14T11:14:39+00:00",
+      "link": "https://arxiv.org/pdf/2609.15387v2",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "interactive benchmark evaluating LLM-generated web apps via software testing and code coverage",
+      "llm_evidence_cn": "从软件测试视角用代码覆盖率评估LLM生成的Web应用",
+      "llm_evidence": "从软件测试视角用代码覆盖率评估LLM生成的Web应用",
+      "canonical_evidence": "从软件测试视角用代码覆盖率评估LLM生成的Web应用",
+      "llm_tldr_en": "IWC-Bench is an interactive benchmark that evaluates LLM-generated web applications from a software testing perspective, instrumenting apps and using code coverage to guide agent exploration, avoiding static and interactive benchmark blind spots.",
+      "llm_tldr_cn": "针对静态基准会高估源码中存在但运行时不可达的功能、交互式基准又可能因探索不完整而漏测并混淆缺陷与执行失败的问题，本文提出交互式基准IWC-Bench，从软件测试视角评估LLM生成的Web应用。该基准对每个生成应用进行插桩，利用代码覆盖率引导智能体探索其功能，从而更可靠地检验实际可实现的行为。实验表明该方法能更准确地反映生成应用的测试覆盖与缺陷情况，为代码生成质量评估提供了测试驱动的评测范式。",
+      "llm_tldr": "针对静态基准会高估源码中存在但运行时不可达的功能、交互式基准又可能因探索不完整而漏测并混淆缺陷与执行失败的问题，本文提出交互式基准IWC-Bench，从软件测试视角评估LLM生成的Web应用。该基准对每个生成应用进行插桩，利用代码覆盖率引导智能体探索其功能，从而更可靠地检验实际可实现的行为。实验表明该方法能更准确地反映生成应用的测试覆盖与缺陷情况，为代码生成质量评估提供了测试驱动的评测范式。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.15763v1",
+      "source": "arxiv",
+      "title": "Sylvas: Synergistic Learning Value based Device Scheduling in Federated Continual Learning",
+      "abstract": "Federated continual learning (FCL) enables shared global models to continuously adapt to distributed and non-stationary data streams, making it important for Internet of Things applications such as intelligent transportation, industrial monitoring, and unmanned systems. Under spatio-temporal data distribution dynamics and label scarcity, a key challenge is how to quantify the contribution of each edge device to global learning performance and schedule the most valuable devices under resource constraints for timely model updating. This article presents Sylvas, a synergistic learning value based device scheduling framework for FCL at the wireless edge. Sylvas evaluates the learning value of distributed data from two perspectives: distributional value, which characterizes the contribution of device data to global model learning from a spatio-temporal distribution perspective, and label value, which captures the quantity and reliability tradeoff of pseudo-labeled data. By integrating these factors into a synergistic learning value metric, Sylvas schedules devices with high learning value while satisfying communication and computation resource constraints. Case studies demonstrate that Sylvas supports timely model adaptation under spatio-temporal distribution dynamics and effectively exploits unlabeled data.",
+      "authors": [
+        "Yuxuan Sun",
+        "Yuxuan Bai",
+        "Tan Chen",
+        "Sheng Zhou",
+        "Zhisheng Niu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-14T15:48:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.15763v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "device scheduling for distributed federated continual learning under resource constraints",
+      "llm_evidence_cn": "资源受限下联邦持续学习的分布式设备调度",
+      "llm_evidence": "资源受限下联邦持续学习的分布式设备调度",
+      "canonical_evidence": "资源受限下联邦持续学习的分布式设备调度",
+      "llm_tldr_en": "Federated continual learning at the wireless edge must schedule devices under resource constraints. Sylvas scores distributed data value from two views and schedules the most valuable devices, improving timely global updates.",
+      "llm_tldr_cn": "针对联邦持续学习在无线边缘场景下难以量化各设备贡献、资源受限时调度困难的问题，本文提出 Sylvas 框架。该方法从数据分布与学习价值两个角度评估分布式数据的价值，并据此在资源约束下调度最有价值的设备以进行及时模型更新。实验表明该调度策略能提升全局模型的持续学习性能，为边缘智能应用提供可行的设备调度方案。",
+      "llm_tldr": "针对联邦持续学习在无线边缘场景下难以量化各设备贡献、资源受限时调度困难的问题，本文提出 Sylvas 框架。该方法从数据分布与学习价值两个角度评估分布式数据的价值，并据此在资源约束下调度最有价值的设备以进行及时模型更新。实验表明该调度策略能提升全局模型的持续学习性能，为边缘智能应用提供可行的设备调度方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "distributed machine learning system design and optimization",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
