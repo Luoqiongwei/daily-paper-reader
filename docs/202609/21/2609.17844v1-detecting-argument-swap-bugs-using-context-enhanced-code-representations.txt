@@ -1,0 +1,398 @@
+Title: Detecting Argument-Swap Bugs Using Context-Enhanced Code Representations
+
+URL Source: https://arxiv.org/pdf/2609.17844v1
+
+Published Time: Thu, 17 Sep 2026 00:16:38 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Detecting Argument-Swap Bugs Using Context-Enhanced Code Representations 
+
+Subrata Das ∗, Ali Aman †, Muhammad Asaduzzaman †, Kawser Wazed Nafi ‡, Salimur Choudhury §
+
+> ∗
+
+Department of Computer Science, Lakehead University ; sdas18@lakeheadu.ca 
+
+> †
+
+School of Computer Science, University of Windsor ; {burkia, masaduzz }@uwindsor.ca 
+
+> ‡
+
+Department of Computer Engineering, Polytechnique de Montreal ; kawser.wazed-nafi@polymtl.ca 
+
+> §
+
+School of Computing, Queen’s University ; s.choudhury@queensu.ca 
+
+Abstract —Names of source code elements convey rich semantic information and have been widely used in software engineering tasks such as bug detection, code completion, type prediction, and code classification. Prior studies exploit lexical similarity between method arguments and formal parameter names to detect bugs caused by incorrectly ordered arguments, typically relying on establishing mappings between method calls and their corresponding definitions. However, such mappings are often difficult to obtain in dynamically typed languages like Python. In this paper, we present BugProbe, a learning-based approach for detecting incorrectly ordered arguments in Python method calls that does not require call–definition mappings. Our approach leverages multiple sources of contextual information, including local context and argument usage context, and combines name-based similarity with machine learning to construct expressive representations of method arguments. We collect a new dataset of 132,739 Python source files from the top-1,000 starred GitHub repositories, yielding 3,371,244 synthetic training examples, and contribute a curated benchmark of 55 real-world argument-swap bugs manually verified from commit histories. We evaluate our approach on this dataset and show that it achieves high accuracy and consistently outperforms a state-of-the-art baseline across standard evaluation metrics. These results demonstrate that effective detection of argument-ordering bugs is possible without relying on explicit call–definition resolution, making the approach well suited for dynamically typed language settings. 
+
+I. I NTRODUCTION 
+
+Argument-swap bugs are a common source of programming errors, particularly in dynamically typed languages. Such bugs occur when a developer accidentally passes arguments to a method in the wrong order. We use the term call site to refer to a location in source code where a function or method is invoked. Because swapped arguments often have compatible types, the program may continue executing without raising an error, silently producing incorrect behavior that is difficult to diagnose. Figure 1 illustrates an argument-swap bug where 
+
+resize_image expects width followed by height, but the call site mistakenly reverses them. Since both parameters share the same type, this error is type-correct yet semantically invalid, making detection challenging even in statically typed languages. In dynamically typed languages, where static type information is typically unavailable, such bugs are particularly hard to identify. Identifier names convey valuable semantic information about program behavior. Meaningful names aid program com-prehension and support tasks such as code completion [1], [2], [3] and identifier name suggestion [4], [5]. Prior work has also observed that developers often use similar names for call site arguments and their corresponding formal parameters [6]. As a result, the similarity between argument names and parameter names has been exploited to detect argument-swap bugs [7], [6], [8], [9]. 
+
+1 # Intended usage 
+
+2 def resize_image(width, height): 
+
+3 return Image.resize(width, height) 
+
+45 # Buggy call: arguments accidentally swapped 
+
+6 new_img = resize_image(img_height, img_width) 
+
+Fig. 1. An argument-swap bug where swapped arguments have compatible types but incorrect semantics 
+
+However, approaches based solely on lexical similarity are fragile. Developers may use semantically related but lexically different identifiers (e.g., area and region ), limiting the effectiveness of string-based comparisons. To address this, Pradel et al. proposed DeepBugs, which learns vector rep-resentations (embeddings) of identifiers to detect semantic similarity even when names differ lexically [10]. Despite its effectiveness, DeepBugs has important limi-tations when applied to dynamically typed languages such as Python. First, it requires mapping call sites to their cor-responding method definitions to compare argument names with formal parameter names. This mapping is challenging in dynamic languages and often infeasible when definitions reside in different files or external libraries. In our study of Python code, we found that 89% of call sites have their definitions located in different files, frequently within third-party libraries. Second, DeepBugs learns embeddings from a limited local token window around every identifier, regardless of its role. Argument-swap detection requires understanding how arguments at call sites relate to one another across broader code structures, which narrow identifier-level contexts may miss. In this paper, we propose BugProbe , a novel machine learning framework for detecting argument-swap bugs that overcomes these limitations. We formulate detection as bi-nary classification and learn identifier embeddings without arXiv:2609.17844v1 [cs.SE] 15 Sep 2026 requiring call-to-definition mapping. Instead of relying on local token windows, our approach constructs embeddings specifically from argument contexts at call sites, capturing long-term dependencies and structural usage patterns across the codebase. We evaluate our approach on a large collection of Python code, replicating DeepBugs for Python as a baseline. Our results show that BugProbe effectively detects argument-swap bugs without relying on method definitions at all, achieving an F1 score approximately 11.3% higher (relative) than Deep-Bugs across all call sites. This paper makes the following contributions:  
+
+> •
+
+A call-site-centered analysis formulation that constructs argument representations directly from call site contexts, avoiding the need to map call sites to their definitions — a mapping step that is particularly challenging in dynamically typed languages.  
+
+> •
+
+A novel embedding approach that captures long-term dependencies and structural usage contexts of identifier names.  
+
+> •
+
+A dataset of 132,739 Python files from the top-1,000 starred GitHub repositories, comprising 3,371,244 syn-thetic examples across 1,685,622 call sites.  
+
+> •
+
+A curated benchmark of 55 real-world argument-swap bugs manually verified from commit histories across 36 open-source repositories.  
+
+> •
+
+An empirical evaluation demonstrating significant im-provements over DeepBugs on both synthetic and real-world benchmarks. The remainder of this paper is organized as follows. Sec-tion II discusses related work. Section III describes data collection. Section IV presents the proposed framework. Sec-tion V reports evaluation results. Section VI discusses threats to validity, and Section VII concludes the paper. II. R ELATED WORK 
+
+This section reviews prior research related to detecting argument-ordering and argument-selection defects, as well as studies on argument recommendation and type inference that are relevant to our work. 
+
+Detecting incorrectly ordered arguments. A number of studies have investigated the problem of identifying incorrectly ordered arguments and related defects. Pradel and Gross [7] introduced an anomaly-based approach for detecting swapped arguments of identical types. Their method analyzes recur-ring call site patterns and flags calls whose argument order deviates from commonly observed naming conventions in similar contexts. Liu et al. [6] explored the lexical similarity between argument names and formal parameter names in 60 real-world Java programs, demonstrating that name similarity can be leveraged to identify incorrectly ordered arguments and recommend corrections. Li et al. [11] further analyzed lexical similarity distributions, name length, and causes of dissimilarity, and discussed applications such as argument renaming and argument suggestion. Rice et al. [12] proposed a name-based similarity matching approach to identify argument selection defects, showing that discrepancies between argument and parameter names often indicate potential bugs. Scott et al. [8] introduced SWAPD, which combines coverage-based and statistical checking strate-gies to detect swapped arguments. While effective in specific scenarios, these approaches primarily rely on handcrafted heuristics or lexical similarity measures and do not employ learning-based models to capture richer contextual informa-tion. The most closely related work to ours is DeepBugs, which formulates bug detection as a binary classification problem using learned embeddings derived from local token context. However, DeepBugs requires mapping call sites to their cor-responding definitions, which is challenging in dynamically typed languages such as Python. Moreover, it relies on a narrow local context window when constructing embeddings. In contrast, our approach does not depend on call–definition mappings and incorporates multiple complementary usage contexts to construct richer representations of arguments and call sites. 
+
+Argument recommendation and completion. Our work is also related to research on argument recommendation and method call completion. Zhang et al. [13] proposed Precise ,which collects argument usage examples from existing code and matches call-site contexts against a usage database to recommend appropriate arguments. Asaduzzaman et al. [14] introduced PARC, a parameter recommendation system that supports a broader range of parameter expression types than Precise. More recently, Nguyen et al. [15] combined program analysis with statistical language models to recommend type-compatible arguments. Although these systems focus on assisting developers dur-ing code completion, their recommendations can implicitly reveal argument selection or ordering issues. For example, discrepancies between recommended and actual arguments may signal potential defects. Unlike these approaches, our work explicitly targets argument-ordering bugs and evaluates detection performance directly. 
+
+Type inference for dynamically typed languages. Fi-nally, our study is related to research on type inference for Python programs, which can provide valuable information for detecting argument-related defects. Allamanis et al. [16] proposed Typilus, which uses graph neural networks to model dependencies between code tokens and infer types. Pradel et al. [17] introduced TypeWriter, which combines probabilistic type prediction with type validation. Mir et al. [18] presented Type4Py, a hierarchical neural model that outperforms both Typilus and TypeWriter. Peng et al. [19] proposed HiTyper, which integrates static analysis with learning-based type rec-ommendations. More recently, Wei et al. [20] introduced TypeT5, a transformer-based model for type inference, and Peng et al. [21] proposed TypeGen, which leverages large lan-guage models and chain-of-thought prompting for generative type inference. The inferred types produced by these approaches can be beneficial when detecting incorrectly ordered arguments, par-ticularly when arguments share the same static type. However, our proposed method does not rely on any external type infer-ence system. Instead, it focuses on leveraging contextual usage information directly extracted from source code, making it applicable even when reliable type information is unavailable. III. D ATA COLLECTION 
+
+We collected a dataset of Python source files by cloning the top-1,000 Python repositories from GitHub, ranked by star count. To ensure repository quality and activity, we applied the following inclusion criteria: at least two contributors, at least 100 commits, and at least one commit within the past year. We further retained only files that parse successfully under Python 3.11, ensuring compatibility with our analysis pipeline. This initial collection yielded 381,244 Python source files. We then applied a series of preprocessing steps to remove files unsuitable for training. First, files containing no source lines or no parseable statements were discarded, removing 12,807 files. Next, files containing no qualifying call sites (i.e., no call sites with at least two arguments) were ex-cluded, removing a further 48,613 files. Code duplication has been shown to negatively affect the performance of machine learning models trained on source code [22]. Following prior work [23], we therefore deduplicated the remaining 319,824 files using CD4Py [23] 1, a code deduplication tool for Python. CD4Py tokenizes each file, represents it using TF–IDF vectors, and clusters near-duplicate files using a k-nearest-neighbor search; a single representative file was retained per cluster, removing 17% of files (54,370 files). We applied size-based filtering (kept files between 2 KB and 25 KB) to keep training computationally feasible, which removed a further 132,715 files. After preprocessing, the final dataset consists of 132,739 Python source files drawn from the 1,000 repositories, com-prising 34,357,043 total source lines. The dataset contains 1,685,622 qualifying call sites. Each call site contributes one positive (correct) example and one negative (incorrect) example generated by swapping the first two arguments, yielding 3,371,244 total examples. Following the 5-fold cross-validation split described in Section V, 2,696,686 examples are used for training and 674,558 for testing in each fold. Table I summarizes the key statistics of the final dataset.                 
+
+> TABLE I DATASET STATISTICS
+> Statistic Value Statistic Value
+> Repositories 1,000 Total examples 3,371,244 Source files 132,739 Training examples 2,696,686 Total source lines 34,357,043 Test examples 674,558 Qualifying call sites 1,685,622 Real-world bugs 55
+
+Call-Site Argument Arity: Our negative example genera-tion swaps only the first two positional arguments at a call site, 
+
+> 1https://github.com/saltudelft/CD4Py
+
+which raises the question of how much of the qualifying call-site population this covers. Among the 1,685,622 qualifying call sites (i.e., each call site contains two or more arguments), 1,308,770 (77.6%) have exactly two positional arguments and are therefore fully covered by our (1,2)-swap negative sampling strategy. The remaining 376,852 call sites (22.4%) have three or more positional arguments, meaning that at least one possible argument-position pair at these call sites is not exercised by our synthetic negative examples, and for which BugProbe’s generalization to higher-arity swaps remains untested. We do not further analyze whether classi-fication difficulty correlates with call-site arity or argument position (e.g., parameters with default values, which tend to appear at the end of the parameter list), due to space limitations; we leave this to future work. We view extending negative example generation to arbitrary argument-position pairs, and evaluating whether representations learned from (1,2)-swaps transfer to higher-arity swaps, as an important future direction. We additionally note that keyword arguments 2 are excluded from our pipeline by design rather than as a limitation: a keyword argument names its parameter explicitly at the call site (e.g., f(height=h, width=w) ), so reordering keyword arguments does not change the binding and cannot produce an argument-swap bug. Of the 7,143,411 total call sites identified across our corpus, 646,819 (9.1%) pass all arguments by keyword and are therefore structurally immune to the bug class we target; these are correctly excluded from our qualifying call sites rather than mishandled. Variadic call sites (*args /**kwargs ) are harder to resolve statically and are therefore treated as ordinary positional calls in our pipeline, a simplification we note as a limitation. 
+
+Real-World Bug Dataset: In addition to the synthetic dataset, we contribute a curated dataset of 55 real-world argument-swap bugs collected from the commit histories of the 1,000 repositories. For each repository, we mined commits that modified function call sites and identified candidate changes where the ordering of arguments had been altered. To ensure that each candidate reflected a genuine bug fix rather than a refactoring, we explicitly verified that the same commit did not also modify the corresponding function definition in a way that reordered its parameter declarations — such a co-change would indicate an intentional renaming or signature refactor rather than a correction of a misplaced argument. Remain-ing candidates were then manually verified by two human annotators, who examined the commit message for explicit mention of an argument-ordering mistake and inspected the surrounding code context to confirm that the original ordering constituted a defect. The 55 bugs span 36 repositories, which are a subset of the 1,000 repositories in our collection. To prevent data leakage, all source files containing one of these real-world bugs are excluded from both the training and test splits used in our synthetic evaluation, and consequently from Word2Vec 
+
+> 2https://docs.python.org/3/tutorial/controlflow.html#keyword-arguments
+
+training as well. The real-world bug dataset is used exclusively as a held-out benchmark to assess the practical detection ability of BugProbe, as described in Section V. IV. M ETHODOLOGY 
+
+In this section, we explain how we reproduce DeepBugs in Python, and how our proposed framework, BugProbe, works and addresses the limitations of DeepBugs. 
+
+A. DeepBugs Reproduction 
+
+DeepBugs was originally designed for JavaScript. Its core idea—learning name-based bug detectors using identifier em-beddings and supervised classification—is language-agnostic. We therefore adapt the approach to Python while preserving the original problem formulation and learning pipeline. 
+
+1) Data Extraction: For each Python source file in the corpus, we parse the Abstract Syntax Tree (AST) and traverse it to identify calls with at least two arguments. For every such call site, we extract a tuple of name-based features analogous to those used in DeepBugs. The extracted tuple includes:  
+
+> •
+
+The name nbase of the base object if the call is a method call, or an empty string otherwise.  
+
+> •
+
+The name ncallee of the called function.  
+
+> •
+
+The names narg 1 and narg 2 of the first and second argu-ment.  
+
+> •
+
+The types targ 1 and targ 2 of the first and second argument for arguments that are literals, or empty strings otherwise.  
+
+> •
+
+The names nparam 1 and nparam 2 of the formal parameters of the called function, or empty strings if unavailable. Each extracted tuple constitutes a positive example, which is assumed to be correct under the assumption that most code in the corpus is correct. To generate negative examples without manual labeling, we swap the first and second argument names and types. This transformation is likely to introduce an argument-ordering bug while preserving the surrounding context. The resulting dataset therefore consists of balanced pairs of positive (correct) and negative (incorrect) examples. The exact tuple structures used to construct the training examples are summarized in Table II. 
+
+2) Embedding Generation: To enable semantic reason-ing over identifier names, we learn distributed vector rep-resentations of identifiers and literals using an unsupervised Word2Vec model, following the DeepBugs approach. Python source files are traversed via their ASTs and converted into linear token sequences containing only identifiers and liter-als, with all other syntactic elements discarded. Each file is treated as a single sentence, and identifiers and literals are disambiguated using distinct prefixes. We train the embeddings using the Continuous Bag-of-Words (CBOW) architecture with a context window of size 20 and an embedding dimensionality of 200. We also limit the vocabulary to 10,000 most frequent tokens, with all others mapped to a shared unknown token. The resulting embeddings capture semantic similarities between names and are learned independently of the downstream classification task. 
+
+3) Classifier: Each positive and negative example is mapped to a fixed-length vector by concatenating the vector representations of its constituent elements. Identifier-based fields are represented using their learned 200-dimensional em-beddings, while literal type information is encoded using fixed-length binary vectors. This concatenation yields a uniform vector representation for all call sites. These vectors are used to train a supervised binary classifier implemented as a feedforward neural network. Following DeepBugs, the network consists of a single hidden layer of size 200 and a sigmoid output layer, with dropout applied to reduce overfitting. The model is trained using binary cross-entropy loss and RMSprop optimization, and is evaluated on a held-out test set to detect likely argument-ordering bugs in unseen Python code. 
+
+B. Proposed Framework 
+
+We propose BugProbe , a framework that follows the same high-level paradigm as prior work—namely, the combination of unsupervised representation learning with supervised clas-sification. An overview of the BugProbe framework is shown in Figure 2. Motivated by preliminary experiments showing that broader usage and structural signals improve over name-only fea-tures (quantified per-source in RQ3, Section V), BugProbe substantially modifies the context used during embedding learning. Specifically, our framework is designed to capture long-range contextual information rather than being limited to local syntactic contexts. This allows the learned embeddings to encode more global program semantics, which is critical for accurately identifying subtle bug patterns. In addition, we redesign the structure of the generated training examples to better align with the embedding learning process. The tuple patterns used in BugProbe are tailored to reflect the broader contextual scope of the embeddings, resulting in more informative and consistent representations. Furthermore, BugProbe requires no explicit call-to-definition mapping, making it robust to incomplete or unavailable static analysis. Collectively, these design choices enable BugProbe to achieve substantially stronger and more accurate performance compared to DeepBugs across our evaluation benchmarks. 
+
+1) Data Extraction: For each Python source file in the corpus, we parse the Abstract Syntax Tree (AST) and traverse it to identify calls with at least two arguments. For every such call site, we extract a tuple of context-based features. The extracted tuple includes:  
+
+> •
+
+The local context LC callee of the call site.  
+
+> •
+
+The argument usage context AU C arg 1 and AU C arg 2 of the first and second argument.  
+
+> •
+
+The parent and latest usage context P CLU arg 1 and 
+
+P CLU arg 2 of the first and second argument.  
+
+> •
+
+The types targ 1 and targ 2 of the first and second argument for arguments that are literals, or empty strings otherwise. Each extracted tuple constitutes a positive example, which is assumed to be correct under the assumption that most code TABLE II TUPLE PATTERNS USED FOR GENERATING CORRECT AND INCORRECT TRAINING EXAMPLES .
+
+Framework Label Tuple structure 
+
+DeepBugs Correct ⟨nbase , ncallee , narg 1, narg 2, targ 1, targ 2, nparam 1, nparam 2⟩
+
+DeepBugs Incorrect ⟨nbase , ncallee , narg 2, narg 1, targ 2, targ 1, nparam 1, nparam 2⟩
+
+BugProbe Correct ⟨LC callee , LC arg 1, AUC arg 1, PCLU arg 1, LC arg 2, AUC arg 2, PCLU arg 2, targ 1, targ 2⟩
+
+BugProbe Incorrect ⟨LC callee , LC arg 2, AUC arg 2, PCLU arg 2, LC arg 1, AUC arg 1, PCLU arg 1, targ 2, targ 1⟩Contexts Train Files 
+
+Positive Train Examples 
+
+Negative Train  Examples 
+
+Word2Vec 
+
+Positive Train Vectors 
+
+Negative Train  Vectors  Binary Classifier 
+
+Contexts Test Files  Positive Test Examples 
+
+Negative Test Examples 
+
+Positive Test Vectors 
+
+Negative Test Vectors  Predict                         
+
+> setSize(width, height)
+> setDim(y_dim, x_dim)
+> LC, AUC, LUC, PC
+> LC(setSize), CTX(width), CTX(height)
+> LC(setSize), CTX(height), CTX(width)
+> [0.12, 0.85, 0.3, ...]
+> [0.13, 0.39, 0.1, ...]
+> [0.10, 0.7, 0.6, ...]
+> [0.08, 0.3, 0.3, ...]
+> 0/1
+> CTX(width)
+> CTX(height)
+> LC(setDim), CTX(y_dim), CTX(x_dim)
+> LC(setDim), CTX(x_dim), CTX(y_dim)
+> LC, AUC, LUC, PC
+
+Fig. 2. Overview of BugProbe. 
+
+in the corpus is correct. To generate negative examples without manual labeling, we swap the first and second argument contexts and types. This transformation is likely to introduce an argument-ordering bug while preserving the surrounding context. The resulting dataset therefore consists of balanced pairs of positive (correct) and negative (incorrect) examples. These four context levels are described as follows. 
+
+Local Context (LC) is a token window around the occur-rence (argument or call site). We extract up to 10 tokens before and 10 tokens after the occurrence from the tokenized source line(s), filtering out common punctuation and operators. 
+
+Argument Usage Context (AUC) captures how the argu-ment name is used earlier within the same enclosing scope (e.g., a function body). We collect token sequences from preceding lines that reference the argument name, capturing assignments, updates, and prior calls. 
+
+Latest Usage Context (LUC) consists of tokens from the closest preceding line in the same scope that mentions the argument name. This approximates the most recent usage signal, such as the last assignment or transformation before the call. 
+
+Parent Context (PC) represents the syntactic container of the call site. We identify a meaningful AST parent (e.g., loop header, conditional header, or function definition) and extract tokens from the parent’s line, capturing structural cues that influence argument semantics. Since PC is derived from the call site itself rather than from a specific argument, it is identical for both arguments at the same call site and would provide no discriminative signal if used alone. We therefore combine PC with LUC into a single per-argument field, P CLU , by concatenating 1 def process(sentences, vocab):                                                      
+
+> 2counts ={}
+> 3for sin sentences:
+> 4words =tokenize(s)
+> 5for win words:
+> 6counts[w] =counts.get(w, 0) +1
+> 7
+> 8total =sum(counts.values())
+> 9avg =total /len(counts)
+> 10 result =normalize(counts, total ,vocab)
+> 11 return result
+> LC ['counts', 'total', 'vocab']
+> AUC ['total', 'sum', 'counts', 'values'
+> 'avg', 'total', 'len', 'counts']
+> LUC ['avg', 'total', 'len', 'counts']
+> PC ['def', 'process', 'sentences', 'vocab']
+
+Fig. 3. Example of collecting contexts for the argument ’total’. 
+
+their token sequences. This gives each argument a unique representation that captures both the structural context of the call site and the argument’s most recent usage. An example of collecting contexts for the argument ’total’ is shown in Figure 3. For visual clarity, tokens in the figure are shown without expression-type (ET) encoding, and the local-context (LC) token window is reduced to two tokens (one each side). 
+
+2) Embedding Generation: For each call site with at least two arguments, we extract the four context types (LC, AUC, LUC, and PC) for each argument. Each context instance is emb(t 1) + emb(t 2) + emb(t 3) + ...  
+
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> emb(t 1) + emb(t 2) + emb(t 3) + ...
+> 100D
+> 100D
+> 100D
+> 100D
+> 100D
+> 100D
+> 100D
+> 100D
+> 100D
+> LC callee
+> LC arg1
+> AUC arg1
+> PCLU arg1
+> LC arg2
+> AUC arg2
+> Type arg2
+> PCLU arg2
+> Type arg1
+> 900D Fig. 4. Overview of Vectorization.
+
+treated as a separate sentence composed of its constituent tokens. This process yields four context-specific corpora, one per context type, each containing token sequences derived from argument usages across the corpus. To better preserve syntactic and semantic roles during tokenization, BugProbe optionally augments tokens with their expression type (ET). An expression-type encoded token ap-pends a lightweight syntactic role (e.g., assignment target, call argument, binary operand) to the original identifier, allowing identical names used in different expression contexts to be distinguished during embedding learning. Table III illustrates common Python expressions and their corresponding token sequences with and without ET encoding. We concatenate these corpora into a single training corpus and train a Word2Vec model using the Continuous Bag-of-Words (CBOW) architecture with a context window size of 5 and an embedding dimensionality of 100. By training on aggregated context signals rather than isolated identifiers, the resulting embeddings capture richer semantic relationships grounded in both lexical usage and structural code context. 
+
+3) Classifier: Figure 4 illustrates the feature construction and classification pipeline. For each training example (positive or negative), we construct a fixed-length representation by encoding the 9 distinct program fields: one callee context field, two argument contexts (each with three fields), and two type fields. Each context field consists of a sequence of tokens. To-kens are embedded using the embedding model, and the embeddings within a field are aggregated via mean pooling to produce a single 100-dimensional vector. In contrast, the two type fields are represented using fixed, non-learned vectors rather than the embedding model. The resulting nine 100-dimensional vectors—corresponding to the callee context, argument contexts, and type information—are concatenated to form a single 900-dimensional feature vector representing the example. This vector is then provided as input to a feed-forward multilayer perceptron with a single hidden layer of size 100. The classifier is then trained to distinguish correct from incorrect argument orderings and is evaluated on a held-out test set to detect likely argument-swap bugs in previously unseen Python code. V. E VALUATION 
+
+This section describes our evaluation procedure and results involving real-world Python code. Our study focuses on the following research questions:  
+
+> •
+
+RQ1: How effective is our approach in detecting argument-swap bugs?  
+
+> •
+
+RQ2: Can a simpler name-based check be effective in detecting incorrectly ordered arguments?  
+
+> •
+
+RQ3: What is the impact of different sources of informa-tion?  
+
+> •
+
+RQ4: Can we use pre-trained word embeddings in de-tecting argument-related bugs?  
+
+> •
+
+RQ5: How does BugProbe perform on real-world bugs? The dataset and replication source are available at https:// zenodo.org/records/21942055 to support future reproductions. 
+
+A. Experimental Setup 
+
+Our dataset comprises 132,739 Python source files collected from the top-1,000 starred GitHub repositories, as described in Section III, parsed using Python’s AST module 3 and totaling 34,357,043 lines of code. Among all qualifying call sites, 1,685,622 have more than one argument and are therefore retained for our evaluation. Each call site contributes one positive and one negative ex-ample, yielding 3,371,244 total examples. Of these, 2,696,686 are used for training and 674,558 for testing across the five folds. To evaluate the baselines, we utilize a 5-fold cross-validation strategy at the file level . Specifically, the dataset is randomly partitioned into five disjoint subsets of approxi-mately equal size. During each fold, one subset (20% of the files) is used as the test set, while the remaining four subsets (80% of the files) are used for training. This process is repeated five times, such that each subset serves as the test set exactly once. All reported results are averaged over the five folds. For each fold, the Word2Vec embeddings are trained exclusively on that fold’s training files, ensuring no information from the test files influences the learned representations. Files containing real-world bugs from our curated benchmark are excluded from this split entirely, and therefore from Word2Vec training as well. We employ the Gensim implementation of Word2Vec 4 to generate vector embeddings. Classification models are built using machine learning algorithms provided by the Scikit-learn library 5. All experiments are conducted on a machine equipped with an AMD Ryzen 9 HS series processor and 32 GB of RAM.                                             
+
+> 3https://docs.python.org/3/library/ast.html
+> 4https://radimrehurek.com/gensim/models/word2vec.html
+> 5https://scikit-learn.org/stable/ TABLE III TOKENIZATION OF COMMON PYTHON EXPRESSIONS WITH AND WITHOUT EXPRESSION -TYPE (ET) ENCODING .Expression non-ET tokens ET tokens
+> x["x"] ["x#Name"] x=y["x", "y"] ["x#AssignTarget", "y#Name"] a+b["a", "b"] ["a#BinOp", "b#BinOp"] a== b["a", "b"] ["a#Compare", "b#Compare"] f(x) ["f", "x"] ["f#CallFunc", "x#CallArg"] obj.m(x) ["obj", "m", "x"] ["obj#Name", "m#Attribute", "x#CallArg"] arr[i] ["arr", "i"] ["arr#Subscript", "i#Name"] [a, b] ["a", "b"] ["a#List", "b#List"]
+
+B. Evaluation Metrics 
+
+We evaluate detection performance using precision, recall, and the F1 score. Precision measures the proportion of correct predictions among all predictions made by the classifier, while recall mea-sures the proportion of correctly identified instances among all true instances in the test set. The F1 score, defined as the harmonic mean of precision and recall, is computed as follows: 
+
+F1 = 2 × precision × recall precision + recall Since the classifier is expected to identify both incorrect and correct code instances, we report precision, recall, and F1
+
+score separately for each class. 
+
+C. RQ1: Effectiveness of BugProbe 1) Motivation: For its best results, DeepBugs benefits from mapping call sites to their corresponding function definitions, as this provides access to formal parameter names that serve as key features. Such mapping is frequently infeasible when definitions reside in different files or external libraries, a challenge that is especially pronounced in dynamically typed languages. In our study of Python code, we found that 89% of call sites have their definitions located in different files, frequently within third-party libraries. This motivates our research question: can effective bug detection be achieved without any reliance on call–definition mappings, thereby improving robustness and coverage in dynamic language set-tings? 
+
+2) Approach: Both models are trained and evaluated on the same 5-fold cross-validation splits across all call sites. To isolate the effect of call–definition mapping on detection performance, we partition the test results into two subsets: (i) 
+
+mapped call sites , for which a function definition is resolvable within the same file, and (ii) all call sites , which includes all call sites regardless of whether a definition is available. Reporting results for each partition separately allows us to compare the two approaches on DeepBugs’ most favorable condition — where it has access to formal parameter name features — as well as across the complete dataset. Since BugProbe requires no call–definition mapping, its features are identical across both partitions; the distinction affects only how much information is available to DeepBugs. 
+
+3) Results: Tables IV and V report the performance of DeepBugs and BugProbe on mapped call sites and on the complete dataset, respectively. On mapped call sites, BugProbe consistently outperforms DeepBugs, achieving an accuracy of 87.8% compared to 84.6%, corresponding to an absolute improvement of 3.2 percentage points (3.8% relative), along-side higher per-class precision, recall, F1-score, and improved AUC. The performance gap becomes more pronounced when considering all call sites: BugProbe attains an accuracy of 91.1%, compared to 81.8% for DeepBugs, yielding an ab-solute improvement of 9.3 percentage points (approximately 11.4% relative). Similar gains are observed across precision, recall, and F1-score, with BugProbe improving F1-scores by approximately 9 percentage points across classes, and increasing AUC from 92.0 to 97.5. When isolating only the unmapped call sites, the gap widens further, with BugProbe achieving an accuracy improvement of 10.2 percentage points over DeepBugs. These results demonstrate that BugProbe not only outperforms DeepBugs when call–definition mappings are available, but also remains robust and highly effective in their absence. 
+
+D. RQ2: Evaluating a Name-based Similarity Matching Solu-tion 1) Motivation: Several prior studies have shown that devel-opers often choose argument names that are lexically similar to their corresponding formal parameter names, and that this similarity can be exploited to detect bugs caused by incor-rectly ordered arguments. Figure 5 illustrates the distribution of argument–parameter lexical similarity scores across our dataset, and Figure 6 shows the distribution of parameter name lengths. Before relying on more complex learning-based techniques, it is important to assess how effective a simple name-based similarity check can be in practice. This research question investigates whether lexical similarity between argu-ment names and parameter names alone is sufficient to reliably detect argument-swap bugs in Python. 
+
+2) Approach: We implement a lightweight name-based similarity matching technique that relies solely on lexical overlap between argument names at call sites and their corre-sponding formal parameter names. Identifier names are first normalized by splitting them into terms using camel-case boundaries, underscores, and non-alphanumeric delimiters. [0.0-0.1) [0.1-0.2) [0.2-0.3) [0.3-0.4) [0.4-0.5) [0.5-0.6) [0.6-0.7) [0.7-0.8) [0.8-0.9) 1Similarity 050000 100000 150000 200000 Values 
+
+> Argument and Parameter Similarity
+
+Fig. 5. Argument–Parameter Lexical Similarity. 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20+ length of Names(Characters) 0246810 12 14 Values in Percentage 
+
+> Parameters
+
+Fig. 6. Distribution of Parameter Name Lengths. 
+
+The lexical similarity between an argument name arg and a parameter name par is computed using a term-based similarity measure adapted from prior work: 
+
+Sim (arg, par ) = |comterms (arg, par )| + |comterms (par, arg )||terms (arg )| + |terms (par )|
+
+where terms (x) denotes the set of extracted terms from an identifier name, and comterms (x, y ) denotes the set of common terms between two identifiers. For a call site with two arguments, we compute the average similarity score between each argument and its corresponding parameter. If the resulting score exceeds a fixed threshold (0.5 in our experiments), the call is classified as correctly ordered; otherwise, it is classified as incorrectly ordered. As with other parts of our evaluation, we assume that most code is correct and generate negative examples by synthetically swapping the first two arguments. The implementation follows this procedure directly and does not rely on any learned representations or contextual information. 
+
+3) Results: The name-based similarity matching approach achieves high recall but moderate precision. For the incorrect class, it achieves 75.3% precision and 94.5% recall (F1 = 83.8%), effectively flagging most argument-swap bugs but with a notable false-positive rate. For correctly ordered ar-guments, precision is high (92.6%) but recall drops to 69.0% (F1 = 79.1%), indicating that the check is conservative yet still frequently misclassifies correct calls as incorrect. Overall, lexical similarity alone yields promising recall but falls short as a reliable standalone detector, and it fundamen-tally depends on the availability of formal parameter names, which are not always statically resolvable in Python. These limitations motivate the richer, learning-based approaches ex-plored in subsequent research questions. 
+
+TABLE IV PERFORMANCE COMPARISON BETWEEN DEEP BUGS AND BUG PROBE ON 
+
+MAPPED CALL SITES (12.7% OF ALL CALL SITES )
+
+DeepBugs BugProbe Metric Incorrect Correct Incorrect Correct 
+
+Accuracy 84.6 87.8 Precision 85.6 83.7 86.8 88.8 Recall 83.3 85.9 89.1 86.5 F1-score 84.4 84.8 87.9 87.6 AUC 93.7 95.6 TABLE V PERFORMANCE COMPARISON BETWEEN DEEP BUGS AND BUG PROBE ON 
+
+ALL CALL SITES 
+
+DeepBugs BugProbe Metric Incorrect Correct Incorrect Correct 
+
+Accuracy 81.8 91.1 Precision 81.5 82.2 89.9 92.3 Recall 82.3 81.2 92.5 89.6 F1-score 81.9 81.7 91.2 90.9 AUC 92.0 97.5 
+
+E. RQ3: Impact of Different Sources of Information 1) Motivation: BugProbe represents call sites and their ar-guments using multiple complementary sources of contextual information, each capturing a different aspect of how argu-ments are defined, manipulated, and consumed. Local lexical context provides immediate syntactic cues but is often insuffi-cient for subtle errors such as argument swaps; argument usage context models how values flow through assignments prior to a call; parent and latest usage contexts encode structural information from enclosing constructs; and lightweight type information differentiates literals and primitives, particularly when swapped arguments share the same static type. Although each source is individually informative, their relative contributions remain unclear. BugProbe can also in-corporate expression-typed (ET) token encoding to distinguish identifiers by syntactic role, at the cost of added complexity. This motivates an empirical investigation into the individual and combined impact of these feature groups, and whether ET encoding yields benefits beyond standard tokenization. 
+
+2) Approach: To assess the contribution of different sources of information, we conduct an ablation study using five models (M1–M5), each corresponding to a distinct combination of feature groups, as shown in Table VI. Model M5 corresponds to the full BugProbe configuration, incorporating all available context types: callee local context, argument local context, argument usage context (AUC), parent and latest usage context (PCLU), and argument type information. The remaining mod-els selectively remove one or more feature groups to isolate their effects. For each model, we evaluate performance with and without expression-typed (ET) token encoding while keeping the train-ing and evaluation protocol identical to previous experiments. This allows us to directly compare the influence of both contextual feature groups and ET encoding on accuracy, F1-score, and AUC. 
+
+3) Results: Table VI shows that using a single source of in-formation is insufficient for accurate argument-swap detection. Models M1 and M2, which rely only on local argument context or argument usage context (with type) respectively, achieve F1-scores of 62.07% and 64.10% without ET encoding, with AUC values below 75%. Compared to the full BugProbe model (M5), this corresponds to a decrease of approximately 26–28 percentage points in F1-score, indicating that isolated context signals fail to capture the semantic relationships necessary for identifying incorrect argument orderings. Combining callee-level local context with argument local context (M3) leads to a large performance gain. M3 achieves an F1-score of 89.98% and an AUC of 97.08% without ET en-coding, improving F1 by approximately 27.9 percentage points over M1. Adding longer-range contextual information through argument usage context and parent/latest usage context (M4) yields an F1-score of 90.61% and an AUC of 97.23%, which is within 0.1 percentage points of the full model. The complete BugProbe configuration (M5) achieves the highest overall performance, with an F1-score of 90.71% and an AUC of 97.26%, confirming that each additional context source contributes incremental but measurable improvements. Expression-typed (ET) token encoding provides consistent but modest gains across most configurations. The largest abso-lute improvement is observed for M1 (from 62.07% to 67.86% F1, a gain of 5.79 percentage points), while gains for context-rich models such as M4 and M5 are smaller (approximately 0.5 percentage points). These results suggest that while ET encod-ing does not fundamentally change model behavior, it provides useful syntactic disambiguation that complements contextual information and slightly improves detection accuracy. 
+
+F. RQ4: Performance Comparison with Pre-trained Word Em-bedding Models 1) Motivation: BugProbe relies on Word2Vec embeddings trained on the target corpus, capturing project-specific naming conventions. While pre-trained code embeddings have shown strong performance on many software engineering tasks, it re-mains unclear whether their broader representational capacity benefits argument-ordering bug detection specifically. 
+
+2) Approach: We replace BugProbe’s Word2Vec compo-nent with representations from CodeBERT [24], a transformer-based model built on BERT [25] and pre-trained on nat-ural language and source code, keeping all other aspects of the framework unchanged. We refer to this variant as 
+
+BugP robe CodeBERT .
+
+3) Results: BugP robe CodeBERT achieves an accuracy of 81.0%, an F1 score of 81.5% for incorrect examples (82.6% precision, 78.7% recall) and 80.6% for correct ones (79.6% precision, 83.4% recall), and a ROC-AUC of 89.6%. These results are competitive but fall short of the original BugProbe across all metrics, at greater computational cost, suggesting that BugProbe’s lightweight Word2Vec embeddings better capture the fine-grained, usage-specific signals this task re-quires [26]. 
+
+G. RQ5: How Does BugProbe Perform on Real-World Bugs? 1) Motivation: The synthetic evaluation in RQ1 relies on negative examples generated by swapping argument pairs. Although this enables large-scale evaluation and follows prior work, it does not directly show whether a technique can detect bugs that occur in practice. Real-world argument-swap bugs may differ from synthetic ones in subtle ways. Therefore, we evaluate BugProbe on our benchmark of 55 real-world bugs to assess its practical utility. 
+
+2) Approach: We use the proposed benchmark of 55 argument-swap bugs. Each bug corresponds to a call site where the arguments were manually confirmed to be incorrectly ordered. For each case, we classify the original buggy call as a negative example and the corrected version from the fixing commit as a paired positive example. Both versions are embedded and classified using models trained only on the synthetic dataset, without fine-tuning on the real-world benchmark. A bug is considered detected if the classifier assigns a higher likelihood of incorrectness to the buggy version than to the corrected one. We apply the same procedure to both BugProbe and DeepBugs using the model checkpoints from the synthetic evaluation. 
+
+3) Results: Table VII reports the performance of DeepBugs and BugProbe on the real-world benchmark. Both approaches perform lower than in the synthetic evaluation, reflecting the greater diversity and subtlety of real-world bugs. Neverthe-less, BugProbe consistently outperforms DeepBugs, achieving 80.9% accuracy compared to 53.6%, and improving the F1
+
+score by approximately 20 percentage points for the incorrect class (79.6% vs. 59.2%) and approximately 36 percentage points for the correct class (82.1% vs. 46.3%). BugProbe also achieves a substantially higher AUC, 90.8 compared to 55.1. These results suggest that BugProbe generalizes better to real argument-swap bugs and provides stronger detection capability than the baseline. 
+
+H. Error Analysis 
+
+To better understand BugProbe’s remaining limitations, we qualitatively analyzed its false positives and false negatives. False positives commonly arise when arguments are se-mantically related or frequently co-occur even when correctly ordered, such as width /height or x/y. Swapping such arguments may not substantially alter the surrounding context signals, making correct-vs-incorrect orderings hard to distin-guish confidently; this mirrors the high-recall, low-precision behavior of the name-based baseline in RQ2. False negatives typically occur when argument names are overly generic (e.g., a, b, val , data ) or derived from similar expressions, leaving neither lexical similarity nor contextual usage with sufficient discriminative signal. VI. D ISCUSSION 
+
+A. Efficiency and Practical Applicability 
+
+BugProbe’s pipeline consists of several stages: parsing, context collection, vector generation, training, and testing. TABLE VI EFFECTS OF DIFFERENT FEATURE GROUPS WITH AND WITHOUT EXPRESSION -TYPED (ET) TOKEN ENCODING . E ACH MODEL (M1–M5) CORRESPONDS TO A DISTINCT COMBINATION OF FEATURE GROUPS .
+
+Model Feature Groups No ET ET 
+
+LC callee LC args AUC args PCLU args Type args Acc F1 AUC Acc F1 AUC M1 62.06 62.07 68.46 67.11 67.86 75.28 M2 65.61 64.10 73.95 65.77 66.66 73.96 M3 89.85 89.98 97.08 90.63 90.85 97.52 M4 90.54 90.61 97.23 90.98 91.13 97.52 M5 90.68 90.71 97.26 91.08 91.21 97.51                            
+
+> TABLE VII PERFORMANCE COMPARISON BETWEEN DEEP BUGS AND BUG PROBE ON
+> REAL -W ORLD BUGS (55 BUGS )
+> DeepBugs BugProbe Metric Incorrect Correct Incorrect Correct
+> Accuracy 53.6 80.9 Precision 52.9 55.0 85.4 77.4 Recall 67.3 40.0 74.6 87.3 F1-score 59.2 46.3 79.6 82.1 AUC 55.1 90.8
+
+Parsing requires 15 ms on average, and context collection adds a further 1.1 ms per example. Model training requires 43 minutes on our machine when considering all call sites in the dataset. In contrast, testing is considerably faster, requiring only 4 minutes in total for 674,558 examples. Overall, BugProbe can determine whether the arguments of a call site are correctly ordered or generate a warning for incorrectly ordered arguments within 1.1 ms on average per instance. These results suggest that BugProbe is efficient enough to be integrated into development envi-ronments and used in near real-time, for example, to provide feedback as developers write code. 
+
+B. Threats to Validity 
+
+Internal validity. Our primary evaluation relies on synthetic negative examples generated by swapping the first two ar-guments of call sites. While widely adopted in prior work, not all synthetic swaps necessarily correspond to real bugs, and some swapped calls may remain semantically correct. Since the same generation procedure is applied to all evaluated approaches, this threat does not bias the comparative results. We further evaluate BugProbe on a curated benchmark of 55 real-world argument-swap bugs, which directly assesses detection on organically occurring defects and substantially mitigates the above-mentioned concern, though at 55 bugs it remains small relative to the synthetic set and results should be read as indicative rather than statistically comprehensive. 
+
+Construct validity. We frame argument-ordering bug de-tection as binary classification and evaluate performance using precision, recall, and F1 score. These metrics capture detection effectiveness but not developer-perceived usefulness or bug severity; user studies could offer further insight into practical impact. 
+
+External validity. Our experiments use a large corpus of open-source Python projects from GitHub. While the dataset spans diverse domains, results may not generalize to proprietary codebases or other languages, particularly those with stronger static typing or different naming conventions. Python nonetheless remains a challenging and widely used dynamically typed language, making it a meaningful target for this study. 
+
+Conclusion validity. BugProbe relies on Word2Vec embed-dings, chosen to ensure a fair comparison with DeepBugs; alternative embedding architectures may yield different results. Our findings on pre-trained embeddings are therefore specific to the evaluated models rather than a general limitation of pre-trained representations. VII. C ONCLUSION 
+
+In this paper, we investigate the problem of detecting incorrectly ordered arguments in Python programs and propose BugProbe, a machine learning–based approach for identifying argument-ordering bugs. BugProbe frames the task as binary classification and uses learned representations derived from multiple contextual signals, including local lexical context, ar-gument usage patterns, structural context, and lightweight type information, capturing both local and long-range dependencies relevant to argument ordering. Evaluations on synthetic and real-world bug datasets show that BugProbe consistently out-performs DeepBugs and other baseline techniques. Crucially, BugProbe requires no explicit mappings between call sites and their definitions, making it well suited to dynamically typed languages where such mappings are often unavailable. An ablation study further shows that combining multiple contextual feature groups is key to strong performance, while expression-typed token encoding yields modest but consistent gains. In future work, we plan to explore richer type information from static type inference tools [19], [27], extend BugProbe to other semantic bug patterns, and compare its effectiveness against large language models (LLMs) and additional baselines such as SWAPD [8] and NALIN [9] for source-code bug detection. REFERENCES [1] J. Li, Y. Wang, M. R. Lyu, and I. King, “Code completion with neural attention and pointer networks,” in Proceedings of the 27th International Joint Conference on Artificial Intelligence (IJCAI) , 2018, pp. 4159– 4165. [Online]. Available: https://doi.org/10.24963/ijcai.2018/578 [2] F. Liu, G. Li, Y. Zhao, and Z. Jin, “Multi-task learning based pre-trained language model for code completion,” in Proceedings of the 35th IEEE/ACM International Conference on Automated Software Engineering (ASE) , 2020, pp. 473–485. [Online]. Available: https://doi.org/10.1145/3324884.3416591 [3] V. Raychev, M. T. Vechev, and E. Yahav, “Code completion with statistical language models,” in Proceedings of the 35th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI) , 2014, pp. 419–428. [Online]. Available: https://doi.org/10.1145/2594291.2594321 [4] B. Lin, S. Scalabrino, A. Mocci, R. Oliveto, G. Bavota, and M. Lanza, “Investigating the use of code analysis and NLP to promote a consistent usage of identifiers,” in Proceedings of the 17th IEEE International Working Conference on Source Code Analysis and Manipulation (SCAM) , 2017, pp. 81–90. [Online]. Available: https://doi.org/10.1109/SCAM.2017.17 [5] Y. Wainakh, M. Rauf, and M. Pradel, “IdBench: Evaluating semantic representations of identifier names in source code,” in 
+
+Proceedings of the 43rd International Conference on Software Engineering (ICSE) , 2021, pp. 562–573. [Online]. Available: https: //doi.org/10.1109/ICSE43902.2021.00059 [6] H. Liu, Q. Liu, C. Staicu, M. Pradel, and Y. Luo, “Nomen est omen: Exploring and exploiting similarities between argument and parameter names,” in Proceedings of the 38th International Conference on Software Engineering (ICSE) , 2016, pp. 1063–1073. [Online]. Available: https://doi.org/10.1145/2884781.2884841 [7] M. Pradel and T. R. Gross, “Name-based analysis of equally typed method arguments,” IEEE Transactions on Software Engineering ,vol. 39, no. 8, pp. 1127–1143, 2013. [Online]. Available: https: //doi.org/10.1109/TSE.2013.7 [8] R. Scott, J. Ranieri, L. Kot, and V. Kashyap, “Out of sight, out of place: Detecting and assessing swapped arguments,” in Proceedings of the 20th IEEE International Working Conference on Source Code Analysis and Manipulation (SCAM) , 2020, pp. 227–237. [Online]. Available: https://doi.org/10.48550/arXiv.2009.09117 [9] J. Patra and M. Pradel, “Nalin: Learning from runtime behavior to find name-value inconsistencies in Jupyter notebooks,” in Proceedings of the 44th International Conference on Software Engineering (ICSE) , 2022, pp. 1469–1481. [Online]. Available: https://doi.org/10.1145/3510003. 3510144 [10] M. Pradel and K. Sen, “DeepBugs: A learning approach to name-based bug detection,” Proceedings of the ACM on Programming Languages ,vol. 2, no. OOPSLA, pp. 147:1–147:25, 2018. [Online]. Available: https://doi.org/10.1145/3276517 [11] G. Li, H. Liu, Q. Liu, and Y. Wu, “Lexical similarity between argument and parameter names: An empirical study,” IEEE Access , vol. 6, pp. 58 461–58 481, 2018. [Online]. Available: https://doi.org/10.1109/ ACCESS.2018.2875125 [12] A. Rice, E. Aftandilian, C. Jaspan, E. Johnston, M. Pradel, and Y. Arroyo-Paredes, “Detecting argument selection defects,” Proceedings of the ACM on Programming Languages , vol. 1, no. OOPSLA, pp. 1–22, 2017. [Online]. Available: https://doi.org/10.1145/3133928 [13] C. Zhang, J. Yang, Y. Zhang, J. Fan, X. Zhang, J. Zhao, and P. Ou, “Automatic parameter recommendation for practical API usage,” in Proceedings of the 34th International Conference on Software Engineering (ICSE) , 2012, pp. 826–836. [Online]. Available: https://doi.org/10.1109/ICSE.2012.6227136 [14] M. Asaduzzaman, C. K. Roy, and K. A. Schneider, “PARC: recommending API methods parameters,” in Proceedings of the 2015 IEEE 31st International Conference on Software Maintenance and Evolution (ICSME) , 2015, pp. 330–332. [Online]. Available: https://doi.org/10.1109/ICSM.2015.7332481 [15] S. Nguyen, C. T. Manh, K. T. Tran, T. M. Nguyen, T. Nguyen, K. Ngo, and H. D. Vo, “ARIST: an effective API argument recommendation approach,” Journal of Systems and Software , p. 111786, 2023. [Online]. Available: https://doi.org/10.1016/j.jss.2023.111786 [16] M. Allamanis, E. T. Barr, S. Ducousso, and Z. Gao, “Typilus: Neural type hints,” in Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI) , 2020, pp. 91–105. [Online]. Available: https://doi.org/10.1145/3385412.3385997 [17] M. Pradel, G. Gousios, J. Liu, and S. Chandra, “TypeWriter: Neural type prediction with search-based validation,” in Proceedings of the 28th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE) , 2020, pp. 209–220. [Online]. Available: https://doi.org/ 10.1145/3368089.3409715 [18] A. M. Mir, E. Latoˇ skinas, S. Proksch, and G. Gousios, “Type4Py: Practical deep similarity learning-based type inference for Python,” in Proceedings of the 44th International Conference on Software Engineering (ICSE) , 2022, pp. 2241–2252. [Online]. Available: https://doi.org/10.1145/3510003.3510124 [19] Y. Peng, C. Gao, Z. Li, B. Gao, D. Lo, Q. Zhang, and M. Lyu, “Static inference meets deep learning: A hybrid type inference approach for Python,” in Proceedings of the 44th International Conference on Software Engineering (ICSE) , 2022, pp. 2019–2030. [Online]. Available: https://doi.org/10.1145/3510003.3510038 [20] J. Wei, G. Durrett, and I. Dillig, “TypeT5: Seq2seq type inference using static analysis,” arXiv preprint arXiv:2303.09564 , 2023. [Online]. Available: https://doi.org/10.48550/arXiv.2303.09564 [21] Y. Peng, C. Wang, W. Wang, C. Gao, and M. R. Lyu, “Generative type inference for Python,” in Proceedings of the 38th IEEE/ACM International Conference on Automated Software Engineering (ASE) , 2023, pp. 988–999. [Online]. Available: https://doi.org/10.1109/ASE56229.2023.00031 [22] M. Allamanis, “The adverse effects of code duplication in machine learning models of code,” in Proceedings of the 2019 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software (Onward!) , 2019, pp. 143–153. [Online]. Available: https://doi.org/10.1145/3359591.3359735 [23] A. M. Mir, E. Latoskinas, and G. Gousios, “ManyTypes4Py: Abenchmark Python dataset for machine learning-based type inference,” in Proceedings of the IEEE/ACM 18th International Conference on Mining Software Repositories (MSR) , 2021, pp. 585–589. [Online]. Available: https://doi.org/10.1109/MSR52588.2021.00079 [24] Z. Feng, D. Guo, D. Tang, N. Duan, X. Feng, M. Gong, L. Shou, B. Qin, T. Liu, D. Jiang, and M. Zhou, “CodeBERT: A pre-trained model for programming and natural languages,” in Findings of the Association for Computational Linguistics: EMNLP 2020 , 2020, pp. 1536–1547. [Online]. Available: https: //doi.org/10.18653/v1/2020.findings-emnlp.139 [25] J. Devlin, M. Chang, K. Lee, and K. Toutanova, “BERT: pre-training of deep bidirectional transformers for language understanding,” in 
+
+Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT) , 2019, pp. 4171–4186. [Online]. Available: https://doi.org/10.18653/v1/N19-1423 [26] Z. Ding, H. Li, W. Shang, and T. P. Chen, “Can pre-trained code embeddings improve model performance? revisiting the use of code embeddings in software engineering tasks,” Empirical Software Engineering , vol. 27, p. 63, 2022. [Online]. Available: https://doi.org/10.1007/s10664-022-10118-5 [27] A. Aman, M. Asaduzzaman, and S. Wang, “Typify: A lightweight usage-driven static analyzer for precise Python type inference,” in Proceedings of the 34th IEEE/ACM International Conference on Program Comprehension (ICPC) , 2026. [Online]. Available: https://doi.org/10.1145/3794763.3794825

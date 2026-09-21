@@ -1,0 +1,194 @@
+Title: Don't Blame the Model, Verify the Data: An Evaluation of SMT-based Dataset Verification
+
+URL Source: https://arxiv.org/pdf/2609.20959v1
+
+Published Time: Mon, 21 Sep 2026 00:06:12 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# Don’t Blame the Model, Verify the Data: An Evaluation of SMT-based Dataset Verification 
+
+Sehee Park 1, Dominik Geißler 1[0009 −0008 −8069 −1417] , Andrei Aleksandrov 1,2[0000 −0002 −4717 −4206] , and Kim Völlinger 1[0000 −0002 −8988 −0053]  
+
+> 1
+
+Technische Universität Berlin, Berlin, Germany 
+
+voellinger@tu-berlin.de  
+
+> 2
+
+Fraunhofer FOKUS, Berlin, Germany 
+
+Abstract. The EU AI Act mandates that datasets for high-risk machine learning (ML) systems meet strict quality criteria such as soundness and bias mitigation. While Satisfiability Modulo Theory (SMT) solving offers a formal approach to verifying these properties, its scalability in realistic ML settings remains unexplored. To bridge this gap, this work presents the first large-scale empirical study of SMT-based dataset verification on two real-world ML datasets. We systematically evaluate how solver performance is shaped by three key dimensions: the type of data-quality property, the specification style, and the dataset encoding strategy. Our findings demonstrate that SMT-based verification is feasible for prac-tical scenarios, but each dimension shapes it: the property type sets the tractability limit, the specification style drives scalability (exceed-ing 2,000 × for aggregate properties), and the encoding strategy has a systematic effect, with extracted feature columns performing best. 
+
+Keywords: Data-centric AI · Data Quality · Machine Learning · Formal Methods · SMT Solving · Safety · Security · Bias Mitigation · EU AI Act. 
+
+## 1 Introduction 
+
+Many failures of ML models originate directly from their training or evaluation data. Data quality serves as a primary determinant of model reliability: incom-plete data can introduce vulnerabilities that lead to unsafe behavior in rare scenarios [18], biased data can produce discriminatory models [7], and poisoned data present severe security threats [19]. Consequently, data quality has become a central objective in industrial practice and AI research [24]. This imperative is reinforced by emerging regulations that elevate data quality to a legal re-quirement. Notably, the EU AI Act [1] mandates that data used in high-risk AI systems satisfy properties such as completeness, representativeness, soundness, and bias mitigation. In practice, data quality is typically assessed using libraries for surface-level validation, as task-specific semantic constraints are difficult to generalize, while research investigates bug discovery methods using heuristics and ML models [24]. However, these methods lack formal rigor. As regulatory and safety demands increase, a fundamental question arises: Can data quality be specified and verified using traditional formal methods? arXiv:2609.20959v1 [cs.LO] 17 Sep 2026 2 S. Park et al. 
+
+To date, research on formal methods for ML has largely focused on post-training verification, but recent work shifted attention to earlier stages of the ML pipeline to train models that are inherently more likely to satisfy specifica-tions [15]. Yet, the data stage remains largely unexplored, even though training data violating a specification likely results in incorrect model behavior. More-over, certain semantic properties can be ensured for the data. This perspective is conceptually aligned with techniques like adversarial training, where training data are augmented by data points that promote model robustness [8]. Existing formal methods for ML data are sparse, but include abstract interpretation-based data pre-processing [21,20,6], verified synthetic data generation [25,23], and most relevant to this work, a reduction of data-quality verification to SMT solving [11]. SMT solving extends propositional satisfiability through theories such as linear integer arithmetic or arrays. Given a set of assertions, an SMT solver returns sat if a satisfying assignment exists, unsat if it does not, and 
+
+unknown if it cannot determine the result within its resource limits. In [11], a tabular dataset is encoded as an array D[i][ j], where i indicates a record and j afeature, together with a separate array for labels, and a property is expressed as a formula over these arrays. Verification reduces to checking whether the conjunc-tion of the dataset encoding and the property formula is satisfiable. However, since this approach has been evaluated only in a proof-of-concept setting on ten synthetic data points, its practicality in realistic settings remains unclear. 3
+
+To bridge this gap, we present the first large-scale empirical study of SMT-based dataset verification for real-world ML datasets. Using the state-of-the-art SMT solver Z3 [14], we evaluate the approach on industrial ML benchmark datasets: German Credit (1,000 records, 24 features, binary label) [9] and Bank Marketing (45,211 records, 16 features, binary label) [12]. We systematically study how solver performance is shaped by three key dimensions: type of data-quality property, the specification style, and the dataset encoding strategy. Our findings: (1) property type determines the limits of the approach with continu-ous relational properties with alternating quantifiers producing irregular solving times and requiring algebraic pre-processing to extend the tractable range; (2) specification style profoundly impacts scalability with gaps widening when the dataset scales and exceeding 2,000 × for aggregate properties;and (3) data en-coding has a systematic, style-independent effect with extracted feature columns performing best. Appendix A includes all experiments. This paper makes the fol-lowing contributions: 1. Empirical Evaluation: scalability of SMT-based dataset verification, com-paring property types, specification styles, and encoding strategies. 2. Benchmark Suite: over 400 SMT-LIB benchmark instances for ML data qual-ity for 22 experiments to support future research on dataset verification. 4   
+
+> 3There has been an internal evaluation up to 120 synthetic data points, but these results are not reproducible because the dataset is not public [11].
+> 4https://github.com/seheepark9954/Empirical-Evaluation-of-SMT-based-Dataset-Verification An Evaluation of SMT-based Dataset Verification 3
+
+Table 1: The quality measures selected for evaluation (indicated in bold), cate-gorized by EU AI Act requirement [1] and property type.           
+
+> EU AI Act requirement example measure example property type
+> soundness min-max normalization record-level, continuous, linear
+> range validity record-level, discrete, linear representativeness class balance aggregate, discrete, linear completeness well-distributedness relational, continuous, non-linear bias mitigation demographic parity aggregate, discrete, linear
+
+## 2 Performing SMT-based Dataset Verification 
+
+We outline our evaluation framework (Section 2.1) and then present the empirical results together with a performance analysis (Section 2.2). 
+
+2.1 Evaluation Framework 
+
+We introduce the three dimensions of our study in turn: the data-quality property types via a taxonomy and a selection of representative measures; the specification styles; and the dataset encoding strategies. 
+
+Data-Quality Property Types. We establish a taxonomy of data-quality proper-ties by scope, structure, and domain, aligning conventions from databases with SMT solving. Record-level properties constrain each data point individually such as range validity, analogous to check constraints in databases [4]. These prop-erties correspond to universal array properties [3]. Dataset-level properties con-strain the whole dataset, falling into two distinct structures. Aggregate properties depend on summary statistics derived from a selection of record features such as the median, comparable to database aggregation constraints [17]. Relational 
+
+properties define relationships between records, similar to database denial con-straints [4]. Examples include duplicate elimination and ensuring the existence of counterfactual-fair records. Relational properties can also relate records to the domain space (e.g., domain coverage). Underlying variables can be discrete or 
+
+continuous , falling into the theories of (non-)linear integer or real arithmetic. From this taxonomy we select four representative measures for evaluation that represent a substantial range of property types. Table 1 maps the selected measures to four data-quality criteria of the EU AI Act (Article 10) but is not a complete formalization of the Article, which states these criteria qualitatively and also mandates governance processes and contextual fit. SMT-based verifica-tion targets the fragment of these criteria that admits a predicate. Concretely, we adapt three of the four measures introduced in the foundational reduction framework [11], substituting “at minimum n records” with range validity: 5  
+
+> 5Measures in bold in Table 1 are those we evaluate empirically. We list demographic parity as the example measure for bias mitigation but do not evaluate it separately: 4S. Park et al.
+
+1. Min-max normalization is a preprocessing transformation requiring a feature 
+
+j to be normalized [11]: ∀i. (0 ≤ i < m ) → − 1 ≤ D[i][ j] < 1.2. Range validity ensures that an unprocessed feature falls within a predefined interval [24]. Although logically similar to min-max normalization, in our experiments, we apply different dataset encoding strategies to them. 3. Class balance ensures that no class label is underrepresented [11]. Each label must appear at least ml·B times, where m is the number of records, l is the number of distinct labels and B is a tolerance parameter. The property requires an aggregation (counting) over all records. 4. Well-distributedness dictates that records cover the feature space without large gaps. Since solving immediately resulted in unknown in the original work [11], we project it to a one-dimensional case, a necessary condition for multi-dimensional verification. For feature j, no point p exists who is more distant to every record than threshold d: ¬∃ p . ∀i. (0 ≤ i < m ) →
+
+dist( p, D [i][ j]) > d with dist being the Euclidean distance. 
+
+Specification Styles. Each property can be expressed in multiple logically equiv-alent ways in SMT-LIB 2. We evaluate three distinct specification styles, while the applicable styles depend on the property: 1. The baseline style is the original quantified formulation from the reduction framework [11]. While highly readable, it ignores solver efficiency. 2. The recursive style constructs a recursive function which iterates over the dataset. For class balance, the baseline style already employs recursion [11]. 3. The grounding style exploits that a dataset is finite. It completely eliminates quantifiers and recursion by expanding the conditions into explicit conjunc-tions over the index range, placing the problem into a decidable fragment. Note that because well-distributedness quantifies existentially over a continuous feature space, it cannot be expressed using the grounding style. Furthermore, non-linear real arithmetic is decidable only with doubly exponential worst-case complexity via cylindrical algebraic decomposition (CAD) [5]. Since CAD ex-pects polynomial input, roots require algebraic transformations, automatically performed during pre-processing [2]. We apply a targeted optimization tech-nique that squares both sides of the distance threshold equation. This optimiza-tion eliminates non-polynomial behavior to bypass volatile solver pre-processing heuristics, which are at work to avoid worst-case complexity. Additionally, it reduces the problem to a quadratic case, which often has solutions more efficient than CAD and frequently quantifier elimination can be accelerated [22]. 
+
+Datasets Encodings. We evaluate three tabular-data encoding strategies that are alternative SMT-LIB representations of the same dataset not transformations of it:  
+
+> over a finite dataset it is an aggregate, discrete, linear property that reduces to per-group counting, sharing its property type with class balance. Our taxonomy therefore predicts its solver behavior, and a dedicated experiment would be redundant. An Evaluation of SMT-based Dataset Verification 5
+
+Table 2: Categorization of the 22 experiments with references to their results.                   
+
+> Property German Credit Benchmark Bank Marketing Benchmark Min-max normal. baseline, recursive, grounding baseline, recursive, grounding (specification style) as nested column data (Fig. 3) as nested column data (Fig. 2)
+> Range validity baseline, recursive, grounding baseline, recursive, grounding (specification style) as nested array data (Fig. 4) as nested array data (Fig. 1)
+> Class balance recursive baseline, grounding recursive baseline, grounding (specification style) as column data (Fig. 5) as column data (Fig. 2)
+> Well-distributed baseline, optimized baseline (optimization and as nested array data and encoding strategy) as column data (Fig. 1 and 6))
+> Range validity nested array, column and (encoding strategy) nested column data for grounding (Fig. 1 and 7)
+
+1. Nested Array: The original encoding [11] employs a two-dimensional array of type Array Int (Array Int _) , where the outer array indexes a record and the inner array indexes its features. Quantification over a one-dimensional array is known to be challenging [16], and nesting requires an additional layer of resolution of array axioms [2]. 2. Column-Slice: This encoding represents only the feature column relevant to a given property (in the SMT model), as an array of type Array Int _ .3. Nested Column-Slice: A nested array that wraps only the relevant feature col-umn, serving as a control to isolate nesting cost from multi-column formula-size effects. 
+
+2.2 Empirical Evaluation 
+
+We investigate one research question for each evalutation dimension: 
+
+RQ1 : Which data-quality property types remain tractable for SMT-based verification, and to what extent can algebraic pre-processing (root elimina-tion) extend the tractability for the most challenging case: non-linear con-tinuous relational properties? 
+
+RQ2 : How does the specification style affect solver performance and scala-bility, and how do the differences evolve with dataset size? 
+
+RQ3 : How does dataset encoding influence solver performance? 
+
+Experimental Set-up. We conducted 22 different experiments, as detailed in Ta-ble 2, progressively increasing the number of records ( m) to evaluate scalability. For min-max normalization and range validity, we compared all specification styles. For class balance, we compared the recursive baseline and grounding style on both benchmarks. Well-distributedness was evaluated exclusively on the larger Bank Marketing benchmark, focusing on how quantified non-linear 6 S. Park et al. 
+
+terms dictate the limits of scalability for different data encodings. Note that min-max normalization and range validity, with a similar logical structure, have been studied on different data encodings. However, to isolate the exact impact of data encoding at scale, we fix the property to range validity and the style to grounding on the Bank Marketing dataset, varying only the encoding strategy. Prior to performance testing, we validated that the applied specification styles are indeed equivalent. All experiments were conducted on a MacBook Air (Ap-ple M2, 8 GB RAM) with Z3 version 4.15.3 via the command line using default settings. We report the arithmetic mean of three runs, excluding execution arti-facts by ensuring CPU usage remained above 95%. The timeout threshold was set to 10 minutes. 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Well-Distributedness Baseline (n.a.) Baseline (optimized, n.a.) Baseline (optimized, c.s.) Timeout 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Range-Validity Baseline (n.a.) Recursive (n.a.) Grounding (n.a.) Grounding (c.s.) Time (s) Number of data points 
+
+Fig. 1: Runtime for well-distributedness (left) and range-validity (right) on the Bank Marketing data, displayed in log-log scale. In experiments labeled by n.a. (c.s.) the data is represented by a nested array (column slice). The tabular data of these experiments are available in Figure 6 and Table 5. 
+
+Results on RQ1. Among the four property types, only the continuous relational property, well-distributedness, falls outside the grounding style, as it quantifies over a continuous feature space; it therefore sets the tractability limit, while the record-level and aggregate properties remain tractable at real-world scale under grounding (RQ2). It exhibits a fundamentally different behavior from the other properties, characterized by non-monotone solving times relative to dataset size. This instability is most pronounced when pairing the baseline formulation with the original nested array encoding: solving takes 0.63 seconds for m = 500 ,increases to 585.9 seconds for m = 600 , and then drops to 250.6 seconds for 
+
+m = 700 . This volatility is likely tied to several factors: Z3’s engine for non-linear arithmetic over polynomials together with heuristics that guide the use An Evaluation of SMT-based Dataset Verification 7
+
+of CAD on fragments of the entire formula for determining satisfiability [10,2]; the quantifier alternation [13]; and the known to be challenging quantification over arrays [16], which is further complicated by nesting. Our root-elimination optimization maps the problem cleanly into the quadratic polynomial case, elim-inating pre-processing heuristics [2] and potentially speeding up non-linear arith-metic reasoning and quantifier instantiation [22]. Using still the original nested array encoding, this optimization successfully extends the tractability frontier from 700 records to 10,000 records, but the optimized version still exhibits run-time irregularities. 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Min-Max 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Class-Balance Time (s) Number of data points Baseline Recursive Grounding Baseline (quantified + recursive) Timeout 
+
+Fig. 2: Runtime for min-max normalization (left) and class balance (right) on the Bank Marketing data, displayed in log-log scale. The tabular data of these experiments are available in Table 3 and Table 4. 
+
+Results on RQ2. The empirical results confirm plausible assumptions one may have regarding specification styles: grounding consistently achieves the highest performance, followed by the recursive style, with the baseline style performing worst across all properties and benchmarks. Note that the performance differ-ences between min-max normalization and range validity are driven by their underlying data encodings (discussed in RQ3). Crucially, performance gaps ex-pand as the dataset size scales. For record-level properties, the performance gap between baseline and grounding styles reaches a factor of 39x for m = 30 , 000 
+
+for min-max normalization on the Bank Marketing data. For class balance, an aggregate property, the gap is more pronounced. On the German Credit data at m = 1000 , the baseline (recursive and quantified) takes 103.4 seconds, while the grounding style requires just 0.049 seconds, a 2,000x acceleration. On the Bank Marketing data, the baseline style times out at m ≥ 10 , 000 , while the 8 S. Park et al. 
+
+grounding style completes in under 0.4 seconds even at m = 40 , 000 . This mas-sive divergence can be explained by the computational burden of the baseline’s recursive counting and outer quantification over labels, which force the solver to alternate between incremental recursive unfolding and heuristic E-matching: unfolding introduces new ground terms, which can enable further quantifier in-stantiations [2,13]. In contrast, the grounding style creates a decidable problem. 
+
+Results on RQ3. In addition to optimization, switching the data encoding from a nested array to a column encoding for well-distributedness dramatically smooths out solver behavior and moves the tractability frontier from 10,000 records to 40,000 records. Even paired with the unoptimized baseline solver behavior considerably improves, but irregularities remain, in contrast to its optimized counterpart. 6 Moreover, cross-property comparisons reveal that range valid-ity (nested-array encoding) is consistently slower than min-max normalization (column-slice encoding). For range validity, accessing a feature in the nested array data requires navigating a multi-column formula and resolving an extra layer of array axioms. The overhead factor is tied to the number of features of the dataset. Overall, it is larger for the German credit data (24 features) than for the Bank Marketing data (16 features). For instance, for the German Credit data at m = 1000 (baseline), solving for min-max normalization takes 0.331 sec-onds and for range validity 7.78 seconds, a difference of 23x. The factor differs consistently across specification styles, with the impact being the biggest on the grounding style, followed by the baseline style and then the recursive style. For instance, for the German Credit data at m = 800 and m = 900 , solving for range validity in comparison to min-max normalization is 31x slower with the grounding style, 23x with the baseline style and 16x with the recursive style. This impact difference is an effect that we cannot yet explain. Our controlled bench-mark fixes the property to range validity and the style to grounding to isolate the encoding effect. The results confirm the gap between the (nested) column-slice representations and the nested array representation, with the factors being close to the comparison with the grounding style of the min-max normalization. Regarding the control encoding that isolates nesting, at m = 40 , 000 solving for nested column-slice data takes 13.307 seconds and for column-slice data 12.972 seconds, which is a difference of 2.6%. 7 Hence, the nesting structure itself costs almost nothing; the overhead comes from the multi-column access pattern. 
+
+## 3 Conclusion and Future Work 
+
+As practical guidance, express record-level and aggregate properties in the ground-ing style, algebraically pre-process continuous relational properties, and encode the relevant feature as a column slice. Our results are limited by running a sin-gle solver on a single consumer machine, and the reported times are best read   
+
+> 6The graph (baseline and column) can be found in Figure 6 of the appendix.
+> 7The control graph (nested-column) can be found in Figure 7 in the appendix.
+
+An Evaluation of SMT-based Dataset Verification 9
+
+as relative comparisons. Several future directions arise from the findings: eval-uation of a portfolio of SMT solvers; a domain-specific language compiling to grounding-style SMT-LIB with automatic root elimination, and a primitive op-eration for column projection; incremental verification for growing datasets via Z3’s push/pop interface; counterexample-guided data repair for unsat models; parallel verification for record-level properties; exploration of cross-dataset prop-erties such as train/test data leakage; and extension to time-series and graph-structured data. 
+
+## References 
+
+1. The EU Artificial Intelligence Act. Article 10: Data and Data Governance (2024) 2. Bjørner, N., Eisenhofer, C., Gurfinkel, A., Lopes, N.P., de Moura, L., Nachmanson, L., Wintersteiger, C.: Z3 internals (draft) 3. Bradley, A.R., Manna, Z., Sipma, H.B.: What’s Decidable About Arrays? VMCAI (2006) 4. Chu, X., Ilyas, I.F., Papotti, P.: Discovering Denial Constraints. VLDB (2013) 5. Davenport, J.H., Heintz, J.: Real Quantifier Elimination is Doubly Exponential. J. Symb. Comput. (1988) 6. Drobnjakovic, F., Subotic, P., Urban, C.: An Abstract Interpretation-Based Data Leakage Static Analysis. TASE (2024) 7. Hanna, M.G., Pantanowitz, L., Jackson, B., Palmer, O., Visweswaran, S., Pan-tanowitz, J., Deebajah, M., Rashidi, H.H.: Ethical and Bias Considerations in Artificial Intelligence/Machine Learning. Modern Pathology (2025) 8. Hendrycks, D., Mu, N., Cubuk, E.D., Zoph, B., Gilmer, J., Lakshminarayanan, B.: AugMix: A Simple Data Processing Method to Improve Robustness and Uncer-tainty. ICLR (2020) 9. Hofmann, H.: Statlog (German credit data). UCI Machine Learning Repository (1994). https://doi.org/10.24432/C5NC77 10. Jovanovic, D., de Moura, L.: Solving Non-linear Arithmetic. IJCAR (2012) 11. López, J., Labonne, M., Poletti, C.: Towards Formal Data Set Verification for Building Effective Machine Learning Models. IC3K (2021) 12. Moro, S., Cortez, P., Rita, P.: Bank marketing. UCI Machine Learning Repository (2014). https://doi.org/10.24432/C5K306 13. de Moura, L., Bjørner, N.: Efficient E-Matching for SMT Solvers. CADE (2007) 14. de Moura, L.M., Bjørner, N.S.: Z3: An Efficient SMT Solver. TACAS (2008) 15. Platzer, A.: Intersymbolic AI - Interlinking Symbolic AI and Subsymbolic AI. ISoLA (2024) 16. Reynolds, A., Tinelli, C., Goel, A., Krstic, S., Deters, M., Barrett, C.W.: Quantifier Instantiation Techniques for Finite Model Finding in SMT. CADE (2013) 17. Ross, K.A., Srivastava, D., Stuckey, P.J., Sudarshan, S.: Foundations of Aggrega-tion Constraints. Theor. Comput. Sci. (1998) 18. Schwalbe, G., Knie, B., Sämann, T., Dobberphul, T., Gauerhof, L., Raafatnia, S., Rocco, V.: Structuring the Safety Argumentation for Deep Neural Network Based Perception in Automotive Applications. SAFECOMP (2020) 19. Tian, Z., Cui, L., Liang, J., Yu, S.: A comprehensive survey on poisoning attacks and countermeasures in machine learning (2022) 20. Urban, C.: Static Analysis for Data Scientists. CSV (2023) 10 S. Park et al. 21. Urban, C., Müller, P.: An abstract interpretation framework for input data usage. ESOP (2018) 22. Weispfenning, V.: Quantifier Elimination for Real Algebra - the Quadratic Case and Beyond. Appl. Algebra Eng. Commun. Comput. (1997) 23. Xia, Y., Liu, S.: A Framework of Formal Specification-Based Data Generation for Deep Neural Networks. ICSCA (2023) 24. Zhou, Y., Tu, F., Sha, K., Ding, J., Chen, H.: A Survey on Data Quality Dimensions and Tools for Machine Learning. AITest (2024) 25. Zilken, D., Batz, K., Katoen, J., Winkler, T.: Verifying Sampling Algorithms via Distributional Invariants. FM (2026) 
+
+## A Experimental Evaluation 
+
+m Baseline Recursive Grounding 100 0.048 0.025 0.021 200 0.047 0.031 0.027 300 0.069 0.039 0.029 400 0.091 0.049 0.033 500 0.116 0.058 0.036 600 0.153 0.071 0.041 700 0.188 0.083 0.044 800 0.229 0.090 0.047 900 0.278 0.107 0.053 1000 0.326 0.117 0.060 
+
+> 100 200 300 400 500 600 700 800 900 1000 0.1 0.2 0.3 0.4 0.5
+
+Number of data points Time (s) Baseline Recursive Grounding 
+
+Fig. 3: Min-Max normalization on German Credit data. Dataset encoding is a nested column-slice. An Evaluation of SMT-based Dataset Verification 11 
+
+m Baseline Recursive Grounding 100 0.241 0.158 0.158 200 0.564 0.309 0.303 300 1.052 0.504 0.489 400 1.675 0.704 0.672 500 2.376 0.889 0.864 600 3.230 1.115 1.087 700 4.380 1.327 1.285 800 5.464 1.539 1.499 900 6.533 1.742 1.691 1000 7.780 1.960 1.899 
+
+> 100 200 300 400 500 600 700 800 900 1000 12345678
+
+Number of data points Time (s) Baseline Recursive Grounding 
+
+Fig. 4: Range validity on the German Credit data. Dataset encoding is a nested array. 
+
+m Baseline Grounding 100 0.395 0.024 200 1.874 0.023 300 4.043 0.026 400 11.383 0.029 500 17.006 0.032 600 26.166 0.035 700 41.206 0.039 800 60.823 0.042 900 67.703 0.045 1000 103.443 0.049 
+
+> 100 200 300 400 500 600 700 800 900 1000 0.1 110 100 600
+
+Number of data points Time (s) Baseline Grounding 
+
+Fig. 5: Class balance on the German Credit data. Dataset encoding is a clomun-slice. The plot is displayed in log-scale. 12 S. Park et al. m n.a. n.a. (opt) c.s. c.s. (opt) 100 1.204 0.115 UK 0.045 200 33.720 0.542 0.110 0.054 300 70.563 0.208 0.159 0.252 400 16.245 1.126 0.190 0.101 500 0.631 2.637 0.270 0.128 600 585.890 3.529 0.277 0.163 700 250.567 1.055 0.339 0.466 800 T.O. 6.381 0.573 0.555 900 T.O. 4.596 0.437 0.655 1000 T.O. 2.427 0.591 0.768 2000 T.O. 17.968 1.694 1.189 3000 T.O. 64.020 145.423 2.545 4000 T.O. 123.153 9.462 4.451 5000 T.O. 55.265 T.O. 6.917 6000 T.O. 112.407 20.635 9.897 7000 T.O. 90.590 29.209 12.590 8000 T.O. 322.107 36.243 16.525 9000 T.O. 261.887 T.O. 22.064 10000 T.O. T.O. 56.249 25.341 20000 T.O. T.O. 222.037 108.587 30000 T.O. T.O. 498.067 247.307 40000 T.O. T.O. T.O. 448.157 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Number of data points Time (s) n.a. n.a., optimized c.s. c.s., optimized Timeout Unknown 
+
+Fig. 6: Well-distributedness on the Bank Marketing data in all combinations of non-optimized vs. optimized (opt) baseline, and nested array (n.a.) vs. column-slice (c.s.) data representation. T.O. indicates a timeout (run has exceeded 10 minute runtime). UK indicates that the solver returned unknown . The plot is displayed in log-log-scale. An Evaluation of SMT-based Dataset Verification 13 m c.s. n.c.s. n.a. 100 0.038 0.032 0.091 200 0.029 0.029 0.146 300 0.029 0.036 0.218 400 0.034 0.038 0.287 500 0.036 0.045 0.359 600 0.042 0.048 0.451 700 0.049 0.052 0.533 800 0.054 0.057 0.611 900 0.055 0.060 0.696 1000 0.062 0.060 0.791 2000 0.109 0.108 1.718 3000 0.154 0.160 2.721 4000 0.220 0.227 3.718 5000 0.298 0.307 4.894 10000 0.892 0.902 11.280 20000 3.105 3.132 30.040 30000 6.866 6.982 108.980 40000 12.972 13.307 256.190 
+
+> 100 500 1000 5000 10000 20000 40000 0.1 110 100 600
+
+Number of data points Time (s) Column Slice Nested Column Slice Nested Array 
+
+Fig. 7: Dataset encodings: nested array (n.a.), nested column-slice (n.c.s.) and column-slice (c.s.) representations for range validity on the Bank Marketing data. The plot is displayed in log-scale. Table 3: Tabular data of the experiment of min-max normalization on the Bank Marketing data belonging to the plot in Figure 2. 
+
+m Baseline Recursive Grounding 100 0.040 0.027 0.023 200 0.056 0.038 0.031 300 0.082 0.044 0.034 400 0.109 0.054 0.038 500 0.146 0.065 0.042 600 0.180 0.072 0.048 700 0.228 0.083 0.049 800 0.274 0.099 0.054 900 0.331 0.107 0.060 1000 0.388 0.119 0.062 2000 1.279 0.321 0.106 3000 2.718 0.646 0.158 4000 4.648 1.105 0.220 5000 7.031 1.677 0.299 10000 28.784 6.205 0.888 20000 114.133 23.499 3.093 30000 263.310 51.932 6.994 40000 500.127 93.410 13.160 14 S. Park et al. 
+
+Table 4: Tabular data of the experiment of class balance on the Bank Marketing data belonging to the plot in Figure 2. T.O. indicates a timeout (run has exceeded 10 minute runtime). 
+
+m Baseline Grounding 100 0.210 0.022 200 0.564 0.019 300 1.212 0.019 400 2.033 0.023 500 3.128 0.022 600 4.511 0.025 700 6.047 0.026 800 7.835 0.027 900 10.133 0.028 1000 12.671 0.031 2000 58.257 0.042 3000 149.227 0.052 4000 303.570 0.064 5000 521.943 0.071 10000 T.O. 0.120 20000 T.O. 0.207 30000 T.O. 0.283 40000 T.O. 0.393 An Evaluation of SMT-based Dataset Verification 15 
+
+Table 5: Tabular data of the experiment of range validity on the Bank Marketing data belonging to the plot in Figure 1. For all properties (except Grounding (c.s.)), the data was encoded as a nested array. In Grounding (c.s.), it is encoded in the column-slice representation. T.O. indicates a timeout (run has exceeded 10 minute runtime). 
+
+m Baseline Recursive Grounding Grounding (c.s.) 100 0.139 0.101 0.091 0.038 200 0.315 0.149 0.146 0.029 300 0.591 0.223 0.218 0.029 400 0.916 0.296 0.287 0.034 500 1.300 0.370 0.359 0.036 600 1.854 0.469 0.451 0.042 700 2.402 0.560 0.533 0.049 800 2.985 0.644 0.611 0.054 900 3.707 0.742 0.696 0.055 1000 4.422 0.839 0.791 0.062 2000 15.829 1.923 1.718 0.109 3000 35.152 3.187 2.721 0.154 4000 59.117 4.534 3.718 0.220 5000 99.707 6.203 4.894 0.298 10000 458.763 15.985 11.280 0.892 20000 T.O. 51.174 30.040 3.105 30000 T.O. 165.577 108.980 6.866 40000 T.O. 372.547 256.190 12.972

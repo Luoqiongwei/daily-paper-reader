@@ -1,0 +1,249 @@
+{
+  "date": "20260921",
+  "date_label": "",
+  "generated_at": "2026-09-21 22:10:24 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.15471v1",
+      "route": "202609/21/2609.15471v1-hispo-hierarchical-importance-sampling-policy-optimization-with-entropy-derived-segments",
+      "title": "HISPO: Hierarchical Importance-Sampling Policy Optimization with Entropy-Derived Segments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "可验证奖励强化学习的段级策略优化",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.16350v1",
+      "route": "202609/21/2609.16350v1-federated-stochastic-bilevel-optimization-with-fully-first-order-gradients",
+      "title": "Federated stochastic bilevel optimization with fully first-order gradients",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向机器学习的一阶联邦随机双层优化算法",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.16729v1",
+      "route": "202609/21/2609.16729v1-speclens-llm-based-verilog-generation-with-specification-derived-constraints-via-behavioral-divergence",
+      "title": "SpecLens: LLM-Based Verilog Generation with Specification-Derived Constraints via Behavioral Divergence",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于规约约束的大模型Verilog代码生成",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.16936v1",
+      "route": "202609/21/2609.16936v1-repoatlas-guiding-coding-agents-via-evolving-multimodal-repository-views",
+      "title": "RepoAtlas: Guiding Coding Agents via Evolving Multimodal Repository Views",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向仓库级代码任务的大模型编码智能体",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.17844v1",
+      "route": "202609/21/2609.17844v1-detecting-argument-swap-bugs-using-context-enhanced-code-representations",
+      "title": "Detecting Argument-Swap Bugs Using Context-Enhanced Code Representations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于上下文增强代码表示的学习式参数顺序缺陷检测",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.18052v1",
+      "route": "202609/21/2609.18052v1-an-empirical-evaluation-of-cost-efficient-large-language-models-on-algorithmic-programming-tasks",
+      "title": "An Empirical Evaluation of Cost-Efficient Large Language Models on Algorithmic Programming Tasks",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "评估大语言模型按规范生成企业级代码的能力",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.18298v1",
+      "route": "202609/21/2609.18298v1-a-study-of-the-reliability-of-agentic-ai-generated-programs",
+      "title": "A Study of the Reliability of Agentic AI-Generated Programs",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过模糊测试验证AI生成程序的可靠性",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.18457v1",
+      "route": "202609/21/2609.18457v1-aijon-automated-generation-of-annotations-for-fuzzing",
+      "title": "AIJon: Automated Generation of Annotations for Fuzzing",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "大模型自动生成模糊测试注解并用于漏洞检测",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.19754v1",
+      "route": "202609/21/2609.19754v1-autodata-agentic-search-for-pre-training-data-selection",
+      "title": "AutoData: Agentic Search for Pre-training Data Selection",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向预训练数据选择算法的智能体搜索",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.20082v1",
+      "route": "202609/21/2609.20082v1-match-model-aware-tool-learning-with-curriculum-scheduling-and-hierarchically-gated-rewards",
+      "title": "MATCH: Model-Aware Tool Learning with Curriculum Scheduling and Hierarchically Gated Rewards",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "强化学习优化工具调用行为",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.20327v1",
+      "route": "202609/21/2609.20327v1-near-optimal-pure-single-loop-extragradient-method-for-strongly-convex--strongly-concave-minimax-optimization",
+      "title": "Near-Optimal Pure Single-Loop Extragradient Method for Strongly Convex--Strongly Concave Minimax Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向强凸强凹极小极大优化的单环外推梯度法",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.20959v1",
+      "route": "202609/21/2609.20959v1-dont-blame-the-model-verify-the-data-an-evaluation-of-smt-based-dataset-verification",
+      "title": "Don't Blame the Model, Verify the Data: An Evaluation of SMT-based Dataset Verification",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向机器学习的数据集质量SMT验证",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.21616v1",
+      "route": "202609/21/2609.21616v1-labelling-bug-fixing-commits-with-local-open-weight-language-models",
+      "title": "Labelling Bug-Fixing Commits with Local Open-Weight Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于机器学习标注缺陷修复提交以支撑缺陷预测与数据质量",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.21815v1",
+      "route": "202609/21/2609.21815v1-matrix-adagrad-row-wise-and-column-wise-adaptive-subgradient-methods",
+      "title": "Matrix AdaGrad: Row-wise and Column-wise Adaptive Subgradient Methods",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于在线镜像下降的矩阵自适应优化理论",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    },
+    {
+      "paper_id": "2609.22068v1",
+      "route": "202609/21/2609.22068v1-codemidas-scaling-agentic-coding-rl-environments-from-code-itself",
+      "title": "CodeMidas: Scaling Agentic Coding RL Environments from Code Itself",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "code-ml-sys"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "从源代码扩展智能体编码的强化学习环境",
+      "first_seen_at": "2026-09-21 22:10:24 UTC",
+      "updated_at": "2026-09-21 22:10:24 UTC"
+    }
+  ]
+}

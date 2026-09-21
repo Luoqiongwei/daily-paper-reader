@@ -1,0 +1,633 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-21T22:07:38.715334+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 0,
+    "deep_divecandidates": 15,
+    "deep_cap": 5,
+    "deep_selected": 5,
+    "quick_candidates": 10,
+    "quick_skim_target": 10,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2609.15471v1",
+      "source": "arxiv",
+      "title": "HISPO: Hierarchical Importance-Sampling Policy Optimization with Entropy-Derived Segments",
+      "abstract": "Reinforcement learning with verifiable rewards (RLVR) has become a central approach for improving mathematical reasoning in language models, but long-form completions introduce a difficult credit-assignment problem: different parts of a solution trace may contribute unevenly to final correctness. Existing policyoptimization objectives for RLVR commonly apply importance-sampling correction at either the token level (GRPO, DAPO) or the sequence level (GSPO), imposing different granularities for assigning credit across a response. We introduce Hierarchical Importance-Sampling Policy Optimization (HISPO), a segment-level policy-optimization method that constructs rollout-time entropy-derived contiguous segments, assigns soft entropy-based saliency weights, and applies clipped importance-sampling correction at the segment granularity. This provides an intermediate correction unit between token-level GRPO/DAPO and sequence-level GSPO. We evaluate HISPO by fine-tuning Qwen3-1.7B-Base on mathematical reasoning tasks. Across six benchmarks, HISPO improves Pass@8 over the strongest baseline on all benchmarks and matches or exceeds the strongest baseline in Acc@8 on five of them. On AIME25, HISPO improves over GRPO by +3.75 Acc@8 and +3.78 Pass@8, and over GSPO by +2.50 Acc@8 and +1.27 Pass@8. These results suggest that segment-level correction is a promising granularity for RLVR in long-form mathematical reasoning.",
+      "authors": [
+        "Quoc-Vinh Lai-Dang",
+        "Hyo-Sang Shin"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-09-14T12:29:00+00:00",
+      "link": "https://arxiv.org/pdf/2609.15471v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Segment-level policy optimization for reinforcement learning with verifiable rewards",
+      "llm_evidence_cn": "可验证奖励强化学习的段级策略优化",
+      "llm_evidence": "可验证奖励强化学习的段级策略优化",
+      "canonical_evidence": "可验证奖励强化学习的段级策略优化",
+      "llm_tldr_en": "HISPO introduces entropy-derived contiguous segments and soft entropy-based credit assignment for policy optimization, addressing uneven credit assignment in long-form RLVR completions better than token or sequence level methods.",
+      "llm_tldr_cn": "带可验证奖励的强化学习已成为提升语言模型数学推理能力的核心方法，但长文本解答中存在不同片段对最终正确性贡献不均的信用分配难题。现有GRPO、DAPO等目标仅在词元级或序列级做重要性采样修正，粒度单一。本文提出HISPO，构建基于熵的连续片段并赋予软熵权重进行段级策略优化，从而更精细地分配信用，改进了长文本推理的强化学习训练效果。",
+      "llm_tldr": "带可验证奖励的强化学习已成为提升语言模型数学推理能力的核心方法，但长文本解答中存在不同片段对最终正确性贡献不均的信用分配难题。现有GRPO、DAPO等目标仅在词元级或序列级做重要性采样修正，粒度单一。本文提出HISPO，构建基于熵的连续片段并赋予软熵权重进行段级策略优化，从而更精细地分配信用，改进了长文本推理的强化学习训练效果。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.15471v1"
+    },
+    {
+      "id": "2609.16350v1",
+      "source": "arxiv",
+      "title": "Federated stochastic bilevel optimization with fully first-order gradients",
+      "abstract": "Federated stochastic bilevel optimization has been actively studied in recent years due to its widespread applications in machine learning. However, most existing federated stochastic bilevel optimization algorithms require the computation of second-order Hessian and Jacobian matrices, which leads to longer running times in practice. To address these challenges, we propose a novel federated stochastic variance-reduced bilevel gradient descent algorithm that relies solely on first-order oracles. Specifically, our approach does not require the computation of second-order Hessian and Jacobian matrices, significantly reducing running time. Furthermore, we introduce a novel learning rate mechanism, i.e., a constant single-timescale learning rate, to coordinate the update of different variables. We also present a new strategy to establish the convergence rate of our algorithm. Finally, the extensive experimental results confirm the efficacy of our proposed algorithm.",
+      "authors": [
+        "Yihan Zhang",
+        "Rohit Dhaipule",
+        "Chiu C Tan",
+        "Haibin Ling",
+        "Hongchang Gao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-14T21:12:59+00:00",
+      "link": "https://arxiv.org/pdf/2609.16350v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "first-order federated stochastic bilevel optimization algorithm for machine learning",
+      "llm_evidence_cn": "面向机器学习的一阶联邦随机双层优化算法",
+      "llm_evidence": "面向机器学习的一阶联邦随机双层优化算法",
+      "canonical_evidence": "面向机器学习的一阶联邦随机双层优化算法",
+      "llm_tldr_en": "Federated stochastic bilevel optimization usually needs second-order Hessians and Jacobians, slowing training. The authors propose a first-order variance-reduced bilevel gradient method with a single-timescale learning rate, cutting running time.",
+      "llm_tldr_cn": "联邦随机双层优化在机器学习中应用广泛，但现有算法多需计算二阶 Hessian 与 Jacobian 矩阵，导致实际运行时间过长。本文提出一种仅依赖一阶信息的联邦随机方差缩减双层梯度下降算法，并引入常数单时间尺度学习率以协同优化上下层问题。该方法无需二阶矩阵计算，显著缩短运行时间并保持收敛性，为联邦双层优化提供更实用的高效一阶求解方案。",
+      "llm_tldr": "联邦随机双层优化在机器学习中应用广泛，但现有算法多需计算二阶 Hessian 与 Jacobian 矩阵，导致实际运行时间过长。本文提出一种仅依赖一阶信息的联邦随机方差缩减双层梯度下降算法，并引入常数单时间尺度学习率以协同优化上下层问题。该方法无需二阶矩阵计算，显著缩短运行时间并保持收敛性，为联邦双层优化提供更实用的高效一阶求解方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.16350v1"
+    },
+    {
+      "id": "2609.16729v1",
+      "source": "arxiv",
+      "title": "SpecLens: LLM-Based Verilog Generation with Specification-Derived Constraints via Behavioral Divergence",
+      "abstract": "Large language models (LLMs) have recently shown promise in Verilog generation, but producing functionally correct RTL directly from natural-language specifications remains a highly challenging task. Existing approaches improve LLM-based Verilog generation mainly with retrieval-augmented generation (RAG), self-planning, or few-shot prompting. However, these methods focus primarily on external or generic forms of enhancement rather than strengthening the specification with task-specific constraints. In this work, we propose SpecLens, an automated framework for LLM-based Verilog generation that derives specification-driven constraints by analyzing behavioral divergence among multiple candidate implementations, using the original specification as the only external semantic source during generation. On the VerilogEval v2.0 spec-to-RTL benchmark, SpecLens achieves a functional pass@1 ratio of 86.2\\% with o3-mini-medium and 89.4\\% with o3-mini-high. This corresponds to a 3.6 percentage-point gain over the SOTA prompting method with o3-mini-medium and a 3.8 percentage-point gain over the SOTA behavioral divergence method with o3-mini-high. In addition, on RTLLM v1.1 and v2.0, analysis shows that SpecLens is more specification-faithful and less prone to benchmark-aligned priors. SpecLens achieves 100\\% syntactic correctness on VerilogEval v2.0, 86.2\\% on RTLLM v1.1, and 88\\% on RTLLM v2.0, even without using costly compile-repair loops to revise generated code iteratively. The code is open source and available at https://anonymous.4open.science/r/SpecLens-4632/readme.md.",
+      "authors": [
+        "Wen Bing",
+        "Bing Li"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-09-15T06:59:00+00:00",
+      "link": "https://arxiv.org/pdf/2609.16729v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-based Verilog code generation with specification-derived constraints",
+      "llm_evidence_cn": "基于规约约束的大模型Verilog代码生成",
+      "llm_evidence": "基于规约约束的大模型Verilog代码生成",
+      "canonical_evidence": "基于规约约束的大模型Verilog代码生成",
+      "llm_tldr_en": "Directly generating functionally correct Verilog RTL from natural-language specifications remains hard, as existing RAG, self-planning and few-shot methods add only generic enhancements. SpecLens derives specification-driven constraints by analyzing behavioral divergence among candidate implementations to guide LLM generation.",
+      "llm_tldr_cn": "直接从自然语言规约生成功能正确的Verilog RTL仍然困难，现有RAG、自规划与少样本提示多依赖外部或通用增强，未强化任务特定约束。本文提出SpecLens框架，通过分析多个候选实现之间的行为差异自动推导规约驱动约束来引导LLM生成。该方法提升生成代码的功能正确性，为LLM驱动的硬件代码生成提供了以规约为中心的新思路。",
+      "llm_tldr": "直接从自然语言规约生成功能正确的Verilog RTL仍然困难，现有RAG、自规划与少样本提示多依赖外部或通用增强，未强化任务特定约束。本文提出SpecLens框架，通过分析多个候选实现之间的行为差异自动推导规约驱动约束来引导LLM生成。该方法提升生成代码的功能正确性，为LLM驱动的硬件代码生成提供了以规约为中心的新思路。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Recent advances in code generation using large language models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.16729v1"
+    },
+    {
+      "id": "2609.16936v1",
+      "source": "arxiv",
+      "title": "RepoAtlas: Guiding Coding Agents via Evolving Multimodal Repository Views",
+      "abstract": "Large language model (LLM)-powered coding agents have made rapid progress in automating software engineering tasks, yet repository-level issue resolution remains challenging. Beyond generating a plausible patch, an agent must localize relevant code across interdependent files and maintain repository context that is both sufficient and focused. Code graphs expose non-local relations, but linear text interfaces obscure their topology; rendering the full repository graph yields visual representations that are too dense to perceive reliably, whereas a one-shot local view becomes stale as exploration proceeds. We present \\textbf{RepoAtlas}, a training-free module that maintains evolving multimodal repository views through a \\emph{select--project--refresh} loop over a repository code graph. RepoAtlas combines evidence from the issue with the agent's current exploration state to select a task-relevant region under a fixed budget, projects the selected structure into complementary visual and textual representations, and refreshes the view when changes in the exploration state render it outdated. We evaluate RepoAtlas on SWE-bench Verified, where it improves the resolve rate by 2.4 points while reducing input tokens and model calls by 5.8\\% and 7.8\\% on average, relative to the strongest multimodal graph baseline, with consistent gains across three models of different families and scales.",
+      "authors": [
+        "Yunxiang Zhang",
+        "Haiquan Wang",
+        "JiaWei Guo",
+        "Hanyang Xia",
+        "Yan Chen",
+        "Tong Chen",
+        "Zhang Zhiwei",
+        "Junchen Ye"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-15T10:11:51+00:00",
+      "link": "https://arxiv.org/pdf/2609.16936v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM coding agents for repository-level code tasks",
+      "llm_evidence_cn": "面向仓库级代码任务的大模型编码智能体",
+      "llm_evidence": "面向仓库级代码任务的大模型编码智能体",
+      "canonical_evidence": "面向仓库级代码任务的大模型编码智能体",
+      "llm_tldr_en": "This paper tackles repository-level issue resolution by LLM coding agents, where cross-file code localization and focused context are hard. RepoAtlas, a training-free module, maintains evolving multimodal repository views via select-project-refresh to support patch generation.",
+      "llm_tldr_cn": "针对大语言模型驱动的编码智能体在仓库级问题修复中难以跨文件定位相关代码并维持充分且聚焦上下文的问题，论文提出RepoAtlas。该免训练模块通过选择—投影—刷新机制维护不断演进的多模态仓库视图，将代码图拓扑以可感知的方式呈现给智能体。方法缓解了线性文本界面掩盖代码图关系、全图渲染过于稠密以及一次性局部视图过时等缺陷，为仓库级自动代码生成与修复提供了有效的上下文组织手段。",
+      "llm_tldr": "针对大语言模型驱动的编码智能体在仓库级问题修复中难以跨文件定位相关代码并维持充分且聚焦上下文的问题，论文提出RepoAtlas。该免训练模块通过选择—投影—刷新机制维护不断演进的多模态仓库视图，将代码图拓扑以可感知的方式呈现给智能体。方法缓解了线性文本界面掩盖代码图关系、全图渲染过于稠密以及一次性局部视图过时等缺陷，为仓库级自动代码生成与修复提供了有效的上下文组织手段。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Recent advances in code generation using large language models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.16936v1"
+    },
+    {
+      "id": "2609.17844v1",
+      "source": "arxiv",
+      "title": "Detecting Argument-Swap Bugs Using Context-Enhanced Code Representations",
+      "abstract": "Names of source code elements convey rich semantic information and have been widely used in software engineering tasks such as bug detection, code completion, type prediction, and code classification. Prior studies exploit lexical similarity between method arguments and formal parameter names to detect bugs caused by incorrectly ordered arguments, typically relying on establishing mappings between method calls and their corresponding definitions. However, such mappings are often difficult to obtain in dynamically typed languages like Python. In this paper, we present BugProbe, a learning-based approach for detecting incorrectly ordered arguments in Python method calls that does not require call-to-definition mappings. Our approach leverages multiple sources of contextual information, including local context and argument usage context, and combines name-based similarity with machine learning to construct expressive representations of method arguments. We collect a new dataset of 132,739 Python source files from the top-1,000 starred GitHub repositories, yielding 3,371,244 synthetic training examples, and contribute a curated benchmark of 55 real-world argument-swap bugs manually verified from commit histories. We evaluate our approach on this dataset and show that it achieves high accuracy and consistently outperforms a state-of-the-art baseline across standard evaluation metrics. These results demonstrate that effective detection of argument-ordering bugs is possible without relying on explicit call-to-definition resolution, making the approach well suited for dynamically typed language settings.",
+      "authors": [
+        "Subrata Das",
+        "Ali Aman",
+        "Muhammad Asaduzzaman",
+        "Kawser Wazed Nafi",
+        "Salimur Choudhury"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-09-15T21:03:40+00:00",
+      "link": "https://arxiv.org/pdf/2609.17844v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "learning-based detection of argument-swap bugs using context-enhanced code representations",
+      "llm_evidence_cn": "基于上下文增强代码表示的学习式参数顺序缺陷检测",
+      "llm_evidence": "基于上下文增强代码表示的学习式参数顺序缺陷检测",
+      "canonical_evidence": "基于上下文增强代码表示的学习式参数顺序缺陷检测",
+      "llm_tldr_en": "BugProbe is a learning-based approach that detects incorrectly ordered arguments in Python method calls using context-enhanced code representations without call-to-definition mappings.",
+      "llm_tldr_cn": "参数顺序错误是常见缺陷，既有方法依赖方法调用与定义之间的映射来比对参数名，但在Python等动态类型语言中这类映射往往难以获得。作者提出BugProbe，利用上下文增强的代码表示进行学习式检测，无需调用到定义的映射即可识别错误排序的方法实参。实验表明该方法在动态语言缺陷检测上有效，拓展了基于机器学习的自动化软件缺陷检测能力。",
+      "llm_tldr": "参数顺序错误是常见缺陷，既有方法依赖方法调用与定义之间的映射来比对参数名，但在Python等动态类型语言中这类映射往往难以获得。作者提出BugProbe，利用上下文增强的代码表示进行学习式检测，无需调用到定义的映射即可识别错误排序的方法实参。实验表明该方法在动态语言缺陷检测上有效，拓展了基于机器学习的自动化软件缺陷检测能力。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.17844v1"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.18052v1",
+      "source": "arxiv",
+      "title": "An Empirical Evaluation of Cost-Efficient Large Language Models on Algorithmic Programming Tasks",
+      "abstract": "This study empirically evaluates whether cost-efficient Large Language Models (LLMs) can be trusted to generate enterprise code to a written specification. Three models (Gemini Flash 3, GPT-5.4 mini and Claude Haiku 4.5) were asked to solve 992 algorithmic problems as Java Spring Boot service methods conforming to a mandated signature and data-transfer-object specification, crossing four model and agentic coding tool combinations with two prompt variants to yield eight configurations, with iteration forbidden and hardcoded answers explicitly prohibited. Eight problem statements were withheld to probe how models respond to missing input. The 7,593 resulting methods were classified by an eight-class outcome taxonomy describing what each does about producing an answer, then deployed and executed, giving 7,936 measured requests joined to that classification. Structural conformance approached ceiling, yet 38.4% of methods do not compute the value they returned and only 12.9% of returned answers were correct. Conditioning on outcome class shows that response reliability and correctness are inversely related, whereas genuinely computing methods answered least often and were correct 19.3%. Limitations include single generation runs per configuration, partial harness coverage, single-pass timing, syntactic classification, and probable corpus contamination.",
+      "authors": [
+        "Chandimal Adikari",
+        "Nandika Herath"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-16T02:55:03+00:00",
+      "link": "https://arxiv.org/pdf/2609.18052v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "empirical evaluation of LLMs generating enterprise code to a specification",
+      "llm_evidence_cn": "评估大语言模型按规范生成企业级代码的能力",
+      "llm_evidence": "评估大语言模型按规范生成企业级代码的能力",
+      "canonical_evidence": "评估大语言模型按规范生成企业级代码的能力",
+      "llm_tldr_en": "This study tests whether cost-efficient LLMs can generate enterprise code to specification, having three models solve 992 algorithmic problems as Java service methods without iteration or hardcoding, and classifying 7593 methods to assess trustworthiness.",
+      "llm_tldr_cn": "企业代码生成要求模型严格遵循书面规范，但成本高效的大语言模型能否胜任尚不明确。本文让三个模型在禁止迭代与硬编码的条件下，将992个算法问题实现为符合签名与数据传输对象规范的Java服务方法，得到7593个方法，并用八类结果分类体系加以评估。研究系统揭示了低成本模型在规范遵循与缺失输入处理上的表现，为企业级代码生成的可信度提供了实证依据。",
+      "llm_tldr": "企业代码生成要求模型严格遵循书面规范，但成本高效的大语言模型能否胜任尚不明确。本文让三个模型在禁止迭代与硬编码的条件下，将992个算法问题实现为符合签名与数据传输对象规范的Java服务方法，得到7593个方法，并用八类结果分类体系加以评估。研究系统揭示了低成本模型在规范遵循与缺失输入处理上的表现，为企业级代码生成的可信度提供了实证依据。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep learning for code generation using large language models",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.18052v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.18298v1",
+      "source": "arxiv",
+      "title": "A Study of the Reliability of Agentic AI-Generated Programs",
+      "abstract": "Agentic-AI based software development offers the promise of faster completion of the software, greater programmer efficiency, and more reliable code. The question is how can we verify these claims in an objective way? In this project, we attempted to answer this question based on three practices. First, we applied a typical best-practices agentic AI workflow for software development. Second, our target programs were ten well-known, release-quality human-written Linux utility programs so that we could compare the AI-generated code against a concrete ground truth. Third, we based our measure of reliability on a widely used testing technique, fuzz random testing. For this testing, we used both classic black box, generational testing and more modern coverage guided (gray box, mutational) testing using AFL++. We found that the AI-generated versions of the utility programs were typically as reliable - often more reliable - than the latest human-generated versions of these programs. While the AI-generated versions did have some failures, they were less common than the code from the standard repositories. Interestingly, the AI-generated code was less likely to have failures such as memory errors (such as buffer overflows) but more likely to have hangs such as infinite loops. In addition, we verified that generating robust and reliable software using agentic AI requires careful practice and human supervision. The quality of the code is highly dependent on the prompts and skills used, and how the human directing the process responds. We also demonstrated that using agentic AI workflow for software development (with its prompts and skills) can become a specification of the code that leads to cost-effective sustainability of the software.",
+      "authors": [
+        "Ayesha Shafique",
+        "Barton P. MIller",
+        "Elisa R. Heymann"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "published": "2026-09-16T08:21:09+00:00",
+      "link": "https://arxiv.org/pdf/2609.18298v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "verifies reliability of AI-generated programs via fuzz testing",
+      "llm_evidence_cn": "通过模糊测试验证AI生成程序的可靠性",
+      "llm_evidence": "通过模糊测试验证AI生成程序的可靠性",
+      "canonical_evidence": "通过模糊测试验证AI生成程序的可靠性",
+      "llm_tldr_en": "The paper asks how to objectively verify claims that agentic AI produces more reliable code, applying a best-practice agentic workflow to reimplement ten well-known Linux utilities and measuring reliability with black-box and coverage-guided fuzz testing.",
+      "llm_tldr_cn": "智能体AI软件开发被宣称能提升效率与代码可靠性，但缺乏客观验证手段。本文采用典型的最佳实践智能体工作流，让AI重新实现十个知名、发布级质量的Linux工具程序，并以黑盒生成式模糊测试和覆盖引导模糊测试衡量其可靠性，与人工编写的真实基准对比。研究揭示了AI生成程序在可靠性上的实际表现与局限，为评估智能体编程的可信度提供了可复现的实证方法。",
+      "llm_tldr": "智能体AI软件开发被宣称能提升效率与代码可靠性，但缺乏客观验证手段。本文采用典型的最佳实践智能体工作流，让AI重新实现十个知名、发布级质量的Linux工具程序，并以黑盒生成式模糊测试和覆盖引导模糊测试衡量其可靠性，与人工编写的真实基准对比。研究揭示了AI生成程序在可靠性上的实际表现与局限，为评估智能体编程的可信度提供了可复现的实证方法。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.18298v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.18457v1",
+      "source": "arxiv",
+      "title": "AIJon: Automated Generation of Annotations for Fuzzing",
+      "abstract": "Modern fuzzers use code coverage as feedback to guide their exploration which has proven to be an effective strategy for driving exploration. However, this strategy overlooks inputs that may be interesting to the target program even without uncovering new code paths. Fortunately, prior research has shown that annotations generated by human domain experts can provide additional feedback, guiding the fuzzer towards interesting parts of the program.   In this paper, we replicate experiments presented in IJON and extend them to real-world vulnerability detection at scale. To mitigate the scalability challenge, imposed by the need for human domain expertise, we propose utilizing LLMs to automatically generate annotations. We demonstrate the applicability of LLMs for this purpose and observe that LLMs can generate annotations that perform comparably to human-generated annotations.   Motivated by this finding, we design AIJON, a system that leverages LLMs to automatically generate IJON-style annotations. We evaluate AIJON on the Magma benchmark and surprisingly observe that annotation-based fuzzing does not perform strictly better than AFL++. We conduct several experiments to identify the cause of our results and identify key insights regarding the impact of annotations on fuzzing campaigns, including their effect on the energy distribution of the fuzzer. Notably, we observe that LLMs can generate annotations that achieve comparable results to human generated ones, thus opening the door for future research to perform further studies on the impact of annotations at scale.",
+      "authors": [
+        "Jayakrishna Menon Vadayath",
+        "Hulin Wang",
+        "Moritz Schloegel",
+        "Jie Hu",
+        "Wil Gibbs",
+        "Tiffany Bao",
+        "Adam Doupé",
+        "Ruoyu \"Fish\" Wang",
+        "Yan Shoshitaishvili"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "published": "2026-09-16T10:50:35+00:00",
+      "link": "https://arxiv.org/pdf/2609.18457v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-generated annotations for fuzzing and automated vulnerability detection",
+      "llm_evidence_cn": "大模型自动生成模糊测试注解并用于漏洞检测",
+      "llm_evidence": "大模型自动生成模糊测试注解并用于漏洞检测",
+      "canonical_evidence": "大模型自动生成模糊测试注解并用于漏洞检测",
+      "llm_tldr_en": "Fuzzers rely on code coverage, missing interesting inputs; expert annotations help but do not scale. AIJon uses LLMs to automatically generate annotations, extending IJON to large-scale real-world vulnerability detection.",
+      "llm_tldr_cn": "现代模糊测试以代码覆盖作为反馈引导探索，但会忽略那些未发现新路径却对程序有意义的输入，而人工专家注解虽能补充反馈却难以规模化。本文复现 IJON 实验并扩展到大规模真实漏洞检测，提出利用大语言模型自动生成注解，以缓解对人工领域专家的依赖。该工作证明大模型可用于生成模糊测试注解，推动自动化软件测试与漏洞检测。",
+      "llm_tldr": "现代模糊测试以代码覆盖作为反馈引导探索，但会忽略那些未发现新路径却对程序有意义的输入，而人工专家注解虽能补充反馈却难以规模化。本文复现 IJON 实验并扩展到大规模真实漏洞检测，提出利用大语言模型自动生成注解，以缓解对人工领域专家的依赖。该工作证明大模型可用于生成模糊测试注解，推动自动化软件测试与漏洞检测。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.18457v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.19754v1",
+      "source": "arxiv",
+      "title": "AutoData: Agentic Search for Pre-training Data Selection",
+      "abstract": "LLM agents have recently shown promise in automating machine learning engineering by editing model and training code under execution feedback. Data, however, remains largely outside this agentic optimisation loop. We frame pre-training data selection as heuristic engineering over per-document features, i.e., lexical statistics, categorical labels, and perplexity. We introduce AutoData, an agent that searches directly over executable selection algorithms. Unlike prior data mixture methods that optimise weights over a fixed set of domains, AutoData searches a richer program space of scoring, stratification, and stochastic selection rules, discovering feature interactions automatically by iteratively refining algorithms with validation feedback from a proxy model. Within an overnight search, AutoData discovers a selection algorithm that outperforms existing human-designed curation pipelines. Despite being searched only on this small proxy, the discovered recipe transfers to larger scales and improves the downstream metric CORE. These results suggest that data engineering can be treated as an agentic machine learning problem, extending autonomous research from model and training-code optimization to the data.",
+      "authors": [
+        "Yan Meng",
+        "Dhruv Srikanth",
+        "Bingchen Zhao",
+        "Zhengyao Jiang",
+        "Yuxiang Wu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-17T06:24:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.19754v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "agentic search for pre-training data selection algorithms",
+      "llm_evidence_cn": "面向预训练数据选择算法的智能体搜索",
+      "llm_evidence": "面向预训练数据选择算法的智能体搜索",
+      "canonical_evidence": "面向预训练数据选择算法的智能体搜索",
+      "llm_tldr_en": "Pre-training data selection is typically manual heuristics outside the agentic loop. AutoData frames it as search over executable selection algorithms, iteratively refining scoring and stratification rules with proxy-model validation feedback, outperforming prior data-mixture methods.",
+      "llm_tldr_cn": "大模型训练中数据选择长期依赖人工启发式，游离于自动化优化循环之外。本文提出AutoData，将预训练数据选择视为对可执行选择算法的搜索，智能体在评分、分层与随机选择规则组成的程序空间中迭代改进算法，借助代理模型的验证反馈自动发现特征交互。实验表明该方法优于固定域权重调优的既有数据混合方法，推动了以数据为中心的自动化机器学习工程。",
+      "llm_tldr": "大模型训练中数据选择长期依赖人工启发式，游离于自动化优化循环之外。本文提出AutoData，将预训练数据选择视为对可执行选择算法的搜索，智能体在评分、分层与随机选择规则组成的程序空间中迭代改进算法，借助代理模型的验证反馈自动发现特征交互。实验表明该方法优于固定域权重调优的既有数据混合方法，推动了以数据为中心的自动化机器学习工程。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "Data centric approaches for improving model performance",
+      "matched_requirement_id": "req-9",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.19754v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.20082v1",
+      "source": "arxiv",
+      "title": "MATCH: Model-Aware Tool Learning with Curriculum Scheduling and Hierarchically Gated Rewards",
+      "abstract": "Tool learning enables large language models (LLMs) to use external tools for tasks beyond parametric knowledge. Reinforcement learning can optimize tool-call behavior from feedback, but current methods still face two problems: fixed-threshold curricula can become misaligned with the policy's evolving capability boundary, and additive rewards can leak argument-level credit when the predicted tool is wrong. To address these problems, we propose MATCH, a closed-loop framework for model-aware tool learning with curriculum scheduling and hierarchically gated rewards. Model-Aware Curriculum Learning (MACL) maintains reward-derived sample difficulty that co-evolves with the policy, and each epoch selects samples near the current capability boundary together with a top-k pool of harder cases. Hierarchical Tool-call Gated Reward (HTGR) scores tool name, argument key, and argument value as a gated chain, granting credit at each level only when prerequisites hold. The same HTGR rewards drive both GRPO updates and MACL's difficulty refresh, closing the loop between policy optimization and sample scheduling. On API-Bank and BFCL V3, MATCH reaches 72.19% and 62.87% overall accuracy, outperforming the main supervised and RL-based baselines. Backbone experiments further show consistent improvements across four backbones from two model families.",
+      "authors": [
+        "Shihao Liu",
+        "Hao Yin",
+        "Lijun Liu",
+        "Zhengzong Chen",
+        "Yuanyuan Zhao",
+        "Fei Huang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-17T11:40:26+00:00",
+      "link": "https://arxiv.org/pdf/2609.20082v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reinforcement learning for LLM tool-call behavior optimization",
+      "llm_evidence_cn": "强化学习优化工具调用行为",
+      "llm_evidence": "强化学习优化工具调用行为",
+      "canonical_evidence": "强化学习优化工具调用行为",
+      "llm_tldr_en": "MATCH is a closed-loop reinforcement learning framework for LLM tool learning, using model-aware curriculum scheduling and hierarchically gated rewards to fix misaligned curricula and credit leakage in tool-call optimization.",
+      "llm_tldr_cn": "工具学习让大模型借助外部工具完成超出参数知识的任务，但现有强化学习方法面临固定阈值课程与策略能力边界失配、以及错误工具下奖励泄露参数级信用的问题。本文提出MATCH闭环框架，通过模型感知课程学习让样本难度随策略共同演化，并设计分层门控奖励以准确分配信用。该工作提升了工具调用行为的训练稳定性与优化效果，属于深度强化学习算法在LLM智能体中的应用。",
+      "llm_tldr": "工具学习让大模型借助外部工具完成超出参数知识的任务，但现有强化学习方法面临固定阈值课程与策略能力边界失配、以及错误工具下奖励泄露参数级信用的问题。本文提出MATCH闭环框架，通过模型感知课程学习让样本难度随策略共同演化，并设计分层门控奖励以准确分配信用。该工作提升了工具调用行为的训练稳定性与优化效果，属于深度强化学习算法在LLM智能体中的应用。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.20082v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.20327v1",
+      "source": "arxiv",
+      "title": "Near-Optimal Pure Single-Loop Extragradient Method for Strongly Convex--Strongly Concave Minimax Optimization",
+      "abstract": "We study smooth strongly convex--strongly concave minimax optimization with general nonlinear coupling in the deterministic unconstrained setting. We propose a pure single-loop damped extragradient method with fixed parameters and two new full-gradient evaluations per iteration after one initialization query. The method uses an auxiliary feedback recursion and requires no inner solves, accuracy schedules, or staged restarts. We establish last-iterate linear convergence and show that reducing the squared Euclidean distance to the saddle point to an $\\varepsilon$ fraction of its initial value requires $O(\\sqrt{κ_xκ_y}\\log(2κ_xκ_y/\\varepsilon))$ full-gradient queries, where $κ_x=L/μ_x$ and $κ_y=L/μ_y$. This bound attains the optimal condition-number order up to logarithmic factors through fixed explicit updates. Numerical experiments demonstrate the effectiveness of the method.",
+      "authors": [
+        "Minhao Zhang",
+        "Zi Xu"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC",
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-09-17T13:02:58+00:00",
+      "link": "https://arxiv.org/pdf/2609.20327v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "single-loop extragradient method for strongly convex-concave minimax optimization",
+      "llm_evidence_cn": "面向强凸强凹极小极大优化的单环外推梯度法",
+      "llm_evidence": "面向强凸强凹极小极大优化的单环外推梯度法",
+      "canonical_evidence": "面向强凸强凹极小极大优化的单环外推梯度法",
+      "llm_tldr_en": "Minimax optimization with nonlinear coupling is hard to solve efficiently. This paper proposes a pure single-loop damped extragradient method requiring no inner solves, achieving last-iterate linear convergence with near-optimal gradient query complexity.",
+      "llm_tldr_cn": "带一般非线性耦合的强凸强凹极小极大优化在机器学习中广泛出现，但现有算法常需内层求解、精度调度或分阶段重启，结构复杂且复杂度次优。本文提出一种纯单环阻尼外推梯度法，参数固定，每次迭代仅需两次全梯度评估，并借助辅助反馈递归避免内层求解。作者证明其具有末迭代线性收敛，达到O(sqrt(kxky)log(2kxky/eps))的全梯度查询复杂度。该结果为凸与非凸机器学习优化提供了简洁且近最优的算法。",
+      "llm_tldr": "带一般非线性耦合的强凸强凹极小极大优化在机器学习中广泛出现，但现有算法常需内层求解、精度调度或分阶段重启，结构复杂且复杂度次优。本文提出一种纯单环阻尼外推梯度法，参数固定，每次迭代仅需两次全梯度评估，并借助辅助反馈递归避免内层求解。作者证明其具有末迭代线性收敛，达到O(sqrt(kxky)log(2kxky/eps))的全梯度查询复杂度。该结果为凸与非凸机器学习优化提供了简洁且近最优的算法。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.20327v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.20959v1",
+      "source": "arxiv",
+      "title": "Don't Blame the Model, Verify the Data: An Evaluation of SMT-based Dataset Verification",
+      "abstract": "The EU AI Act mandates that datasets for high-risk machine learning (ML) systems meet strict quality criteria such as soundness and bias mitigation. While Satisfiability Modulo Theory (SMT) solving offers a formal approach to verifying these properties, its scalability in realistic ML settings remains unexplored. To bridge this gap, this work presents the first large-scale empirical study of SMT-based dataset verification on two real-world ML datasets. We systematically evaluate how solver performance is shaped by three key dimensions: the type of data-quality property, the specification style, and the dataset encoding strategy. Our findings demonstrate that SMT-based verification is feasible for practical scenarios, but each dimension shapes it: the property type sets the tractability limit, the specification style drives scalability (exceeding 2000x for aggregate properties), and the encoding strategy has a systematic effect, with extracted feature columns performing best.",
+      "authors": [
+        "Sehee Park",
+        "Dominik Geißler",
+        "Andrei Aleksandrov",
+        "Kim Völlinger"
+      ],
+      "primary_category": "cs.LO",
+      "categories": [
+        "cs.LO"
+      ],
+      "published": "2026-09-17T18:12:28+00:00",
+      "link": "https://arxiv.org/pdf/2609.20959v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "SMT-based dataset quality verification for ML",
+      "llm_evidence_cn": "面向机器学习的数据集质量SMT验证",
+      "llm_evidence": "面向机器学习的数据集质量SMT验证",
+      "canonical_evidence": "面向机器学习的数据集质量SMT验证",
+      "llm_tldr_en": "The EU AI Act demands strict dataset quality criteria for high-risk ML, yet the scalability of SMT-based verification in realistic settings is unexplored. This first large-scale empirical study on two real ML datasets examines how data-quality property type, specification style and encoding strategy shape solver performance.",
+      "llm_tldr_cn": "欧盟AI法案要求高风险机器学习系统的数据集满足健全性与偏差缓解等严格质量标准，SMT求解虽可形式化验证这些属性，但其在真实ML场景中的可扩展性尚不清楚。本文首次对两个真实ML数据集开展大规模SMT数据集验证实证研究，系统考察数据质量属性类型、规约风格与数据集编码策略三个维度的影响。结果表明SMT验证在实际场景中可行，但各维度影响显著，为以数据为中心的ML质量保障提供依据。",
+      "llm_tldr": "欧盟AI法案要求高风险机器学习系统的数据集满足健全性与偏差缓解等严格质量标准，SMT求解虽可形式化验证这些属性，但其在真实ML场景中的可扩展性尚不清楚。本文首次对两个真实ML数据集开展大规模SMT数据集验证实证研究，系统考察数据质量属性类型、规约风格与数据集编码策略三个维度的影响。结果表明SMT验证在实际场景中可行，但各维度影响显著，为以数据为中心的ML质量保障提供依据。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "data quality and data augmentation for ml",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.20959v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.21616v1",
+      "source": "arxiv",
+      "title": "Labelling Bug-Fixing Commits with Local Open-Weight Language Models",
+      "abstract": "Defect prediction depends on knowing which commits fix bugs, yet the labels that encode this are produced by routes that each introduce noise. Reused benchmarks carry documented data-quality problems, issue-tracker links are biased and the underlying reports are frequently mistyped, and matching keywords in commit messages is a coarse heuristic. This paper examines whether commits can be labelled as bug fixes from their content alone, using open-weight language models that run locally and therefore keep the process reproducible, inexpensive at corpus scale, usable on proprietary code, and independent of any issue tracker. Against datasets of manually validated and curated bug fixes spanning Java, Python, and JavaScript, we compare a keyword baseline with a set of open-weight models of varying size, prompting each with the commit message and the code diff. On the manually validated corpus the keyword baseline recovers fewer than half of the fixes, whereas the open-weight models recover the large majority and outperform it repository by repository with statistical significance, and larger models do not consistently outperform smaller ones. We further show that evaluation corpora without negative examples cannot support a precision-aware comparison of such classifiers. We release the labelling pipeline together with a labelled, multi-language corpus produced by the recommended configuration, as a reproducible silver-standard resource for building current, project-specific datasets.",
+      "authors": [
+        "Philip König",
+        "Georg Goldenits",
+        "Caroline König",
+        "Sebastian Raubitzek",
+        "Fabian Obermann",
+        "Dennis Toth",
+        "David Schmidt",
+        "Edgar Weippl",
+        "Kevin Mallinger"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-09-18T11:00:06+00:00",
+      "link": "https://arxiv.org/pdf/2609.21616v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "ML-based labelling of bug-fixing commits for defect prediction and data quality",
+      "llm_evidence_cn": "基于机器学习标注缺陷修复提交以支撑缺陷预测与数据质量",
+      "llm_evidence": "基于机器学习标注缺陷修复提交以支撑缺陷预测与数据质量",
+      "canonical_evidence": "基于机器学习标注缺陷修复提交以支撑缺陷预测与数据质量",
+      "llm_tldr_en": "Bug-fix labels are noisy due to benchmark issues and biased issue links. The authors label commits as bug fixes from content alone using local open-weight language models, comparing against a keyword baseline across Java, Python and JavaScript datasets.",
+      "llm_tldr_cn": "缺陷预测依赖识别哪些提交修复了缺陷，但现有标签来源各有噪声：复用基准存在数据质量问题，问题追踪链接有偏，提交信息关键词匹配也过于粗糙。本文研究能否仅凭提交内容，用本地运行的开源权重语言模型判断其是否为缺陷修复。作者在 Java、Python、JavaScript 的人工校验数据集上与关键词基线对比，表明本地语言模型可提供可复现、低成本且不依赖问题追踪系统的标注方案。",
+      "llm_tldr": "缺陷预测依赖识别哪些提交修复了缺陷，但现有标签来源各有噪声：复用基准存在数据质量问题，问题追踪链接有偏，提交信息关键词匹配也过于粗糙。本文研究能否仅凭提交内容，用本地运行的开源权重语言模型判断其是否为缺陷修复。作者在 Java、Python、JavaScript 的人工校验数据集上与关键词基线对比，表明本地语言模型可提供可复现、低成本且不依赖问题追踪系统的标注方案。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "automated software testing and bug detection using ml",
+      "matched_requirement_id": "req-6",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.21616v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.21815v1",
+      "source": "arxiv",
+      "title": "Matrix AdaGrad: Row-wise and Column-wise Adaptive Subgradient Methods",
+      "abstract": "Adaptive optimization methods such as AdaGrad and Adam are widely used in modern neural-network training, but their adaptive scaling is primarily designed for vector-valued parameters and does not explicitly exploit matrix structure. Recent matrix-aware optimizers demonstrate the benefits of structured optimization, yet a general theoretical framework for deriving matrix-aware adaptivity comparable to that of AdaGrad remains lacking. In this work, we develop a general Online Mirror Descent framework with adaptive proximal functions for matrix-valued parameters, providing a principled approach to deriving matrix-aware adaptive optimization through online regret minimization. By introducing row-wise and column-wise matrix proximal functions and analyzing the resulting regret trade-off, we derive Row-wise Matrix AdaGrad (Row-AdaGrad) and Column-wise Matrix AdaGrad (Column-AdaGrad), with adaptive scaling determined by the accumulated row-wise or column-wise gradient norms. We establish regret guarantees and show that these matrix-aware bounds can be strictly tighter than those of entry-wise AdaGrad under structured gradients. Experiments on matrix factorization and deep neural-network training further demonstrate the benefits of aligning adaptive scaling with matrix structure, including improved optimization stability and trainability at larger learning rates and greater network depths.",
+      "authors": [
+        "Wenpeng Zhang",
+        "Runsheng Yu",
+        "Peilin Zhao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-18T14:22:26+00:00",
+      "link": "https://arxiv.org/pdf/2609.21815v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "matrix-aware adaptive optimization via online mirror descent theory",
+      "llm_evidence_cn": "基于在线镜像下降的矩阵自适应优化理论",
+      "llm_evidence": "基于在线镜像下降的矩阵自适应优化理论",
+      "canonical_evidence": "基于在线镜像下降的矩阵自适应优化理论",
+      "llm_tldr_en": "The paper addresses the lack of a general theory for matrix-aware adaptive optimizers, developing an Online Mirror Descent framework with row-wise and column-wise proximal functions to derive matrix AdaGrad-style methods with regret guarantees.",
+      "llm_tldr_cn": "现有AdaGrad、Adam等自适应优化方法主要面向向量参数，未能显式利用矩阵结构，且缺乏矩阵自适应优化的通用理论框架。本文提出带自适应近端函数的在线镜像下降框架，引入按行与按列的矩阵近端函数，从在线遗憾最小化角度推导矩阵感知的自适应次梯度方法。理论分析给出了收敛与遗憾界保证，为矩阵参数神经网络训练提供了更结构化的优化工具。",
+      "llm_tldr": "现有AdaGrad、Adam等自适应优化方法主要面向向量参数，未能显式利用矩阵结构，且缺乏矩阵自适应优化的通用理论框架。本文提出带自适应近端函数的在线镜像下降框架，引入按行与按列的矩阵近端函数，从在线遗憾最小化角度推导矩阵感知的自适应次梯度方法。理论分析给出了收敛与遗憾界保证，为矩阵参数神经网络训练提供了更结构化的优化工具。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "convex and nonconvex optimization for machine learning",
+      "matched_requirement_id": "req-3",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.21815v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2609.22068v1",
+      "source": "arxiv",
+      "title": "CodeMidas: Scaling Agentic Coding RL Environments from Code Itself",
+      "abstract": "Training capable coding agents via reinforcement learning (RL) requires diverse tasks with reliable verifiers. Open-source codebases offer a rich source of such tasks, while existing methods typically rely on development artifacts such as issues and commits, limiting the range of tasks that can be extracted. To better scale RL environments, we present CodeMidas, an agentic pipeline that turns implemented functionality in existing codebases into executable RL environments using source code as its only task-specific input. CodeMidas allocates agentic compute to every stage of environment construction: agents explore implemented functionality to formulate behavioral specifications, construct tests grounded in execution of the original code, and validate and filter candidate tasks through execution checks and repeated solution rollouts. The resulting dataset has 5,545 training tasks from 3,185 open-source codebases spanning 23 programming languages and 15 technical domains. Training MiMo-V2.5 on these tasks with GRPO improves performance on all five diverse benchmarks, covering issue repair (DeepSWE + 11.7%), whole-program construction (ProgramBench +17%), and terminal work (Terminal-Bench v2.1 +8.5%). Ablations show that increasing the number of high-quality training tasks improves performance. Trajectory analysis shows the RL-trained agent demonstrates better behaviors like increasing codebase exploration and more diverse self-verification. These results establish source code as a scalable foundation for constructing RL environments that improve coding agents across diverse software tasks.",
+      "authors": [
+        "Bowen Ye",
+        "Lei Li",
+        "Shicheng Li",
+        "Zihao Yue",
+        "Linghao Zhang",
+        "Hanglong Lv",
+        "Yuanxin Liu",
+        "Wenhan Ma",
+        "Hao Tian",
+        "Rang Li",
+        "Jinhao Dong",
+        "Yikai Zhao",
+        "Xiangwei Deng",
+        "Hailin Zhang",
+        "Liang Zhao",
+        "Qi Liu",
+        "Lingpeng Kong",
+        "Tong Yang",
+        "Fuli Luo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-18T17:55:17+00:00",
+      "link": "https://arxiv.org/pdf/2609.22068v1",
+      "tags": [
+        "keyword:code-ml-sys",
+        "query:code-ml-sys"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "RL environments for agentic coding scaled from source code",
+      "llm_evidence_cn": "从源代码扩展智能体编码的强化学习环境",
+      "llm_evidence": "从源代码扩展智能体编码的强化学习环境",
+      "canonical_evidence": "从源代码扩展智能体编码的强化学习环境",
+      "llm_tldr_en": "Presents CodeMidas, an agentic pipeline that converts implemented functionality in codebases into executable RL environments with reliable verifiers, scaling coding-agent RL training from source code alone.",
+      "llm_tldr_cn": "训练编码智能体的强化学习需要多样任务与可靠验证器，但现有方法依赖issue、commit等开发产物，限制了可提取任务的范围。本文提出CodeMidas，以源代码为唯一任务输入，用智能体流水线探索已实现功能、构建执行接地测试并生成可执行RL环境。结果表明其能规模化生成编码RL任务。其贡献在于为代码智能体强化学习提供了可扩展的环境构建范式。",
+      "llm_tldr": "训练编码智能体的强化学习需要多样任务与可靠验证器，但现有方法依赖issue、commit等开发产物，限制了可提取任务的范围。本文提出CodeMidas，以源代码为唯一任务输入，用智能体流水线探索已实现功能、构建执行接地测试并生成可执行RL环境。结果表明其能规模化生成编码RL任务。其贡献在于为代码智能体强化学习提供了可扩展的环境构建范式。",
+      "llm_tags": [
+        "query:code-ml-sys"
+      ],
+      "matched_query_tag": "query:code-ml-sys",
+      "matched_query_text": "deep reinforcement learning algorithms and applications",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2609.22068v1",
+      "quick_tier": "8plus"
+    }
+  ]
+}
